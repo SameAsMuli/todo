@@ -2,7 +2,7 @@ CLR_COMP:=`tput setaf 6`
 CLR_CONFIG:=`tput setaf 5`
 CLR_END:=`tput sgr0`
 CLR_INFO:=`tput setaf 4`
-CLR_TARGET:=$(CLR_COMP)`tput bold`
+CLR_LINK:=$(CLR_COMP)`tput bold`
 
 BDIR:=bin
 ODIR:=obj
@@ -18,7 +18,7 @@ COMPONENTS:=InputParser TodoFunction
 OBJS:=$(patsubst %,$(ODIR)/%.o,$(COMPONENTS))
 
 $(TARGET): $(SDIR)/main.cpp $(OBJS) | $(BDIR)
-	@echo "$(CLR_TARGET)Compiling binary $(@F) ...$(CLR_END)"
+	@echo "$(CLR_LINK)Linking binary $(@F) ...$(CLR_END)"
 	@$(CXX) $(CPP_FLAGS) -o $@ $^
 
 $(ODIR)/%.o: $(SDIR)/%.cpp $(SDIR)/%.h | $(ODIR)
