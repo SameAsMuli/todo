@@ -4,8 +4,8 @@
 #include <iostream>   // std::cout
 #include <string>     // std::string
 
+#include "HelpFunction.hpp"
 #include "InputParser.hpp"
-#include "TodoFunction.hpp"
 
 namespace fs = std::filesystem;
 
@@ -48,14 +48,18 @@ int main(int argc, char** argv)
     /*     return 1; */
     /* } */
 
-    InputParser input(argc, argv);
+    HelpFunction help{};
+    HelpFunction test{};
+    help.addFunction(&test);
+
+    InputParser input{argc, argv};
 
     /* Use array of "input" structs that can be iterated over for help text */
     if (input.isEmpty()) {
         std::cout << "PRINT TODOs" << std::endl;
     }
     else if (input.hasOption("help")) {
-        printHelpInfo();
+        help.run();
     }
     else if (input.hasOption("add", 0)) {
         std::cout << "ADD" << std::endl;
