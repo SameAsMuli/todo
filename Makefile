@@ -14,14 +14,17 @@ TARGET:=$(BDIR)/todo
 
 CPP_FLAGS:=-std=c++17 -g -pedantic -Wall -Wextra -Wcast-align -Wcast-qual -Wctor-dtor-privacy -Wdisabled-optimization -Wformat=2 -Winit-self -Wlogical-op -Wmissing-include-dirs -Wnoexcept -Wold-style-cast -Woverloaded-virtual -Wredundant-decls -Wshadow -Wsign-conversion -Wsign-promo -Wstrict-null-sentinel -Wstrict-overflow=5 -Wswitch-default -Wundef -Werror -Wno-unused
 
-COMPONENTS:=InputParser TodoFunction
+COMPONENTS:=\
+  InputParser \
+  TodoFunction
+
 OBJS:=$(patsubst %,$(ODIR)/%.o,$(COMPONENTS))
 
 $(TARGET): $(SDIR)/main.cpp $(OBJS) | $(BDIR)
 	@echo "$(CLR_LINK)Linking binary $(@F) ...$(CLR_END)"
 	@$(CXX) $(CPP_FLAGS) -o $@ $^
 
-$(ODIR)/%.o: $(SDIR)/%.cpp $(SDIR)/%.h | $(ODIR)
+$(ODIR)/%.o: $(SDIR)/%.cpp $(SDIR)/%.hpp | $(ODIR)
 	@echo "$(CLR_COMP)Compiling object $(@F) ...$(CLR_END)"
 	@$(CXX) -c $(CPP_FLAGS) -o $@ $<
 

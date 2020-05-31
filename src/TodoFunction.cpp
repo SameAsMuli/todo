@@ -1,4 +1,4 @@
-#include "TodoFunction.h"
+#include "TodoFunction.hpp"
 
 TodoFunction::TodoFunction(const std::string& name,
         const std::string& helpText,

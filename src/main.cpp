@@ -4,8 +4,8 @@
 #include <iostream>   // std::cout
 #include <string>     // std::string
 
-#include "InputParser.h"
-#include "TodoFunction.h"
+#include "InputParser.hpp"
+#include "TodoFunction.hpp"
 
 namespace fs = std::filesystem;
 
