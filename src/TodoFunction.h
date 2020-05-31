@@ -7,9 +7,9 @@
 class TodoFunction {
 
     public:
-        TodoFunction(const std::string name,
-                const std::string helpText,
-                const std::function<void(int argc, char** argv)> func);
+        TodoFunction(const std::string& name,
+                const std::string& helpText,
+                const std::function<void(int argc, char** argv)>& func);
 
 
         std::string getName()                                { return mName;     }
