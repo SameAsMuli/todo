@@ -3,7 +3,9 @@
 #include <filesystem> // std::filesystem
 #include <iostream>   // std::cout
 #include <string>     // std::string
+#include <vector>     // std::vector
 
+#include "AddFunction.hpp"
 #include "HelpFunction.hpp"
 #include "InputParser.hpp"
 
@@ -21,21 +23,6 @@ namespace fs = std::filesystem;
 /*     } */
 /* } */
 
-void printHelpInfo() {
-    std::cout << "TODO Management Utility" << std::endl;
-    std::cout << std::endl;
-    std::cout << "If run with no arguments will print all TODOs found" << std::endl;
-    std::cout << "in the todo file." << std::endl;
-    std::cout << std::endl;
-    std::cout << "Value of the todo file defaults to '~/.config/todo'" << std::endl;
-    std::cout << "but can be overriden using $TODO_FILE." << std::endl;
-    std::cout << std::endl;
-    std::cout << "List of commands:" << std::endl;
-    std::cout << "  help ...... Display this help text" << std::endl;
-    std::cout << std::endl;
-    std::cout << "Written by Sam Amis" << std::endl;
-}
-
 int main(int argc, char** argv)
 {
     fs::path todoFile(std::getenv("TODO_FILE") ?
@@ -48,25 +35,32 @@ int main(int argc, char** argv)
     /*     return 1; */
     /* } */
 
-    HelpFunction help{};
-    HelpFunction test{};
-    help.addFunction(&test);
-
     InputParser input{argc, argv};
+    std::vector<TodoFunction*> functions;
 
-    /* Use array of "input" structs that can be iterated over for help text */
+    HelpFunction help{};
+
+    functions.push_back(&help);
+    functions.push_back(new AddFunction(input));
+
+    help.addFunctions(functions);
+
+    /* help.addFunction(new HelpFunction(input)); */
+
     if (input.isEmpty()) {
         std::cout << "PRINT TODOs" << std::endl;
     }
-    else if (input.hasOption("help")) {
-        help.run();
-    }
-    else if (input.hasOption("add", 0)) {
-        std::cout << "ADD" << std::endl;
-    }
     else {
-        std::cout << "UNKNOWN OPTIONS" << std::endl;
+        for (auto const& func:functions) {
+            if (input.hasOption(func->getName(), 0)) {
+                func->run();
+                return 0;
+            }
+        }
     }
 
-    return 0;
+    std::cout << "Unknown option: " <<
+        std::quoted(input.getOption(0),'\'') << std::endl;
+
+    return 1;
 }

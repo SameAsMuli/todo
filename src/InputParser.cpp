@@ -9,7 +9,7 @@ InputParser::InputParser(int argc, char const* const * argv)
     }
 }
 
-bool InputParser::isEmpty(void) const
+bool InputParser::isEmpty() const
 {
     return this->tokens.empty();
 }
@@ -24,4 +24,10 @@ bool InputParser::hasOption(const std::string& option,
         std::vector<std::string>::size_type index) const
 {
     return this->tokens.at(index) == option;
+}
+
+std::string InputParser::getOption(
+        std::vector<std::string>::size_type index) const
+{
+    return this->tokens.at(index);
 }

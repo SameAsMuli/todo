@@ -9,11 +9,14 @@ class InputParser {
     public:
         InputParser(int argc, char const* const * argv);
 
-        bool isEmpty(void) const;
+        bool isEmpty() const;
 
         bool hasOption(const std::string& option) const;
 
         bool hasOption(const std::string& option,
+                std::vector<std::string>::size_type index) const;
+
+        std::string getOption(
                 std::vector<std::string>::size_type index) const;
 
     private:
