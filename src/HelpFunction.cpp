@@ -5,7 +5,7 @@
 
 bool todoFuncComp(TodoFunction* tf1, TodoFunction* tf2 )
 {
-    return tf1->getName() > tf2->getName();
+    return tf1->getName() < tf2->getName();
 }
 
 HelpFunction::HelpFunction():TodoFunction("help", "Display this help text")
