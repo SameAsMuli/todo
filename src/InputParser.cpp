@@ -20,6 +20,12 @@ bool InputParser::hasOption(const std::string& option) const
         != this->tokens.end();
 }
 
+bool InputParser::hasOption(
+        std::vector<std::string>::size_type index) const
+{
+    return this->tokens.size() > index;
+}
+
 bool InputParser::hasOption(const std::string& option,
         std::vector<std::string>::size_type index) const
 {

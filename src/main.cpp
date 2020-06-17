@@ -1,7 +1,8 @@
 #include <cstdlib>    // std::getenv
 #include <exception>  // std::exception
 #include <filesystem> // std::filesystem
-#include <iostream>   // std::cout
+#include <fstream>    // std::ifstream, std::ofstream
+#include <iostream>   // std::cerr
 #include <string>     // std::string
 #include <vector>     // std::vector
 
@@ -11,29 +12,38 @@
 
 namespace fs = std::filesystem;
 
-/* void initialise(const fs::path todoFile) { */
-/*     // Create parent directory if it doesn't already exist */
-/*     fs::create_directories(todoFile.parent_path()); */
-/*     // Create todoFile if it doesn't already exist */
-/*     if (fs::exists(todoFile)) { */
-/*         if (fs::status(todoFile).type() != fs::file_type::regular || */
-/*                 fs::status(todoFile).permissions() */
-/*     } else { */
-/*         std::ofstream(todoFile.string()); // create file */
-/*     } */
-/* } */
+void initialise(fs::path& todoFile) {
+    // Find the specified path to the todo file
+    if (std::getenv("TODO_FILE")) {
+        todoFile.assign(std::getenv("TODO_FILE"));
+
+    } else if (std::getenv("HOME")) {
+        std::string homeDir = std::getenv("HOME");
+        todoFile.assign(homeDir+"/.config/todo/todo_file");
+
+    } else {
+        throw std::runtime_error("Neither $TODO_FILE nor $HOME are defined");
+    }
+
+    // Create parent directory if it doesn't already exist
+    fs::create_directories(todoFile.parent_path());
+
+    // Create todoFile if it doesn't already exist
+    if (!fs::exists(todoFile)) {
+        std::ofstream(todoFile.string()); // create file
+    }
+}
 
 int main(int argc, char** argv)
 {
-    fs::path todoFile(std::getenv("TODO_FILE") ?
-            std::getenv("TODO_FILE") : "./todo_file");
+    fs::path todoFile;
 
-    /* try { */
-    /*     initialise(todoFile); */
-    /* } catch (const std::exception& e) { */
-    /*     std::cout << "Failed to initialise: " << e.what() << std::endl; */
-    /*     return 1; */
-    /* } */
+    try {
+        initialise(todoFile);
+    } catch (const std::exception& e) {
+        std::cerr << "Failed to initialise: " << e.what() << std::endl;
+        return 1;
+    }
 
     InputParser input{argc, argv};
     std::vector<TodoFunction*> functions;
@@ -41,26 +51,38 @@ int main(int argc, char** argv)
     HelpFunction help{};
 
     functions.push_back(&help);
-    functions.push_back(new AddFunction(input));
+    functions.push_back(new AddFunction(todoFile, input));
 
     help.addFunctions(functions);
 
-    /* help.addFunction(new HelpFunction(input)); */
-
     if (input.isEmpty()) {
-        std::cout << "PRINT TODOs" << std::endl;
+        std::ifstream ifs{todoFile.string()};
+
+        if (ifs.is_open()) {
+            std::cout << ifs.rdbuf();
+        } else {
+            std::cerr << "Unable to open TODO file" << std::endl;
+            return 1;
+        }
     }
     else {
         for (auto const& func:functions) {
             if (input.hasOption(func->getName(), 0)) {
-                func->run();
+                try {
+                    func->run();
+                } catch (const std::exception& e) {
+                    std::cerr << e.what() << std::endl;
+                    return 1;
+                }
                 return 0;
             }
         }
+
+        std::cout << "Unknown option: " <<
+            std::quoted(input.getOption(0),'\'') << std::endl;
+
+        return 1;
     }
 
-    std::cout << "Unknown option: " <<
-        std::quoted(input.getOption(0),'\'') << std::endl;
-
-    return 1;
+    return 0;
 }

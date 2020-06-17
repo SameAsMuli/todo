@@ -13,6 +13,9 @@ class InputParser {
 
         bool hasOption(const std::string& option) const;
 
+        bool hasOption(
+                std::vector<std::string>::size_type index) const;
+
         bool hasOption(const std::string& option,
                 std::vector<std::string>::size_type index) const;
 

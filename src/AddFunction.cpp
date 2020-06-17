@@ -1,15 +1,24 @@
-#include <iostream> // std::cout
+#include <fstream>  // std::ofstream
 
 #include "AddFunction.hpp"
-#include "InputParser.hpp"
-#include "TodoFunction.hpp"
 
-AddFunction::AddFunction(InputParser& ip):
+AddFunction::AddFunction(fs::path todoFile, InputParser& input):
     TodoFunction("add", "Add a normal priority task"),
-    input(ip)
+    mInput(input),
+    mTodoFile(todoFile)
 { }
 
 void AddFunction::run()
 {
-    std::cout << "ADD" << std::endl;
+    std::vector<std::string>::size_type index = 1;
+    std::ofstream ofs{this->mTodoFile.string(), std::ios_base::app};
+
+    if (ofs.is_open()) {
+        while (this->mInput.hasOption(index)) {
+            ofs << this->mInput.getOption(index++);
+        }
+        ofs << std::endl;
+    } else {
+        throw std::runtime_error("Unable to open TODO file");
+    }
 }
