@@ -18,7 +18,8 @@ COMPONENTS:= \
   AddFunction \
   HelpFunction \
   InputParser \
-  TodoFunctionAbstract
+  TodoFunctionAbstract \
+  ViewFunction
 
 OBJS:=$(patsubst %,$(ODIR)/%.o,$(COMPONENTS))
 

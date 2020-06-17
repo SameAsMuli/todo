@@ -1,4 +1,4 @@
-#include <string>     // std::string
+#include <string> // std::string
 
 #ifndef TODO_FUNCTION_H
 #define TODO_FUNCTION_H

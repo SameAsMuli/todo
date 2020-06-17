@@ -1,7 +1,7 @@
 #include <cstdlib>    // std::getenv
 #include <exception>  // std::exception
 #include <filesystem> // std::filesystem
-#include <fstream>    // std::ifstream, std::ofstream
+#include <fstream>    // std::ofstream
 #include <iostream>   // std::cerr
 #include <string>     // std::string
 #include <vector>     // std::vector
@@ -9,6 +9,7 @@
 #include "AddFunction.hpp"
 #include "HelpFunction.hpp"
 #include "InputParser.hpp"
+#include "ViewFunction.hpp"
 
 namespace fs = std::filesystem;
 
@@ -49,21 +50,17 @@ int main(int argc, char** argv)
     std::vector<TodoFunctionAbstract*> functions;
 
     HelpFunction help{};
-
     functions.push_back(&help);
-    functions.push_back(new AddFunction(todoFile, input));
+
+    ViewFunction view{todoFile, input};
+    functions.push_back(&view);
+
+    functions.push_back(new AddFunction{todoFile, input});
 
     help.addFunctions(functions);
 
     if (input.isEmpty()) {
-        std::ifstream ifs{todoFile.string()};
-
-        if (ifs.is_open()) {
-            std::cout << ifs.rdbuf();
-        } else {
-            std::cerr << "Unable to open TODO file" << std::endl;
-            return 1;
-        }
+        view.run();
     }
     else {
         for (auto const& func:functions) {

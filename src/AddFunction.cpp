@@ -5,7 +5,7 @@
 AddFunction::AddFunction(
         const fs::path& todoFile,
         const InputParser& input):
-    TodoFunctionAbstract("add", "Add a normal priority task"),
+    TodoFunctionAbstract("add", "Add a normal priority TODO"),
     m_input(input),
     m_todoFile(todoFile)
 { }
