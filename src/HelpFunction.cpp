@@ -3,17 +3,18 @@
 
 #include "HelpFunction.hpp"
 
-bool todoFuncComp(TodoFunctionAbstract* tf1, TodoFunctionAbstract* tf2 )
-{
-    return tf1->getName() < tf2->getName();
-}
+HelpFunction::HelpFunction():
+    TodoFunctionAbstract("help", "Display this help text")
+{ }
 
-HelpFunction::HelpFunction():TodoFunctionAbstract("help", "Display this help text") { }
-
-void HelpFunction::addFunctions(std::vector<TodoFunctionAbstract*>& functions)
+void HelpFunction::addFunctions(
+        std::vector<TodoFunctionAbstract*>& functions)
 {
-    this->funcs = functions;
-    std::sort(this->funcs.begin(), this->funcs.end(), todoFuncComp);
+    this->m_functions = functions;
+    std::sort(
+            this->m_functions.begin(),
+            this->m_functions.end(),
+            todoFuncComp);
 }
 
 void HelpFunction::run()
@@ -21,7 +22,7 @@ void HelpFunction::run()
     std::string::size_type maxNameLen = 0;
     std::vector<TodoFunctionAbstract*>::size_type minSeparatorLen = 3;
 
-    for (auto const& func:this->funcs) {
+    for (auto const& func:this->m_functions) {
         if (maxNameLen < func->getName().size()) {
             maxNameLen = func->getName().size();
         }
@@ -37,7 +38,7 @@ void HelpFunction::run()
     std::cout << std::endl;
     std::cout << "List of commands:" << std::endl;
 
-    for (auto const& func:this->funcs) {
+    for (auto const& func:this->m_functions) {
         std::cout << "  " + func->getName() + " " +
             std::string(minSeparatorLen +
                     (maxNameLen - func->getName().size()), '.') +
@@ -46,4 +47,11 @@ void HelpFunction::run()
 
     std::cout << std::endl;
     std::cout << "Written by Sam Amis" << std::endl;
+}
+
+bool HelpFunction::todoFuncComp(
+        TodoFunctionAbstract* tf1,
+        TodoFunctionAbstract* tf2 )
+{
+    return tf1->getName() < tf2->getName();
 }

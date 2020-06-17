@@ -6,17 +6,18 @@
 class TodoFunctionAbstract {
 
     public:
-        TodoFunctionAbstract(const std::string& name,
+        TodoFunctionAbstract(
+                const std::string& name,
                 const std::string& helpText);
 
-        std::string getName()     { return mName;     }
-        std::string getHelpText() { return mHelpText; }
+        std::string getName()     { return m_name;     }
+        std::string getHelpText() { return m_helpText; }
 
         virtual void run() = 0;
 
     private:
-        std::string mName;
-        std::string mHelpText;
+        std::string m_name;
+        std::string m_helpText;
 };
 
 #endif

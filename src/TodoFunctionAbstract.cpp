@@ -1,9 +1,10 @@
 #include "TodoFunctionAbstract.hpp"
 
-TodoFunctionAbstract::TodoFunctionAbstract(const std::string& name,
+TodoFunctionAbstract::TodoFunctionAbstract(
+        const std::string& name,
         const std::string& helpText)
 {
-    this->mName = name;
-    this->mHelpText = helpText;
+    this->m_name = name;
+    this->m_helpText = helpText;
 }
 

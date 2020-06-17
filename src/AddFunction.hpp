@@ -11,13 +11,15 @@ namespace fs = std::filesystem;
 class AddFunction : public TodoFunctionAbstract {
 
     public:
-        AddFunction(fs::path todoFile, InputParser& input);
+        AddFunction(
+                const fs::path& todoFile,
+                const InputParser& input);
 
         void run() override;
 
     private:
-        InputParser mInput;
-        fs::path    mTodoFile;
+        InputParser m_input;
+        fs::path    m_todoFile;
 };
 
 #endif

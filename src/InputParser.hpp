@@ -23,7 +23,7 @@ class InputParser {
                 std::vector<std::string>::size_type index) const;
 
     private:
-        std::vector<std::string> tokens;
+        std::vector<std::string> m_tokens;
 };
 
 #endif

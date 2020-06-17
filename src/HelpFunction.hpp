@@ -16,7 +16,11 @@ class HelpFunction : public TodoFunctionAbstract {
         void run() override;
 
     private:
-        std::vector<TodoFunctionAbstract*> funcs;
+        std::vector<TodoFunctionAbstract*> m_functions;
+
+        static bool todoFuncComp(
+                TodoFunctionAbstract* tf1,
+                TodoFunctionAbstract* tf2 );
 };
 
 #endif
