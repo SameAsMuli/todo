@@ -8,11 +8,21 @@ BDIR:=bin
 ODIR:=obj
 SDIR:=src
 
+ifneq ("$(wildcard $(CLANG_COMPLETE_CC_ARGS))","")
+  CXX:=$(CLANG_COMPLETE_CC_ARGS) $(CXX)
+endif
+
 BUILD_DIRS:=$(BDIR) $(ODIR)
 
 TARGET:=$(BDIR)/todo
 
-CPP_FLAGS:=-std=c++17 -g -pedantic -Wall -Wextra -Wcast-align -Wcast-qual -Wctor-dtor-privacy -Wdisabled-optimization -Wformat=2 -Winit-self -Wlogical-op -Wmissing-include-dirs -Wnoexcept -Wold-style-cast -Woverloaded-virtual -Wredundant-decls -Wshadow -Wsign-conversion -Wsign-promo -Wstrict-null-sentinel -Wstrict-overflow=5 -Wswitch-default -Wundef -Werror -Wno-unused
+CPP_FLAGS:= \
+  -std=c++17 -g -pedantic -Wall -Wextra -Wcast-align -Wcast-qual \
+  -Wctor-dtor-privacy -Wdisabled-optimization -Wformat=2 -Winit-self \
+  -Wlogical-op -Wmissing-include-dirs -Wnoexcept -Wold-style-cast \
+  -Woverloaded-virtual -Wredundant-decls -Wshadow -Wsign-conversion \
+  -Wsign-promo -Wstrict-null-sentinel -Wstrict-overflow=5 -Wundef \
+  -Wswitch-default -Werror -Wno-unused
 
 COMPONENTS:= \
   AddFunction \
