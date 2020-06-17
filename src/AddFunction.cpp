@@ -3,7 +3,7 @@
 #include "AddFunction.hpp"
 
 AddFunction::AddFunction(fs::path todoFile, InputParser& input):
-    TodoFunction("add", "Add a normal priority task"),
+    TodoFunctionAbstract("add", "Add a normal priority task"),
     mInput(input),
     mTodoFile(todoFile)
 { }

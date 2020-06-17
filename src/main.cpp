@@ -46,7 +46,7 @@ int main(int argc, char** argv)
     }
 
     InputParser input{argc, argv};
-    std::vector<TodoFunction*> functions;
+    std::vector<TodoFunctionAbstract*> functions;
 
     HelpFunction help{};
 

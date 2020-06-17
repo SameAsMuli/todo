@@ -3,14 +3,14 @@
 
 #include "HelpFunction.hpp"
 
-bool todoFuncComp(TodoFunction* tf1, TodoFunction* tf2 )
+bool todoFuncComp(TodoFunctionAbstract* tf1, TodoFunctionAbstract* tf2 )
 {
     return tf1->getName() < tf2->getName();
 }
 
-HelpFunction::HelpFunction():TodoFunction("help", "Display this help text") { }
+HelpFunction::HelpFunction():TodoFunctionAbstract("help", "Display this help text") { }
 
-void HelpFunction::addFunctions(std::vector<TodoFunction*>& functions)
+void HelpFunction::addFunctions(std::vector<TodoFunctionAbstract*>& functions)
 {
     this->funcs = functions;
     std::sort(this->funcs.begin(), this->funcs.end(), todoFuncComp);
@@ -19,7 +19,7 @@ void HelpFunction::addFunctions(std::vector<TodoFunction*>& functions)
 void HelpFunction::run()
 {
     std::string::size_type maxNameLen = 0;
-    std::vector<TodoFunction*>::size_type minSeparatorLen = 3;
+    std::vector<TodoFunctionAbstract*>::size_type minSeparatorLen = 3;
 
     for (auto const& func:this->funcs) {
         if (maxNameLen < func->getName().size()) {

@@ -1,14 +1,14 @@
 #include <filesystem> // std::filesystem
 
 #include "InputParser.hpp"
-#include "TodoFunction.hpp"
+#include "TodoFunctionAbstract.hpp"
 
 #ifndef ADD_FUNCTION_H
 #define ADD_FUNCTION_H
 
 namespace fs = std::filesystem;
 
-class AddFunction : public TodoFunction {
+class AddFunction : public TodoFunctionAbstract {
 
     public:
         AddFunction(fs::path todoFile, InputParser& input);

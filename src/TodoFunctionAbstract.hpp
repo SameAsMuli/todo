@@ -3,10 +3,10 @@
 #ifndef TODO_FUNCTION_H
 #define TODO_FUNCTION_H
 
-class TodoFunction {
+class TodoFunctionAbstract {
 
     public:
-        TodoFunction(const std::string& name,
+        TodoFunctionAbstract(const std::string& name,
                 const std::string& helpText);
 
         std::string getName()     { return mName;     }
