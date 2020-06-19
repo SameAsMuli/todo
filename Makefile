@@ -28,6 +28,7 @@ COMPONENTS:= \
   AddFunction \
   HelpFunction \
   InputParser \
+  TodoFiles \
   TodoFunctionAbstract \
   ViewFunction
 

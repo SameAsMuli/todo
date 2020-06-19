@@ -1,25 +1,34 @@
-#include <filesystem> // std::filesystem
-
 #include "InputParser.hpp"
+#include "TodoFiles.hpp"
 #include "TodoFunctionAbstract.hpp"
 
 #ifndef VIEW_FUNCTION_H
 #define VIEW_FUNCTION_H
 
-namespace fs = std::filesystem;
-
 class ViewFunction : public TodoFunctionAbstract {
 
     public:
         ViewFunction(
-                const fs::path& todoFile,
+                const TodoFiles& todoFiles,
                 const InputParser& input);
 
         void run() override;
 
+        void archiveTodos();
+
+        void doneTodos();
+
+        void lowTodos();
+
+        void normalTodos();
+
+        void rejectTodos();
+
+        void urgentTodos();
+
     private:
         InputParser m_input;
-        fs::path    m_todoFile;
+        TodoFiles   m_todoFiles;
 };
 
 #endif

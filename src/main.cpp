@@ -1,46 +1,20 @@
-#include <cstdlib>    // std::getenv
 #include <exception>  // std::exception
-#include <filesystem> // std::filesystem
-#include <fstream>    // std::ofstream
 #include <iostream>   // std::cerr
-#include <string>     // std::string
+#include <optional>   // std::optional
 #include <vector>     // std::vector
 
 #include "AddFunction.hpp"
 #include "HelpFunction.hpp"
 #include "InputParser.hpp"
+#include "TodoFiles.hpp"
 #include "ViewFunction.hpp"
-
-namespace fs = std::filesystem;
-
-void initialise(fs::path& todoFile) {
-    // Find the specified path to the todo file
-    if (std::getenv("TODO_FILE")) {
-        todoFile.assign(std::getenv("TODO_FILE"));
-
-    } else if (std::getenv("HOME")) {
-        std::string homeDir = std::getenv("HOME");
-        todoFile.assign(homeDir+"/.config/todo/todo_file");
-
-    } else {
-        throw std::runtime_error("Neither $TODO_FILE nor $HOME are defined");
-    }
-
-    // Create parent directory if it doesn't already exist
-    fs::create_directories(todoFile.parent_path());
-
-    // Create todoFile if it doesn't already exist
-    if (!fs::exists(todoFile)) {
-        std::ofstream(todoFile.string()); // create file
-    }
-}
 
 int main(int argc, char** argv)
 {
-    fs::path todoFile;
+    std::optional<TodoFiles> todoFiles;
 
     try {
-        initialise(todoFile);
+        todoFiles.emplace();
     } catch (const std::exception& e) {
         std::cerr << "Failed to initialise: " << e.what() << std::endl;
         return 1;
@@ -52,10 +26,10 @@ int main(int argc, char** argv)
     HelpFunction help{};
     functions.push_back(&help);
 
-    ViewFunction view{todoFile, input};
+    ViewFunction view{todoFiles.value(), input};
     functions.push_back(&view);
 
-    functions.push_back(new AddFunction{todoFile, input});
+    functions.push_back(new AddFunction{todoFiles.value(), input});
 
     help.addFunctions(functions);
 
