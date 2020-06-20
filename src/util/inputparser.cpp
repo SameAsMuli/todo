@@ -1,6 +1,6 @@
 #include <algorithm> // std::find
 
-#include "InputParser.hpp"
+#include "util/inputparser.hpp"
 
 InputParser::InputParser(int argc, char const* const * argv)
 {

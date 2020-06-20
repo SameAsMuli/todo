@@ -4,17 +4,13 @@ CLR_END:=`tput sgr0`
 CLR_INFO:=`tput setaf 4`
 CLR_LINK:=$(CLR_COMP)`tput bold`
 
-BDIR:=bin
-ODIR:=obj
-SDIR:=src
+BIN:=bin
+OBJ:=obj
+SRC:=src
 
 ifneq ("$(wildcard $(CLANG_COMPLETE_CC_ARGS))","")
   CXX:=$(CLANG_COMPLETE_CC_ARGS) $(CXX)
 endif
-
-BUILD_DIRS:=$(BDIR) $(ODIR)
-
-TARGET:=$(BDIR)/todo
 
 CPP_FLAGS:= \
   -std=c++17 -g -pedantic -Wall -Wextra -Wcast-align -Wcast-qual \
@@ -24,23 +20,35 @@ CPP_FLAGS:= \
   -Wsign-promo -Wstrict-null-sentinel -Wstrict-overflow=5 -Wundef \
   -Wswitch-default -Werror -Wno-unused
 
-COMPONENTS:= \
-  AddFunction \
-  HelpFunction \
-  InputParser \
-  TodoFiles \
-  TodoFunctionAbstract \
-  ViewFunction
+COMP_OPTIONS:=$(CPP_FLAGS) -I $(SRC)
 
-OBJS:=$(patsubst %,$(ODIR)/%.o,$(COMPONENTS))
+BUILD_DIRS:=$(BIN) $(OBJ)
 
-$(TARGET): $(SDIR)/main.cpp $(OBJS) | $(BDIR)
-	@echo "$(CLR_LINK)Linking binary $(@F) ...$(CLR_END)"
-	@$(CXX) $(CPP_FLAGS) -o $@ $^
+SRC_SUB_DIRS:= \
+  action \
+  env \
+  util
 
-$(ODIR)/%.o: $(SDIR)/%.cpp $(SDIR)/%.hpp | $(ODIR)
-	@echo "$(CLR_COMP)Compiling object $(@F) ...$(CLR_END)"
-	@$(CXX) -c $(CPP_FLAGS) -o $@ $<
+TARGET:=$(BIN)/todo
+
+OBJS:= \
+  $(foreach DIR, $(SRC_SUB_DIRS), \
+    $(patsubst %, $(OBJ)/%.o, \
+      $(basename $(notdir $(wildcard $(SRC)/$(DIR)/*.cpp))) \
+     ) \
+   )
+
+define genRules
+$(OBJ)/%.o: $(SRC)/$(1)/%.cpp $(SRC)/$(1)/%.hpp | $(OBJ)
+	@echo "$(CLR_COMP)Compiling $(1) $$(basename $$(@F))...$(CLR_END)"
+	@$(CXX) -c $(COMP_OPTIONS) -o $$@ $$<
+endef
+
+$(TARGET): $(SRC)/main.cpp $(OBJS) | $(BIN)
+	@echo "$(CLR_LINK)Linking binary $(@F)...$(CLR_END)"
+	@$(CXX) $(COMP_OPTIONS) -o $@ $^
+
+$(foreach DIR, $(SRC_SUB_DIRS), $(eval $(call genRules,$(DIR))))
 
 $(BUILD_DIRS):
 	@echo "$(CLR_CONFIG)Creating '$@' directory$(CLR_END)"
@@ -49,4 +57,4 @@ $(BUILD_DIRS):
 .PHONY: clean
 clean:
 	@echo "$(CLR_INFO)Deleting build objects ...$(CLR_END)"
-	@rm -f $(TARGET) $(OBJS)
+	@rm -f $(TARGET) $(OBJ)/*

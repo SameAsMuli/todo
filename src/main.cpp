@@ -3,11 +3,11 @@
 #include <optional>   // std::optional
 #include <vector>     // std::vector
 
-#include "AddFunction.hpp"
-#include "HelpFunction.hpp"
-#include "InputParser.hpp"
-#include "TodoFiles.hpp"
-#include "ViewFunction.hpp"
+#include "action/add.hpp"
+#include "action/help.hpp"
+#include "action/view.hpp"
+#include "env/todofiles.hpp"
+#include "util/inputparser.hpp"
 
 int main(int argc, char** argv)
 {
@@ -21,15 +21,15 @@ int main(int argc, char** argv)
     }
 
     InputParser input{argc, argv};
-    std::vector<TodoFunctionAbstract*> functions;
+    std::vector<action::ActionAbstract*> functions;
 
-    HelpFunction help{};
+    action::Help help{};
     functions.push_back(&help);
 
-    ViewFunction view{todoFiles.value(), input};
+    action::View view{todoFiles.value(), input};
     functions.push_back(&view);
 
-    functions.push_back(new AddFunction{todoFiles.value(), input});
+    functions.push_back(new action::Add{todoFiles.value(), input});
 
     help.addFunctions(functions);
 

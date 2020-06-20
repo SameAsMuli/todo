@@ -1,17 +1,19 @@
 #include <fstream>  // std::ifstream
 #include <iostream> // std::cout
 
-#include "ViewFunction.hpp"
+#include "action/view.hpp"
 
-ViewFunction::ViewFunction(
+namespace action {
+
+View::View(
         const TodoFiles& todoFiles,
         const InputParser& input):
-    TodoFunctionAbstract("view", "View outstanding TODOs"),
+    ActionAbstract("view", "View outstanding TODOs"),
     m_input(input),
     m_todoFiles(todoFiles)
 { }
 
-void ViewFunction::run()
+void View::run()
 {
     this->urgentTodos();
     this->normalTodos();
@@ -19,10 +21,10 @@ void ViewFunction::run()
     this->doneTodos();
 }
 
-void ViewFunction::archiveTodos() {}
-void ViewFunction::doneTodos() {}
-void ViewFunction::lowTodos() {}
-void ViewFunction::normalTodos()
+void View::archiveTodos() {}
+void View::doneTodos() {}
+void View::lowTodos() {}
+void View::normalTodos()
 {
     std::ifstream ifs{this->m_todoFiles.getNormal().string()};
 
@@ -32,5 +34,7 @@ void ViewFunction::normalTodos()
         throw std::runtime_error("Unable to open TODO file");
     }
 }
-void ViewFunction::rejectTodos() {}
-void ViewFunction::urgentTodos() {}
+void View::rejectTodos() {}
+void View::urgentTodos() {}
+
+} // namespace action

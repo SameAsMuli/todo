@@ -1,16 +1,18 @@
 #include <fstream>  // std::ofstream
 
-#include "AddFunction.hpp"
+#include "action/add.hpp"
 
-AddFunction::AddFunction(
+namespace action {
+
+Add::Add(
         const TodoFiles& todoFiles,
         const InputParser& input):
-    TodoFunctionAbstract("add", "Add a normal priority TODO"),
+    ActionAbstract("add", "Add a normal priority TODO"),
     m_input(input),
     m_todoFiles(todoFiles)
 { }
 
-void AddFunction::run()
+void Add::run()
 {
     std::vector<std::string>::size_type index = 1;
     std::ofstream ofs{
@@ -26,3 +28,5 @@ void AddFunction::run()
         throw std::runtime_error("Unable to open TODO file");
     }
 }
+
+} // namespace action

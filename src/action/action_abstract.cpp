@@ -1,6 +1,8 @@
-#include "TodoFunctionAbstract.hpp"
+#include "action/action_abstract.hpp"
 
-TodoFunctionAbstract::TodoFunctionAbstract(
+namespace action {
+
+ActionAbstract::ActionAbstract(
         const std::string& name,
         const std::string& helpText)
 {
@@ -8,3 +10,4 @@ TodoFunctionAbstract::TodoFunctionAbstract(
     this->m_helpText = helpText;
 }
 
+} // namespace action

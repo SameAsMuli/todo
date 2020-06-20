@@ -1,14 +1,16 @@
-#include "InputParser.hpp"
-#include "TodoFiles.hpp"
-#include "TodoFunctionAbstract.hpp"
+#include "action/action_abstract.hpp"
+#include "env/todofiles.hpp"
+#include "util/inputparser.hpp"
 
 #ifndef VIEW_FUNCTION_H
 #define VIEW_FUNCTION_H
 
-class ViewFunction : public TodoFunctionAbstract {
+namespace action {
+
+class View : public ActionAbstract {
 
     public:
-        ViewFunction(
+        View(
                 const TodoFiles& todoFiles,
                 const InputParser& input);
 
@@ -32,3 +34,5 @@ class ViewFunction : public TodoFunctionAbstract {
 };
 
 #endif
+
+} // namespace action

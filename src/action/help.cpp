@@ -1,14 +1,16 @@
 #include <algorithm> // std::sort
 #include <iostream>  // std::cout
 
-#include "HelpFunction.hpp"
+#include "action/help.hpp"
 
-HelpFunction::HelpFunction():
-    TodoFunctionAbstract("help", "Display this help text")
+namespace action {
+
+Help::Help():
+    ActionAbstract("help", "Display this help text")
 { }
 
-void HelpFunction::addFunctions(
-        std::vector<TodoFunctionAbstract*>& functions)
+void Help::addFunctions(
+        std::vector<ActionAbstract*>& functions)
 {
     this->m_functions = functions;
     std::sort(
@@ -17,10 +19,10 @@ void HelpFunction::addFunctions(
             todoFuncComp);
 }
 
-void HelpFunction::run()
+void Help::run()
 {
     std::string::size_type maxNameLen = 0;
-    std::vector<TodoFunctionAbstract*>::size_type minSeparatorLen = 3;
+    std::vector<ActionAbstract*>::size_type minSeparatorLen = 3;
 
     for (auto const& func:this->m_functions) {
         if (maxNameLen < func->getName().size()) {
@@ -49,9 +51,11 @@ void HelpFunction::run()
     std::cout << "Written by Sam Amis" << std::endl;
 }
 
-bool HelpFunction::todoFuncComp(
-        TodoFunctionAbstract* tf1,
-        TodoFunctionAbstract* tf2 )
+bool Help::todoFuncComp(
+        ActionAbstract* tf1,
+        ActionAbstract* tf2 )
 {
     return tf1->getName() < tf2->getName();
 }
+
+} //namespace action

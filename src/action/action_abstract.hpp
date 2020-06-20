@@ -1,12 +1,14 @@
 #include <string> // std::string
 
-#ifndef TODO_FUNCTION_H
-#define TODO_FUNCTION_H
+#ifndef ACTION_ABSTRACT_H
+#define ACTION_ABSTRACT_H
 
-class TodoFunctionAbstract {
+namespace action {
+
+class ActionAbstract {
 
     public:
-        TodoFunctionAbstract(
+        ActionAbstract(
                 const std::string& name,
                 const std::string& helpText);
 
@@ -19,5 +21,7 @@ class TodoFunctionAbstract {
         std::string m_name;
         std::string m_helpText;
 };
+
+} // namespace action
 
 #endif
