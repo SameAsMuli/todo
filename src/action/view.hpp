@@ -10,9 +10,7 @@ namespace action {
 class View : public ActionAbstract {
 
     public:
-        View(
-                const TodoFiles& todoFiles,
-                const InputParser& input);
+        View(const TodoFiles& todoFiles, const util::InputParser& input);
 
         void run() override;
 
@@ -29,7 +27,7 @@ class View : public ActionAbstract {
         void urgentTodos();
 
     private:
-        InputParser m_input;
+        util::InputParser m_input;
         TodoFiles   m_todoFiles;
 };
 

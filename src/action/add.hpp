@@ -10,12 +10,12 @@ namespace action {
 class Add : public ActionAbstract {
 
     public:
-        Add(const TodoFiles& todoFiles, const InputParser& input);
+        Add(const TodoFiles& todoFiles, const util::InputParser& input);
 
         void run() override;
 
     private:
-        InputParser m_input;
+        util::InputParser m_input;
         TodoFiles   m_todoFiles;
 };
 

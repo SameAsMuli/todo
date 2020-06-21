@@ -6,7 +6,7 @@ namespace action {
 
 Add::Add(
         const TodoFiles& todoFiles,
-        const InputParser& input):
+        const util::InputParser& input):
     ActionAbstract("add", "Add a normal priority TODO"),
     m_input(input),
     m_todoFiles(todoFiles)

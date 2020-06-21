@@ -2,6 +2,8 @@
 
 #include "util/inputparser.hpp"
 
+namespace util {
+
 InputParser::InputParser(int argc, char const* const * argv)
 {
     for (int i = 1; i < argc; ++i) {
@@ -37,3 +39,5 @@ std::string InputParser::getOption(
 {
     return this->m_tokens.at(index);
 }
+
+} // namespace util

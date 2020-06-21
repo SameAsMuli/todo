@@ -4,6 +4,8 @@
 #ifndef INPUT_PARSER_H
 #define INPUT_PARSER_H
 
+namespace util {
+
 class InputParser {
 
     public:
@@ -25,5 +27,7 @@ class InputParser {
     private:
         std::vector<std::string> m_tokens;
 };
+
+} // namespace util
 
 #endif

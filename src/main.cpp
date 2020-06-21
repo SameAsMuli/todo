@@ -20,7 +20,7 @@ int main(int argc, char** argv)
         return 1;
     }
 
-    InputParser input{argc, argv};
+    util::InputParser input{argc, argv};
     std::vector<action::ActionAbstract*> functions;
 
     action::Help help{};

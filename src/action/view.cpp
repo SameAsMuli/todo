@@ -7,7 +7,7 @@ namespace action {
 
 View::View(
         const TodoFiles& todoFiles,
-        const InputParser& input):
+        const util::InputParser& input):
     ActionAbstract("view", "View outstanding TODOs"),
     m_input(input),
     m_todoFiles(todoFiles)
