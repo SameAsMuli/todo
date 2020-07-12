@@ -1,5 +1,4 @@
 #include "action/action_abstract.hpp"
-#include "env/todofiles.hpp"
 #include "util/inputparser.hpp"
 
 #ifndef VIEW_FUNCTION_H
@@ -10,7 +9,7 @@ namespace action {
 class View : public ActionAbstract {
 
     public:
-        View(const TodoFiles& todoFiles, const util::InputParser& input);
+        View(const util::InputParser& input);
 
         void run() override;
 
@@ -28,7 +27,6 @@ class View : public ActionAbstract {
 
     private:
         util::InputParser m_input;
-        TodoFiles   m_todoFiles;
 };
 
 #endif

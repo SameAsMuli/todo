@@ -1,6 +1,6 @@
 #include <exception>  // std::exception
+#include <iomanip>    // std::quoted
 #include <iostream>   // std::cerr
-#include <optional>   // std::optional
 #include <vector>     // std::vector
 
 #include "action/add.hpp"
@@ -11,10 +11,8 @@
 
 int main(int argc, char** argv)
 {
-    std::optional<TodoFiles> todoFiles;
-
     try {
-        todoFiles.emplace();
+        TodoFiles::initialise();
     } catch (const std::exception& e) {
         std::cerr << "Failed to initialise: " << e.what() << std::endl;
         return 1;
@@ -26,10 +24,10 @@ int main(int argc, char** argv)
     action::Help help{};
     functions.push_back(&help);
 
-    action::View view{todoFiles.value(), input};
+    action::View view{input};
     functions.push_back(&view);
 
-    functions.push_back(new action::Add{todoFiles.value(), input});
+    functions.push_back(new action::Add{input});
 
     help.addFunctions(functions);
 

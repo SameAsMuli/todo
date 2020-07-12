@@ -8,19 +8,14 @@ namespace fs = std::filesystem;
 class TodoFiles {
 
     public:
-        TodoFiles();
+        static void initialise();
 
-        fs::path getArchive() const { return m_archive; }
-        fs::path getLow()     const { return m_low;     }
-        fs::path getNormal()  const { return m_normal;  }
-        fs::path getUrgent()  const { return m_urgent;  }
+        static fs::path getArchive();
+        static fs::path getLow();
+        static fs::path getNormal();
+        static fs::path getUrgent();
 
     private:
-        fs::path m_archive;
-        fs::path m_low;
-        fs::path m_normal;
-        fs::path m_urgent;
-
         static void initialiseFile(const fs::path& file);
 };
 

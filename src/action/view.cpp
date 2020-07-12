@@ -2,15 +2,13 @@
 #include <iostream> // std::cout
 
 #include "action/view.hpp"
+#include "env/todofiles.hpp"
 
 namespace action {
 
-View::View(
-        const TodoFiles& todoFiles,
-        const util::InputParser& input):
+View::View( const util::InputParser& input):
     ActionAbstract("view", "View outstanding TODOs"),
-    m_input(input),
-    m_todoFiles(todoFiles)
+    m_input(input)
 { }
 
 void View::run()
@@ -26,7 +24,7 @@ void View::doneTodos() {}
 void View::lowTodos() {}
 void View::normalTodos()
 {
-    std::ifstream ifs{this->m_todoFiles.getNormal().string()};
+    std::ifstream ifs{TodoFiles::getNormal().string()};
 
     if (ifs.is_open()) {
         std::cout << ifs.rdbuf();

@@ -1,22 +1,20 @@
 #include <fstream>  // std::ofstream
 
 #include "action/add.hpp"
+#include "env/todofiles.hpp"
 
 namespace action {
 
-Add::Add(
-        const TodoFiles& todoFiles,
-        const util::InputParser& input):
+Add::Add(const util::InputParser& input):
     ActionAbstract("add", "Add a normal priority TODO"),
-    m_input(input),
-    m_todoFiles(todoFiles)
+    m_input(input)
 { }
 
 void Add::run()
 {
     std::vector<std::string>::size_type index = 1;
     std::ofstream ofs{
-        this->m_todoFiles.getNormal().string(),
+        TodoFiles::getNormal().string(),
         std::ios_base::app};
 
     if (ofs.is_open()) {
