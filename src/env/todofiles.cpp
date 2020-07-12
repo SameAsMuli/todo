@@ -1,14 +1,14 @@
-#include <cstdlib> // std::getenv
 #include <fstream> // std::ofstream
 #include <string>  // std::string
 
 #include "env/todofiles.hpp"
+#include "util/fs.hpp"
+#include "util/xdg.hpp"
 
 void TodoFiles::initialise()
 {
-    // TODO Use XDG Base Directory Specification
-    if (!std::getenv("HOME")) {
-        throw std::runtime_error("$HOME is not defined");
+    if (util::fs::HomeDir().empty()) {
+        throw std::runtime_error("Unable to find HOME directory.");
     }
 
     TodoFiles::initialiseFile(TodoFiles::getArchive());
@@ -19,36 +19,30 @@ void TodoFiles::initialise()
 
 fs::path TodoFiles::getArchive()
 {
-    std::string homeDir = std::getenv("HOME");
-    std::string todoDir = homeDir + "/.config/todo";
-
-    return fs::path{todoDir + "/archive"};
+    return fs::path{TodoFiles::getTodoDir() + "/archive"};
 }
 
 fs::path TodoFiles::getLow()
 {
-    std::string homeDir = std::getenv("HOME");
-    std::string todoDir = homeDir + "/.config/todo";
-
-    return fs::path{todoDir + "/low"};
+    return fs::path{TodoFiles::getTodoDir() + "/low"};
 }
 
 fs::path TodoFiles::getNormal()
 {
-    std::string homeDir = std::getenv("HOME");
-    std::string todoDir = homeDir + "/.config/todo";
-
-    return fs::path{todoDir + "/normal"};
+    return fs::path{TodoFiles::getTodoDir() + "/normal"};
 }
 
 fs::path TodoFiles::getUrgent()
 {
-    std::string homeDir = std::getenv("HOME");
-    std::string todoDir = homeDir + "/.config/todo";
-
-    return fs::path{todoDir + "/urgent"};
+    return fs::path{TodoFiles::getTodoDir() + "/urgent"};
 }
 
+
+std::string TodoFiles::getTodoDir()
+{
+    // TODO Use XDG Base Directory Specification
+    return util::fs::HomeDir() / "/.config/todo";
+}
 
 void TodoFiles::initialiseFile(const fs::path& file)
 {
