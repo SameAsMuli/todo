@@ -19,29 +19,29 @@ void TodoFiles::initialise()
 
 fs::path TodoFiles::getArchive()
 {
-    return fs::path{TodoFiles::getTodoDir() + "/archive"};
+    return TodoFiles::getTodoDir() / "archive";
 }
 
 fs::path TodoFiles::getLow()
 {
-    return fs::path{TodoFiles::getTodoDir() + "/low"};
+    return TodoFiles::getTodoDir() / "low";
 }
 
 fs::path TodoFiles::getNormal()
 {
-    return fs::path{TodoFiles::getTodoDir() + "/normal"};
+    return TodoFiles::getTodoDir() / "normal";
 }
 
 fs::path TodoFiles::getUrgent()
 {
-    return fs::path{TodoFiles::getTodoDir() + "/urgent"};
+    return TodoFiles::getTodoDir() / "urgent";
 }
 
 
-std::string TodoFiles::getTodoDir()
+// Private methods
+fs::path TodoFiles::getTodoDir()
 {
-    // TODO Use XDG Base Directory Specification
-    return util::fs::HomeDir() / "/.config/todo";
+    return util::xdg::configHome() / "todo";
 }
 
 void TodoFiles::initialiseFile(const fs::path& file)

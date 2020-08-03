@@ -16,7 +16,7 @@ class TodoFiles {
         static fs::path getUrgent();
 
     private:
-        static std::string getTodoDir();
+        static fs::path getTodoDir();
         static void initialiseFile(const fs::path& file);
 };
 
