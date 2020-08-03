@@ -36,7 +36,7 @@ void Help::run()
     std::cout << "in the todo file." << std::endl;
     std::cout << std::endl;
     std::cout << "Value of the todo file defaults to '~/.config/todo'" << std::endl;
-    std::cout << "but can be overriden using $TODO_FILE." << std::endl;
+    std::cout << "but can be overridden using $TODO_FILE." << std::endl;
     std::cout << std::endl;
     std::cout << "List of commands:" << std::endl;
 
