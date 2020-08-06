@@ -5,6 +5,8 @@
 
 #include "action/add.hpp"
 #include "action/help.hpp"
+#include "action/low.hpp"
+#include "action/urgent.hpp"
 #include "action/view.hpp"
 #include "env/todofiles.hpp"
 #include "util/inputparser.hpp"
@@ -27,7 +29,9 @@ int main(int argc, char** argv)
     action::View view{input};
     functions.push_back(&view);
 
-    functions.push_back(new action::Add{input});
+    functions.push_back(new action::Urgent{input, TodoFiles::getUrgent()});
+    functions.push_back(new action::Add{input, TodoFiles::getNormal()});
+    functions.push_back(new action::Low{input, TodoFiles::getLow()});
 
     help.addFunctions(functions);
 

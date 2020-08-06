@@ -1,22 +1,16 @@
-#include "action/action_abstract.hpp"
-#include "util/inputparser.hpp"
+#include "action/add_abstract.hpp"
 
-#ifndef ADD_FUNCTION_H
-#define ADD_FUNCTION_H
+#ifndef ADD_ACTION_H
+#define ADD_ACTION_H
 
 namespace action {
 
-class Add : public ActionAbstract {
+class Add : public AddAbstract {
 
     public:
-        Add(const util::InputParser& input);
-
-        void run() override;
-
-    private:
-        util::InputParser m_input;
+        Add(const util::InputParser& input, const std::filesystem::path& file);
 };
 
-#endif
-
 } // namespace action
+
+#endif
