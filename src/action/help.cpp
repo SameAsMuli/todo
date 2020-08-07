@@ -5,8 +5,8 @@
 
 namespace action {
 
-Help::Help():
-    ActionAbstract("help", "Display this help text")
+Help::Help(util::InputParser input):
+    ActionAbstract("help", "Display this help text", input)
 { }
 
 void Help::addFunctions(

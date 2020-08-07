@@ -11,7 +11,7 @@ namespace action {
 class Help : public ActionAbstract {
 
     public:
-        Help();
+        Help(util::InputParser input);
 
         void addFunctions( std::vector<ActionAbstract*>& functions);
 

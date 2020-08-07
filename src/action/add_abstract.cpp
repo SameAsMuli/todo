@@ -1,6 +1,6 @@
 #include <fstream>  // std::ofstream
 
-#include "action/add.hpp"
+#include "action/add_abstract.hpp"
 
 namespace action {
 
@@ -10,8 +10,7 @@ AddAbstract::AddAbstract(
         const util::InputParser&     input,
         const std::filesystem::path& file,
         const std::string&           prefix):
-    ActionAbstract(name, helpText),
-    m_input(input),
+    ActionAbstract(name, helpText, input),
     m_file(file),
     m_prefix(prefix)
 { }
@@ -25,8 +24,8 @@ void AddAbstract::run()
 
     if (ofs.is_open()) {
         ofs << this->getPrefix();
-        while (this->m_input.hasOption(index)) {
-            ofs << " " << this->m_input.getOption(index++);
+        while (this->getInput().hasOption(index)) {
+            ofs << " " << this->getInput().getOption(index++);
         }
         ofs << std::endl;
     } else {

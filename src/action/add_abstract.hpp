@@ -1,7 +1,6 @@
 #include <filesystem> // std::filesystem
 
 #include "action/action_abstract.hpp"
-#include "util/inputparser.hpp"
 
 #ifndef ADD_ABSTRACT_H
 #define ADD_ABSTRACT_H
@@ -23,7 +22,6 @@ class AddAbstract : public ActionAbstract {
         void run() override;
 
     private:
-        util::InputParser     m_input;
         std::filesystem::path m_file;
         std::string           m_prefix;
 };

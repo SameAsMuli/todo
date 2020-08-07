@@ -1,5 +1,4 @@
 #include "action/action_abstract.hpp"
-#include "util/inputparser.hpp"
 
 #ifndef VIEW_FUNCTION_H
 #define VIEW_FUNCTION_H
@@ -24,9 +23,6 @@ class View : public ActionAbstract {
         void rejectTodos();
 
         void urgentTodos();
-
-    private:
-        util::InputParser m_input;
 };
 
 #endif

@@ -23,7 +23,7 @@ int main(int argc, char** argv)
     util::InputParser input{argc, argv};
     std::vector<action::ActionAbstract*> functions;
 
-    action::Help help{};
+    action::Help help{input};
     functions.push_back(&help);
 
     action::View view{input};
