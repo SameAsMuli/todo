@@ -8,8 +8,14 @@ BIN:=bin
 OBJ:=obj
 SRC:=src
 
+# Allow Clang Complete to use the build if specified
 ifneq ("$(wildcard $(CLANG_COMPLETE_CC_ARGS))","")
   CXX:=$(CLANG_COMPLETE_CC_ARGS) $(CXX)
+endif
+
+# Use ccache (if available) for faster compilation
+ifneq ($(shell which ccache 2> /dev/null),)
+  CXX:=ccache $(CXX)
 endif
 
 CPP_FLAGS:= \
