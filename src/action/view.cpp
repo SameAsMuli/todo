@@ -16,22 +16,29 @@ void View::run()
     this->normalTodos();
     this->lowTodos();
     this->doneTodos();
+    this->rejectTodos();
 }
 
-void View::archiveTodos() {}
-void View::doneTodos() {}
-void View::lowTodos() {}
-void View::normalTodos()
+void View::archiveTodos() { this->viewTodos(TodoFiles::getArchive()); }
+void View::doneTodos() { this->viewTodos(TodoFiles::getDone()); }
+void View::lowTodos() { this->viewTodos(TodoFiles::getLow()); }
+void View::normalTodos() { this->viewTodos(TodoFiles::getNormal()); }
+void View::rejectTodos() { this->viewTodos(TodoFiles::getReject()); }
+void View::urgentTodos() { this->viewTodos(TodoFiles::getUrgent()); }
+
+// Private methods
+void View::viewTodos(const std::filesystem::path& file)
 {
-    std::ifstream ifs{TodoFiles::getNormal().string()};
+    std::ifstream ifs{file.string()};
 
     if (ifs.is_open()) {
-        std::cout << ifs.rdbuf();
+        // Make sure file isn't empty (rdbuf doesn't like it!)
+        if (ifs.peek() != std::ifstream::traits_type::eof()) {
+            std::cout << ifs.rdbuf();
+        }
     } else {
         throw std::runtime_error("Unable to open TODO file");
     }
 }
-void View::rejectTodos() {}
-void View::urgentTodos() {}
 
 } // namespace action

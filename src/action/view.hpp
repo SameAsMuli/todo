@@ -1,3 +1,5 @@
+#include <filesystem> //std::filesystem
+
 #include "action/action_abstract.hpp"
 
 #ifndef VIEW_FUNCTION_H
@@ -23,6 +25,9 @@ class View : public ActionAbstract {
         void rejectTodos();
 
         void urgentTodos();
+
+    private:
+        void viewTodos(const std::filesystem::path& file);
 };
 
 #endif
