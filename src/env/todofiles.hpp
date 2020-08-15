@@ -11,8 +11,10 @@ class TodoFiles {
         static void initialise();
 
         static fs::path getArchive();
+        static fs::path getDone();
         static fs::path getLow();
         static fs::path getNormal();
+        static fs::path getReject();
         static fs::path getUrgent();
 
     private:

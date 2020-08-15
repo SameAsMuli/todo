@@ -12,14 +12,21 @@ void TodoFiles::initialise()
     }
 
     TodoFiles::initialiseFile(TodoFiles::getArchive());
+    TodoFiles::initialiseFile(TodoFiles::getDone());
     TodoFiles::initialiseFile(TodoFiles::getLow());
     TodoFiles::initialiseFile(TodoFiles::getNormal());
+    TodoFiles::initialiseFile(TodoFiles::getReject());
     TodoFiles::initialiseFile(TodoFiles::getUrgent());
 }
 
 fs::path TodoFiles::getArchive()
 {
     return TodoFiles::getTodoDir() / "archive";
+}
+
+fs::path TodoFiles::getDone()
+{
+    return TodoFiles::getTodoDir() / "done";
 }
 
 fs::path TodoFiles::getLow()
@@ -30,6 +37,11 @@ fs::path TodoFiles::getLow()
 fs::path TodoFiles::getNormal()
 {
     return TodoFiles::getTodoDir() / "normal";
+}
+
+fs::path TodoFiles::getReject()
+{
+    return TodoFiles::getTodoDir() / "reject";
 }
 
 fs::path TodoFiles::getUrgent()
