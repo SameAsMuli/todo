@@ -9,7 +9,7 @@
 #include "action/urgent.hpp"
 #include "action/view.hpp"
 #include "env/todofiles.hpp"
-#include "util/inputparser.hpp"
+#include "util/input.hpp"
 
 int main(int argc, char** argv)
 {
@@ -20,7 +20,7 @@ int main(int argc, char** argv)
         return 1;
     }
 
-    util::InputParser input{argc, argv};
+    util::Input input{argc, argv};
     std::vector<action::ActionAbstract*> functions;
 
     action::Help help{input};

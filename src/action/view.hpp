@@ -10,7 +10,7 @@ namespace action {
 class View : public ActionAbstract {
 
     public:
-        View(const util::InputParser& input);
+        View(const util::Input& input);
 
         void run() override;
 

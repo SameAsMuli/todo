@@ -8,7 +8,7 @@ namespace action {
 class Add : public AddAbstract {
 
     public:
-        Add(const util::InputParser& input, const std::filesystem::path& file);
+        Add(const util::Input& input, const std::filesystem::path& file);
 };
 
 } // namespace action

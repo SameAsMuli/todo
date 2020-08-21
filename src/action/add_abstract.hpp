@@ -11,11 +11,11 @@ class AddAbstract : public ActionAbstract {
 
     public:
         AddAbstract(
-                const std::string&           name,
-                const std::string&           helpText,
-                const util::InputParser&     input,
+                const std::string& name,
+                const std::string& helpText,
+                const util::Input& input,
                 const std::filesystem::path& file,
-                const std::string&           prefix);
+                const std::string& prefix);
 
         std::string getPrefix() { return m_prefix; }
 
@@ -23,7 +23,7 @@ class AddAbstract : public ActionAbstract {
 
     private:
         std::filesystem::path m_file;
-        std::string           m_prefix;
+        std::string m_prefix;
 };
 
 } // namespace action

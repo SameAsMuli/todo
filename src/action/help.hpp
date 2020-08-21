@@ -1,7 +1,7 @@
 #include <vector> // std::vector
 
 #include "action/action_abstract.hpp"
-#include "util/inputparser.hpp"
+#include "util/input.hpp"
 
 #ifndef HELP_FUNCTION_H
 #define HELP_FUNCTION_H
@@ -11,7 +11,7 @@ namespace action {
 class Help : public ActionAbstract {
 
     public:
-        Help(util::InputParser input);
+        Help(util::Input input);
 
         void addFunctions( std::vector<ActionAbstract*>& functions);
 

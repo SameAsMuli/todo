@@ -1,15 +1,15 @@
 #include <string> // std::string
 #include <vector> // std::vector
 
-#ifndef INPUT_PARSER_H
-#define INPUT_PARSER_H
+#ifndef INPUT_H
+#define INPUT_H
 
 namespace util {
 
-class InputParser {
+class Input {
 
     public:
-        InputParser(int argc, char const* const * argv);
+        Input(int argc, char const* const * argv);
 
         bool isEmpty() const;
 

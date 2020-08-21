@@ -8,7 +8,7 @@ namespace action {
 class Urgent : public AddAbstract {
 
     public:
-        Urgent(const util::InputParser& input,
+        Urgent(const util::Input& input,
                 const std::filesystem::path& file);
 };
 

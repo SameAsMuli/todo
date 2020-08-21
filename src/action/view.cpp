@@ -6,7 +6,7 @@
 
 namespace action {
 
-View::View( const util::InputParser& input):
+View::View( const util::Input& input):
     ActionAbstract("view", "View outstanding TODOs", input)
 { }
 
