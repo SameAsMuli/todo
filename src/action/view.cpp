@@ -1,6 +1,7 @@
 #include <fstream>  // std::ifstream
 #include <iostream> // std::cout
 
+#include "action/unknown_argument.hpp"
 #include "action/view.hpp"
 #include "env/todofiles.hpp"
 
@@ -12,11 +13,35 @@ View::View( const util::Input& input):
 
 void View::run()
 {
-    this->urgentTodos();
-    this->normalTodos();
-    this->lowTodos();
-    this->doneTodos();
-    this->rejectTodos();
+    unsigned int index = 1;
+
+    if (!this->getInput().hasOption(index)) {
+        this->urgentTodos();
+        this->normalTodos();
+        this->lowTodos();
+        return;
+    }
+
+    auto option = this->getInput().getOption(index);
+
+    if (option == "urgent") {
+        this->urgentTodos();
+        return;
+    } else if (option == "normal") {
+        this->normalTodos();
+        return;
+    } else if (option == "low") {
+        this->lowTodos();
+        return;
+    } else if (option == "done") {
+        this->doneTodos();
+        return;
+    } else if (option == "reject") {
+        this->rejectTodos();
+        return;
+    }
+
+    // TODO throw exception
 }
 
 void View::archiveTodos() { this->viewTodos(TodoFiles::getArchive()); }
