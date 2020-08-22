@@ -20,28 +20,28 @@ int main(int argc, char** argv)
     }
 
     util::Input input{argc, argv};
-    std::vector<action::ActionAbstract*> functions;
+    std::vector<action::ActionAbstract*> actions;
 
     action::Help help{input};
-    functions.push_back(&help);
+    actions.push_back(&help);
 
     action::View view{input};
-    functions.push_back(&view);
+    actions.push_back(&view);
 
-    functions.push_back(new action::Urgent{input, TodoFiles::getUrgent()});
-    functions.push_back(new action::Add{input, TodoFiles::getNormal()});
-    functions.push_back(new action::Low{input, TodoFiles::getLow()});
+    actions.push_back(new action::Urgent{input, TodoFiles::getUrgent()});
+    actions.push_back(new action::Add{input, TodoFiles::getNormal()});
+    actions.push_back(new action::Low{input, TodoFiles::getLow()});
 
-    help.addFunctions(functions);
+    help.addFunctions(actions);
 
     if (input.isEmpty()) {
         view.run();
     }
     else {
-        for (auto const& func:functions) {
-            if (input.hasOption(func->getName(), 0)) {
+        for (auto const& action:actions) {
+            if (input.hasOption(action->getName(), 0)) {
                 try {
-                    func->run();
+                    action->perform();
                 } catch (const std::exception& e) {
                     std::cerr << e.what() << std::endl;
                     return 1;
@@ -50,7 +50,8 @@ int main(int argc, char** argv)
             }
         }
 
-        std::cerr << "Unknown action: '" << input.getOption(0) << std::endl;
+        std::cerr << "Unknown action: '" << input.getOption(0)
+            << "'" << std::endl;
         return 1;
     }
 

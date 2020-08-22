@@ -3,8 +3,7 @@
 namespace action {
 
 UnknownArgument::UnknownArgument(const std::string& arg):
-    std::runtime_error(
-            std::string{"Unknown argument: '"} + arg + std::string{"'"})
+    std::runtime_error("Unknown argument: '" + arg + "'")
 { }
 
 } // namespace action

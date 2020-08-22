@@ -11,6 +11,8 @@ class Input {
     public:
         Input(int argc, char const* const * argv);
 
+        std::vector<std::string>::size_type size() const;
+
         bool isEmpty() const;
 
         bool hasOption(const std::string& option) const;

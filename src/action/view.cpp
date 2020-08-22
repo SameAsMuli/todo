@@ -8,7 +8,7 @@
 namespace action {
 
 View::View( const util::Input& input):
-    ActionAbstract("view", "View outstanding TODOs", input)
+    ActionAbstract("view", "View outstanding TODOs", input, 1)
 { }
 
 void View::run()

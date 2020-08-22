@@ -6,7 +6,7 @@
 namespace action {
 
 Help::Help(util::Input input):
-    ActionAbstract("help", "Display this help text", input)
+    ActionAbstract("help", "Display this help text", input, 1)
 { }
 
 void Help::addFunctions(

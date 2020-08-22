@@ -1,4 +1,5 @@
-#include <string> // std::string
+#include <optional> //std::optional
+#include <string>   // std::string
 
 #include "util/input.hpp"
 
@@ -13,18 +14,23 @@ class ActionAbstract {
         ActionAbstract(
                 const std::string& name,
                 const std::string& helpText,
-                const util::Input& input);
+                const util::Input& input,
+                std::optional<unsigned int> argLimit = std::nullopt);
 
         std::string getName() { return m_name; }
         std::string getHelpText() { return m_helpText; }
         util::Input getInput() { return m_input; }
+        std::optional<unsigned int> getArgLimit() { return m_argLimit; }
 
-        virtual void run() = 0;
+        void perform();
 
     private:
         std::string m_name;
         std::string m_helpText;
         util::Input m_input;
+        std::optional<unsigned int> m_argLimit;
+
+        virtual void run() = 0;
 };
 
 } // namespace action

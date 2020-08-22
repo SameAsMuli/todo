@@ -11,6 +11,11 @@ Input::Input(int argc, char const* const * argv)
     }
 }
 
+std::vector<std::string>::size_type Input::size() const
+{
+    return this->m_tokens.size();
+}
+
 bool Input::isEmpty() const
 {
     return this->m_tokens.empty();
