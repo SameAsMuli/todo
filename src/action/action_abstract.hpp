@@ -17,18 +17,18 @@ class ActionAbstract {
                 const util::Input& input,
                 std::optional<unsigned int> argLimit = std::nullopt);
 
-        std::string getName() { return m_name; }
-        std::string getHelpText() { return m_helpText; }
-        util::Input getInput() { return m_input; }
-        std::optional<unsigned int> getArgLimit() { return m_argLimit; }
+        std::string getName() const { return m_name; }
+        std::string getHelpText() const { return m_helpText; }
+        util::Input getInput() const { return m_input; }
+        std::optional<unsigned int> getArgLimit() const { return m_argLimit; }
 
         void perform();
 
     private:
-        std::string m_name;
-        std::string m_helpText;
-        util::Input m_input;
-        std::optional<unsigned int> m_argLimit;
+        const std::string m_name;
+        const std::string m_helpText;
+        const util::Input m_input;
+        const std::optional<unsigned int> m_argLimit;
 
         virtual void run() = 0;
 };

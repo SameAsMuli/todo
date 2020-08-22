@@ -17,13 +17,13 @@ class AddAbstract : public ActionAbstract {
                 const std::filesystem::path& file,
                 const std::string& prefix);
 
-        std::string getPrefix() { return m_prefix; }
+        std::string getPrefix() const { return m_prefix; }
 
         void run() override;
 
     private:
-        std::filesystem::path m_file;
-        std::string m_prefix;
+        const std::filesystem::path m_file;
+        const std::string m_prefix;
 };
 
 } // namespace action

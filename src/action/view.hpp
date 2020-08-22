@@ -14,20 +14,20 @@ class View : public ActionAbstract {
 
         void run() override;
 
-        void archiveTodos();
+        void archiveTodos() const;
 
-        void doneTodos();
+        void doneTodos() const;
 
-        void lowTodos();
+        void lowTodos() const;
 
-        void normalTodos();
+        void normalTodos() const;
 
-        void rejectTodos();
+        void rejectTodos() const;
 
-        void urgentTodos();
+        void urgentTodos() const;
 
     private:
-        void viewTodos(const std::filesystem::path& file);
+        void viewTodos(const std::filesystem::path& file) const;
 };
 
 #endif

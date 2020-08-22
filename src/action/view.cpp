@@ -19,40 +19,31 @@ void View::run()
         this->urgentTodos();
         this->normalTodos();
         this->lowTodos();
+        this->doneTodos();
+        this->rejectTodos();
         return;
     }
 
     auto option = this->getInput().getOption(index);
 
-    if (option == "urgent") {
-        this->urgentTodos();
-        return;
-    } else if (option == "normal") {
-        this->normalTodos();
-        return;
-    } else if (option == "low") {
-        this->lowTodos();
-        return;
-    } else if (option == "done") {
-        this->doneTodos();
-        return;
-    } else if (option == "reject") {
-        this->rejectTodos();
-        return;
-    }
-
-    throw action::UnknownArgument(option);
+    if (option == "urgent") { this->urgentTodos(); }
+    else if (option == "normal") { this->normalTodos(); }
+    else if (option == "low") { this->lowTodos(); }
+    else if (option == "done") { this->doneTodos(); }
+    else if (option == "reject") { this->rejectTodos(); }
+    else if (option == "archive") { this->archiveTodos(); }
+    else { throw action::UnknownArgument(option); }
 }
 
-void View::archiveTodos() { this->viewTodos(TodoFiles::getArchive()); }
-void View::doneTodos() { this->viewTodos(TodoFiles::getDone()); }
-void View::lowTodos() { this->viewTodos(TodoFiles::getLow()); }
-void View::normalTodos() { this->viewTodos(TodoFiles::getNormal()); }
-void View::rejectTodos() { this->viewTodos(TodoFiles::getReject()); }
-void View::urgentTodos() { this->viewTodos(TodoFiles::getUrgent()); }
+void View::archiveTodos() const { this->viewTodos(TodoFiles::getArchive()); }
+void View::doneTodos() const { this->viewTodos(TodoFiles::getDone()); }
+void View::lowTodos() const { this->viewTodos(TodoFiles::getLow()); }
+void View::normalTodos() const { this->viewTodos(TodoFiles::getNormal()); }
+void View::rejectTodos() const { this->viewTodos(TodoFiles::getReject()); }
+void View::urgentTodos() const { this->viewTodos(TodoFiles::getUrgent()); }
 
 // Private methods
-void View::viewTodos(const std::filesystem::path& file)
+void View::viewTodos(const std::filesystem::path& file) const
 {
     std::ifstream ifs{file.string()};
 
