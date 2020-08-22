@@ -41,7 +41,7 @@ void View::run()
         return;
     }
 
-    // TODO throw exception
+    throw action::UnknownArgument(option);
 }
 
 void View::archiveTodos() { this->viewTodos(TodoFiles::getArchive()); }

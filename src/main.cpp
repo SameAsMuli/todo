@@ -1,5 +1,4 @@
 #include <exception>  // std::exception
-#include <iomanip>    // std::quoted
 #include <iostream>   // std::cerr
 #include <vector>     // std::vector
 
@@ -51,9 +50,7 @@ int main(int argc, char** argv)
             }
         }
 
-        std::cout << "Unknown option: " <<
-            std::quoted(input.getOption(0),'\'') << std::endl;
-
+        std::cerr << "Unknown action: '" << input.getOption(0) << std::endl;
         return 1;
     }
 
