@@ -46,7 +46,7 @@ OBJS:= \
 
 define genRules
 $(OBJ)/%.o: $(SRC)/$(1)/%.cpp $(SRC)/$(1)/%.hpp | $(OBJ)
-	@echo "$(CLR_COMP)Compiling $(1) $$(basename $$(@F))...$(CLR_END)"
+	@echo "$(CLR_COMP)Compiling $(1)/$$(basename $$(@F))...$(CLR_END)"
 	@$(CXX) -c $(COMP_OPTIONS) -o $$@ $$<
 endef
 
