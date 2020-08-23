@@ -1,3 +1,5 @@
+#include <stdexcept> // std::runtime_error
+
 #include "action/action_abstract.hpp"
 
 namespace action {
