@@ -33,19 +33,23 @@ BUILD_DIRS:=$(BIN) $(OBJ)
 SRC_SUB_DIRS:= \
   action \
   env \
+  task \
   util
 
 TARGET:=$(BIN)/todo
 
 OBJS:= \
   $(foreach DIR, $(SRC_SUB_DIRS), \
-    $(patsubst %, $(OBJ)/%.o, \
+    $(patsubst %, $(OBJ)/$(DIR)/%.o, \
       $(basename $(notdir $(wildcard $(SRC)/$(DIR)/*.cpp))) \
      ) \
    )
 
 define genRules
-$(OBJ)/%.o: $(SRC)/$(1)/%.cpp $(SRC)/$(1)/%.hpp | $(OBJ)
+$(OBJ)/$(1): | $(OBJ)
+	@mkdir -p $(OBJ)/$(1)
+
+$(OBJ)/$(1)/%.o: $(SRC)/$(1)/%.cpp $(SRC)/$(1)/%.hpp | $(OBJ)/$(1)
 	@echo "$(CLR_COMP)Compiling $(1)/$$(basename $$(@F))...$(CLR_END)"
 	@$(CXX) -c $(COMP_OPTIONS) -o $$@ $$<
 endef
@@ -63,4 +67,4 @@ $(BUILD_DIRS):
 .PHONY: clean
 clean:
 	@echo "$(CLR_INFO)Deleting build objects ...$(CLR_END)"
-	@rm -f $(TARGET) $(OBJ)/*
+	@rm -rf $(BIN)/* $(OBJ)/*
