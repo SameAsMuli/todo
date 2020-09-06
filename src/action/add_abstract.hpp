@@ -1,9 +1,10 @@
 #include <filesystem> // std::filesystem
 
 #include "action/action_abstract.hpp"
+#include "task/task_type_abstract.hpp"
 
-#ifndef ADD_ABSTRACT_H
-#define ADD_ABSTRACT_H
+#ifndef ACTION_ADD_ABSTRACT_H
+#define ACTION_ADD_ABSTRACT_H
 
 namespace action {
 
@@ -14,16 +15,12 @@ class AddAbstract : public ActionAbstract {
                 const std::string& name,
                 const std::string& helpText,
                 const util::Input& input,
-                const std::filesystem::path& file,
-                const std::string& prefix);
-
-        std::string getPrefix() const { return m_prefix; }
-
-        void run() override;
+                task::TaskTypeAbstract *const taskType);
 
     private:
-        const std::filesystem::path m_file;
-        const std::string m_prefix;
+        task::TaskTypeAbstract *const m_taskType;
+
+        void run() override;
 };
 
 } // namespace action

@@ -30,6 +30,7 @@ void Help::run()
         }
     }
 
+    /* TODO-SAM Wrap output based on term width - ncurses? */
     std::cout << "TODO Management Utility" << std::endl;
     std::cout << std::endl;
     std::cout << "If run with no arguments will print all TODOs found" << std::endl;

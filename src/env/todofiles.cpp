@@ -11,42 +11,23 @@ void TodoFiles::initialise()
         throw std::runtime_error("Unable to find HOME directory.");
     }
 
-    TodoFiles::initialiseFile(TodoFiles::getArchive());
-    TodoFiles::initialiseFile(TodoFiles::getDone());
-    TodoFiles::initialiseFile(TodoFiles::getLow());
-    TodoFiles::initialiseFile(TodoFiles::getNormal());
-    TodoFiles::initialiseFile(TodoFiles::getReject());
-    TodoFiles::initialiseFile(TodoFiles::getUrgent());
+    TodoFiles::initialiseFile(TodoFiles::getOutstanding());
+    TodoFiles::initialiseFile(TodoFiles::getComplete());
 }
 
-fs::path TodoFiles::getArchive()
+fs::path TodoFiles::getOutstanding()
 {
-    return TodoFiles::getTodoDir() / "archive";
+    return TodoFiles::getTodoDir() / "outstanding_tasks";
 }
 
-fs::path TodoFiles::getDone()
+fs::path TodoFiles::getComplete()
 {
-    return TodoFiles::getTodoDir() / "done";
+    return TodoFiles::getTodoDir() / "complete_tasks";
 }
 
-fs::path TodoFiles::getLow()
+fs::path TodoFiles::getTemp()
 {
-    return TodoFiles::getTodoDir() / "low";
-}
-
-fs::path TodoFiles::getNormal()
-{
-    return TodoFiles::getTodoDir() / "normal";
-}
-
-fs::path TodoFiles::getReject()
-{
-    return TodoFiles::getTodoDir() / "reject";
-}
-
-fs::path TodoFiles::getUrgent()
-{
-    return TodoFiles::getTodoDir() / "urgent";
+    return TodoFiles::getTodoDir() / "temp";
 }
 
 

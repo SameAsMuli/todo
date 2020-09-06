@@ -1,10 +1,12 @@
-#include <exception>  // std::exception
-#include <iostream>   // std::cerr
-#include <vector>     // std::vector
+#include <exception> // std::exception
+#include <iostream>  // std::cerr
+#include <vector>    // std::vector
 
 #include "action/add.hpp"
+#include "action/done.hpp"
 #include "action/help.hpp"
 #include "action/low.hpp"
+#include "action/reject.hpp"
 #include "action/urgent.hpp"
 #include "action/view.hpp"
 #include "env/todofiles.hpp"
@@ -28,18 +30,19 @@ int main(int argc, char** argv)
     action::View view{input};
     actions.push_back(&view);
 
-    actions.push_back(new action::Urgent{input, TodoFiles::getUrgent()});
-    actions.push_back(new action::Add{input, TodoFiles::getNormal()});
-    actions.push_back(new action::Low{input, TodoFiles::getLow()});
+    actions.push_back(new action::Urgent{input});
+    actions.push_back(new action::Add{input});
+    actions.push_back(new action::Low{input});
+    actions.push_back(new action::Done{input});
+    actions.push_back(new action::Reject{input});
 
     help.addFunctions(actions);
 
     if (input.isEmpty()) {
         view.run();
-    }
-    else {
+    } else {
         for (auto const& action:actions) {
-            if (input.hasOption(action->getName(), 0)) {
+            if (input.hasOption(action->getName(), util::Input::ACTION_INDEX)) {
                 try {
                     action->perform();
                 } catch (const std::exception& e) {
@@ -50,8 +53,8 @@ int main(int argc, char** argv)
             }
         }
 
-        std::cerr << "Unknown action: '" << input.getOption(0)
-            << "'" << std::endl;
+        std::cerr << "Unknown action: '"
+            << input.getOption(util::Input::ACTION_INDEX) << "'" << std::endl;
         return 1;
     }
 

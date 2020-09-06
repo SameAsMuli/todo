@@ -1,8 +1,8 @@
 #include <filesystem> // std::filesystem
 #include <vector>     // std::vector
 
-#ifndef XDG_H
-#define XDG_H
+#ifndef UTIL_XDG_H
+#define UTIL_XDG_H
 
 namespace util {
 namespace xdg {
