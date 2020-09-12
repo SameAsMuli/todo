@@ -8,8 +8,6 @@ BIN:=bin
 OBJ:=obj
 SRC:=src
 
-CXX:=clang++
-
 # Allow Clang Complete to use the build if specified
 ifneq ("$(wildcard $(CLANG_COMPLETE_CC_ARGS))","")
   CXX:=$(CLANG_COMPLETE_CC_ARGS) $(CXX)

@@ -9,13 +9,13 @@
 #include "action/reject.hpp"
 #include "action/urgent.hpp"
 #include "action/view.hpp"
-#include "env/todofiles.hpp"
+#include "todo/files.hpp"
 #include "util/input.hpp"
 
 int main(int argc, char** argv)
 {
     try {
-        TodoFiles::initialise();
+        todo::files::initialise();
     } catch (const std::exception& e) {
         std::cerr << "Failed to initialise: " << e.what() << std::endl;
         return 1;

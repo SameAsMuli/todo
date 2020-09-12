@@ -1,12 +1,12 @@
 #include <fstream> // std::ofstream
 
-#include "env/todofiles.hpp"
+#include "todo/files.hpp"
 #include "task/outstanding_abstract.hpp"
 
 namespace task {
 
 OutstandingAbstract::OutstandingAbstract(char prefix):
-    TaskTypeAbstract(TodoFiles::getOutstanding(), prefix)
+    TaskTypeAbstract(todo::files::getOutstanding(), prefix)
 { }
 
 void OutstandingAbstract::add(const util::Input& input)

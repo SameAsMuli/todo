@@ -1,7 +1,7 @@
 #include <cstdio>  // std::perror, std::remove, std::rename
 #include <fstream> // std::ofstream
 
-#include "env/todofiles.hpp"
+#include "todo/files.hpp"
 #include "task/complete_abstract.hpp"
 #include "todo/inspecific_task.hpp"
 #include "todo/unknown_task.hpp"
@@ -9,7 +9,7 @@
 namespace task {
 
 CompleteAbstract::CompleteAbstract(char prefix):
-    TaskTypeAbstract(TodoFiles::getComplete(), prefix)
+    TaskTypeAbstract(todo::files::getComplete(), prefix)
 { }
 
 void CompleteAbstract::add(const util::Input& input)
@@ -19,12 +19,12 @@ void CompleteAbstract::add(const util::Input& input)
         throw std::logic_error{"Empty input passed to add method"};
     }
 
-    std::ifstream ifs{TodoFiles::getOutstanding().string()};
+    std::ifstream ifs{todo::files::getOutstanding().string()};
     if (!ifs.is_open()) {
         throw std::runtime_error{"Unable to open TODO file"};
     }
 
-    std::ofstream temp{TodoFiles::getTemp().string()};
+    std::ofstream temp{todo::files::getTemp().string()};
     if (!temp.is_open()) {
         throw std::runtime_error{"Unable to open TODO file"};
     }
@@ -45,10 +45,10 @@ void CompleteAbstract::add(const util::Input& input)
     temp.close();
 
     if (count == 0) {
-        std::remove(TodoFiles::getTemp().string().c_str());
+        std::remove(todo::files::getTemp().string().c_str());
         throw todo::UnknownTask();
     } else if (count > 1) {
-        std::remove(TodoFiles::getTemp().string().c_str());
+        std::remove(todo::files::getTemp().string().c_str());
         throw todo::InspecificTask(count);
     }
 
@@ -59,9 +59,9 @@ void CompleteAbstract::add(const util::Input& input)
         throw std::runtime_error{"Unable to open TODO file"};
     }
 
-    if (std::remove(TodoFiles::getOutstanding().string().c_str()) ||
-        std::rename(TodoFiles::getTemp().string().c_str(),
-                    TodoFiles::getOutstanding().string().c_str())) {
+    if (std::remove(todo::files::getOutstanding().string().c_str()) ||
+        std::rename(todo::files::getTemp().string().c_str(),
+                    todo::files::getOutstanding().string().c_str())) {
         std::perror("Error swapping files");
         throw std::runtime_error{"Unable to update TODO file"};
     }
