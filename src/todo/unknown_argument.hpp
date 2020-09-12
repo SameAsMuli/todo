@@ -1,10 +1,10 @@
 #include <stdexcept> // std::runtime_error
 #include <string>    // std::string
 
-#ifndef ACTION_UNKNOWN_ARGUMENT_H
-#define ACTION_UNKNOWN_ARGUMENT_H
+#ifndef TODO_UNKNOWN_ARGUMENT_H
+#define TODO_UNKNOWN_ARGUMENT_H
 
-namespace action {
+namespace todo {
 
 class UnknownArgument : public std::runtime_error {
 
@@ -12,6 +12,6 @@ class UnknownArgument : public std::runtime_error {
         UnknownArgument(const std::string& arg);
 };
 
-} // namespace action
+} // namespace todo
 
 #endif

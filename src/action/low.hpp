@@ -1,14 +1,14 @@
 #include "action/add_abstract.hpp"
 
-#ifndef LOW_ACTION_H
-#define LOW_ACTION_H
+#ifndef ACTION_LOW_H
+#define ACTION_LOW_H
 
 namespace action {
 
 class Low : public AddAbstract {
 
     public:
-        Low(const util::Input& input, const std::filesystem::path& file);
+        Low(const util::Input& input);
 };
 
 } // namespace action

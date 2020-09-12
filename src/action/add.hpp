@@ -1,14 +1,14 @@
 #include "action/add_abstract.hpp"
 
-#ifndef ADD_ACTION_H
-#define ADD_ACTION_H
+#ifndef ACTION_ADD_H
+#define ACTION_ADD_H
 
 namespace action {
 
 class Add : public AddAbstract {
 
     public:
-        Add(const util::Input& input, const std::filesystem::path& file);
+        Add(const util::Input& input);
 };
 
 } // namespace action

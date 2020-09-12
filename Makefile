@@ -35,6 +35,7 @@ SRC_SUB_DIRS:= \
   action \
   env \
   task \
+  todo \
   util
 
 TARGET:=$(BIN)/todo

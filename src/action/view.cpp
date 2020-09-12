@@ -1,9 +1,13 @@
 #include <fstream>  // std::ifstream
 #include <iostream> // std::cout
 
-#include "action/unknown_argument.hpp"
 #include "action/view.hpp"
-#include "env/todofiles.hpp"
+#include "task/done.hpp"
+#include "task/low.hpp"
+#include "task/normal.hpp"
+#include "task/rejected.hpp"
+#include "task/urgent.hpp"
+#include "todo/unknown_argument.hpp"
 
 namespace action {
 
@@ -13,9 +17,7 @@ View::View( const util::Input& input):
 
 void View::run()
 {
-    unsigned int index = 1;
-
-    if (!this->getInput().hasOption(index)) {
+    if (!this->getInput().hasOption(util::Input::PARAM_START_INDEX)) {
         this->urgentTodos();
         this->normalTodos();
         this->lowTodos();
@@ -24,37 +26,30 @@ void View::run()
         return;
     }
 
-    auto option = this->getInput().getOption(index);
+    auto option = this->getInput().getOption(util::Input::PARAM_START_INDEX);
 
     if (option == "urgent") { this->urgentTodos(); }
     else if (option == "normal") { this->normalTodos(); }
     else if (option == "low") { this->lowTodos(); }
     else if (option == "done") { this->doneTodos(); }
     else if (option == "reject") { this->rejectTodos(); }
-    else if (option == "archive") { this->archiveTodos(); }
-    else { throw action::UnknownArgument(option); }
+    else { throw todo::UnknownArgument(option); }
 }
 
-void View::archiveTodos() const { this->viewTodos(TodoFiles::getArchive()); }
-void View::doneTodos() const { this->viewTodos(TodoFiles::getDone()); }
-void View::lowTodos() const { this->viewTodos(TodoFiles::getLow()); }
-void View::normalTodos() const { this->viewTodos(TodoFiles::getNormal()); }
-void View::rejectTodos() const { this->viewTodos(TodoFiles::getReject()); }
-void View::urgentTodos() const { this->viewTodos(TodoFiles::getUrgent()); }
+void View::doneTodos() const { this->viewTodos(new task::Done{}); }
+void View::lowTodos() const { this->viewTodos(new task::Low{}); }
+void View::normalTodos() const { this->viewTodos(new task::Normal{}); }
+void View::rejectTodos() const { this->viewTodos(new task::Rejected{}); }
+void View::urgentTodos() const { this->viewTodos(new task::Urgent{}); }
 
 // Private methods
-void View::viewTodos(const std::filesystem::path& file) const
+void View::viewTodos(task::TaskTypeAbstract *const taskType) const
 {
-    std::ifstream ifs{file.string()};
-
-    if (ifs.is_open()) {
-        // Make sure file isn't empty (rdbuf doesn't like it!)
-        if (ifs.peek() != std::ifstream::traits_type::eof()) {
-            std::cout << ifs.rdbuf();
-        }
-    } else {
-        throw std::runtime_error("Unable to open TODO file");
+    if (taskType == NULL) {
+        throw std::logic_error{"NULL passed to viewTodos method"};
     }
+
+    taskType->view();
 }
 
 } // namespace action

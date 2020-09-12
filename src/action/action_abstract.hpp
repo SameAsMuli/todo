@@ -3,8 +3,8 @@
 
 #include "util/input.hpp"
 
-#ifndef ACTION_ABSTRACT_H
-#define ACTION_ABSTRACT_H
+#ifndef ACTION_ACTION_ABSTRACT_H
+#define ACTION_ACTION_ABSTRACT_H
 
 namespace action {
 
@@ -18,8 +18,11 @@ class ActionAbstract {
                 std::optional<unsigned int> argLimit = std::nullopt);
 
         std::string getName() const { return m_name; }
+
         std::string getHelpText() const { return m_helpText; }
+
         util::Input getInput() const { return m_input; }
+
         std::optional<unsigned int> getArgLimit() const { return m_argLimit; }
 
         void perform();

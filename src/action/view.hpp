@@ -1,9 +1,10 @@
 #include <filesystem> //std::filesystem
 
 #include "action/action_abstract.hpp"
+#include "task/task_type_abstract.hpp"
 
-#ifndef VIEW_FUNCTION_H
-#define VIEW_FUNCTION_H
+#ifndef ACTION_VIEW_H
+#define ACTION_VIEW_H
 
 namespace action {
 
@@ -13,6 +14,12 @@ class View : public ActionAbstract {
         View(const util::Input& input);
 
         void run() override;
+
+        void completeTodos() const;
+
+        void outstandingTodos() const;
+
+
 
         void archiveTodos() const;
 
@@ -27,7 +34,7 @@ class View : public ActionAbstract {
         void urgentTodos() const;
 
     private:
-        void viewTodos(const std::filesystem::path& file) const;
+        void viewTodos(task::TaskTypeAbstract *const taskType) const;
 };
 
 #endif

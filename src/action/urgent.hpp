@@ -1,15 +1,14 @@
 #include "action/add_abstract.hpp"
 
-#ifndef URGENT_ACTION_H
-#define URGENT_ACTION_H
+#ifndef ACTION_URGENT_H
+#define ACTION_URGENT_H
 
 namespace action {
 
 class Urgent : public AddAbstract {
 
     public:
-        Urgent(const util::Input& input,
-                const std::filesystem::path& file);
+        Urgent(const util::Input& input);
 };
 
 } // namespace action

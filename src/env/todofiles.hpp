@@ -2,20 +2,17 @@
 
 namespace fs = std::filesystem;
 
-#ifndef TODO_FILES_H
-#define TODO_FILES_H
+#ifndef ENV_TODO_FILES_H
+#define ENV_TODO_FILES_H
 
 class TodoFiles {
 
     public:
         static void initialise();
 
-        static fs::path getArchive();
-        static fs::path getDone();
-        static fs::path getLow();
-        static fs::path getNormal();
-        static fs::path getReject();
-        static fs::path getUrgent();
+        static fs::path getOutstanding();
+        static fs::path getComplete();
+        static fs::path getTemp();
 
     private:
         static fs::path getTodoDir();

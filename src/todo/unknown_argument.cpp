@@ -1,9 +1,9 @@
-#include "action/unknown_argument.hpp"
+#include "todo/unknown_argument.hpp"
 
-namespace action {
+namespace todo {
 
 UnknownArgument::UnknownArgument(const std::string& arg):
     std::runtime_error("Unknown argument: '" + arg + "'")
 { }
 
-} // namespace action
+} // namespace todo
