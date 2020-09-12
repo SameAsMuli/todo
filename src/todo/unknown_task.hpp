@@ -7,8 +7,8 @@ namespace todo {
 
 class UnknownTask : public std::runtime_error {
 
-    public:
-        UnknownTask();
+  public:
+    UnknownTask();
 };
 
 } // namespace todo

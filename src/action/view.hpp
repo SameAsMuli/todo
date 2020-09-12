@@ -10,31 +10,29 @@ namespace action {
 
 class View : public ActionAbstract {
 
-    public:
-        View(const util::Input& input);
+  public:
+    View(const util::Input &input);
 
-        void run() override;
+    void run() override;
 
-        void completeTodos() const;
+    void completeTodos() const;
 
-        void outstandingTodos() const;
+    void outstandingTodos() const;
 
+    void archiveTodos() const;
 
+    void doneTodos() const;
 
-        void archiveTodos() const;
+    void lowTodos() const;
 
-        void doneTodos() const;
+    void normalTodos() const;
 
-        void lowTodos() const;
+    void rejectTodos() const;
 
-        void normalTodos() const;
+    void urgentTodos() const;
 
-        void rejectTodos() const;
-
-        void urgentTodos() const;
-
-    private:
-        void viewTodos(task::TaskTypeAbstract *const taskType) const;
+  private:
+    void viewTodos(task::TaskTypeAbstract *const taskType) const;
 };
 
 #endif

@@ -7,8 +7,8 @@ namespace action {
 
 class Low : public AddAbstract {
 
-    public:
-        Low(const util::Input& input);
+  public:
+    Low(const util::Input &input);
 };
 
 } // namespace action

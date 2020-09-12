@@ -5,15 +5,13 @@
 
 namespace task {
 
-Rejected::Rejected() : CompleteAbstract('/')
-{ }
+Rejected::Rejected() : CompleteAbstract('/') {}
 
-std::string Rejected::format(const Task& task)
-{
+std::string Rejected::format(const Task &task) {
     std::stringstream ss;
 
-    ss << util::ansi::foreground_red << task.getPrefix()
-        << " " << task.getDescription() << util::ansi::reset ;
+    ss << util::ansi::foreground_red << task.getPrefix() << " "
+       << task.getDescription() << util::ansi::reset;
 
     return ss.str();
 }

@@ -7,8 +7,8 @@ namespace action {
 
 class Urgent : public AddAbstract {
 
-    public:
-        Urgent(const util::Input& input);
+  public:
+    Urgent(const util::Input &input);
 };
 
 } // namespace action

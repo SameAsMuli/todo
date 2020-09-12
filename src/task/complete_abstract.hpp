@@ -8,10 +8,10 @@ namespace task {
 
 class CompleteAbstract : public TaskTypeAbstract {
 
-    public:
-        CompleteAbstract(char prefix);
+  public:
+    CompleteAbstract(char prefix);
 
-        void add(const util::Input& input) override;
+    void add(const util::Input &input) override;
 };
 
 } // namespace task

@@ -3,9 +3,8 @@
 
 namespace action {
 
-Urgent::Urgent(const util::Input& input):
-    AddAbstract( "urgent", "Add an urgent priority TODO", input,
-            new task::Urgent{})
-{ }
+Urgent::Urgent(const util::Input &input)
+    : AddAbstract("urgent", "Add an urgent priority TODO", input,
+                  new task::Urgent{}) {}
 
 } // namespace action

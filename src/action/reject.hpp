@@ -7,8 +7,8 @@ namespace action {
 
 class Reject : public AddAbstract {
 
-    public:
-        Reject(const util::Input& input);
+  public:
+    Reject(const util::Input &input);
 };
 
 } // namespace action

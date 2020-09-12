@@ -10,19 +10,17 @@ namespace action {
 
 class Help : public ActionAbstract {
 
-    public:
-        Help(util::Input input);
+  public:
+    Help(util::Input input);
 
-        void addFunctions( std::vector<ActionAbstract*>& functions);
+    void addFunctions(std::vector<ActionAbstract *> &functions);
 
-        void run() override;
+    void run() override;
 
-    private:
-        std::vector<ActionAbstract*> m_functions;
+  private:
+    std::vector<ActionAbstract *> m_functions;
 
-        static bool todoFuncComp(
-                ActionAbstract* tf1,
-                ActionAbstract* tf2 );
+    static bool todoFuncComp(ActionAbstract *tf1, ActionAbstract *tf2);
 };
 
 #endif

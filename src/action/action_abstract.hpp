@@ -10,30 +10,28 @@ namespace action {
 
 class ActionAbstract {
 
-    public:
-        ActionAbstract(
-                const std::string& name,
-                const std::string& helpText,
-                const util::Input& input,
-                std::optional<unsigned int> argLimit = std::nullopt);
+  public:
+    ActionAbstract(const std::string &name, const std::string &helpText,
+                   const util::Input &input,
+                   std::optional<unsigned int> argLimit = std::nullopt);
 
-        std::string getName() const { return m_name; }
+    std::string getName() const { return m_name; }
 
-        std::string getHelpText() const { return m_helpText; }
+    std::string getHelpText() const { return m_helpText; }
 
-        util::Input getInput() const { return m_input; }
+    util::Input getInput() const { return m_input; }
 
-        std::optional<unsigned int> getArgLimit() const { return m_argLimit; }
+    std::optional<unsigned int> getArgLimit() const { return m_argLimit; }
 
-        void perform();
+    void perform();
 
-    private:
-        const std::string m_name;
-        const std::string m_helpText;
-        const util::Input m_input;
-        const std::optional<unsigned int> m_argLimit;
+  private:
+    const std::string m_name;
+    const std::string m_helpText;
+    const util::Input m_input;
+    const std::optional<unsigned int> m_argLimit;
 
-        virtual void run() = 0;
+    virtual void run() = 0;
 };
 
 } // namespace action

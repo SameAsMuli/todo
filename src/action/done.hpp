@@ -7,8 +7,8 @@ namespace action {
 
 class Done : public AddAbstract {
 
-    public:
-        Done(const util::Input& input);
+  public:
+    Done(const util::Input &input);
 };
 
 } // namespace action

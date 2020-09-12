@@ -12,12 +12,10 @@
 
 namespace action {
 
-View::View( const util::Input& input):
-    ActionAbstract("view", "View outstanding TODOs", input, 1)
-{ }
+View::View(const util::Input &input)
+    : ActionAbstract("view", "View outstanding TODOs", input, 1) {}
 
-void View::run()
-{
+void View::run() {
     if (!this->getInput().hasOption(util::Input::PARAM_START_INDEX)) {
         this->urgentTodos();
         this->normalTodos();
@@ -29,12 +27,19 @@ void View::run()
 
     auto option = this->getInput().getOption(util::Input::PARAM_START_INDEX);
 
-    if (option == "urgent") { this->urgentTodos(); }
-    else if (option == "normal") { this->normalTodos(); }
-    else if (option == "low") { this->lowTodos(); }
-    else if (option == "done") { this->doneTodos(); }
-    else if (option == "reject") { this->rejectTodos(); }
-    else { throw todo::UnknownArgument(option); }
+    if (option == "urgent") {
+        this->urgentTodos();
+    } else if (option == "normal") {
+        this->normalTodos();
+    } else if (option == "low") {
+        this->lowTodos();
+    } else if (option == "done") {
+        this->doneTodos();
+    } else if (option == "reject") {
+        this->rejectTodos();
+    } else {
+        throw todo::UnknownArgument(option);
+    }
 }
 
 void View::doneTodos() const { this->viewTodos(new task::Done{}); }
@@ -44,8 +49,7 @@ void View::rejectTodos() const { this->viewTodos(new task::Rejected{}); }
 void View::urgentTodos() const { this->viewTodos(new task::Urgent{}); }
 
 // Private methods
-void View::viewTodos(task::TaskTypeAbstract *const taskType) const
-{
+void View::viewTodos(task::TaskTypeAbstract *const taskType) const {
     if (taskType == NULL) {
         throw std::logic_error{"NULL passed to viewTodos method"};
     }

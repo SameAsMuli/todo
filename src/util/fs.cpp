@@ -8,15 +8,14 @@
 namespace util {
 namespace fs {
 
-std::filesystem::path HomeDir()
-{
+std::filesystem::path HomeDir() {
     std::string home = std::getenv("HOME");
 
     if (!home.empty()) {
         return std::filesystem::path{home};
     }
 
-    struct passwd* pwd = getpwuid(getuid());
+    struct passwd *pwd = getpwuid(getuid());
 
     if (pwd != nullptr) {
         return pwd->pw_dir;

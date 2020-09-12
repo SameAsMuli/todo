@@ -10,23 +10,23 @@ namespace task {
 
 class TaskTypeAbstract {
 
-    public:
-        TaskTypeAbstract(const std::filesystem::path& file, char prefix);
+  public:
+    TaskTypeAbstract(const std::filesystem::path &file, char prefix);
 
-        std::filesystem::path getFile() const { return m_file; }
+    std::filesystem::path getFile() const { return m_file; }
 
-        char getPrefix() const { return m_prefix; }
+    char getPrefix() const { return m_prefix; }
 
-        void view();
+    void view();
 
-        virtual void add(const util::Input& input) = 0;
+    virtual void add(const util::Input &input) = 0;
 
-    private:
-        const std::filesystem::path m_file;
+  private:
+    const std::filesystem::path m_file;
 
-        const char m_prefix;
+    const char m_prefix;
 
-        virtual std::string format(const Task& task) = 0;
+    virtual std::string format(const Task &task) = 0;
 };
 
 } // namespace task

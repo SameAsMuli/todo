@@ -9,8 +9,7 @@
 
 namespace {
 
-void initialiseFile(const std::filesystem::path& file)
-{
+void initialiseFile(const std::filesystem::path &file) {
     // Create parent directory if it doesn't already exist
     std::filesystem::create_directories(file.parent_path());
 
@@ -25,8 +24,7 @@ void initialiseFile(const std::filesystem::path& file)
 namespace todo {
 namespace files {
 
-void initialise()
-{
+void initialise() {
     if (util::fs::HomeDir().empty()) {
         throw std::runtime_error("Unable to find HOME directory.");
     }
@@ -35,25 +33,15 @@ void initialise()
     initialiseFile(getComplete());
 }
 
-std::filesystem::path getOutstanding()
-{
+std::filesystem::path getOutstanding() {
     return getTodoDir() / "outstanding_tasks";
 }
 
-std::filesystem::path getComplete()
-{
-    return getTodoDir() / "complete_tasks";
-}
+std::filesystem::path getComplete() { return getTodoDir() / "complete_tasks"; }
 
-std::filesystem::path getTemp()
-{
-    return getTodoDir() / "temp";
-}
+std::filesystem::path getTemp() { return getTodoDir() / "temp"; }
 
-std::filesystem::path getTodoDir()
-{
-    return util::xdg::configHome() / "todo";
-}
+std::filesystem::path getTodoDir() { return util::xdg::configHome() / "todo"; }
 
 } // namespace files
 } // namespace todo

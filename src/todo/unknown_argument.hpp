@@ -8,8 +8,8 @@ namespace todo {
 
 class UnknownArgument : public std::runtime_error {
 
-    public:
-        UnknownArgument(const std::string& arg);
+  public:
+    UnknownArgument(const std::string &arg);
 };
 
 } // namespace todo

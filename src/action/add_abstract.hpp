@@ -10,17 +10,15 @@ namespace action {
 
 class AddAbstract : public ActionAbstract {
 
-    public:
-        AddAbstract(
-                const std::string& name,
-                const std::string& helpText,
-                const util::Input& input,
+  public:
+    AddAbstract(const std::string &name, const std::string &helpText,
+                const util::Input &input,
                 task::TaskTypeAbstract *const taskType);
 
-    private:
-        task::TaskTypeAbstract *const m_taskType;
+  private:
+    task::TaskTypeAbstract *const m_taskType;
 
-        void run() override;
+    void run() override;
 };
 
 } // namespace action

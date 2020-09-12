@@ -7,21 +7,21 @@ namespace task {
 
 class Task {
 
-    public:
-        Task();
+  public:
+    Task();
 
-        char getPrefix() const { return m_prefix; }
+    char getPrefix() const { return m_prefix; }
 
-        std::string getDescription() const { return m_description; }
+    std::string getDescription() const { return m_description; }
 
-        friend std::istream& operator>>(std::istream& stream, Task& task);
+    friend std::istream &operator>>(std::istream &stream, Task &task);
 
-        friend std::ostream& operator<<(std::ostream& stream, Task& task);
+    friend std::ostream &operator<<(std::ostream &stream, Task &task);
 
-    private:
-        char m_prefix;
+  private:
+    char m_prefix;
 
-        std::string m_description;
+    std::string m_description;
 };
 
 } // namespace task

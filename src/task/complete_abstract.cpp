@@ -2,19 +2,17 @@
 #include <fstream>   // std::ifstream, std::ofstream
 #include <stdexcept> // std::runtime_error
 
-#include "todo/files.hpp"
 #include "task/complete_abstract.hpp"
+#include "todo/files.hpp"
 #include "todo/inspecific_task.hpp"
 #include "todo/unknown_task.hpp"
 
 namespace task {
 
-CompleteAbstract::CompleteAbstract(char prefix):
-    TaskTypeAbstract(todo::files::getComplete(), prefix)
-{ }
+CompleteAbstract::CompleteAbstract(char prefix)
+    : TaskTypeAbstract(todo::files::getComplete(), prefix) {}
 
-void CompleteAbstract::add(const util::Input& input)
-{
+void CompleteAbstract::add(const util::Input &input) {
     auto searchString = input.toString(util::Input::PARAM_START_INDEX);
     if (searchString.empty()) {
         throw std::logic_error{"Empty input passed to add method"};
@@ -34,12 +32,12 @@ void CompleteAbstract::add(const util::Input& input)
     Task match;
     unsigned int count = 0;
     while (ifs >> task) {
-       if (task.getDescription().find(searchString) != std::string::npos) {
-           match = task;
-           count++;
-       } else if (count <= 1) {
-           temp << task;
-       }
+        if (task.getDescription().find(searchString) != std::string::npos) {
+            match = task;
+            count++;
+        } else if (count <= 1) {
+            temp << task;
+        }
     }
 
     ifs.close();

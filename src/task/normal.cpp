@@ -5,15 +5,13 @@
 
 namespace task {
 
-Normal::Normal() : OutstandingAbstract('-')
-{ }
+Normal::Normal() : OutstandingAbstract('-') {}
 
-std::string Normal::format(const Task& task)
-{
+std::string Normal::format(const Task &task) {
     std::stringstream ss;
 
-    ss << util::ansi::foreground_red << task.getPrefix()
-        << util::ansi::reset << " " << task.getDescription();
+    ss << util::ansi::foreground_red << task.getPrefix() << util::ansi::reset
+       << " " << task.getDescription();
 
     return ss.str();
 }

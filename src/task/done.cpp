@@ -5,15 +5,13 @@
 
 namespace task {
 
-Done::Done() : CompleteAbstract('+')
-{ }
+Done::Done() : CompleteAbstract('+') {}
 
-std::string Done::format(const Task& task)
-{
+std::string Done::format(const Task &task) {
     std::stringstream ss;
 
-    ss << util::ansi::foreground_green << task.getPrefix()
-        << util::ansi::reset << " " << task.getDescription();
+    ss << util::ansi::foreground_green << task.getPrefix() << util::ansi::reset
+       << " " << task.getDescription();
 
     return ss.str();
 }
