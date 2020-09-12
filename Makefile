@@ -31,7 +31,6 @@ BUILD_DIRS:=$(BIN) $(OBJ)
 
 SRC_SUB_DIRS:= \
   action \
-  env \
   task \
   todo \
   util
@@ -45,18 +44,22 @@ OBJS:= \
      ) \
    )
 
+DEPS:=$(patsubst %.o,%.d,$(OBJS))
+
 define genRules
 $(OBJ)/$(1): | $(OBJ)
 	@mkdir -p $(OBJ)/$(1)
 
-$(OBJ)/$(1)/%.o: $(SRC)/$(1)/%.cpp $(SRC)/$(1)/%.hpp | $(OBJ)/$(1)
+$(OBJ)/$(1)/%.o: $(SRC)/$(1)/%.cpp Makefile | $(OBJ)/$(1)
 	@echo "$(CLR_COMP)Compiling $(1)/$$(basename $$(@F))...$(CLR_END)"
-	@$(CXX) -c $(COMP_OPTIONS) -o $$@ $$<
+	@$(CXX) -c $(COMP_OPTIONS) -MMD -MD -MP -o $$@ $$<
 endef
 
 $(TARGET): $(SRC)/main.cpp $(OBJS) | $(BIN)
 	@echo "$(CLR_LINK)Linking binary $(@F)...$(CLR_END)"
 	@$(CXX) $(COMP_OPTIONS) -o $@ $^
+
+-include $(DEPS)
 
 $(foreach DIR, $(SRC_SUB_DIRS), $(eval $(call genRules,$(DIR))))
 
