@@ -1,8 +1,8 @@
-#include <string> // std::string
-#include <vector> // std::vector
-
 #ifndef UTIL_INPUT_H
 #define UTIL_INPUT_H
+
+#include <string> // std::string
+#include <vector> // std::vector
 
 namespace util {
 

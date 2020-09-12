@@ -1,8 +1,8 @@
-#include "task/task.hpp"
-#include "task/outstanding_abstract.hpp"
-
 #ifndef TASK_NORMAL_H
 #define TASK_NORMAL_H
+
+#include "task/task.hpp"
+#include "task/outstanding_abstract.hpp"
 
 namespace task {
 

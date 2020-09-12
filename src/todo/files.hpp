@@ -1,9 +1,9 @@
+#ifndef TODO_FILES_H
+#define TODO_FILES_H
+
 #include <filesystem> // std::filesystem
 
 namespace fs = std::filesystem;
-
-#ifndef TODO_FILES_H
-#define TODO_FILES_H
 
 namespace todo {
 namespace files {

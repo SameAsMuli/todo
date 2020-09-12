@@ -1,8 +1,8 @@
-#include "task/task.hpp"
-#include "task/complete_abstract.hpp"
-
 #ifndef TASK_DONE_H
 #define TASK_DONE_H
+
+#include "task/task.hpp"
+#include "task/complete_abstract.hpp"
 
 namespace task {
 

@@ -1,10 +1,10 @@
+#ifndef ACTION_VIEW_H
+#define ACTION_VIEW_H
+
 #include <filesystem> //std::filesystem
 
 #include "action/action_abstract.hpp"
 #include "task/task_type_abstract.hpp"
-
-#ifndef ACTION_VIEW_H
-#define ACTION_VIEW_H
 
 namespace action {
 

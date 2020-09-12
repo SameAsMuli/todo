@@ -1,7 +1,7 @@
-#include <filesystem> // std::filesystem
-
 #ifndef UTIL_FS_H
 #define UTIL_FS_H
+
+#include <filesystem> // std::filesystem
 
 namespace util {
 namespace fs {

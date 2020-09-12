@@ -1,7 +1,7 @@
-#include <iostream> // std::istream
-
 #ifndef TASK_TASK_H
 #define TASK_TASK_H
+
+#include <iostream> // std::istream
 
 namespace task {
 

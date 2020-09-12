@@ -1,8 +1,8 @@
-#include "task/task.hpp"
-#include "task/complete_abstract.hpp"
-
 #ifndef TASK_REJECTED_H
 #define TASK_REJECTED_H
+
+#include "task/task.hpp"
+#include "task/complete_abstract.hpp"
 
 namespace task {
 

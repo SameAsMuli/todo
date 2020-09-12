@@ -1,7 +1,7 @@
-#include "action/add_abstract.hpp"
-
 #ifndef ACTION_DONE_H
 #define ACTION_DONE_H
+
+#include "action/add_abstract.hpp"
 
 namespace action {
 

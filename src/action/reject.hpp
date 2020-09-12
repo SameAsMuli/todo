@@ -1,7 +1,7 @@
-#include "action/add_abstract.hpp"
-
 #ifndef ACTION_REJECT_H
 #define ACTION_REJECT_H
+
+#include "action/add_abstract.hpp"
 
 namespace action {
 

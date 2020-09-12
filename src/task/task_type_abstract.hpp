@@ -1,10 +1,10 @@
+#ifndef TASK_TASK_TYPE_ABSTRACT_H
+#define TASK_TASK_TYPE_ABSTRACT_H
+
 #include <filesystem> // std::filesystem
 
 #include "task/task.hpp"
 #include "util/input.hpp"
-
-#ifndef TASK_TASK_TYPE_ABSTRACT_H
-#define TASK_TASK_TYPE_ABSTRACT_H
 
 namespace task {
 

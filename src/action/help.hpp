@@ -1,10 +1,10 @@
+#ifndef ACTION_HELP_H
+#define ACTION_HELP_H
+
 #include <vector> // std::vector
 
 #include "action/action_abstract.hpp"
 #include "util/input.hpp"
-
-#ifndef ACTION_HELP_H
-#define ACTION_HELP_H
 
 namespace action {
 

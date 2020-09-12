@@ -1,10 +1,10 @@
+#ifndef ACTION_ACTION_ABSTRACT_H
+#define ACTION_ACTION_ABSTRACT_H
+
 #include <optional> //std::optional
 #include <string>   // std::string
 
 #include "util/input.hpp"
-
-#ifndef ACTION_ACTION_ABSTRACT_H
-#define ACTION_ACTION_ABSTRACT_H
 
 namespace action {
 
