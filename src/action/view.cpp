@@ -1,5 +1,6 @@
-#include <fstream>  // std::ifstream
-#include <iostream> // std::cout
+#include <fstream>   // std::ifstream
+#include <iostream>  // std::cout
+#include <stdexcept> // std::logic_error
 
 #include "action/view.hpp"
 #include "task/done.hpp"

@@ -1,4 +1,6 @@
-#include <fstream>  // std::ifstream
+#include <fstream>    // std::ifstream
+#include <iostream>   // std::cout
+#include <stdexcept>  // std::runtime_error
 
 #include "task/task.hpp"
 #include "task/task_type_abstract.hpp"

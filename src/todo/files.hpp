@@ -3,20 +3,18 @@
 
 #include <filesystem> // std::filesystem
 
-namespace fs = std::filesystem;
-
 namespace todo {
 namespace files {
 
 void initialise();
 
-fs::path getOutstanding();
+std::filesystem::path getOutstanding();
 
-fs::path getComplete();
+std::filesystem::path getComplete();
 
-fs::path getTemp();
+std::filesystem::path getTemp();
 
-fs::path getTodoDir();
+std::filesystem::path getTodoDir();
 
 } // namespace files
 } // namespace todo

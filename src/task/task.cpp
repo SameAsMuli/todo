@@ -1,4 +1,5 @@
 #include <sstream> // std::stringstream
+#include <string>  // std::getline
 
 #include "task/task.hpp"
 

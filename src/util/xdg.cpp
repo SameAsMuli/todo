@@ -1,6 +1,5 @@
-#include <functional>
-#include <string>
-#include <vector>
+#include <stdexcept> // std::runtime_error
+#include <string>    // std::string
 
 #include "util/fs.hpp"
 #include "util/xdg.hpp"

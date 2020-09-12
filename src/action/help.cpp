@@ -1,5 +1,6 @@
 #include <algorithm> // std::sort
 #include <iostream>  // std::cout
+#include <string>    // std::string
 
 #include "action/help.hpp"
 

@@ -1,4 +1,6 @@
-#include <fstream> // std::ofstream
+#include <fstream>   // std::ofstream
+#include <ostream>   // std::endl
+#include <stdexcept> // std::runtime_error
 
 #include "todo/files.hpp"
 #include "task/outstanding_abstract.hpp"

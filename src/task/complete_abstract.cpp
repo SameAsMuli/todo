@@ -1,5 +1,6 @@
-#include <cstdio>  // std::perror, std::remove, std::rename
-#include <fstream> // std::ofstream
+#include <cstdio>    // std::perror, std::remove, std::rename
+#include <fstream>   // std::ifstream, std::ofstream
+#include <stdexcept> // std::runtime_error
 
 #include "todo/files.hpp"
 #include "task/complete_abstract.hpp"

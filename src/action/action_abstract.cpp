@@ -19,7 +19,8 @@ void ActionAbstract::perform()
 {
     if (this->getArgLimit().has_value()) {
         // Subtract 1 so as not to count the action itself
-        if (this->getInput().size() - 1 > this->getArgLimit()) {
+        if (this->getInput().size() - util::Input::PARAM_START_INDEX
+                > this->getArgLimit()) {
             throw std::runtime_error("Too many arguments for action: '"
                     + this->getName() + "'");
         }

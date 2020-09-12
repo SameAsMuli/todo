@@ -1,5 +1,7 @@
-#include <fstream> // std::ofstream
-#include <string>  // std::string
+#include <filesystem> // std::filesystem
+#include <fstream>    // std::ofstream
+#include <stdexcept>  // std::runtime_error
+#include <string>     // std::string
 
 #include "todo/files.hpp"
 #include "util/fs.hpp"
@@ -7,13 +9,13 @@
 
 namespace {
 
-void initialiseFile(const fs::path& file)
+void initialiseFile(const std::filesystem::path& file)
 {
     // Create parent directory if it doesn't already exist
-    fs::create_directories(file.parent_path());
+    std::filesystem::create_directories(file.parent_path());
 
     // Create file if it doesn't already exist
-    if (!fs::exists(file)) {
+    if (!std::filesystem::exists(file)) {
         std::ofstream(file.string()); // create file
     }
 }
@@ -33,22 +35,22 @@ void initialise()
     initialiseFile(getComplete());
 }
 
-fs::path getOutstanding()
+std::filesystem::path getOutstanding()
 {
     return getTodoDir() / "outstanding_tasks";
 }
 
-fs::path getComplete()
+std::filesystem::path getComplete()
 {
     return getTodoDir() / "complete_tasks";
 }
 
-fs::path getTemp()
+std::filesystem::path getTemp()
 {
     return getTodoDir() / "temp";
 }
 
-fs::path getTodoDir()
+std::filesystem::path getTodoDir()
 {
     return util::xdg::configHome() / "todo";
 }
