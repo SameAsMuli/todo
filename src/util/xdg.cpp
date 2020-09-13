@@ -6,6 +6,14 @@
 
 namespace {
 
+/**
+ * @brief Split a string into a vector of filesystem paths.
+ *
+ * @param str The string to split.
+ * @param delim The delimiting character to split on.
+ *
+ * @return A vector of filesystem paths.
+ */
 std::vector<std::filesystem::path> split(const std::string &str, char delim) {
     static std::vector<std::filesystem::path> strings;
     size_t start;
@@ -18,6 +26,14 @@ std::vector<std::filesystem::path> split(const std::string &str, char delim) {
     return strings;
 }
 
+/**
+ * @brief Get a filesystem path from an environment variable.
+ *
+ * @param varName The environment variable name to check.
+ * @param defaultValue A default path to use if varName is empty.
+ *
+ * @return A filesystem path from varName or defaultValue.
+ */
 std::filesystem::path getEnvDir(const char *varName, std::string defaultValue) {
     auto value = std::getenv(varName);
     static std::filesystem::path path;
@@ -31,6 +47,14 @@ std::filesystem::path getEnvDir(const char *varName, std::string defaultValue) {
     return path;
 }
 
+/**
+ * @brief Get a vector of filesystem paths from an environment variable.
+ *
+ * @param varName The environment variable to check.
+ * @param defaultValue A default collection of paths to use if varName is empty.
+ *
+ * @return A vector of filesystem paths from varName or defaultValue.
+ */
 std::vector<std::filesystem::path> getEnvDirs(const char *varName,
                                               std::string defaultValue) {
     auto value = std::getenv(varName);

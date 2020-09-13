@@ -5,9 +5,17 @@
 
 namespace action {
 
+/**
+ * @brief Concrete variant of the add action for urgent priority tasks.
+ */
 class Urgent : public AddAbstract {
 
   public:
+    /**
+     * @brief Initialise the urgent action for high priority tasks.
+     *
+     * @param input The user's input.
+     */
     Urgent(const util::Input &input);
 };
 

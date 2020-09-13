@@ -27,7 +27,11 @@ void View::run() {
 
     auto option = this->getInput().getOption(util::Input::PARAM_START_INDEX);
 
-    if (option == "urgent") {
+    if (option == "complete") {
+        this->completeTodos();
+    } else if (option == "outstanding") {
+        this->outstandingTodos();
+    } else if (option == "urgent") {
         this->urgentTodos();
     } else if (option == "normal") {
         this->normalTodos();
@@ -42,18 +46,32 @@ void View::run() {
     }
 }
 
+void View::completeTodos() const {
+    this->viewTodos(new task::Done{});
+    this->viewTodos(new task::Rejected{});
+}
+
+void View::outstandingTodos() const {
+    this->viewTodos(new task::Urgent{});
+    this->viewTodos(new task::Normal{});
+    this->viewTodos(new task::Low{});
+}
+
 void View::doneTodos() const { this->viewTodos(new task::Done{}); }
+
 void View::lowTodos() const { this->viewTodos(new task::Low{}); }
+
 void View::normalTodos() const { this->viewTodos(new task::Normal{}); }
+
 void View::rejectTodos() const { this->viewTodos(new task::Rejected{}); }
+
 void View::urgentTodos() const { this->viewTodos(new task::Urgent{}); }
 
-// Private methods
+/* Private methods */
 void View::viewTodos(task::TaskTypeAbstract *const taskType) const {
     if (taskType == NULL) {
         throw std::logic_error{"NULL passed to viewTodos method"};
     }
-
     taskType->view();
 }
 

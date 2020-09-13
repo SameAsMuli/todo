@@ -15,12 +15,12 @@ std::istream &operator>>(std::istream &stream, Task &task) {
     if (std::getline(stream, line)) {
         std::stringstream iss(line);
         if (std::getline(iss, prefix, ' ') && std::getline(iss, description)) {
-            // TODO-SAM Should we verify prefix has length 1?
+            /* TODO-SAM Should we verify prefix has length 1? */
             task.m_prefix = prefix[0];
             task.m_description = description;
         } else {
-            // One operation failed so set the state on
-            // the main stream to indicate failure.
+            /* One operation failed so set the state on the main stream to
+             * indicate failure. */
             stream.setstate(std::ios::failbit);
         }
     }

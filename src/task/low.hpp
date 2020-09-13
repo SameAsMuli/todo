@@ -6,6 +6,11 @@
 
 namespace task {
 
+/**
+ * @brief Task type to govern a low priority task.
+ *
+ * This indicates a minimal priority task that can be left for some time.
+ */
 class Low : public OutstandingAbstract {
 
   public:

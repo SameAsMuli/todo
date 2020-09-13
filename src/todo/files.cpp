@@ -9,13 +9,18 @@
 
 namespace {
 
+/**
+ * @brief Create a given file and its parent directories if necessary.
+ *
+ * @param file The filesystem path to create.
+ */
 void initialiseFile(const std::filesystem::path &file) {
-    // Create parent directory if it doesn't already exist
+    /* Create parent directory if it doesn't already exist */
     std::filesystem::create_directories(file.parent_path());
 
-    // Create file if it doesn't already exist
+    /* Create file if it doesn't already exist */
     if (!std::filesystem::exists(file)) {
-        std::ofstream(file.string()); // create file
+        std::ofstream(file.string());
     }
 }
 

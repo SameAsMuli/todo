@@ -6,6 +6,12 @@
 
 namespace task {
 
+/**
+ * @brief Task type to govern a rejected task.
+ *
+ * Rejected tasks are ones that haven't been actively fulfilled but that should
+ * be removed from the outstanding tasks as they are no long necessary.
+ */
 class Rejected : public CompleteAbstract {
 
   public:

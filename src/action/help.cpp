@@ -9,11 +9,6 @@ namespace action {
 Help::Help(util::Input input)
     : ActionAbstract("help", "Display this help text", input, 1) {}
 
-void Help::addFunctions(std::vector<ActionAbstract *> &functions) {
-    this->m_functions = functions;
-    std::sort(this->m_functions.begin(), this->m_functions.end(), todoFuncComp);
-}
-
 void Help::run() {
     std::string::size_type maxNameLen = 0;
     std::vector<ActionAbstract *>::size_type minSeparatorLen = 3;
@@ -48,6 +43,11 @@ void Help::run() {
 
     std::cout << std::endl;
     std::cout << "Written by Sam Amis" << std::endl;
+}
+
+void Help::addFunctions(std::vector<ActionAbstract *> &functions) {
+    this->m_functions = functions;
+    std::sort(this->m_functions.begin(), this->m_functions.end(), todoFuncComp);
 }
 
 bool Help::todoFuncComp(ActionAbstract *tf1, ActionAbstract *tf2) {

@@ -6,6 +6,11 @@
 
 namespace task {
 
+/**
+ * @brief Task type to govern a normal task.
+ *
+ * This is the most common task type and indicates a standard priority.
+ */
 class Normal : public OutstandingAbstract {
 
   public:

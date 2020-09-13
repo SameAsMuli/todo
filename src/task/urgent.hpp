@@ -6,6 +6,11 @@
 
 namespace task {
 
+/**
+ * @brief Task type to govern an urgent task.
+ *
+ * This indicates a high priority task that needs completing urgently.
+ */
 class Urgent : public OutstandingAbstract {
 
   public:
