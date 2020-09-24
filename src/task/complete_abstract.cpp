@@ -1,8 +1,11 @@
+#include <chrono>    // std::chrono
 #include <cstdio>    // std::perror, std::remove, std::rename
 #include <fstream>   // std::ifstream, std::ofstream
 #include <stdexcept> // std::runtime_error
 
 #include "task/complete_abstract.hpp"
+#include "task/metadata.hpp"
+#include "task/task.hpp"
 #include "todo/files.hpp"
 #include "todo/inspecific_task.hpp"
 #include "todo/unknown_task.hpp"
@@ -36,7 +39,7 @@ void CompleteAbstract::add(const util::Input &input) {
             match = task;
             count++;
         } else if (count <= 1) {
-            temp << task;
+            temp << task << '\n';
         }
     }
 
@@ -51,9 +54,17 @@ void CompleteAbstract::add(const util::Input &input) {
         throw todo::InspecificTask(count);
     }
 
+    /* Update the found task before adding to complete tasks */
+    Metadata metadata;
+    metadata.setTimeAdded(std::chrono::system_clock::now());
+    metadata.setPreviousPrefix(match.getPrefix());
+
+    match.setPrefix(this->getPrefix());
+    match.setMetadata(metadata);
+
     std::ofstream ofs{this->getFile().string(), std::ios_base::app};
     if (ofs.is_open()) {
-        ofs << this->getPrefix() << " " << match.getDescription() << std::endl;
+        ofs << match << std::endl;
     } else {
         throw std::runtime_error{"Unable to open TODO file"};
     }

@@ -3,6 +3,8 @@
 
 #include <iostream> // std::istream
 
+#include "task/metadata.hpp"
+
 namespace task {
 
 /**
@@ -12,6 +14,21 @@ class Task {
 
   public:
     Task();
+
+    /**
+     * @brief Create a task with a given prefix and description.
+     *
+     * @param prefix The prefix for the task.
+     * @param description The description for the task.
+     */
+    Task(char prefix, std::string &description);
+
+    /**
+     * @brief Get the metadata for this task.
+     *
+     * @return The metadata object associated with this task.
+     */
+    Metadata getMetadata() const { return m_metadata; }
 
     /**
      * @brief Get the prefix for this task.
@@ -26,6 +43,27 @@ class Task {
      * @return The description for this task.
      */
     std::string getDescription() const { return m_description; }
+
+    /**
+     * @brief Set the prefix for this task.
+     *
+     * @param prefix The prefix to use.
+     */
+    void setPrefix(char prefix) { m_prefix = prefix; }
+
+    /**
+     * @brief Set the description for this task.
+     *
+     * @param description The description to use.
+     */
+    void setDescription(std::string description) { m_description = description; }
+
+    /**
+     * @brief Set the metadata for the task.
+     *
+     * @param metadata The metadata object to add to the task.
+     */
+    void setMetadata(Metadata metadata) { m_metadata = metadata; }
 
     /**
      * @brief Populate a task from a stream.
@@ -53,6 +91,8 @@ class Task {
     friend std::ostream &operator<<(std::ostream &stream, Task &task);
 
   private:
+    Metadata m_metadata;
+
     char m_prefix;
 
     std::string m_description;

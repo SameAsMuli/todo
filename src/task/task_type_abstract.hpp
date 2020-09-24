@@ -48,6 +48,18 @@ class TaskTypeAbstract {
      */
     virtual void add(const util::Input &input) = 0;
 
+    /**
+     * @brief Output a task type to a given stream.
+     *
+     * Sends the task type's prefix to the stream.
+     *
+     * @param stream The stream to use.
+     * @param taskType The task type to use.
+     *
+     * @return The given stream.
+     */
+    friend std::ostream &operator<<(std::ostream &stream, TaskTypeAbstract *taskType);
+
   private:
     const std::filesystem::path m_file;
 
