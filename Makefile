@@ -52,7 +52,7 @@ $(OBJ)/$(1): | $(OBJ)
 
 $(OBJ)/$(1)/%.o: $(SRC)/$(1)/%.cpp Makefile | $(OBJ)/$(1)
 	@echo "$(CLR_COMP)Compiling $(1)/$$(basename $$(@F))...$(CLR_END)"
-	@$(CXX) -c $(COMP_OPTIONS) -MMD -MD -MP -o $$@ $$<
+	@$(CXX) -c $(COMP_OPTIONS) -MMD -MP -o $$@ $$<
 endef
 
 $(TARGET): $(SRC)/main.cpp $(OBJS) | $(BIN)
