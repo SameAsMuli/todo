@@ -16,11 +16,13 @@ CompleteAbstract::CompleteAbstract(Prefix prefix)
     : TaskTypeAbstract(todo::files::getComplete(), prefix) {}
 
 void CompleteAbstract::add(const util::Input &input) {
+    /* Form the seach string */
     auto searchString = input.toString(util::Input::PARAM_START_INDEX);
     if (searchString.empty()) {
         throw std::logic_error{"Empty input passed to add method"};
     }
 
+    /* Open both the outstanding file and a temp file */
     std::ifstream ifs{todo::files::getOutstanding().string()};
     if (!ifs.is_open()) {
         throw std::runtime_error{"Unable to open TODO file"};
@@ -31,6 +33,7 @@ void CompleteAbstract::add(const util::Input &input) {
         throw std::runtime_error{"Unable to open TODO file"};
     }
 
+    /* Attempt to find tasks that match the search string */
     Task task;
     Task match;
     unsigned int count = 0;
@@ -39,6 +42,7 @@ void CompleteAbstract::add(const util::Input &input) {
             match = task;
             count++;
         } else if (count <= 1) {
+            /* Write any task that doesn't match into the temp file */
             temp << task << '\n';
         }
     }
@@ -46,6 +50,7 @@ void CompleteAbstract::add(const util::Input &input) {
     ifs.close();
     temp.close();
 
+    /* Error if no tasks, or more than one task, matched the search string */
     if (count == 0) {
         std::remove(todo::files::getTemp().string().c_str());
         throw todo::UnknownTask();
@@ -54,7 +59,7 @@ void CompleteAbstract::add(const util::Input &input) {
         throw todo::InspecificTask(count);
     }
 
-    /* Update the found task before adding to complete tasks */
+    /* Update the found task with the current time and the previous prefix */
     Metadata metadata;
     metadata.setTimeAdded(std::chrono::system_clock::now());
     metadata.setPreviousPrefix(match.getPrefix());
@@ -62,6 +67,7 @@ void CompleteAbstract::add(const util::Input &input) {
     match.setPrefix(this->getPrefix());
     match.setMetadata(metadata);
 
+    /* Write the task to the complete file */
     std::ofstream ofs{this->getFile().string(), std::ios_base::app};
     if (ofs.is_open()) {
         ofs << match << std::endl;
@@ -69,6 +75,7 @@ void CompleteAbstract::add(const util::Input &input) {
         throw std::runtime_error{"Unable to open TODO file"};
     }
 
+    /* Overwrite outstanding file with temp file (removes the matched task) */
     if (std::remove(todo::files::getOutstanding().string().c_str()) ||
         std::rename(todo::files::getTemp().string().c_str(),
                     todo::files::getOutstanding().string().c_str())) {
