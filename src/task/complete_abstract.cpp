@@ -12,7 +12,7 @@
 
 namespace task {
 
-CompleteAbstract::CompleteAbstract(char prefix)
+CompleteAbstract::CompleteAbstract(Prefix prefix)
     : TaskTypeAbstract(todo::files::getComplete(), prefix) {}
 
 void CompleteAbstract::add(const util::Input &input) {

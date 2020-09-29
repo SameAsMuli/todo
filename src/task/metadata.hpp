@@ -4,6 +4,8 @@
 #include <chrono>   // std::chrono
 #include <iostream> // std::istream, std::ostream
 
+#include "task/prefix.hpp"
+
 namespace task {
 
 /**
@@ -33,11 +35,9 @@ class Metadata {
      * this case the previous task type's prefix is returned. If there is no
      * previous task type then ' ' is returned.
      *
-     * TODO-SAM Create a prefix class and define NULL_PREFIX.
-     *
      * @return The previous prefix or ' ', if none exists.
      */
-    char getPreviousPrefix() { return m_previousPrefix; }
+    Prefix getPreviousPrefix() { return m_previousPrefix; }
 
     /**
      * @brief Set the time the task was added (as its current task type).
@@ -53,7 +53,7 @@ class Metadata {
      *
      * @param previousPrefix The previous prefix.
      */
-    void setPreviousPrefix(char previousPrefix) {
+    void setPreviousPrefix(Prefix previousPrefix) {
         m_previousPrefix = previousPrefix;
     }
 
@@ -81,12 +81,12 @@ class Metadata {
      *
      * @return The given stream.
      */
-    friend std::ostream &operator<<(std::ostream &stream, Metadata &metadata);
+    friend std::ostream &operator<<(std::ostream &stream, Metadata metadata);
 
   private:
     std::chrono::system_clock::time_point m_timeAdded;
 
-    char m_previousPrefix;
+    Prefix m_previousPrefix;
 };
 
 } // namespace task

@@ -17,7 +17,7 @@ class OutstandingAbstract : public TaskTypeAbstract {
      *
      * @param prefix The prefix for the task type.
      */
-    OutstandingAbstract(char prefix);
+    OutstandingAbstract(Prefix prefix);
 
     /**
      * @brief Add a task description to the outstanding_tasks data file.

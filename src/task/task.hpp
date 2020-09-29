@@ -4,6 +4,7 @@
 #include <iostream> // std::istream
 
 #include "task/metadata.hpp"
+#include "task/prefix.hpp"
 
 namespace task {
 
@@ -21,7 +22,7 @@ class Task {
      * @param prefix The prefix for the task.
      * @param description The description for the task.
      */
-    Task(char prefix, std::string &description);
+    Task(Prefix prefix, std::string &description);
 
     /**
      * @brief Get the metadata for this task.
@@ -35,7 +36,7 @@ class Task {
      *
      * @return The character that prefixes this task.
      */
-    char getPrefix() const { return m_prefix; }
+    Prefix getPrefix() const { return m_prefix; }
 
     /**
      * @brief Get the description for this task.
@@ -49,7 +50,7 @@ class Task {
      *
      * @param prefix The prefix to use.
      */
-    void setPrefix(char prefix) { m_prefix = prefix; }
+    void setPrefix(Prefix prefix) { m_prefix = prefix; }
 
     /**
      * @brief Set the description for this task.
@@ -88,12 +89,12 @@ class Task {
      *
      * @return The given stream.
      */
-    friend std::ostream &operator<<(std::ostream &stream, Task &task);
+    friend std::ostream &operator<<(std::ostream &stream, Task task);
 
   private:
     Metadata m_metadata;
 
-    char m_prefix;
+    Prefix m_prefix;
 
     std::string m_description;
 };

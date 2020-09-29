@@ -8,7 +8,7 @@
 namespace task {
 
 TaskTypeAbstract::TaskTypeAbstract(const std::filesystem::path &file,
-                                   char prefix)
+                                   Prefix prefix)
     : m_file(file), m_prefix(prefix) {}
 
 void TaskTypeAbstract::view() {
@@ -17,7 +17,7 @@ void TaskTypeAbstract::view() {
     if (ifs.is_open()) {
         Task task;
         while (ifs >> task) {
-            if (task.getPrefix() == this->getPrefix()) {
+            if (this->getPrefix() == task.getPrefix()) {
                 std::cout << this->format(task) << std::endl;
             }
         }

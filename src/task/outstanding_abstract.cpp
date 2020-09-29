@@ -9,7 +9,7 @@
 
 namespace task {
 
-OutstandingAbstract::OutstandingAbstract(char prefix)
+OutstandingAbstract::OutstandingAbstract(Prefix prefix)
     : TaskTypeAbstract(todo::files::getOutstanding(), prefix) {}
 
 void OutstandingAbstract::add(const util::Input &input) {

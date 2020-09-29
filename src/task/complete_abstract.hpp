@@ -17,7 +17,7 @@ class CompleteAbstract : public TaskTypeAbstract {
      *
      * @param prefix The prefix for the task type.
      */
-    CompleteAbstract(char prefix);
+    CompleteAbstract(Prefix prefix);
 
     /**
      * @brief Find a task in outstanding_tasks and move it to complete_tasks.

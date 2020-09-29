@@ -4,6 +4,7 @@
 #include <time.h>  // std::strftime, std::time_t
 
 #include "task/metadata.hpp"
+#include "task/prefix.hpp"
 
 namespace {
 
@@ -35,8 +36,7 @@ std::istream &operator>>(std::istream &stream, Metadata &metadata) {
             std::chrono::system_clock::from_time_t(std::mktime(&tm));
 
         /* Decode the previous prefix */
-        /* TODO-SAM Should we verify prefix has length 1? */
-        metadata.m_previousPrefix = previousPrefix[0];
+        metadata.m_previousPrefix.setCharacter(previousPrefix[0]);
     } else {
         /* One operation failed so set the state on the main stream to
          * indicate failure. */
@@ -46,7 +46,7 @@ std::istream &operator>>(std::istream &stream, Metadata &metadata) {
     return stream;
 }
 
-std::ostream &operator<<(std::ostream &stream, Metadata &metadata) {
+std::ostream &operator<<(std::ostream &stream, Metadata metadata) {
     /* Output the time added to the stream */
     std::time_t timer =
         std::chrono::system_clock::to_time_t(metadata.getTimeAdded());

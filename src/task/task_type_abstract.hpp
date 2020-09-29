@@ -20,7 +20,7 @@ class TaskTypeAbstract {
      * @param file The file used to store the task type.
      * @param prefix The prefix for the task type.
      */
-    TaskTypeAbstract(const std::filesystem::path &file, char prefix);
+    TaskTypeAbstract(const std::filesystem::path &file, Prefix prefix);
 
     /**
      * @brief Get the data file into which this task type is written.
@@ -34,7 +34,7 @@ class TaskTypeAbstract {
      *
      * @return The character prefix for this task type.
      */
-    char getPrefix() const { return m_prefix; }
+    Prefix getPrefix() const { return m_prefix; }
 
     /**
      * @brief Print all tasks of this task type.
@@ -63,7 +63,7 @@ class TaskTypeAbstract {
   private:
     const std::filesystem::path m_file;
 
-    const char m_prefix;
+    const Prefix m_prefix;
 
     /**
      * @brief Print a single task.
