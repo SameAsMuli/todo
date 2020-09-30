@@ -58,7 +58,7 @@ class TaskTypeAbstract {
      *
      * @return The given stream.
      */
-    friend std::ostream &operator<<(std::ostream &stream, TaskTypeAbstract *taskType);
+    friend std::ostream &operator<<(std::ostream &stream, const TaskTypeAbstract *taskType);
 
   private:
     const std::filesystem::path m_file;

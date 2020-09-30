@@ -89,7 +89,7 @@ class Task {
      *
      * @return The given stream.
      */
-    friend std::ostream &operator<<(std::ostream &stream, Task task);
+    friend std::ostream &operator<<(std::ostream &stream, const Task &task);
 
   private:
     Metadata m_metadata;

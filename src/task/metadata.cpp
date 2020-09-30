@@ -46,7 +46,7 @@ std::istream &operator>>(std::istream &stream, Metadata &metadata) {
     return stream;
 }
 
-std::ostream &operator<<(std::ostream &stream, Metadata metadata) {
+std::ostream &operator<<(std::ostream &stream, const Metadata &metadata) {
     /* Output the time added to the stream */
     std::time_t timer =
         std::chrono::system_clock::to_time_t(metadata.getTimeAdded());

@@ -37,7 +37,7 @@ std::istream &operator>>(std::istream &stream, Prefix &prefix) {
     return stream;
 }
 
-std::ostream &operator<<(std::ostream &stream, Prefix prefix) {
+std::ostream &operator<<(std::ostream &stream, const Prefix &prefix) {
     stream << prefix.m_character;
     return stream;
 }

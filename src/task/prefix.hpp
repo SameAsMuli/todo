@@ -69,7 +69,7 @@ class Prefix {
      *
      * @return The given stream.
      */
-    friend std::ostream &operator<<(std::ostream &stream, Prefix prefix);
+    friend std::ostream &operator<<(std::ostream &stream, const Prefix &prefix);
 
   private:
     char m_character;
