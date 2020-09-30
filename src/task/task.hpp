@@ -57,7 +57,9 @@ class Task {
      *
      * @param description The description to use.
      */
-    void setDescription(std::string description) { m_description = description; }
+    void setDescription(std::string description) {
+        m_description = description;
+    }
 
     /**
      * @brief Set the metadata for the task.

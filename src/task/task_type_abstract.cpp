@@ -26,7 +26,8 @@ void TaskTypeAbstract::view() {
     }
 }
 
-std::ostream &operator<<(std::ostream &stream, const TaskTypeAbstract *taskType) {
+std::ostream &operator<<(std::ostream &stream,
+                         const TaskTypeAbstract *taskType) {
     stream << taskType->getPrefix() << std::endl;
     return stream;
 }

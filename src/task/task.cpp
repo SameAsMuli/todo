@@ -38,7 +38,8 @@ std::istream &operator>>(std::istream &stream, Task &task) {
 }
 
 std::ostream &operator<<(std::ostream &stream, const Task &task) {
-    stream << task.getMetadata() << task.getPrefix() << " " << task.getDescription();
+    stream << task.getMetadata() << task.getPrefix() << " "
+           << task.getDescription();
     return stream;
 }
 

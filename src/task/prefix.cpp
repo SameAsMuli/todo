@@ -21,14 +21,15 @@ void Prefix::setCharacter(char character) {
 }
 
 bool Prefix::operator==(Prefix prefix) {
-  return this->m_character == prefix.m_character;
+    return this->m_character == prefix.m_character;
 }
 
 std::istream &operator>>(std::istream &stream, Prefix &prefix) {
     auto character = stream.get();
 
     if (character == EOF) {
-        /* Stream is empty when it wasn't expected it to be, so set the failbit */
+        /* Stream is empty when it wasn't expected it to be, so set the failbit
+         */
         stream.setstate(std::ios::failbit);
     } else {
         prefix.setCharacter(character);

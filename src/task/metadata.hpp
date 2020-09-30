@@ -26,7 +26,9 @@ class Metadata {
      *
      * @return A chrono time point indicating when the task was added.
      */
-    std::chrono::system_clock::time_point getTimeAdded() const { return m_timeAdded; }
+    std::chrono::system_clock::time_point getTimeAdded() const {
+        return m_timeAdded;
+    }
 
     /**
      * @brief Return the task's former prefix if it had one.
@@ -81,7 +83,8 @@ class Metadata {
      *
      * @return The given stream.
      */
-    friend std::ostream &operator<<(std::ostream &stream, const Metadata &metadata);
+    friend std::ostream &operator<<(std::ostream &stream,
+                                    const Metadata &metadata);
 
   private:
     std::chrono::system_clock::time_point m_timeAdded;
