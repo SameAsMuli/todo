@@ -20,7 +20,7 @@ class Remove : public ActionAbstract {
     Remove(util::Input input);
 
     /**
-     * @brief Print the help text and list all available functions.
+     * @brief Remove matching task.
      */
     void run() override;
 };

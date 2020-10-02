@@ -7,7 +7,9 @@
 #include "task/metadata.hpp"
 #include "task/prefix.hpp"
 #include "task/task.hpp"
+#include "todo/empty_argument.hpp"
 #include "todo/files.hpp"
+#include "util/input.hpp"
 
 namespace task {
 
@@ -40,6 +42,11 @@ void CompleteAbstract::add(const util::Input &input) {
 }
 
 void CompleteAbstract::undo(const util::Input &input) {
+    /* Check the input */
+    if (!input.hasOption(util::Input::PARAM_START_INDEX)) {
+        throw todo::EmptyArgument{"undo"};
+    }
+
     /* Make sure we can open the outstanding file */
     std::ofstream ofs{todo::files::getOutstanding().string(),
                       std::ios_base::app};

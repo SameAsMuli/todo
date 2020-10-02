@@ -3,6 +3,7 @@
 #include <vector>    // std::vector
 
 #include "action/add.hpp"
+#include "action/archive.hpp"
 #include "action/done.hpp"
 #include "action/help.hpp"
 #include "action/low.hpp"
@@ -36,6 +37,7 @@ int main(int argc, char **argv) {
     actions.push_back(&view);
 
     actions.push_back(new action::Add{input});
+    actions.push_back(new action::Archive{input});
     actions.push_back(new action::Done{input});
     actions.push_back(new action::Low{input});
     actions.push_back(new action::Reject{input});
