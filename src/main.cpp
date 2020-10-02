@@ -7,6 +7,8 @@
 #include "action/help.hpp"
 #include "action/low.hpp"
 #include "action/reject.hpp"
+#include "action/remove.hpp"
+#include "action/undo.hpp"
 #include "action/urgent.hpp"
 #include "action/view.hpp"
 #include "todo/files.hpp"
@@ -33,11 +35,13 @@ int main(int argc, char **argv) {
     action::View view{input};
     actions.push_back(&view);
 
-    actions.push_back(new action::Urgent{input});
     actions.push_back(new action::Add{input});
-    actions.push_back(new action::Low{input});
     actions.push_back(new action::Done{input});
+    actions.push_back(new action::Low{input});
     actions.push_back(new action::Reject{input});
+    actions.push_back(new action::Remove{input});
+    actions.push_back(new action::Undo{input});
+    actions.push_back(new action::Urgent{input});
 
     /* Pass the list of actions to the help action */
     help.addFunctions(actions);

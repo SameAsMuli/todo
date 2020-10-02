@@ -42,6 +42,19 @@ class Metadata {
     Prefix getPreviousPrefix() const { return m_previousPrefix; }
 
     /**
+     * @brief Return the time the task was added (as the previous task type).
+     *
+     * A task may be added as one type and then re-added as another type. In
+     * this case the previous task's time added is returned. If there is no
+     * previous time added then the start of system_clock is returned.
+     *
+     * @return A chrono time point for the addition of the previous prefix.
+     */
+    std::chrono::system_clock::time_point getPreviousTimeAdded() const {
+        return m_previousTimeAdded;
+    }
+
+    /**
      * @brief Set the time the task was added (as its current task type).
      *
      * @param timeAdded A chrono time point indicating when the task was added.
@@ -57,6 +70,15 @@ class Metadata {
      */
     void setPreviousPrefix(Prefix previousPrefix) {
         m_previousPrefix = previousPrefix;
+    }
+
+    /**
+     * @brief Set the time the task was added (as the previous task type).
+     *
+     * @param timeAdded A chrono time point for addtion of the previous prefix.
+     */
+    void setPreviousTimeAdded(std::chrono::system_clock::time_point timeAdded) {
+        m_previousTimeAdded = timeAdded;
     }
 
     /**
@@ -90,6 +112,8 @@ class Metadata {
     std::chrono::system_clock::time_point m_timeAdded;
 
     Prefix m_previousPrefix;
+
+    std::chrono::system_clock::time_point m_previousTimeAdded;
 };
 
 } // namespace task
