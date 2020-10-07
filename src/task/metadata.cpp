@@ -8,8 +8,6 @@
 
 namespace {
 
-static const char *DATE_TIME_FORMAT = "%F %T";
-static const size_t DATE_TIME_LEN = 20;
 static const char DELIMITER = ';';
 
 } // namespace
@@ -22,33 +20,32 @@ std::istream &operator>>(std::istream &stream, Metadata &metadata) {
     std::string previousPrefix;
     std::string previousTimestamp;
     std::string timestamp;
-    std::tm tm = {};
+    std::time_t time;
 
     if (std::getline(stream, timestamp, DELIMITER) &&
         std::getline(stream, previousPrefix, DELIMITER) &&
         std::getline(stream, previousTimestamp, DELIMITER)) {
         /* Decode the time added timestamp */
         std::stringstream ss{timestamp};
-        ss >> std::get_time(&tm, DATE_TIME_FORMAT);
+        ss >> time;
         if (ss.fail()) {
             stream.setstate(std::ios::failbit);
             return stream;
         }
-        metadata.m_timeAdded =
-            std::chrono::system_clock::from_time_t(std::mktime(&tm));
+        metadata.m_timeAdded = std::chrono::system_clock::from_time_t(time);
 
         /* Decode the previous prefix */
         metadata.m_previousPrefix.setCharacter(previousPrefix[0]);
 
         /* Decode the previous time added timestamp */
         ss = std::stringstream{previousTimestamp};
-        ss >> std::get_time(&tm, DATE_TIME_FORMAT);
+        ss >> time;
         if (ss.fail()) {
             stream.setstate(std::ios::failbit);
             return stream;
         }
         metadata.m_previousTimeAdded =
-            std::chrono::system_clock::from_time_t(std::mktime(&tm));
+            std::chrono::system_clock::from_time_t(time);
     } else {
         /* One operation failed so set the state on the main stream to
          * indicate failure. */
@@ -60,26 +57,16 @@ std::istream &operator>>(std::istream &stream, Metadata &metadata) {
 
 std::ostream &operator<<(std::ostream &stream, const Metadata &metadata) {
     /* Output the time added to the stream */
-    std::time_t timer =
-        std::chrono::system_clock::to_time_t(metadata.getTimeAdded());
-    char timestamp[DATE_TIME_LEN];
-
-    std::strftime(timestamp, DATE_TIME_LEN, DATE_TIME_FORMAT,
-                  std::localtime(&timer));
-
-    stream << timestamp << DELIMITER;
+    stream << std::chrono::system_clock::to_time_t(metadata.getTimeAdded())
+           << DELIMITER;
 
     /* Output the previous task prefix to the stream */
     stream << metadata.getPreviousPrefix() << DELIMITER;
 
     /* Output the previous time added to the stream */
-    timer =
-        std::chrono::system_clock::to_time_t(metadata.getPreviousTimeAdded());
-
-    std::strftime(timestamp, DATE_TIME_LEN, DATE_TIME_FORMAT,
-                  std::localtime(&timer));
-
-    stream << timestamp << DELIMITER;
+    stream << std::chrono::system_clock::to_time_t(
+                  metadata.getPreviousTimeAdded())
+           << DELIMITER;
 
     return stream;
 }
