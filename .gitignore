@@ -1,6 +1,16 @@
-bin
-doxydoc
-obj
-refs
+# Ignore build directory
+build
 
+# Ignore cmake generated directories and files
+CMakeCache.txt
+CmakeFiles
+cmake_install.cmake
+install_manifest.txt
+Makefile
+todo
+
+# Ignore Doxygen directory
+doxydoc
+
+# Ignore any open files
 *.swp
