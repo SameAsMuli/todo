@@ -36,5 +36,9 @@ target_compile_options(${PROJECT_NAME} PUBLIC -std=c++17 -g -pedantic -Wall
   -Woverloaded-virtual -Wredundant-decls -Wshadow -Wsign-conversion -Wsign-promo
   -Wstrict-overflow=5 -Wundef -Wswitch-default -Werror -Wno-unused)
 
+# Include Google Test
+include(cmake/googletest.cmake)
+fetch_googletest()
+
 # Define how to install binary
 install(TARGETS ${PROJECT_NAME} DESTINATION bin)
