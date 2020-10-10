@@ -17,11 +17,15 @@ endif(CCACHE_FOUND)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-# Find all source files
-file(GLOB_RECURSE SOURCES src/*.cpp)
-
 # Define binary and how to build it
-add_executable(${PROJECT_NAME} ${SOURCES})
+add_subdirectory(src/action)
+add_subdirectory(src/task)
+add_subdirectory(src/todo)
+add_subdirectory(src/util)
+
+add_executable(${PROJECT_NAME} src/main.cpp)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE action task todo_lib util)
 
 target_include_directories(${PROJECT_NAME} PUBLIC src)
 
