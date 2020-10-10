@@ -3,6 +3,7 @@
 #include "task/rejected.hpp"
 #include "util/ansi.hpp"
 
+namespace todo {
 namespace task {
 
 Rejected::Rejected() : CompleteAbstract('/') {}
@@ -17,3 +18,4 @@ std::string Rejected::format(const Task &task) {
 }
 
 } // namespace task
+} // namespace todo

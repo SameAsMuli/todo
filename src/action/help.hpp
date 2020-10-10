@@ -6,6 +6,7 @@
 #include "action/action_abstract.hpp"
 #include "util/input.hpp"
 
+namespace todo {
 namespace action {
 
 /**
@@ -50,3 +51,4 @@ class Help : public ActionAbstract {
 #endif
 
 } // namespace action
+} // namespace todo

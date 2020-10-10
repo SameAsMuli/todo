@@ -6,6 +6,7 @@
 #include "task/metadata.hpp"
 #include "task/prefix.hpp"
 
+namespace todo {
 namespace task {
 
 /**
@@ -102,5 +103,6 @@ class Task {
 };
 
 } // namespace task
+} // namespace todo
 
 #endif

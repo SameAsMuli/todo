@@ -10,6 +10,7 @@
 #include "task/rejected.hpp"
 #include "task/urgent.hpp"
 
+namespace todo {
 namespace action {
 
 View::View(const util::Input &input)
@@ -42,7 +43,7 @@ void View::run() {
     } else if (option == "reject") {
         this->rejectTodos();
     } else {
-        throw todo::error::UnknownArgument(option);
+        throw error::UnknownArgument(option);
     }
 }
 
@@ -76,3 +77,4 @@ void View::viewTodos(task::TaskTypeAbstract *const taskType) const {
 }
 
 } // namespace action
+} // namespace todo

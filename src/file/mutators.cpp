@@ -55,9 +55,9 @@ task::Task removeTask(const std::string &searchString,
     /* Error if no tasks, or more than one task, matched the search string */
     auto numMatches = matchingTasks.size();
     if (numMatches == 0) {
-        throw todo::error::UnknownTask();
+        throw error::UnknownTask();
     } else if (numMatches > 1) {
-        throw todo::error::InspecificTask(numMatches);
+        throw error::InspecificTask(numMatches);
     }
 
     /* Open a temp file */

@@ -3,6 +3,7 @@
 
 #include <iostream> // std::istream, std::ostream
 
+namespace todo {
 namespace task {
 
 /**
@@ -76,5 +77,6 @@ class Prefix {
 };
 
 } // namespace task
+} // namespace todo
 
 #endif

@@ -7,10 +7,11 @@
 #include "task/metadata.hpp"
 #include "task/outstanding_abstract.hpp"
 
+namespace todo {
 namespace task {
 
 OutstandingAbstract::OutstandingAbstract(Prefix prefix)
-    : TaskTypeAbstract(todo::file::getOutstanding(), prefix) {}
+    : TaskTypeAbstract(file::getOutstanding(), prefix) {}
 
 void OutstandingAbstract::add(const util::Input &input) {
     auto description = input.toString(util::Input::PARAM_START_INDEX);
@@ -34,3 +35,4 @@ void OutstandingAbstract::add(const util::Input &input) {
 }
 
 } // namespace task
+} // namespace todo

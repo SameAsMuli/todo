@@ -6,6 +6,7 @@
 #include "action/action_abstract.hpp"
 #include "task/task_type_abstract.hpp"
 
+namespace todo {
 namespace action {
 
 /**
@@ -78,3 +79,4 @@ class View : public ActionAbstract {
 #endif
 
 } // namespace action
+} // namespace todo

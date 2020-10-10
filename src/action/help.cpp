@@ -4,6 +4,7 @@
 
 #include "action/help.hpp"
 
+namespace todo {
 namespace action {
 
 Help::Help(util::Input input)
@@ -55,3 +56,4 @@ bool Help::todoFuncComp(ActionAbstract *tf1, ActionAbstract *tf2) {
 }
 
 } // namespace action
+} // namespace todo

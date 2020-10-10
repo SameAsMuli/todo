@@ -4,6 +4,7 @@
 #include "action/action_abstract.hpp"
 #include "util/input.hpp"
 
+namespace todo {
 namespace action {
 
 /**
@@ -28,3 +29,4 @@ class Archive : public ActionAbstract {
 #endif
 
 } // namespace action
+} // namespace todo

@@ -3,6 +3,7 @@
 #include "task/done.hpp"
 #include "util/ansi.hpp"
 
+namespace todo {
 namespace task {
 
 Done::Done() : CompleteAbstract('+') {}
@@ -17,3 +18,4 @@ std::string Done::format(const Task &task) {
 }
 
 } // namespace task
+} // namespace todo

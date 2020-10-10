@@ -5,6 +5,7 @@
 #include "task/task.hpp"
 #include "task/task_type_abstract.hpp"
 
+namespace todo {
 namespace task {
 
 TaskTypeAbstract::TaskTypeAbstract(const std::filesystem::path &file,
@@ -33,3 +34,4 @@ std::ostream &operator<<(std::ostream &stream,
 }
 
 } // namespace task
+} // namespace todo

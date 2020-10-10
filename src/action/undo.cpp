@@ -2,6 +2,7 @@
 #include "file/mutators.hpp"
 #include "task/complete_abstract.hpp"
 
+namespace todo {
 namespace action {
 
 Undo::Undo(util::Input input)
@@ -10,3 +11,4 @@ Undo::Undo(util::Input input)
 void Undo::run() { task::CompleteAbstract::undo(this->getInput()); }
 
 } // namespace action
+} // namespace todo

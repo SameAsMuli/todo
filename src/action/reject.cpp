@@ -1,6 +1,7 @@
 #include "action/reject.hpp"
 #include "task/rejected.hpp"
 
+namespace todo {
 namespace action {
 
 Reject::Reject(const util::Input &input)
@@ -8,3 +9,4 @@ Reject::Reject(const util::Input &input)
                   new task::Rejected{}) {}
 
 } // namespace action
+} // namespace todo

@@ -1,6 +1,7 @@
 #include "action/add.hpp"
 #include "task/normal.hpp"
 
+namespace todo {
 namespace action {
 
 Add::Add(const util::Input &input)
@@ -8,3 +9,4 @@ Add::Add(const util::Input &input)
                   new task::Normal{}) {}
 
 } // namespace action
+} // namespace todo

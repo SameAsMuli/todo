@@ -6,6 +6,7 @@
 
 #include "util/input.hpp"
 
+namespace todo {
 namespace action {
 
 /**
@@ -85,5 +86,6 @@ class ActionAbstract {
 };
 
 } // namespace action
+} // namespace todo
 
 #endif

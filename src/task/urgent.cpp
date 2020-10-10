@@ -3,6 +3,7 @@
 #include "task/urgent.hpp"
 #include "util/ansi.hpp"
 
+namespace todo {
 namespace task {
 
 Urgent::Urgent() : OutstandingAbstract('!') {}
@@ -17,3 +18,4 @@ std::string Urgent::format(const Task &task) {
 }
 
 } // namespace task
+} // namespace todo

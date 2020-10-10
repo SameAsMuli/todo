@@ -6,6 +6,7 @@
 #include "task/task.hpp"
 #include "util/input.hpp"
 
+namespace todo {
 namespace task {
 
 /**
@@ -79,5 +80,6 @@ class TaskTypeAbstract {
 };
 
 } // namespace task
+} // namespace todo
 
 #endif
