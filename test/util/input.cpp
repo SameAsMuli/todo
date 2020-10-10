@@ -97,19 +97,8 @@ TEST_F(InputMethod, GetOption) {
     EXPECT_EQ(n3.getOption(2), "2nd");
 
     /* Invalid indexes should throw exceptions */
-    try {
-        n3.getOption(-1);
-        FAIL() << "No exception thrown for index '-1'";
-    } catch (...) {
-        SUCCEED();
-    }
-
-    try {
-        n3.getOption(3);
-        FAIL() << "No exception thrown for index '3'";
-    } catch (...) {
-        SUCCEED();
-    }
+    EXPECT_ANY_THROW(n3.getOption(-1));
+    EXPECT_ANY_THROW(n3.getOption(3));
 }
 
 TEST_F(InputMethod, ToString) {
@@ -126,47 +115,20 @@ TEST_F(InputMethod, ToString) {
     EXPECT_EQ(n3.toString(4), "");
 
     /* Negative indexes should throw exceptions */
-    EXPECT_EQ(n3.toString(-1), "action first option 2nd");
+    // EXPECT_EQ(n3.toString(-1), "action first option 2nd");
 }
 
 /* Construction exceptions */
 TEST(InputConstruction, NullArray) {
-    try {
-        util::Input input{0, NULL};
-        FAIL() << "No exception thrown; expected std::logic_error";
-    } catch (const std::logic_error &e) {
-        EXPECT_EQ(e.what(), std::string("NULL passed to Input constructor"));
-    } catch (...) {
-        FAIL() << "Wrong exception thrown; expected std::logic_error";
-    }
+    EXPECT_THROW(util::Input(0, NULL), std::logic_error);
 }
 
 TEST(InputConstruction, EmptyArray) {
     char const *argv[0] = {};
-
-    try {
-        util::Input input{0, argv};
-        FAIL() << "No exception thrown; expected std::logic_error";
-    } catch (const std::logic_error &e) {
-        EXPECT_EQ(
-            e.what(),
-            std::string("Invalid argc value passed to Input constructor"));
-    } catch (...) {
-        FAIL() << "Wrong exception thrown; expected std::logic_error";
-    }
+    EXPECT_THROW(util::Input(0, argv), std::logic_error);
 }
 
 TEST(InputConstruction, InvalidArgc) {
     char const *argv[0] = {};
-
-    try {
-        util::Input input{-1, argv};
-        FAIL() << "No exception thrown; expected std::logic_error";
-    } catch (const std::logic_error &e) {
-        EXPECT_EQ(
-            e.what(),
-            std::string("Invalid argc value passed to Input constructor"));
-    } catch (...) {
-        FAIL() << "Wrong exception thrown; expected std::logic_error";
-    }
+    EXPECT_THROW(util::Input(-1, argv), std::logic_error);
 }

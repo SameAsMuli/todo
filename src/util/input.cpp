@@ -1,10 +1,20 @@
 #include <algorithm> // std::find
+#include <stdexcept> // std::logic_error
 
 #include "util/input.hpp"
 
 namespace util {
 
 Input::Input(int argc, char const *const *argv) {
+    if (argv == NULL) {
+        throw std::logic_error{"NULL passed to Input constructor"};
+    }
+
+    if (argc < 1) {
+        throw std::logic_error{
+            "Invalid argc value passed to Input constructor"};
+    }
+
     for (int i = 1; i < argc; ++i) {
         this->m_tokens.push_back(std::string(argv[i]));
     }
@@ -26,12 +36,20 @@ bool Input::hasOption(const std::string &option) const {
 }
 
 bool Input::hasOption(std::vector<std::string>::size_type index) const {
+    if (index < 0) {
+        return false;
+    }
+
     return this->m_tokens.size() > index;
 }
 
 bool Input::hasOption(const std::string &option,
                       std::vector<std::string>::size_type index) const {
-    return this->m_tokens.at(index) == option;
+    if (!this->hasOption(index)) {
+        return false;
+    }
+
+    return this->getOption(index) == option;
 }
 
 std::string Input::getOption(std::vector<std::string>::size_type index) const {
