@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.4)
+cmake_minimum_required(VERSION 3.7)
 
 # Define Project
 project(
@@ -39,6 +39,10 @@ target_compile_options(${PROJECT_NAME} PUBLIC -std=c++17 -g -pedantic -Wall
 # Include Google Test
 include(cmake/googletest.cmake)
 fetch_googletest()
+
+# Include tests
+enable_testing()
+add_subdirectory(test)
 
 # Define how to install binary
 install(TARGETS ${PROJECT_NAME} DESTINATION bin)
