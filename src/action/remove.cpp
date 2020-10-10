@@ -1,6 +1,6 @@
 #include "action/remove.hpp"
-#include "todo/empty_argument.hpp"
-#include "todo/files.hpp"
+#include "error/empty_argument.hpp"
+#include "file/mutators.hpp"
 
 namespace action {
 
@@ -12,10 +12,10 @@ void Remove::run() {
     auto searchString =
         this->getInput().toString(util::Input::PARAM_START_INDEX);
     if (searchString.empty()) {
-        throw todo::EmptyArgument{"remove"};
+        throw todo::error::EmptyArgument{"remove"};
     }
 
-    todo::files::removeTask(searchString, todo::files::getOutstanding());
+    todo::file::removeTask(searchString, todo::file::getOutstanding());
 }
 
 } // namespace action

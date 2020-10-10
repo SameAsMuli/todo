@@ -8,7 +8,7 @@
 #include "task/task.hpp"
 
 namespace todo {
-namespace files {
+namespace file {
 
 /**
  * @brief Create the applications data files if necessary.
@@ -114,7 +114,7 @@ std::vector<task::Task> removeTasks(const std::string &searchString,
  */
 void archive(unsigned int maxMins);
 
-} // namespace files
+} // namespace file
 } // namespace todo
 
 #endif

@@ -1,9 +1,10 @@
-#ifndef TODO_INSPECIFIC_TASK_H
-#define TODO_INSPECIFIC_TASK_H
+#ifndef TODO_ERROR_INSPECIFIC_TASK_H
+#define TODO_ERROR_INSPECIFIC_TASK_H
 
 #include <stdexcept> // std::runtime_error
 
 namespace todo {
+namespace error {
 
 /**
  * @brief Error for receiving too vague a task description from the user.
@@ -19,6 +20,7 @@ class InspecificTask : public std::runtime_error {
     InspecificTask(unsigned int count);
 };
 
+} // namespace error
 } // namespace todo
 
 #endif

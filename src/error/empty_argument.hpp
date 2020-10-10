@@ -1,10 +1,11 @@
-#ifndef TODO_EMPTY_ARGUMENT_H
-#define TODO_EMPTY_ARGUMENT_H
+#ifndef TODO_ERROR_EMPTY_ARGUMENT_H
+#define TODO_ERROR_EMPTY_ARGUMENT_H
 
 #include <stdexcept> // std::runtime_error
 #include <string>    // std::string
 
 namespace todo {
+namespace error {
 
 /**
  * @brief Error for receiving no arguments from the user.
@@ -18,6 +19,7 @@ class EmptyArgument : public std::runtime_error {
     EmptyArgument(const std::string &method);
 };
 
+} // namespace error
 } // namespace todo
 
 #endif

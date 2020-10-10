@@ -4,12 +4,13 @@
 #include <stdexcept>  // std::runtime_error
 #include <string>     // std::string
 
+#include "error/inspecific_task.hpp"
+#include "error/unknown_task.hpp"
+#include "file/accessors.hpp"
+#include "file/definitions.hpp"
+#include "file/mutators.hpp"
 #include "task/metadata.hpp"
-#include "todo/files.hpp"
-#include "todo/inspecific_task.hpp"
-#include "todo/unknown_task.hpp"
 #include "util/fs.hpp"
-#include "util/xdg.hpp"
 
 namespace {
 
@@ -31,7 +32,7 @@ void initialiseFile(const std::filesystem::path &file) {
 } // namespace
 
 namespace todo {
-namespace files {
+namespace file {
 
 void initialise() {
     if (util::fs::HomeDir().empty()) {
@@ -46,43 +47,6 @@ void initialise() {
     archive(1440);
 }
 
-std::filesystem::path getOutstanding() {
-    return getTodoDir() / "outstanding_tasks";
-}
-
-std::filesystem::path getComplete() { return getTodoDir() / "complete_tasks"; }
-
-std::filesystem::path getArchive() { return getTodoDir() / "archive"; }
-
-std::filesystem::path getTemp() { return getTodoDir() / "temp"; }
-
-std::filesystem::path getTodoDir() { return util::xdg::configHome() / "todo"; }
-
-std::pair<std::vector<task::Task>, std::vector<task::Task>>
-search(const std::string &searchString, const std::filesystem::path &file) {
-    /* Open the given file */
-    std::ifstream fileStream{file.string()};
-    if (!fileStream.is_open()) {
-        throw std::runtime_error{"Unable to open TODO file"};
-    }
-
-    std::vector<task::Task> matchingTasks;
-    std::vector<task::Task> nonMatchingTasks;
-
-    /* Attempt to find tasks that match the search string */
-    task::Task task;
-    while (fileStream >> task) {
-        if (task.getDescription().find(searchString) != std::string::npos) {
-            matchingTasks.push_back(task);
-        } else {
-            nonMatchingTasks.push_back(task);
-        }
-    }
-
-    return std::pair<std::vector<task::Task>, std::vector<task::Task>>{
-        matchingTasks, nonMatchingTasks};
-}
-
 task::Task removeTask(const std::string &searchString,
                       const std::filesystem::path &file) {
     /* Search for matching tasks */
@@ -91,9 +55,9 @@ task::Task removeTask(const std::string &searchString,
     /* Error if no tasks, or more than one task, matched the search string */
     auto numMatches = matchingTasks.size();
     if (numMatches == 0) {
-        throw todo::UnknownTask();
+        throw todo::error::UnknownTask();
     } else if (numMatches > 1) {
-        throw todo::InspecificTask(numMatches);
+        throw todo::error::InspecificTask(numMatches);
     }
 
     /* Open a temp file */
@@ -202,5 +166,5 @@ void archive(unsigned int maxMins) {
     }
 }
 
-} // namespace files
+} // namespace file
 } // namespace todo

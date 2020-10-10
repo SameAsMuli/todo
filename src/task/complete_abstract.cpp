@@ -3,18 +3,18 @@
 #include <fstream>   // std::ifstream, std::ofstream
 #include <stdexcept> // std::runtime_error
 
+#include "error/empty_argument.hpp"
+#include "file/mutators.hpp"
 #include "task/complete_abstract.hpp"
 #include "task/metadata.hpp"
 #include "task/prefix.hpp"
 #include "task/task.hpp"
-#include "todo/empty_argument.hpp"
-#include "todo/files.hpp"
 #include "util/input.hpp"
 
 namespace task {
 
 CompleteAbstract::CompleteAbstract(Prefix prefix)
-    : TaskTypeAbstract(todo::files::getComplete(), prefix) {}
+    : TaskTypeAbstract(todo::file::getComplete(), prefix) {}
 
 void CompleteAbstract::add(const util::Input &input) {
     /* Make sure we can open the complete file */
@@ -25,8 +25,8 @@ void CompleteAbstract::add(const util::Input &input) {
 
     /* Find the task that matches the search string and remove it */
     auto task =
-        todo::files::removeTask(input.toString(util::Input::PARAM_START_INDEX),
-                                todo::files::getOutstanding());
+        todo::file::removeTask(input.toString(util::Input::PARAM_START_INDEX),
+                               todo::file::getOutstanding());
 
     /* Update the found task with the current time and the previous prefix */
     Metadata metadata = task.getMetadata();
@@ -44,11 +44,11 @@ void CompleteAbstract::add(const util::Input &input) {
 void CompleteAbstract::undo(const util::Input &input) {
     /* Check the input */
     if (!input.hasOption(util::Input::PARAM_START_INDEX)) {
-        throw todo::EmptyArgument{"undo"};
+        throw todo::error::EmptyArgument{"undo"};
     }
 
     /* Make sure we can open the outstanding file */
-    std::ofstream ofs{todo::files::getOutstanding().string(),
+    std::ofstream ofs{todo::file::getOutstanding().string(),
                       std::ios_base::app};
     if (!ofs.is_open()) {
         throw std::runtime_error{"Unable to open TODO file"};
@@ -56,8 +56,8 @@ void CompleteAbstract::undo(const util::Input &input) {
 
     /* Find the task that matches the search string and remove it */
     auto task =
-        todo::files::removeTask(input.toString(util::Input::PARAM_START_INDEX),
-                                todo::files::getComplete());
+        todo::file::removeTask(input.toString(util::Input::PARAM_START_INDEX),
+                               todo::file::getComplete());
 
     /* Update the found task with the previous time and the previous prefix */
     Metadata metadata = task.getMetadata();

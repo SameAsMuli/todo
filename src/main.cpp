@@ -12,13 +12,13 @@
 #include "action/undo.hpp"
 #include "action/urgent.hpp"
 #include "action/view.hpp"
-#include "todo/files.hpp"
+#include "file/mutators.hpp"
 #include "util/input.hpp"
 
 int main(int argc, char **argv) {
     /* Create the data files if they don't already exist */
     try {
-        todo::files::initialise();
+        todo::file::initialise();
     } catch (const std::exception &e) {
         std::cerr << "Failed to initialise: " << e.what() << std::endl;
         return 1;

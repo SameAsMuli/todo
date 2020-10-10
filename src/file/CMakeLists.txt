@@ -1,15 +1,15 @@
-add_library(todo_lib)
+add_library(file)
 
 file(GLOB SOURCE_FILES *.cpp)
 file(GLOB HEADER_FILES *.hpp)
 
 target_sources(
-  todo_lib
+  file
   PRIVATE  ${SOURCE_FILES}
   PUBLIC   ${HEADER_FILES}
 )
 
 target_include_directories(
-  todo_lib
+  file
   PUBLIC ${PROJECT_SOURCE_DIR}/src
 )
