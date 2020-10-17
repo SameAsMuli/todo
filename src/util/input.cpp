@@ -31,34 +31,53 @@ std::vector<std::string>::size_type Input::size() const {
 bool Input::isEmpty() const { return this->m_tokens.empty(); }
 
 bool Input::hasOption(const std::string &option) const {
+    if (option.empty()) {
+        return false;
+    }
+
     return std::find(this->m_tokens.begin(), this->m_tokens.end(), option) !=
            this->m_tokens.end();
 }
 
-bool Input::hasOption(std::vector<std::string>::size_type index) const {
-    if (index < 0) {
+bool Input::hasOption(int index) const {
+    std::vector<std::string>::size_type safeIndex;
+    if (!SafeCast(index, safeIndex)) {
         return false;
     }
 
-    return this->m_tokens.size() > index;
+    return this->m_tokens.size() > safeIndex;
 }
 
-bool Input::hasOption(const std::string &option,
-                      std::vector<std::string>::size_type index) const {
-    if (!this->hasOption(index)) {
+bool Input::hasOption(const std::string &option, int index) const {
+    if (option.empty()) {
         return false;
     }
 
-    return this->getOption(index) == option;
+    std::vector<std::string>::size_type safeIndex;
+    if (!SafeCast(index, safeIndex)) {
+        return false;
+    }
+
+    return this->getOption(safeIndex) == option;
 }
 
-std::string Input::getOption(std::vector<std::string>::size_type index) const {
-    return this->m_tokens.at(index);
+std::string Input::getOption(int index) const {
+    std::vector<std::string>::size_type safeIndex;
+    if (!SafeCast(index, safeIndex)) {
+        throw std::runtime_error{"Invalid index passed to Input::getOption"};
+    }
+
+    return this->m_tokens.at(safeIndex);
 }
 
-std::string Input::toString(std::vector<std::string>::size_type index) const {
+std::string Input::toString(int index) const {
+    std::vector<std::string>::size_type safeIndex;
+    if (!SafeCast(index, safeIndex)) {
+        throw std::runtime_error{"Invalid index passed to Input::toString"};
+    }
+
     std::string str;
-    for (auto i = index; i < this->m_tokens.size(); i++) {
+    for (auto i = safeIndex; i < this->m_tokens.size(); i++) {
         if (!str.empty()) {
             str += " ";
         }

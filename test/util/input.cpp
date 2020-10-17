@@ -115,7 +115,7 @@ TEST_F(InputMethod, ToString) {
     EXPECT_EQ(n3.toString(4), "");
 
     /* Negative indexes should throw exceptions */
-    // EXPECT_EQ(n3.toString(-1), "action first option 2nd");
+    EXPECT_ANY_THROW(n3.toString(-1));
 }
 
 /* Construction exceptions */

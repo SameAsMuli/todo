@@ -17,6 +17,10 @@ endif(CCACHE_FOUND)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+# Include SafeInt
+include(cmake/safeint.cmake)
+fetch_safeint()
+
 # Define binary and how to build it
 add_subdirectory(src/action)
 add_subdirectory(src/error)
@@ -32,9 +36,9 @@ target_include_directories(${PROJECT_NAME} PUBLIC src)
 
 target_compile_options(${PROJECT_NAME} PUBLIC -std=c++17 -g -pedantic -Wall
   -Wextra -Wcast-align -Wcast-qual -Wctor-dtor-privacy -Wdisabled-optimization
-  -Wformat=2 -Winit-self -Wmissing-include-dirs -Wold-style-cast
-  -Woverloaded-virtual -Wredundant-decls -Wshadow -Wsign-conversion -Wsign-promo
-  -Wstrict-overflow=5 -Wundef -Wswitch-default -Werror -Wno-unused)
+  -Wformat=2 -Winit-self -Wmissing-include-dirs -Woverloaded-virtual
+  -Wredundant-decls -Wshadow -Wsign-conversion -Wsign-promo -Wstrict-overflow=5
+  -Wundef -Wswitch-default -Werror -Wno-unused)
 
 # Include Google Test
 include(cmake/googletest.cmake)
