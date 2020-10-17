@@ -3,6 +3,7 @@
 
 #include "task/prefix.hpp"
 
+namespace todo {
 namespace task {
 
 const char Prefix::NULL_PREFIX = ' ';
@@ -44,3 +45,4 @@ std::ostream &operator<<(std::ostream &stream, const Prefix &prefix) {
 }
 
 } // namespace task
+} // namespace todo

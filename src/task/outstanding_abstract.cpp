@@ -3,14 +3,15 @@
 #include <ostream>   // std::endl
 #include <stdexcept> // std::runtime_error
 
+#include "file/definitions.hpp"
 #include "task/metadata.hpp"
 #include "task/outstanding_abstract.hpp"
-#include "todo/files.hpp"
 
+namespace todo {
 namespace task {
 
 OutstandingAbstract::OutstandingAbstract(Prefix prefix)
-    : TaskTypeAbstract(todo::files::getOutstanding(), prefix) {}
+    : TaskTypeAbstract(file::getOutstanding(), prefix) {}
 
 void OutstandingAbstract::add(const util::Input &input) {
     auto description = input.toString(util::Input::PARAM_START_INDEX);
@@ -34,3 +35,4 @@ void OutstandingAbstract::add(const util::Input &input) {
 }
 
 } // namespace task
+} // namespace todo

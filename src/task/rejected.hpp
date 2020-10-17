@@ -4,6 +4,7 @@
 #include "task/complete_abstract.hpp"
 #include "task/task.hpp"
 
+namespace todo {
 namespace task {
 
 /**
@@ -22,5 +23,6 @@ class Rejected : public CompleteAbstract {
 };
 
 } // namespace task
+} // namespace todo
 
 #endif

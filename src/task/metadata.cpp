@@ -12,6 +12,7 @@ static const char DELIMITER = ';';
 
 } // namespace
 
+namespace todo {
 namespace task {
 
 Metadata::Metadata() : m_previousPrefix(Prefix::NULL_PREFIX) {}
@@ -72,3 +73,4 @@ std::ostream &operator<<(std::ostream &stream, const Metadata &metadata) {
 }
 
 } // namespace task
+} // namespace todo

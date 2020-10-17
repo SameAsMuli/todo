@@ -3,6 +3,7 @@
 
 #include "task/task.hpp"
 
+namespace todo {
 namespace task {
 
 Task::Task() {}
@@ -44,3 +45,4 @@ std::ostream &operator<<(std::ostream &stream, const Task &task) {
 }
 
 } // namespace task
+} // namespace todo

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.4)
+cmake_minimum_required(VERSION 3.7)
 
 # Define Project
 project(
@@ -17,19 +17,36 @@ endif(CCACHE_FOUND)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-# Find all source files
-file(GLOB_RECURSE SOURCES src/*.cpp)
+# Include SafeInt
+include(cmake/safeint.cmake)
+fetch_safeint()
 
 # Define binary and how to build it
-add_executable(${PROJECT_NAME} ${SOURCES})
+add_subdirectory(src/action)
+add_subdirectory(src/error)
+add_subdirectory(src/task)
+add_subdirectory(src/file)
+add_subdirectory(src/util)
+
+add_executable(${PROJECT_NAME} src/main.cpp)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE action error task file util)
 
 target_include_directories(${PROJECT_NAME} PUBLIC src)
 
 target_compile_options(${PROJECT_NAME} PUBLIC -std=c++17 -g -pedantic -Wall
   -Wextra -Wcast-align -Wcast-qual -Wctor-dtor-privacy -Wdisabled-optimization
-  -Wformat=2 -Winit-self -Wmissing-include-dirs -Wold-style-cast
-  -Woverloaded-virtual -Wredundant-decls -Wshadow -Wsign-conversion -Wsign-promo
-  -Wstrict-overflow=5 -Wundef -Wswitch-default -Werror -Wno-unused)
+  -Wformat=2 -Winit-self -Wmissing-include-dirs -Woverloaded-virtual
+  -Wredundant-decls -Wshadow -Wsign-conversion -Wsign-promo -Wstrict-overflow=5
+  -Wundef -Wswitch-default -Werror -Wno-unused)
+
+# Include Google Test
+include(cmake/googletest.cmake)
+fetch_googletest()
+
+# Include tests
+enable_testing()
+add_subdirectory(test)
 
 # Define how to install binary
 install(TARGETS ${PROJECT_NAME} DESTINATION bin)

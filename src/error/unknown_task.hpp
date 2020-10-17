@@ -1,9 +1,10 @@
-#ifndef TODO_UNKNOWN_TASK_H
-#define TODO_UNKNOWN_TASK_H
+#ifndef TODO_ERROR_UNKNOWN_TASK_H
+#define TODO_ERROR_UNKNOWN_TASK_H
 
 #include <stdexcept> // std::runtime_error
 
 namespace todo {
+namespace error {
 
 /**
  * @brief Error for receiving an unrecognised task description from the user.
@@ -17,6 +18,7 @@ class UnknownTask : public std::runtime_error {
     UnknownTask();
 };
 
+} // namespace error
 } // namespace todo
 
 #endif

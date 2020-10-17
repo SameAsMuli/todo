@@ -3,13 +3,14 @@
 #include <stdexcept> // std::logic_error
 
 #include "action/view.hpp"
+#include "error/unknown_argument.hpp"
 #include "task/done.hpp"
 #include "task/low.hpp"
 #include "task/normal.hpp"
 #include "task/rejected.hpp"
 #include "task/urgent.hpp"
-#include "todo/unknown_argument.hpp"
 
+namespace todo {
 namespace action {
 
 View::View(const util::Input &input)
@@ -42,7 +43,7 @@ void View::run() {
     } else if (option == "reject") {
         this->rejectTodos();
     } else {
-        throw todo::UnknownArgument(option);
+        throw error::UnknownArgument(option);
     }
 }
 
@@ -76,3 +77,4 @@ void View::viewTodos(task::TaskTypeAbstract *const taskType) const {
 }
 
 } // namespace action
+} // namespace todo

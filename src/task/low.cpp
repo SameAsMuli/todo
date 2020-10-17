@@ -3,6 +3,7 @@
 #include "task/low.hpp"
 #include "util/ansi.hpp"
 
+namespace todo {
 namespace task {
 
 Low::Low() : OutstandingAbstract('~') {}
@@ -17,3 +18,4 @@ std::string Low::format(const Task &task) {
 }
 
 } // namespace task
+} // namespace todo

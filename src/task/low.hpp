@@ -4,6 +4,7 @@
 #include "task/outstanding_abstract.hpp"
 #include "task/task.hpp"
 
+namespace todo {
 namespace task {
 
 /**
@@ -21,5 +22,6 @@ class Low : public OutstandingAbstract {
 };
 
 } // namespace task
+} // namespace todo
 
 #endif

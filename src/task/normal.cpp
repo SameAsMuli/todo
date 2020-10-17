@@ -3,6 +3,7 @@
 #include "task/normal.hpp"
 #include "util/ansi.hpp"
 
+namespace todo {
 namespace task {
 
 Normal::Normal() : OutstandingAbstract('-') {}
@@ -17,3 +18,4 @@ std::string Normal::format(const Task &task) {
 }
 
 } // namespace task
+} // namespace todo

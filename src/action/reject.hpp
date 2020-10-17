@@ -3,6 +3,7 @@
 
 #include "action/add_abstract.hpp"
 
+namespace todo {
 namespace action {
 
 /**
@@ -20,5 +21,6 @@ class Reject : public AddAbstract {
 };
 
 } // namespace action
+} // namespace todo
 
 #endif

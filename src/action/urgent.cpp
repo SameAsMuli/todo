@@ -1,6 +1,7 @@
 #include "action/urgent.hpp"
 #include "task/urgent.hpp"
 
+namespace todo {
 namespace action {
 
 Urgent::Urgent(const util::Input &input)
@@ -8,3 +9,4 @@ Urgent::Urgent(const util::Input &input)
                   new task::Urgent{}) {}
 
 } // namespace action
+} // namespace todo

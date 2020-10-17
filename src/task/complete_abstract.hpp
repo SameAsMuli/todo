@@ -4,6 +4,7 @@
 #include "task/task.hpp"
 #include "task/task_type_abstract.hpp"
 
+namespace todo {
 namespace task {
 
 /**
@@ -49,5 +50,6 @@ class CompleteAbstract : public TaskTypeAbstract {
 };
 
 } // namespace task
+} // namespace todo
 
 #endif

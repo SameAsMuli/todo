@@ -1,7 +1,8 @@
 #include "action/remove.hpp"
-#include "todo/empty_argument.hpp"
-#include "todo/files.hpp"
+#include "error/empty_argument.hpp"
+#include "file/mutators.hpp"
 
+namespace todo {
 namespace action {
 
 Remove::Remove(util::Input input)
@@ -12,10 +13,11 @@ void Remove::run() {
     auto searchString =
         this->getInput().toString(util::Input::PARAM_START_INDEX);
     if (searchString.empty()) {
-        throw todo::EmptyArgument{"remove"};
+        throw error::EmptyArgument{"remove"};
     }
 
-    todo::files::removeTask(searchString, todo::files::getOutstanding());
+    file::removeTask(searchString, file::getOutstanding());
 }
 
 } // namespace action
+} // namespace todo

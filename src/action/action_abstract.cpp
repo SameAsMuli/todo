@@ -2,6 +2,7 @@
 
 #include "action/action_abstract.hpp"
 
+namespace todo {
 namespace action {
 
 ActionAbstract::ActionAbstract(const std::string &name,
@@ -25,3 +26,4 @@ void ActionAbstract::perform() {
 }
 
 } // namespace action
+} // namespace todo
