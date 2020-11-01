@@ -6,13 +6,13 @@
 namespace todo {
 namespace task {
 
-Urgent::Urgent() : OutstandingAbstract('!') {}
+Urgent::Urgent() : OutstandingAbstract('#') {}
 
 std::string Urgent::format(const Task &task) {
     std::stringstream ss;
 
-    ss << util::ansi::foreground_red << util::ansi::bold << task.getPrefix()
-       << " " << task.getDescription() << util::ansi::reset;
+    ss << util::ansi::foreground_red << util::ansi::bold << "! "
+       << task.getDescription() << util::ansi::reset;
 
     return ss.str();
 }

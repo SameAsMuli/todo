@@ -48,6 +48,11 @@ class View : public ActionAbstract {
     void doneTodos() const;
 
     /**
+     * @brief Print all high tasks.
+     */
+    void highTodos() const;
+
+    /**
      * @brief Print all low priority tasks.
      */
     void lowTodos() const;

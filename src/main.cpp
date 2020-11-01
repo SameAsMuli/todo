@@ -6,6 +6,7 @@
 #include "action/archive.hpp"
 #include "action/done.hpp"
 #include "action/help.hpp"
+#include "action/high.hpp"
 #include "action/low.hpp"
 #include "action/reject.hpp"
 #include "action/remove.hpp"
@@ -39,6 +40,7 @@ int main(int argc, char **argv) {
     actions.push_back(new todo::action::Add{input});
     actions.push_back(new todo::action::Archive{input});
     actions.push_back(new todo::action::Done{input});
+    actions.push_back(new todo::action::High{input});
     actions.push_back(new todo::action::Low{input});
     actions.push_back(new todo::action::Reject{input});
     actions.push_back(new todo::action::Remove{input});

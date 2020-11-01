@@ -1,5 +1,5 @@
-#ifndef TASK_URGENT_H
-#define TASK_URGENT_H
+#ifndef TASK_HIGH_H
+#define TASK_HIGH_H
 
 #include "task/outstanding_abstract.hpp"
 #include "task/task.hpp"
@@ -8,15 +8,14 @@ namespace todo {
 namespace task {
 
 /**
- * @brief Task type to govern an urgent task.
+ * @brief Task type to govern a high priority task.
  *
- * This indicates an urgent priority task that needs completing as soon as
- * possible.
+ * This indicates a high priority task that needs completing soon.
  */
-class Urgent : public OutstandingAbstract {
+class High : public OutstandingAbstract {
 
   public:
-    Urgent();
+    High();
 
   private:
     std::string format(const Task &task) override;

@@ -5,6 +5,7 @@
 #include "action/view.hpp"
 #include "error/unknown_argument.hpp"
 #include "task/done.hpp"
+#include "task/high.hpp"
 #include "task/low.hpp"
 #include "task/normal.hpp"
 #include "task/rejected.hpp"
@@ -19,6 +20,7 @@ View::View(const util::Input &input)
 void View::run() {
     if (!this->getInput().hasOption(util::Input::PARAM_START_INDEX)) {
         this->urgentTodos();
+        this->highTodos();
         this->normalTodos();
         this->lowTodos();
         this->doneTodos();
@@ -34,6 +36,8 @@ void View::run() {
         this->outstandingTodos();
     } else if (option == "urgent") {
         this->urgentTodos();
+    } else if (option == "high") {
+        this->highTodos();
     } else if (option == "normal") {
         this->normalTodos();
     } else if (option == "low") {
@@ -48,17 +52,20 @@ void View::run() {
 }
 
 void View::completeTodos() const {
-    this->viewTodos(new task::Done{});
-    this->viewTodos(new task::Rejected{});
+    this->doneTodos();
+    this->rejectTodos();
 }
 
 void View::outstandingTodos() const {
-    this->viewTodos(new task::Urgent{});
-    this->viewTodos(new task::Normal{});
-    this->viewTodos(new task::Low{});
+    this->urgentTodos();
+    this->highTodos();
+    this->normalTodos();
+    this->lowTodos();
 }
 
 void View::doneTodos() const { this->viewTodos(new task::Done{}); }
+
+void View::highTodos() const { this->viewTodos(new task::High{}); }
 
 void View::lowTodos() const { this->viewTodos(new task::Low{}); }
 
