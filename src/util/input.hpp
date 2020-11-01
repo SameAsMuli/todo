@@ -4,10 +4,14 @@
 #include <string> // std::string
 #include <vector> // std::vector
 
+#include "SafeInt.hpp"
+
 namespace util {
 
 /**
  * @brief Contain and access the input given by the user.
+ *
+ * TODO-SAM Use SafeInt with size_type parameters to prevent underflow.
  */
 class Input {
 
@@ -60,7 +64,7 @@ class Input {
      *
      * @return True if the index exists, false otherwise.
      */
-    bool hasOption(std::vector<std::string>::size_type index) const;
+    bool hasOption(int index) const;
 
     /**
      * @brief Return whether the nth input is a specific option.
@@ -70,8 +74,7 @@ class Input {
      *
      * @return True if the index equals option, false otherwise.
      */
-    bool hasOption(const std::string &option,
-                   std::vector<std::string>::size_type index) const;
+    bool hasOption(const std::string &option, int index) const;
 
     /**
      * @brief Get the option from a given index in the vector of inputs.
@@ -80,7 +83,7 @@ class Input {
      *
      * @return The option at the given index.
      */
-    std::string getOption(std::vector<std::string>::size_type index) const;
+    std::string getOption(int index) const;
 
     /**
      * @brief Format the vector as string from a given index.
@@ -89,7 +92,7 @@ class Input {
      *
      * @return A space separated string of the vector.
      */
-    std::string toString(std::vector<std::string>::size_type index) const;
+    std::string toString(int index) const;
 
   private:
     std::vector<std::string> m_tokens;
