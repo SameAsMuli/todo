@@ -1,5 +1,5 @@
 #!/bin/sh
-echo "[pre-commit hook] Auto-formatting files since last commit..."
+echo "[pre-commit hook] Auto-formatting files changed since last commit..."
 for FILE in $(git diff --cached --name-only *.[ch]pp)
 do
         clang-format -i $FILE || exit 1
