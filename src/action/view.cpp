@@ -19,12 +19,8 @@ View::View(const util::Input &input)
 
 void View::run() {
     if (!this->getInput().hasOption(util::Input::PARAM_START_INDEX)) {
-        this->urgentTodos();
-        this->highTodos();
-        this->normalTodos();
-        this->lowTodos();
-        this->doneTodos();
-        this->rejectTodos();
+        this->outstandingTodos();
+        this->completeTodos();
         return;
     }
 
