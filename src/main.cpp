@@ -48,7 +48,7 @@ int main(int argc, char **argv) {
     actions.push_back(new todo::action::Urgent{input});
 
     /* Pass the list of actions to the help action */
-    help.addFunctions(actions);
+    help.addActions(actions);
 
     /* If no input is given, then view all tasks. Else run the given action */
     if (input.isEmpty()) {
@@ -69,6 +69,8 @@ int main(int argc, char **argv) {
         std::cerr << "Unknown action: '"
                   << input.getOption(util::Input::ACTION_INDEX) << "'"
                   << std::endl;
+        std::cout << std::endl;
+        help.printUsage();
         return 1;
     }
 

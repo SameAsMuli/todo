@@ -1,6 +1,7 @@
 #ifndef ACTION_HELP_H
 #define ACTION_HELP_H
 
+#include <string> // std::string
 #include <vector> // std::vector
 
 #include "action/action_abstract.hpp"
@@ -23,19 +24,38 @@ class Help : public ActionAbstract {
     Help(util::Input input);
 
     /**
-     * @brief Print the help text and list all available functions.
+     * @brief Get a detailed description of the help action.
+     *
+     * @return A string with the description of the help action.
      */
-    void run() override;
+    std::string description() const override;
+
+    /**
+     * @brief Get the usage details of the help action.
+     *
+     * @return A string with the usage text of the help action.
+     */
+    std::string usage() const override;
 
     /**
      * @brief Set the list of functions and sort them alphabetically.
      *
      * @param functions A vector list of functions.
      */
-    void addFunctions(std::vector<ActionAbstract *> &functions);
+    void addActions(std::vector<ActionAbstract *> &functions);
+
+    /**
+     * @brief Print the usage information for the program
+     */
+    void printUsage() const;
 
   private:
-    std::vector<ActionAbstract *> m_functions;
+    std::vector<ActionAbstract *> m_actions;
+
+    /**
+     * @brief Print the help text and list all available functions.
+     */
+    void run() override;
 
     /**
      * @brief Sort function to order actions alphabetically by name.
@@ -45,7 +65,7 @@ class Help : public ActionAbstract {
      *
      * @return True if tf1 has a lower name than tf2.
      */
-    static bool todoFuncComp(ActionAbstract *tf1, ActionAbstract *tf2);
+    static bool actionCompare(ActionAbstract *tf1, ActionAbstract *tf2);
 };
 
 #endif

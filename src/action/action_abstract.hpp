@@ -3,6 +3,7 @@
 
 #include <optional> //std::optional
 #include <string>   // std::string
+#include <vector>   // std::string
 
 #include "util/input.hpp"
 
@@ -38,9 +39,11 @@ class ActionAbstract {
     std::string getName() const { return m_name; }
 
     /**
-     * @brief Get the help text of the action.
+     * @brief Get a short description of the action.
      *
-     * @return A string with the help text of the action.
+     * This is used to give a brief, 1 line description of the action.
+     *
+     * @return A string with the short help text of the action.
      */
     std::string getHelpText() const { return m_helpText; }
 
@@ -62,6 +65,53 @@ class ActionAbstract {
     std::optional<unsigned int> getArgLimit() const { return m_argLimit; }
 
     /**
+     * @brief Get any additional aliases that can be used to access this action.
+     *
+     * @return An optional number of arguments.
+     */
+    std::vector<std::string> getAliases() const { return m_aliases; }
+
+    /**
+     * @brief Add another alias of this action.
+     *
+     * Aliases are other names that can be used to reference an action, besides
+     * the default name accessed via getName().
+     *
+     * @param alias A string containing the alias to add.
+     */
+    void addAlias(const std::string &alias) { m_aliases.push_back(alias); }
+
+    /**
+     * @brief Get a detailed description of the action.
+     *
+     * This should provide a detailed, multi-line description of the action. It
+     * should include information on any additional parameters that can be given
+     * to the action.
+     *
+     * To be overriden in derived class.
+     *
+     * TODO-SAM Make description() a pure virutal function eventually.
+     *
+     * @return A string with the description of the action.
+     */
+    virtual std::string description() const { return ""; }
+
+    /**
+     * @brief Get the usage details of the action.
+     *
+     * This should provide details of any options or arguments that can be
+     * passed to the action. This should be laid out according to the docopt
+     * specification: docopt.org
+     *
+     * To be overriden in derived class.
+     *
+     * TODO-SAM Make usage() a pure virutal function eventually.
+     *
+     * @return A string with the usage text of the action.
+     */
+    virtual std::string usage() const { return ""; }
+
+    /**
      * @brief Perform the main function of the todo action.
      *
      * Verify the number of arguments given before calling the run function.
@@ -76,6 +126,8 @@ class ActionAbstract {
     const util::Input m_input;
 
     const std::optional<unsigned int> m_argLimit;
+
+    std::vector<std::string> m_aliases;
 
     /**
      * @brief Function that describes how the action should behave.
