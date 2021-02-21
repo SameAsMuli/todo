@@ -7,6 +7,9 @@ project(
   VERSION    0.4.0
 )
 
+#Generate compile_commands.json(used for clang tooling integration)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 # Enable ccache if available
 find_program(CCACHE_FOUND ccache)
 if(CCACHE_FOUND)
