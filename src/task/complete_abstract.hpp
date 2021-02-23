@@ -16,9 +16,10 @@ class CompleteAbstract : public TaskTypeAbstract {
     /**
      * @brief Base constructor for completed task types.
      *
+     * @param name The name of the task type.
      * @param prefix The prefix for the task type.
      */
-    CompleteAbstract(Prefix prefix);
+    CompleteAbstract(const std::string &name, const Prefix &prefix);
 
     /**
      * @brief Find a task in outstanding_tasks and move it to complete_tasks.

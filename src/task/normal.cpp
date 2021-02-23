@@ -6,7 +6,7 @@
 namespace todo {
 namespace task {
 
-Normal::Normal() : OutstandingAbstract('-') {}
+Normal::Normal() : OutstandingAbstract("normal", '-') {}
 
 std::string Normal::format(const Task &task) {
     std::stringstream ss;

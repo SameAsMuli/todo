@@ -15,8 +15,9 @@
 namespace todo {
 namespace task {
 
-CompleteAbstract::CompleteAbstract(Prefix prefix)
-    : TaskTypeAbstract(file::getComplete(), prefix) {}
+CompleteAbstract::CompleteAbstract(const std::string &name,
+                                   const Prefix &prefix)
+    : TaskTypeAbstract(file::getComplete(), name, prefix) {}
 
 void CompleteAbstract::add(const util::Input &input) {
     /* Make sure we can open the complete file */

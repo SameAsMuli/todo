@@ -6,7 +6,7 @@
 namespace todo {
 namespace task {
 
-Done::Done() : CompleteAbstract('+') {}
+Done::Done() : CompleteAbstract("done", '+') {}
 
 std::string Done::format(const Task &task) {
     std::stringstream ss;

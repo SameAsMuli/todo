@@ -6,7 +6,7 @@
 namespace todo {
 namespace task {
 
-Urgent::Urgent() : OutstandingAbstract('#') {}
+Urgent::Urgent() : OutstandingAbstract("urgent", '#') {}
 
 std::string Urgent::format(const Task &task) {
     std::stringstream ss;

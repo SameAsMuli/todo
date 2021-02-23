@@ -2,6 +2,7 @@
 #define TASK_TASK_TYPE_ABSTRACT_H
 
 #include <filesystem> // std::filesystem
+#include <string>     // std::string
 
 #include "task/task.hpp"
 #include "util/input.hpp"
@@ -19,9 +20,11 @@ class TaskTypeAbstract {
      * @brief Base constructor for a task type.
      *
      * @param file The file used to store the task type.
+     * @param name The name of the task type.
      * @param prefix The prefix for the task type.
      */
-    TaskTypeAbstract(const std::filesystem::path &file, Prefix prefix);
+    TaskTypeAbstract(const std::filesystem::path &file, const std::string &name,
+                     const Prefix &prefix);
 
     /**
      * @brief Get the data file into which this task type is written.
@@ -29,6 +32,13 @@ class TaskTypeAbstract {
      * @return A filesystem path to the data file.
      */
     std::filesystem::path getFile() const { return m_file; }
+
+    /**
+     * @brief Get the name of the task type.
+     *
+     * @return A string containing the name of this task type.
+     */
+    std::string getName() const { return m_name; }
 
     /**
      * @brief Get the prefix for this task type.
@@ -64,6 +74,8 @@ class TaskTypeAbstract {
 
   private:
     const std::filesystem::path m_file;
+
+    const std::string m_name;
 
     const Prefix m_prefix;
 

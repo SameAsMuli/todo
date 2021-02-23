@@ -6,7 +6,7 @@
 namespace todo {
 namespace task {
 
-High::High() : OutstandingAbstract('!') {}
+High::High() : OutstandingAbstract("high", '!') {}
 
 std::string High::format(const Task &task) {
     std::stringstream ss;

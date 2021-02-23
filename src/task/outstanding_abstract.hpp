@@ -1,6 +1,8 @@
 #ifndef TASK_OUTSTANDING_ABSTRACT_H
 #define TASK_OUTSTANDING_ABSTRACT_H
 
+#include <string> // std::string
+
 #include "task/task.hpp"
 #include "task/task_type_abstract.hpp"
 
@@ -16,9 +18,10 @@ class OutstandingAbstract : public TaskTypeAbstract {
     /**
      * @brief Base constructor for outstanding task types.
      *
+     * @param name The name of the task type.
      * @param prefix The prefix for the task type.
      */
-    OutstandingAbstract(Prefix prefix);
+    OutstandingAbstract(const std::string &name, const Prefix &prefix);
 
     /**
      * @brief Add a task description to the outstanding_tasks data file.

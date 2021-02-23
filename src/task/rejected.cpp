@@ -6,7 +6,7 @@
 namespace todo {
 namespace task {
 
-Rejected::Rejected() : CompleteAbstract('/') {}
+Rejected::Rejected() : CompleteAbstract("rejected", '/') {}
 
 std::string Rejected::format(const Task &task) {
     std::stringstream ss;
