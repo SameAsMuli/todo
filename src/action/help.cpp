@@ -1,16 +1,17 @@
-#include <algorithm> // std::sort, ::toupper
+#include <algorithm> // std::sort
 #include <iostream>  // std::cout
 
 #include "action/help.hpp"
 #include "file/definitions.hpp"
+#include "util/string.hpp"
 
 namespace {
 
 void printActionDetails(todo::action::ActionAbstract *const action) {
     auto buffer = action->getName();
-    std::transform(buffer.begin(), buffer.end(), buffer.begin(), ::toupper);
 
-    std::cout << "todo " + buffer + " - " + action->getHelpText() << std::endl;
+    std::cout << "todo " << util::string::toupper(buffer) << " - "
+              << action->getHelpText() << std::endl;
 
     buffer = action->usage();
     if (!buffer.empty()) {
