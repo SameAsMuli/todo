@@ -1,3 +1,4 @@
+#include <algorithm> // std::find
 #include <stdexcept> // std::runtime_error
 
 #include "action/action_abstract.hpp"
@@ -10,6 +11,19 @@ ActionAbstract::ActionAbstract(const std::string &name,
                                const util::Input &input,
                                std::optional<unsigned int> argLimit)
     : m_name(name), m_helpText(helpText), m_input(input), m_argLimit(argLimit) {
+}
+
+bool ActionAbstract::isKnownAs(const std::string &name) const {
+    if (this->getName() == name) {
+        return true;
+    }
+
+    if (std::find(m_aliases.begin(), m_aliases.end(), name) !=
+        m_aliases.end()) {
+        return true;
+    }
+
+    return false;
 }
 
 void ActionAbstract::perform() {

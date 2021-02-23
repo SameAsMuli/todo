@@ -82,6 +82,15 @@ class ActionAbstract {
     void addAlias(const std::string &alias) { m_aliases.push_back(alias); }
 
     /**
+     * @brief Check if the action is known by the given name.
+     *
+     * @param name The name to check against.
+     *
+     * @return True if the action name or any of its aliases match the input.
+     */
+    bool isKnownAs(const std::string &name) const;
+
+    /**
      * @brief Get a detailed description of the action.
      *
      * This should provide a detailed, multi-line description of the action. It

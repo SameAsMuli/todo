@@ -1,3 +1,4 @@
+#include <algorithm> // std::find
 #include <exception> // std::exception
 #include <iostream>  // std::cerr
 #include <vector>    // std::vector
@@ -54,15 +55,18 @@ int main(int argc, char **argv) {
     if (input.isEmpty()) {
         view.run();
     } else {
-        for (auto const &action : actions) {
-            if (input.hasOption(action->getName(), util::Input::ACTION_INDEX)) {
-                try {
-                    action->perform();
-                } catch (const std::exception &e) {
-                    std::cerr << e.what() << std::endl;
-                    return 1;
+        auto inputAction = input.getOption(util::Input::ACTION_INDEX);
+        if (!inputAction.empty()) {
+            for (auto const &action : actions) {
+                if (action->isKnownAs(inputAction)) {
+                    try {
+                        action->perform();
+                    } catch (const std::exception &e) {
+                        std::cerr << e.what() << std::endl;
+                        return 1;
+                    }
+                    return 0;
                 }
-                return 0;
             }
         }
 
