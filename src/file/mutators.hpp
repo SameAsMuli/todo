@@ -19,61 +19,6 @@ namespace file {
 void initialise();
 
 /**
- * @brief Get the "outstanding_tasks" data file.
- *
- * @return A filesystem path to the data file.
- */
-std::filesystem::path getOutstanding();
-
-/**
- * @brief Get the "complete_tasks" data file.
- *
- * @return A filesystem path to the data file.
- */
-std::filesystem::path getComplete();
-
-/**
- * @brief Get the "archive" data file.
- *
- * Completed tasks can be manually or automatically archived to this file.
- *
- * @return A filesystem path to the data file.
- */
-std::filesystem::path getArchive();
-
-/**
- * @brief Get the "temp" data file.
- *
- * This is used for copying between outstanding and complete data files to make
- * sure there is no accidental data loss.
- *
- * @return A filesystem path to the data file.
- */
-std::filesystem::path getTemp();
-
-/**
- * @brief Get the directory containing the todo data files.
- *
- * @return A filesystem path to the directory containing the data files.
- */
-std::filesystem::path getTodoDir();
-
-/**
- * @brief Search a given data file and return tasks matching searchString.
- *
- * Loop all tasks in the given file and add them to one of two vectors based on
- * whether they match the search string or not. An empty searchString will match
- * every task.
- *
- * @param searchString The substring to search for.
- * @param file The data file to search through.
- *
- * @return A pair of vectors for matched and unmatched tasks.
- */
-std::pair<std::vector<task::Task>, std::vector<task::Task>>
-search(const std::string &searchString, const std::filesystem::path &file);
-
-/**
  * @brief Search a given data file and remove the task matching searchString.
  *
  * Look for a task in the given data file that matches a given substring. Once

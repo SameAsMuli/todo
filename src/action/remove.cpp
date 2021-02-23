@@ -1,5 +1,6 @@
 #include "action/remove.hpp"
 #include "error/empty_argument.hpp"
+#include "file/definitions.hpp"
 #include "file/mutators.hpp"
 
 namespace todo {

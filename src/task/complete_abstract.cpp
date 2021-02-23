@@ -4,6 +4,7 @@
 #include <stdexcept> // std::runtime_error
 
 #include "error/empty_argument.hpp"
+#include "file/definitions.hpp"
 #include "file/mutators.hpp"
 #include "task/complete_abstract.hpp"
 #include "task/metadata.hpp"
