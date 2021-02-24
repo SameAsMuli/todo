@@ -4,14 +4,10 @@
 #include <string> // std::string
 #include <vector> // std::vector
 
-#include "SafeInt.hpp"
-
 namespace util {
 
 /**
  * @brief Contain and access the input given by the user.
- *
- * TODO-SAM Use SafeInt with size_type parameters to prevent underflow.
  */
 class Input {
 

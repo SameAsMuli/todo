@@ -7,6 +7,15 @@
 
 namespace {
 
+// TODO-SAM Use min of this and console width
+static int MAX_WIDTH = 50;
+
+std::string footer() { return "Written by Sam Amis"; }
+
+std::string wrap(const std::string &input) {
+    return util::string::wrap(input, MAX_WIDTH);
+}
+
 void printActionDetails(todo::action::ActionAbstract *const action) {
     auto buffer = action->getName();
 
@@ -24,23 +33,24 @@ void printActionDetails(todo::action::ActionAbstract *const action) {
         std::cout << std::endl;
         std::cout << "Aliases:" << std::endl;
 
-        bool printComma = false;
+        buffer.clear();
         for (auto const &alias : aliases) {
-            if (printComma) {
-                std::cout << ", ";
-            } else {
-                printComma = true;
+            if (!buffer.empty()) {
+                buffer.append(", ");
             }
-            std::cout << alias;
+            buffer.append(alias);
         }
-        std::cout << std::endl;
+        std::cout << wrap(buffer) << std::endl;
     }
 
     buffer = action->description();
     if (!buffer.empty()) {
         std::cout << std::endl;
-        std::cout << buffer << std::endl;
+        std::cout << wrap(buffer) << std::endl;
     }
+
+    std::cout << std::endl;
+    std::cout << footer() << std::endl;
 }
 
 } // namespace
@@ -54,8 +64,9 @@ Help::Help(util::Input input)
 }
 
 std::string Help::description() const {
-    /* TODO-SAM Write a more detailed description */
-    return "Get detailed information on the program or a specific action.";
+    return "If run with no arguments, then general information about the "
+           "program will be shown. If passed an action as an argument, then "
+           "detailed information on that specific action will be shown.";
 }
 
 std::string Help::usage() const { return "usage: todo help [<action>]"; }
@@ -65,7 +76,7 @@ void Help::addActions(std::vector<ActionAbstract *> &actions) {
     std::sort(this->m_actions.begin(), this->m_actions.end(), actionCompare);
 }
 
-void Help::printUsage() const {
+void Help::printGeneralUsage() const {
     std::cout << "usage: todo [action] [--option] [<argument>]" << std::endl;
     std::cout << "            [--help] [<action>]" << std::endl;
 }
@@ -93,18 +104,16 @@ void Help::run() {
             }
         }
 
-        /* TODO-SAM Wrap output based on term width - ncurses? */
         std::cout << "TODO Management Utility" << std::endl;
         std::cout << std::endl;
 
-        printUsage();
+        printGeneralUsage();
 
         std::cout << std::endl;
-        std::cout << "If run with no arguments, then any non-archived"
+        std::cout << wrap("If run with no arguments, then any non-archived "
+                          "tasks will be printed. All tasks are stored in: '" +
+                          std::string(file::getTodoDir()) + "'")
                   << std::endl;
-        std::cout << "tasks will be printed. All tasks are stored in:"
-                  << std::endl;
-        std::cout << file::getTodoDir() << std::endl;
         std::cout << std::endl;
         std::cout << "List of actions:" << std::endl;
 
@@ -119,7 +128,7 @@ void Help::run() {
         }
 
         std::cout << std::endl;
-        std::cout << "Written by Sam Amis" << std::endl;
+        std::cout << footer() << std::endl;
     }
 }
 

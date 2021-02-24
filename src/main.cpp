@@ -74,7 +74,7 @@ int main(int argc, char **argv) {
                   << input.getOption(util::Input::ACTION_INDEX) << "'"
                   << std::endl;
         std::cout << std::endl;
-        help.printUsage();
+        help.printGeneralUsage();
         return 1;
     }
 

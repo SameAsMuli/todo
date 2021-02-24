@@ -1,6 +1,8 @@
 #include <algorithm> // std::find
 #include <stdexcept> // std::logic_error
 
+#include "SafeInt.hpp"
+
 #include "util/input.hpp"
 
 namespace util {

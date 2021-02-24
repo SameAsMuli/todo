@@ -47,7 +47,7 @@ class Help : public ActionAbstract {
     /**
      * @brief Print the usage information for the program
      */
-    void printUsage() const;
+    void printGeneralUsage() const;
 
   private:
     std::vector<ActionAbstract *> m_actions;
