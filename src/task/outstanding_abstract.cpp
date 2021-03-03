@@ -12,7 +12,7 @@ namespace task {
 
 OutstandingAbstract::OutstandingAbstract(const std::string &name,
                                          const Prefix &prefix)
-    : TaskTypeAbstract(file::getOutstanding(), name, prefix) {}
+    : TaskTypeAbstract(file::getOutstanding, name, prefix) {}
 
 void OutstandingAbstract::add(const util::Input &input) {
     auto description = input.toString(util::Input::PARAM_START_INDEX);

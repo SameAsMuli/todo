@@ -112,7 +112,7 @@ void Help::run() {
         std::cout << std::endl;
         std::cout << wrap("If run with no arguments, then any non-archived "
                           "tasks will be printed. All tasks are stored in: '" +
-                          std::string(file::getTodoDir()) + "'")
+                          std::string(file::getTodoDir(true)) + "'")
                   << std::endl;
         std::cout << std::endl;
         std::cout << "List of actions:" << std::endl;

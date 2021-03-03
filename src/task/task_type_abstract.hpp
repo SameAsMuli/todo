@@ -2,6 +2,7 @@
 #define TASK_TASK_TYPE_ABSTRACT_H
 
 #include <filesystem> // std::filesystem
+#include <functional> // std::function
 #include <string>     // std::string
 
 #include "task/task.hpp"
@@ -19,19 +20,21 @@ class TaskTypeAbstract {
     /**
      * @brief Base constructor for a task type.
      *
-     * @param file The file used to store the task type.
+     * @param f_file Function to return the file used to store the task type.
      * @param name The name of the task type.
      * @param prefix The prefix for the task type.
      */
-    TaskTypeAbstract(const std::filesystem::path &file, const std::string &name,
-                     const Prefix &prefix);
+    TaskTypeAbstract(const std::function<std::filesystem::path(bool)> &f_file,
+                     const std::string &name, const Prefix &prefix);
 
     /**
      * @brief Get the data file into which this task type is written.
      *
+     * @param global Whether to consider local or global only tasks.
+     *
      * @return A filesystem path to the data file.
      */
-    std::filesystem::path getFile() const { return m_file; }
+    std::filesystem::path getFile(bool global = false) const;
 
     /**
      * @brief Get the name of the task type.
@@ -73,7 +76,7 @@ class TaskTypeAbstract {
                                     const TaskTypeAbstract *taskType);
 
   private:
-    const std::filesystem::path m_file;
+    const std::function<std::filesystem::path(bool)> m_f_file;
 
     const std::string m_name;
 

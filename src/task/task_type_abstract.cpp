@@ -8,10 +8,14 @@
 namespace todo {
 namespace task {
 
-TaskTypeAbstract::TaskTypeAbstract(const std::filesystem::path &file,
-                                   const std::string &name,
-                                   const Prefix &prefix)
-    : m_file(file), m_name(name), m_prefix(prefix) {}
+TaskTypeAbstract::TaskTypeAbstract(
+    const std::function<std::filesystem::path(bool)> &f_file,
+    const std::string &name, const Prefix &prefix)
+    : m_f_file(f_file), m_name(name), m_prefix(prefix) {}
+
+std::filesystem::path TaskTypeAbstract::getFile(bool global) const {
+    return this->m_f_file(global);
+}
 
 void TaskTypeAbstract::view() {
     std::ifstream ifs{this->getFile().string()};
