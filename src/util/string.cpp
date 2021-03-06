@@ -1,5 +1,7 @@
+#include <algorithm> // std::transform
+#include <stdexcept> // std::runtime_error
+
 #include "SafeInt.hpp"
-#include <iostream>
 
 #include "util/string.hpp"
 
