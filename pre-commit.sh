@@ -2,8 +2,11 @@
 echo "[pre-commit hook] Auto-formatting files changed since last commit..."
 for FILE in $(git diff --cached --name-only *.[ch]pp)
 do
-        clang-format -i $FILE || exit 1
-        git add $FILE
+	if [ -f "$FILE" ]
+	then
+		clang-format -i "$FILE" || exit 1
+		git add "$FILE"
+	fi
 done
 
 echo "[pre-commit hook] Regenerating doxygen files..."
