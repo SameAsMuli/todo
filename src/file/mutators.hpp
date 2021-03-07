@@ -56,8 +56,9 @@ std::vector<task::Task> removeTasks(const std::string &searchString,
  * @brief Move all completed tasks older than numMins to the archive data file.
  *
  * @param numMins Maximum number of minutes until a complete task gets archived.
+ * @param global Whether to consider local or global only tasks.
  */
-void archive(unsigned int maxMins);
+void archive(unsigned int maxMins, bool global = false);
 
 } // namespace file
 } // namespace todo

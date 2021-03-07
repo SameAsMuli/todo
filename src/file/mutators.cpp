@@ -39,12 +39,13 @@ void initialise() {
         throw std::runtime_error("Unable to find HOME directory.");
     }
 
-    initialiseFile(getOutstanding());
-    initialiseFile(getComplete());
-    initialiseFile(getArchive());
+    initialiseFile(getOutstanding(true));
+    initialiseFile(getComplete(true));
+    initialiseFile(getArchive(true));
 
     /* Archive any tasks completed more than a day ago */
-    archive(1440);
+    archive(1440, true);
+    archive(1440, false);
 }
 
 task::Task removeTask(const std::string &searchString,
@@ -118,14 +119,14 @@ std::vector<task::Task> removeTasks(const std::string &searchString,
     return matchingTasks;
 }
 
-void archive(unsigned int maxMins) {
+void archive(unsigned int maxMins, bool global) {
     /* Open the archive, complete and temp files */
-    std::ofstream archiveFile{getArchive().string(), std::ios_base::app};
+    std::ofstream archiveFile{getArchive(global).string(), std::ios_base::app};
     if (!archiveFile.is_open()) {
         throw std::runtime_error{"Unable to open TODO file"};
     }
 
-    std::ifstream completeFile{getComplete().string()};
+    std::ifstream completeFile{getComplete(global).string()};
     if (!completeFile.is_open()) {
         throw std::runtime_error{"Unable to open TODO file"};
     }
@@ -158,9 +159,9 @@ void archive(unsigned int maxMins) {
     tempFile.close();
 
     /* Overwrite the complete file with the temp file */
-    if (std::remove(getComplete().string().c_str()) ||
+    if (std::remove(getComplete(global).string().c_str()) ||
         std::rename(getTemp().string().c_str(),
-                    getComplete().string().c_str())) {
+                    getComplete(global).string().c_str())) {
         std::perror("Error swapping files");
         throw std::runtime_error{"Unable to update TODO file"};
     }

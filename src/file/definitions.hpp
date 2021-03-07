@@ -27,9 +27,9 @@ std::filesystem::path getComplete(bool global = false);
 /**
  * @brief Get the "archive" data file.
  *
- * @param global Whether to consider local or global only tasks.
- *
  * Completed tasks can be manually or automatically archived to this file.
+ *
+ * @param global Whether to consider local or global only tasks.
  *
  * @return A filesystem path to the data file.
  */

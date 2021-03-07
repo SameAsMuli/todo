@@ -61,13 +61,13 @@ std::filesystem::path getTodoDir(bool global) {
 
         /* Check now in case we're currently in the home directory */
         if (containsLocalTodoDir(dir)) {
-            return dir;
+            return dir / localTodoDirName();
         }
 
         while (dir != util::fs::HomeDir() && dir != dir.parent_path()) {
             dir = dir.parent_path();
             if (containsLocalTodoDir(dir)) {
-                return dir;
+                return dir / localTodoDirName();
             }
         }
     }

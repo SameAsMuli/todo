@@ -15,9 +15,21 @@ OutstandingAbstract::OutstandingAbstract(const std::string &name,
     : TaskTypeAbstract(file::getOutstanding, name, prefix) {}
 
 void OutstandingAbstract::add(const util::Input &input) {
-    auto description = input.toString(util::Input::PARAM_START_INDEX);
+    unsigned int offset = util::Input::PARAM_START_INDEX;
+    bool global = false;
+
+    if (input.toString(offset).empty()) {
+        throw std::runtime_error{"Empty input passed to add method"};
+    }
+
+    if (input.hasOption("--global", offset)) {
+        offset++;
+        global = true;
+    }
+
+    auto description = input.toString(offset);
     if (description.empty()) {
-        throw std::logic_error{"Empty input passed to add method"};
+        throw std::runtime_error{"Empty input passed to add method"};
     }
 
     /* Create and populate a task to be added */
@@ -27,7 +39,7 @@ void OutstandingAbstract::add(const util::Input &input) {
     Task task{this->getPrefix(), description};
     task.setMetadata(metadata);
 
-    std::ofstream ofs{this->getFile().string(), std::ios_base::app};
+    std::ofstream ofs{this->getFile(global).string(), std::ios_base::app};
     if (ofs.is_open()) {
         ofs << task << std::endl;
     } else {

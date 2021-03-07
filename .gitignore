@@ -13,5 +13,8 @@ todo
 # Ignore Doxygen directory
 doxydoc
 
+# Ignore todo directory
+.todo
+
 # Ignore any open files
 *.swp

@@ -70,9 +70,7 @@ int main(int argc, char **argv) {
             }
         }
 
-        std::cerr << "Unknown action: '"
-                  << input.getOption(util::Input::ACTION_INDEX) << "'"
-                  << std::endl;
+        std::cerr << "Unknown action: '" << inputAction << "'" << std::endl;
         std::cout << std::endl;
         help.printGeneralUsage();
         return 1;

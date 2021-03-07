@@ -27,8 +27,6 @@ void TaskTypeAbstract::view() {
                 std::cout << this->format(task) << std::endl;
             }
         }
-    } else {
-        throw std::runtime_error{"Unable to open TODO file"};
     }
 }
 
