@@ -7,7 +7,6 @@ CmakeFiles
 cmake_install.cmake
 compile_commands.json
 install_manifest.txt
-Makefile
 todo
 
 # Ignore Doxygen directory
