@@ -5,7 +5,7 @@
 #include <string>   // std::string
 #include <vector>   // std::string
 
-#include "util/input.hpp"
+#include "input/input.hpp"
 
 namespace todo {
 namespace action {
@@ -28,7 +28,7 @@ class ActionAbstract {
      * indicates that there is no limit.
      */
     ActionAbstract(const std::string &name, const std::string &helpText,
-                   const util::Input &input,
+                   const input::Input &input,
                    std::optional<unsigned int> argLimit = std::nullopt);
 
     /**
@@ -52,7 +52,7 @@ class ActionAbstract {
      *
      * @return The Input object held by the aciton.
      */
-    util::Input getInput() const { return m_input; }
+    input::Input getInput() const { return m_input; }
 
     /**
      * @brief Get the maximum number of arguments allowed for the action.
@@ -132,7 +132,7 @@ class ActionAbstract {
 
     const std::string m_helpText;
 
-    const util::Input m_input;
+    const input::Input m_input;
 
     const std::optional<unsigned int> m_argLimit;
 

@@ -4,7 +4,7 @@
 namespace todo {
 namespace action {
 
-Low::Low(const util::Input &input)
+Low::Low(const input::Input &input)
     : AddAbstract("low", "Add a low priority TODO", input, new task::Low{}) {}
 
 } // namespace action

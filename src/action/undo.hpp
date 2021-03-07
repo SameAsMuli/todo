@@ -2,7 +2,7 @@
 #define ACTION_UNDO_H
 
 #include "action/action_abstract.hpp"
-#include "util/input.hpp"
+#include "input/input.hpp"
 
 namespace todo {
 namespace action {
@@ -18,7 +18,7 @@ class Undo : public ActionAbstract {
      *
      * @param input The user's input.
      */
-    Undo(util::Input input);
+    Undo(input::Input input);
 
     /**
      * @brief Print the help text and list all available functions.

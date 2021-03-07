@@ -4,7 +4,7 @@
 namespace todo {
 namespace action {
 
-Urgent::Urgent(const util::Input &input)
+Urgent::Urgent(const input::Input &input)
     : AddAbstract("urgent", "Add an urgent priority TODO", input,
                   new task::Urgent{}) {}
 

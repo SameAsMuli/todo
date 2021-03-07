@@ -17,7 +17,7 @@ class High : public AddAbstract {
      *
      * @param input The user's input.
      */
-    High(const util::Input &input);
+    High(const input::Input &input);
 };
 
 } // namespace action

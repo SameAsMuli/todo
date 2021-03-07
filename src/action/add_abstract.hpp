@@ -24,7 +24,7 @@ class AddAbstract : public ActionAbstract {
      * @param taskType The type of task this class will add.
      */
     AddAbstract(const std::string &name, const std::string &helpText,
-                const util::Input &input,
+                const input::Input &input,
                 task::TaskTypeAbstract *const taskType);
 
   private:

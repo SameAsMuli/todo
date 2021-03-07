@@ -1,4 +1,4 @@
-#include "util/input.hpp"
+#include "input/input.hpp"
 #include "gtest/gtest.h"
 
 /* Fixture class to test each public method */
@@ -11,10 +11,10 @@ class InputMethod : public ::testing::Test {
     char const *a1[2] = {"todo", "action"};
     char const *a2[3] = {"todo", "action", "first option"};
     char const *a3[4] = {"todo", "action", "first option", "2nd"};
-    util::Input n0;
-    util::Input n1;
-    util::Input n2;
-    util::Input n3;
+    input::Input n0;
+    input::Input n1;
+    input::Input n2;
+    input::Input n3;
 };
 
 /* Test all public methods */
@@ -120,15 +120,15 @@ TEST_F(InputMethod, ToString) {
 
 /* Construction exceptions */
 TEST(InputConstruction, NullArray) {
-    EXPECT_THROW(util::Input(0, NULL), std::logic_error);
+    EXPECT_THROW(input::Input(0, NULL), std::logic_error);
 }
 
 TEST(InputConstruction, EmptyArray) {
     char const *argv[0] = {};
-    EXPECT_THROW(util::Input(0, argv), std::logic_error);
+    EXPECT_THROW(input::Input(0, argv), std::logic_error);
 }
 
 TEST(InputConstruction, InvalidArgc) {
     char const *argv[0] = {};
-    EXPECT_THROW(util::Input(-1, argv), std::logic_error);
+    EXPECT_THROW(input::Input(-1, argv), std::logic_error);
 }

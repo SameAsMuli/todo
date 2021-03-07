@@ -27,17 +27,18 @@ fetch_safeint()
 # Define binary and how to build it
 add_subdirectory(src/action)
 add_subdirectory(src/error)
-add_subdirectory(src/task)
 add_subdirectory(src/file)
+add_subdirectory(src/input)
+add_subdirectory(src/task)
 add_subdirectory(src/util)
 
 add_executable(${PROJECT_NAME} src/main.cpp)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE action error task file util)
+target_link_libraries(${PROJECT_NAME} PRIVATE action error file input task util)
 
 target_include_directories(${PROJECT_NAME} PUBLIC src)
 
-target_compile_options(${PROJECT_NAME} PUBLIC -std=c++17 -g -pedantic -Wall
+target_compile_options(${PROJECT_NAME} PUBLIC -std=c++17 -g -O0 -pedantic -Wall
   -Wextra -Wcast-align -Wcast-qual -Wctor-dtor-privacy -Wdisabled-optimization
   -Wformat=2 -Winit-self -Wmissing-include-dirs -Woverloaded-virtual
   -Wredundant-decls -Wshadow -Wsign-conversion -Wsign-promo -Wstrict-overflow=5

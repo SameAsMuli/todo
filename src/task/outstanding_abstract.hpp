@@ -28,7 +28,7 @@ class OutstandingAbstract : public TaskTypeAbstract {
      *
      * @param input The input containing the description.
      */
-    void add(const util::Input &input) override;
+    void add(const input::Input &input) override;
 };
 
 } // namespace task

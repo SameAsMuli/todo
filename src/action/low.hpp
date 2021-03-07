@@ -17,7 +17,7 @@ class Low : public AddAbstract {
      *
      * @param input The user's input.
      */
-    Low(const util::Input &input);
+    Low(const input::Input &input);
 };
 
 } // namespace action

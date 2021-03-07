@@ -1,10 +1,10 @@
-#ifndef UTIL_INPUT_H
-#define UTIL_INPUT_H
+#ifndef INPUT_INPUT_H
+#define INPUT_INPUT_H
 
 #include <string> // std::string
 #include <vector> // std::vector
 
-namespace util {
+namespace input {
 
 /**
  * @brief Contain and access the input given by the user.
@@ -94,6 +94,6 @@ class Input {
     std::vector<std::string> m_tokens;
 };
 
-} // namespace util
+} // namespace input
 
 #endif

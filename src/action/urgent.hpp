@@ -17,7 +17,7 @@ class Urgent : public AddAbstract {
      *
      * @param input The user's input.
      */
-    Urgent(const util::Input &input);
+    Urgent(const input::Input &input);
 };
 
 } // namespace action

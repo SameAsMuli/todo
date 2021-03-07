@@ -5,7 +5,7 @@
 namespace todo {
 namespace action {
 
-Undo::Undo(util::Input input)
+Undo::Undo(input::Input input)
     : ActionAbstract("undo", "Unmark a TODO as completed", input) {}
 
 void Undo::run() { task::CompleteAbstract::undo(this->getInput()); }

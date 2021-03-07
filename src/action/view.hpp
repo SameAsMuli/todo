@@ -20,7 +20,7 @@ class View : public ActionAbstract {
      *
      * @param input The user's input.
      */
-    View(const util::Input &input);
+    View(const input::Input &input);
 
     /**
      * @brief Print all todo tasks.

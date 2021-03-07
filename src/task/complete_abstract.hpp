@@ -33,7 +33,7 @@ class CompleteAbstract : public TaskTypeAbstract {
      *
      * @param input The substring to search for.
      */
-    void add(const util::Input &input) override;
+    void add(const input::Input &input) override;
 
     /**
      * @brief Find a task in complete_tasks and move it to outstanding_tasks.
@@ -47,7 +47,7 @@ class CompleteAbstract : public TaskTypeAbstract {
      *
      * @param input The substring to search for.
      */
-    static void undo(const util::Input &input);
+    static void undo(const input::Input &input);
 };
 
 } // namespace task

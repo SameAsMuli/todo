@@ -2,7 +2,7 @@
 #define ACTION_ARCHIVE_H
 
 #include "action/action_abstract.hpp"
-#include "util/input.hpp"
+#include "input/input.hpp"
 
 namespace todo {
 namespace action {
@@ -18,7 +18,7 @@ class Archive : public ActionAbstract {
      *
      * @param input The user's input.
      */
-    Archive(util::Input input);
+    Archive(input::Input input);
 
     /**
      * @brief Get a detailed description of the archive action.

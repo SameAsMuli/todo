@@ -14,17 +14,17 @@
 namespace todo {
 namespace action {
 
-View::View(const util::Input &input)
+View::View(const input::Input &input)
     : ActionAbstract("view", "View outstanding TODOs", input, 1) {}
 
 void View::run() {
-    if (!this->getInput().hasOption(util::Input::PARAM_START_INDEX)) {
+    if (!this->getInput().hasOption(input::Input::PARAM_START_INDEX)) {
         this->outstandingTodos();
         this->completeTodos();
         return;
     }
 
-    auto option = this->getInput().getOption(util::Input::PARAM_START_INDEX);
+    auto option = this->getInput().getOption(input::Input::PARAM_START_INDEX);
 
     if (option == "complete") {
         this->completeTodos();

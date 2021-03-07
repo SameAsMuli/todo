@@ -17,7 +17,7 @@ class Reject : public AddAbstract {
      *
      * @param input The user's input.
      */
-    Reject(const util::Input &input);
+    Reject(const input::Input &input);
 };
 
 } // namespace action

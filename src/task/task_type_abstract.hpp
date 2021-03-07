@@ -5,8 +5,8 @@
 #include <functional> // std::function
 #include <string>     // std::string
 
+#include "input/input.hpp"
 #include "task/task.hpp"
-#include "util/input.hpp"
 
 namespace todo {
 namespace task {
@@ -60,7 +60,7 @@ class TaskTypeAbstract {
      *
      * @param input The input containing the description of the task.
      */
-    virtual void add(const util::Input &input) = 0;
+    virtual void add(const input::Input &input) = 0;
 
     /**
      * @brief Output a task type to a given stream.

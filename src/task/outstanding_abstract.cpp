@@ -14,8 +14,8 @@ OutstandingAbstract::OutstandingAbstract(const std::string &name,
                                          const Prefix &prefix)
     : TaskTypeAbstract(file::getOutstanding, name, prefix) {}
 
-void OutstandingAbstract::add(const util::Input &input) {
-    unsigned int offset = util::Input::PARAM_START_INDEX;
+void OutstandingAbstract::add(const input::Input &input) {
+    unsigned int offset = input::Input::PARAM_START_INDEX;
     bool global = false;
 
     if (input.toString(offset).empty()) {

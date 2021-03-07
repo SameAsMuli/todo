@@ -58,7 +58,7 @@ void printActionDetails(todo::action::ActionAbstract *const action) {
 namespace todo {
 namespace action {
 
-Help::Help(util::Input input)
+Help::Help(input::Input input)
     : ActionAbstract("help", "Display this help text", input, 1) {
     this->addAlias("--help");
 }
@@ -84,9 +84,9 @@ void Help::printGeneralUsage() const {
 /*** PRIVATE METHODS ***/
 
 void Help::run() {
-    if (this->getInput().hasOption(util::Input::PARAM_START_INDEX)) {
+    if (this->getInput().hasOption(input::Input::PARAM_START_INDEX)) {
         auto actionName =
-            this->getInput().getOption(util::Input::PARAM_START_INDEX);
+            this->getInput().getOption(input::Input::PARAM_START_INDEX);
 
         for (auto const &action : this->m_actions) {
             if (action->getName() == actionName) {

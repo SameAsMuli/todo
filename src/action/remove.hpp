@@ -2,7 +2,7 @@
 #define ACTION_REMOVE_H
 
 #include "action/action_abstract.hpp"
-#include "util/input.hpp"
+#include "input/input.hpp"
 
 namespace todo {
 namespace action {
@@ -18,7 +18,7 @@ class Remove : public ActionAbstract {
      *
      * @param input The user's input.
      */
-    Remove(util::Input input);
+    Remove(input::Input input);
 
     /**
      * @brief Remove matching task.

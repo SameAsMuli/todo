@@ -4,7 +4,7 @@
 namespace todo {
 namespace action {
 
-Add::Add(const util::Input &input)
+Add::Add(const input::Input &input)
     : AddAbstract("add", "Add a normal priority TODO", input,
                   new task::Normal{}) {}
 

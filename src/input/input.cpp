@@ -3,9 +3,9 @@
 
 #include "SafeInt.hpp"
 
-#include "util/input.hpp"
+#include "input/input.hpp"
 
-namespace util {
+namespace input {
 
 Input::Input(int argc, char const *const *argv) {
     if (argv == NULL) {
@@ -88,4 +88,4 @@ std::string Input::toString(int index) const {
     return str;
 }
 
-} // namespace util
+} // namespace input

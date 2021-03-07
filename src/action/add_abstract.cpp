@@ -6,7 +6,7 @@ namespace todo {
 namespace action {
 
 AddAbstract::AddAbstract(const std::string &name, const std::string &helpText,
-                         const util::Input &input,
+                         const input::Input &input,
                          task::TaskTypeAbstract *const taskType)
     : ActionAbstract(name, helpText, input), m_taskType(taskType) {}
 

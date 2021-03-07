@@ -4,7 +4,7 @@
 namespace todo {
 namespace action {
 
-Archive::Archive(util::Input input)
+Archive::Archive(input::Input input)
     : ActionAbstract("archive", "Archive all complete TODOs", input, 0) {}
 
 std::string Archive::description() const {

@@ -6,13 +6,13 @@
 namespace todo {
 namespace action {
 
-Remove::Remove(util::Input input)
+Remove::Remove(input::Input input)
     : ActionAbstract("remove", "Remove an outstanding TODO", input) {}
 
 void Remove::run() {
     /* Form and check the seach string */
     auto searchString =
-        this->getInput().toString(util::Input::PARAM_START_INDEX);
+        this->getInput().toString(input::Input::PARAM_START_INDEX);
     if (searchString.empty()) {
         throw error::EmptyArgument{"remove"};
     }

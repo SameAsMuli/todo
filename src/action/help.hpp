@@ -5,7 +5,7 @@
 #include <vector> // std::vector
 
 #include "action/action_abstract.hpp"
-#include "util/input.hpp"
+#include "input/input.hpp"
 
 namespace todo {
 namespace action {
@@ -21,7 +21,7 @@ class Help : public ActionAbstract {
      *
      * @param input The user's input.
      */
-    Help(util::Input input);
+    Help(input::Input input);
 
     /**
      * @brief Get a detailed description of the help action.

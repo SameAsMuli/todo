@@ -17,7 +17,7 @@ class Done : public AddAbstract {
      *
      * @param input The user's input.
      */
-    Done(const util::Input &input);
+    Done(const input::Input &input);
 };
 
 } // namespace action

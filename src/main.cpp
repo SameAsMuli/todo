@@ -15,7 +15,7 @@
 #include "action/urgent.hpp"
 #include "action/view.hpp"
 #include "file/mutators.hpp"
-#include "util/input.hpp"
+#include "input/input.hpp"
 
 int main(int argc, char **argv) {
     /* Create the data files if they don't already exist */
@@ -27,7 +27,7 @@ int main(int argc, char **argv) {
     }
 
     /* Read any input given to the program */
-    util::Input input{argc, argv};
+    input::Input input{argc, argv};
 
     /* Create a list of actions */
     std::vector<todo::action::ActionAbstract *> actions;
@@ -55,7 +55,7 @@ int main(int argc, char **argv) {
     if (input.isEmpty()) {
         view.run();
     } else {
-        auto inputAction = input.getOption(util::Input::ACTION_INDEX);
+        auto inputAction = input.getOption(input::Input::ACTION_INDEX);
         if (!inputAction.empty()) {
             for (auto const &action : actions) {
                 if (action->isKnownAs(inputAction)) {
