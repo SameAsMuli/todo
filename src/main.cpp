@@ -1,4 +1,3 @@
-#include <algorithm> // std::find
 #include <exception> // std::exception
 #include <iostream>  // std::cerr
 #include <vector>    // std::vector
