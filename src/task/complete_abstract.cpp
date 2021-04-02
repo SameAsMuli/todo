@@ -28,8 +28,7 @@ void CompleteAbstract::add(const input::Input &input) {
 
     /* Find the task that matches the search string and remove it */
     auto task =
-        file::removeTask(input.toString(input::Input::PARAM_START_INDEX),
-                         file::getOutstanding());
+        file::removeTask(input.getActionArgString(), file::getOutstanding());
 
     /* Update the found task with the current time and the previous prefix */
     Metadata metadata = task.getMetadata();
@@ -46,7 +45,7 @@ void CompleteAbstract::add(const input::Input &input) {
 
 void CompleteAbstract::undo(const input::Input &input) {
     /* Check the input */
-    if (!input.hasOption(input::Input::PARAM_START_INDEX)) {
+    if (input.getActionArgs().empty()) {
         throw error::EmptyArgument{"undo"};
     }
 
@@ -57,8 +56,8 @@ void CompleteAbstract::undo(const input::Input &input) {
     }
 
     /* Find the task that matches the search string and remove it */
-    auto task = file::removeTask(
-        input.toString(input::Input::PARAM_START_INDEX), file::getComplete());
+    auto task =
+        file::removeTask(input.getActionArgString(), file::getComplete());
 
     /* Update the found task with the previous time and the previous prefix */
     Metadata metadata = task.getMetadata();

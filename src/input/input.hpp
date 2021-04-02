@@ -1,8 +1,11 @@
 #ifndef INPUT_INPUT_H
 #define INPUT_INPUT_H
 
+#include <map>    // std::map
 #include <string> // std::string
 #include <vector> // std::vector
+
+#include "input/option_type.hpp"
 
 namespace input {
 
@@ -13,6 +16,11 @@ class Input {
 
   public:
     /**
+     * @brief Default constructor.
+     */
+    Input() {}
+
+    /**
      * @brief Take user input from main and store in this class.
      *
      * @param argc The argument count from main.
@@ -21,77 +29,89 @@ class Input {
     Input(int argc, char const *const *argv);
 
     /**
-     * @brief Indicates the index containing the action name.
-     */
-    static const std::vector<std::string>::size_type ACTION_INDEX;
-
-    /**
-     * @brief Indicates the index at which action arguments start.
-     */
-    static const std::vector<std::string>::size_type PARAM_START_INDEX;
-
-    /**
-     * @brief Find the number of separate inputs given.
+     * @brief Get the action string from the input.
      *
-     * @return The size type of the vector containing the inputs.
+     * @return The action name or empty string if not available.
      */
-    std::vector<std::string>::size_type size() const;
+    std::string getAction() const { return m_action; }
 
     /**
-     * @brief Return whether any inputs were given.
+     * @brief Get a specific action argument.
      *
-     * @return True if no inputs, false otherwise.
+     * @param index The index to check.
+     *
+     * @return The action argument at the given index.
      */
-    bool isEmpty() const;
+    std::string getActionArg(int index) const;
 
     /**
-     * @brief Return whether a given option is in the inputs.
+     * @brief Get all arguments passed to the action.
      *
-     * @param option The option to search for.
-     *
-     * @return True if inputs contain the option, false otherwise.
+     * @return A vector of string arguments passed to the action.
      */
-    bool hasOption(const std::string &option) const;
+    std::vector<std::string> getActionArgs() const { return m_actionArgs; }
 
     /**
-     * @brief Return whether the vector of inputs has a specific index.
+     * @brief Format the action arguments as a single string.
+     *
+     * @param index The first index to be included in the string.
+     *
+     * @return A space separated string of all the action arguments.
+     */
+    std::string getActionArgString(int index = 0) const;
+
+    /**
+     * @brief Return whether the action arguments vector has a specific index.
      *
      * @param index The index to check.
      *
      * @return True if the index exists, false otherwise.
      */
-    bool hasOption(int index) const;
+    bool hasActionArg(int index) const;
 
     /**
-     * @brief Return whether the nth input is a specific option.
+     * @brief Return whether a given string is in the action arguments.
      *
-     * @param option The option to check against.
+     * @param arg The string argument to search for.
+     *
+     * @return True if inputs contain the arg, false otherwise.
+     */
+    bool hasActionArg(const std::string &arg) const;
+
+    /**
+     * @brief Return whether the nth input is a specific string.
+     *
+     * @param arg The argument string to check against.
      * @param index The index to check.
      *
-     * @return True if the index equals option, false otherwise.
+     * @return True if the index equals arg, false otherwise.
      */
-    bool hasOption(const std::string &option, int index) const;
+    bool hasActionArg(const std::string &arg, int index) const;
 
     /**
-     * @brief Get the option from a given index in the vector of inputs.
+     * @brief Return whether a specific option type was specified.
      *
-     * @param index The index to check.
+     * @param optionType The option type to check for.
      *
-     * @return The option at the given index.
+     * @return True if the option type is found, false otherwise.
      */
-    std::string getOption(int index) const;
+    bool hasOption(const OptionType &optionType) const;
 
     /**
-     * @brief Format the vector as string from a given index.
+     * @brief Get all arguments passed to a specific option type.
      *
-     * @param index The first index to be included in the string.
+     * @param optionType The option type to consider.
      *
-     * @return A space separated string of the vector.
+     * @return A vector of string arguments passed to the option type.
      */
-    std::string toString(int index) const;
+    std::vector<std::string> getOptionArgs(const OptionType &optionType) const;
 
   private:
-    std::vector<std::string> m_tokens;
+    std::string m_action;
+
+    std::vector<std::string> m_actionArgs;
+
+    std::map<OptionType, std::vector<std::string>> m_options;
 };
 
 } // namespace input

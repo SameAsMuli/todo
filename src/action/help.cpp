@@ -53,6 +53,11 @@ void printActionDetails(todo::action::ActionAbstract *const action) {
     std::cout << footer() << std::endl;
 }
 
+bool actionCompare(todo::action::ActionAbstract *a1,
+                   todo::action::ActionAbstract *a2) {
+    return a1->getName() < a2->getName();
+}
+
 } // namespace
 
 namespace todo {
@@ -84,17 +89,9 @@ void Help::printGeneralUsage() const {
 /*** PRIVATE METHODS ***/
 
 void Help::run() {
-    if (this->getInput().hasOption(input::Input::PARAM_START_INDEX)) {
-        auto actionName =
-            this->getInput().getOption(input::Input::PARAM_START_INDEX);
+    auto actionName = this->getInput().getAction();
 
-        for (auto const &action : this->m_actions) {
-            if (action->getName() == actionName) {
-                printActionDetails(action);
-                break;
-            }
-        }
-    } else {
+    if (actionName.empty()) {
         std::string::size_type maxNameLen = 0;
         std::vector<ActionAbstract *>::size_type minSeparatorLen = 3;
 
@@ -129,11 +126,14 @@ void Help::run() {
 
         std::cout << std::endl;
         std::cout << footer() << std::endl;
+    } else {
+        for (auto const &action : this->m_actions) {
+            if (action->getName() == actionName) {
+                printActionDetails(action);
+                break;
+            }
+        }
     }
-}
-
-bool Help::actionCompare(ActionAbstract *a1, ActionAbstract *a2) {
-    return a1->getName() < a2->getName();
 }
 
 } // namespace action

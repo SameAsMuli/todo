@@ -11,8 +11,7 @@ Remove::Remove(input::Input input)
 
 void Remove::run() {
     /* Form and check the seach string */
-    auto searchString =
-        this->getInput().toString(input::Input::PARAM_START_INDEX);
+    auto searchString = this->getInput().getActionArgString();
     if (searchString.empty()) {
         throw error::EmptyArgument{"remove"};
     }

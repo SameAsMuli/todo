@@ -26,7 +26,13 @@ int main(int argc, char **argv) {
     }
 
     /* Read any input given to the program */
-    input::Input input{argc, argv};
+    input::Input input;
+    try {
+        input = input::Input{argc, argv};
+    } catch (const std::exception &e) {
+        std::cerr << e.what() << std::endl;
+        return 1;
+    }
 
     /* Create a list of actions */
     std::vector<todo::action::ActionAbstract *> actions;
@@ -51,10 +57,10 @@ int main(int argc, char **argv) {
     help.addActions(actions);
 
     /* If no input is given, then view all tasks. Else run the given action */
-    if (input.isEmpty()) {
+    if (input.getActionArgs().empty()) {
         view.run();
     } else {
-        auto inputAction = input.getOption(input::Input::ACTION_INDEX);
+        auto inputAction = input.getAction();
         if (!inputAction.empty()) {
             for (auto const &action : actions) {
                 if (action->isKnownAs(inputAction)) {

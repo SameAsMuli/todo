@@ -19,7 +19,7 @@ TEST(OptionType, Construction) {
 
     input::OptionType globalLong = input::OptionType("global");
     input::OptionType globalPure = input::OptionType(input::OptionType::global);
-    input::OptionType globalShort = input::OptionType("g");
+    input::OptionType globalShort = input::OptionType('g');
 
     EXPECT_EQ(globalLong, input::OptionType::global);
     EXPECT_EQ(globalPure, input::OptionType::global);
@@ -49,6 +49,9 @@ TEST(OptionType, LogicalConsistency) {
 
     for (input::OptionType const o : input::OptionType::ALL_TYPES) {
         auto name = o.toString();
+
+        /* Strip the prefix */
+        name.erase(0, input::OptionType::LONG_OPTION_PREFIX.size());
 
         /* Only allow alpha-numeric option types */
         if (std::find_if_not(name.begin(), name.end(), isalnum) != name.end()) {
@@ -90,32 +93,45 @@ TEST(OptionType, IsValid) {
 /* Test the toString functionality */
 TEST(OptionType, ToString) {
     input::OptionType all = input::OptionType::all;
-    EXPECT_EQ(all.toString(), "all");
+    EXPECT_EQ(all.toString(), "--all");
+
+    input::OptionType allShort = input::OptionType("a");
+    EXPECT_EQ(allShort.toString(), "-a");
 
     input::OptionType global = input::OptionType::global;
-    EXPECT_EQ(global.toString(), "global");
+    EXPECT_EQ(global.toString(), "--global");
+
+    input::OptionType globalShort = input::OptionType("g");
+    EXPECT_EQ(globalShort.toString(), "-g");
 
     input::OptionType local = input::OptionType::local;
-    EXPECT_EQ(local.toString(), "local");
+    EXPECT_EQ(local.toString(), "--local");
+
+    input::OptionType localShort = input::OptionType("l");
+    EXPECT_EQ(localShort.toString(), "-l");
 
     input::OptionType unknown = input::OptionType::UNKNOWN_OPTION_TYPE;
     EXPECT_EQ(unknown.toString(), "");
+
+    input::OptionType rubbish = input::OptionType("rubbish");
+    EXPECT_EQ(rubbish.toString(), "");
 }
 
-/* Test the argument count functionality */
-TEST(OptionType, ArgCount) {
+/* Test the parameter count functionality */
+TEST(OptionType, ParamCount) {
     input::OptionType all = input::OptionType::all;
-    EXPECT_EQ(all.getArgCount(), 0);
+    EXPECT_EQ(all.getParamCount(), 0);
 
     input::OptionType global = input::OptionType::global;
-    EXPECT_EQ(global.getArgCount(), 0);
+    EXPECT_EQ(global.getParamCount(), 0);
 
     input::OptionType local = input::OptionType::local;
-    EXPECT_EQ(local.getArgCount(), 0);
+    EXPECT_EQ(local.getParamCount(), 0);
 
     input::OptionType unknown = input::OptionType::UNKNOWN_OPTION_TYPE;
-    EXPECT_EQ(unknown.getArgCount(), 0);
+    EXPECT_EQ(unknown.getParamCount(), 0);
 }
+
 /* Test the character representation functionality */
 TEST(OptionType, CharacterRepresentation) {
     input::OptionType all = input::OptionType::all;

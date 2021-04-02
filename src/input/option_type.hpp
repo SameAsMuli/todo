@@ -57,6 +57,16 @@ class OptionType {
 #undef F
 
     /**
+     * @brief Prefix string for a short-format option.
+     */
+    static inline const std::string SHORT_OPTION_PREFIX{"-"};
+
+    /**
+     * @brief Prefix string for a long-format option.
+     */
+    static inline const std::string LONG_OPTION_PREFIX{"--"};
+
+    /**
      * @brief Denotes the absence of a character representation for the option.
      */
     static inline const char NULL_CHAR = '\0';
@@ -88,7 +98,15 @@ class OptionType {
      *
      * @param s String to convert to an Option.
      */
-    OptionType(std::string s) : m_value(valueFromString(s)) {}
+    OptionType(const std::string &s)
+        : m_value(valueFromString(s)), m_shortOption(s.size() == 1) {}
+
+    /**
+     * @brief Initialise an Option Type from its character representation.
+     *
+     * @param c Character to convert to an Option.
+     */
+    OptionType(char c) : OptionType(std::string(1, c)) {}
 
     /**
      * @brief Allows usage in switch and comparison statements.
@@ -127,16 +145,24 @@ class OptionType {
      * @return The string representation of the Option Type.
      */
     std::string toString() const {
-        return (m_value < NUM_OPTION_TYPES) ? m_optionNames[m_value] : "";
+        if (m_value >= NUM_OPTION_TYPES) {
+            return "";
+        }
+
+        if (m_shortOption) {
+            return SHORT_OPTION_PREFIX + this->getCharRepresentation();
+        }
+
+        return LONG_OPTION_PREFIX + m_optionNames[m_value];
     }
 
     /**
-     * @brief Get the argument count for the option type.
+     * @brief Get the parameter count for the option type.
      *
-     * @return The argument count or 0 if the option type is unknown.
+     * @return The parameter count or 0 if the option type is unknown.
      */
-    constexpr uint8_t getArgCount() const {
-        return (m_value < NUM_OPTION_TYPES) ? m_argCounts[m_value] : 0;
+    constexpr uint8_t getParamCount() const {
+        return (m_value < NUM_OPTION_TYPES) ? m_paramCount[m_value] : 0;
     }
 
     /**
@@ -175,12 +201,14 @@ class OptionType {
 
 #define F(e, n) n
     /**
-     * @brief A mapping of the enum values to their arg count.
+     * @brief A mapping of the enum values to their parameter count.
      */
-    static inline const std::vector<uint8_t> m_argCounts = {OPTION_TYPES(F)};
+    static inline const std::vector<uint8_t> m_paramCount = {OPTION_TYPES(F)};
 #undef F
 
     Value m_value;
+
+    bool m_shortOption = false;
 
     /**
      * @brief Convert a string to a Value.

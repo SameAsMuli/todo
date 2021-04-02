@@ -56,16 +56,6 @@ class Help : public ActionAbstract {
      * @brief Print the help text and list all available functions.
      */
     void run() override;
-
-    /**
-     * @brief Sort function to order actions alphabetically by name.
-     *
-     * @param tf1 First action.
-     * @param tf2 Second action.
-     *
-     * @return True if tf1 has a lower name than tf2.
-     */
-    static bool actionCompare(ActionAbstract *tf1, ActionAbstract *tf2);
 };
 
 #endif

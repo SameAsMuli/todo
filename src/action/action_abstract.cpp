@@ -29,8 +29,7 @@ bool ActionAbstract::isKnownAs(const std::string &name) const {
 void ActionAbstract::perform() {
     if (this->getArgLimit().has_value()) {
         // Subtract 1 so as not to count the action itself
-        if (this->getInput().size() - input::Input::PARAM_START_INDEX >
-            this->getArgLimit()) {
+        if (this->getInput().getActionArgs().size() > this->getArgLimit()) {
             throw std::runtime_error("Too many arguments for action: '" +
                                      this->getName() + "'");
         }

@@ -5,6 +5,7 @@
 
 #include "error/empty_argument.hpp"
 #include "file/definitions.hpp"
+#include "input/option_type.hpp"
 #include "task/metadata.hpp"
 #include "task/outstanding_abstract.hpp"
 
@@ -16,19 +17,7 @@ OutstandingAbstract::OutstandingAbstract(const std::string &name,
     : TaskTypeAbstract(file::getOutstanding, name, prefix) {}
 
 void OutstandingAbstract::add(const input::Input &input) {
-    unsigned int offset = input::Input::PARAM_START_INDEX;
-    bool global = false;
-
-    if (input.toString(offset).empty()) {
-        throw error::EmptyArgument{"add"};
-    }
-
-    if (input.hasOption("--global", offset)) {
-        offset++;
-        global = true;
-    }
-
-    auto description = input.toString(offset);
+    auto description = input.getActionArgString();
     if (description.empty()) {
         throw error::EmptyArgument{"add"};
     }
@@ -40,7 +29,9 @@ void OutstandingAbstract::add(const input::Input &input) {
     Task task{this->getPrefix(), description};
     task.setMetadata(metadata);
 
-    std::ofstream ofs{this->getFile(global).string(), std::ios_base::app};
+    std::ofstream ofs{
+        this->getFile(input.hasOption(input::OptionType::global)).string(),
+        std::ios_base::app};
     if (ofs.is_open()) {
         ofs << task << std::endl;
     } else {

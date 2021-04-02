@@ -18,32 +18,32 @@ View::View(const input::Input &input)
     : ActionAbstract("view", "View outstanding TODOs", input, 1) {}
 
 void View::run() {
-    if (!this->getInput().hasOption(input::Input::PARAM_START_INDEX)) {
+    if (this->getInput().getActionArgs().empty()) {
         this->outstandingTodos();
         this->completeTodos();
         return;
     }
 
-    auto option = this->getInput().getOption(input::Input::PARAM_START_INDEX);
+    auto arg = this->getInput().getActionArg(0);
 
-    if (option == "complete") {
+    if (arg == "complete") {
         this->completeTodos();
-    } else if (option == "outstanding") {
+    } else if (arg == "outstanding") {
         this->outstandingTodos();
-    } else if (option == "urgent") {
+    } else if (arg == "urgent") {
         this->urgentTodos();
-    } else if (option == "high") {
+    } else if (arg == "high") {
         this->highTodos();
-    } else if (option == "normal") {
+    } else if (arg == "normal") {
         this->normalTodos();
-    } else if (option == "low") {
+    } else if (arg == "low") {
         this->lowTodos();
-    } else if (option == "done") {
+    } else if (arg == "done") {
         this->doneTodos();
-    } else if (option == "reject") {
+    } else if (arg == "reject") {
         this->rejectTodos();
     } else {
-        throw error::UnknownArgument(option);
+        throw error::UnknownArgument(arg);
     }
 }
 
