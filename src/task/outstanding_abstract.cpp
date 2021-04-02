@@ -3,6 +3,7 @@
 #include <ostream>   // std::endl
 #include <stdexcept> // std::runtime_error
 
+#include "error/empty_argument.hpp"
 #include "file/definitions.hpp"
 #include "task/metadata.hpp"
 #include "task/outstanding_abstract.hpp"
@@ -19,7 +20,7 @@ void OutstandingAbstract::add(const input::Input &input) {
     bool global = false;
 
     if (input.toString(offset).empty()) {
-        throw std::runtime_error{"Empty input passed to add method"};
+        throw error::EmptyArgument{"add"};
     }
 
     if (input.hasOption("--global", offset)) {
@@ -29,7 +30,7 @@ void OutstandingAbstract::add(const input::Input &input) {
 
     auto description = input.toString(offset);
     if (description.empty()) {
-        throw std::runtime_error{"Empty input passed to add method"};
+        throw error::EmptyArgument{"add"};
     }
 
     /* Create and populate a task to be added */
