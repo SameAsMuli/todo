@@ -7,12 +7,12 @@ Inspired by similar projects such as [Taskwarrior](https://taskwarrior.org/).
 
 ## Features
 **Current:**
-* Multiple priority levels for TODOs (low, normal and urgent).
+* Multiple priority levels for TODOs (low, normal, high and urgent).
 * Add, remove, complete, uncomplete and archive TODOs.
 * Automatic archiving of complete TODOs after 24 hours.
+* Location-based TODOs (allows different TODO lists for different directories/projects).
 
 **Planned:**
-* Location-based TODOs (allows different TODO lists for different directories/projects).
 * File searching for a defined TODO string
 * "Live Display" to update TODO list as items are added or files are updated.
 
@@ -20,7 +20,7 @@ Inspired by similar projects such as [Taskwarrior](https://taskwarrior.org/).
 Currently tested on both Linux and MacOS. Should work on any POSIX compatible system.
 
 ## Dependencies
-Requires CMake and an internet connection to compile; all other dependencies are downloaded via CMake.
+Requires a C++17 compatible compiler, CMake and an internet connection to compile; all other dependencies are downloaded via CMake.
 
 ## Installation
 Create a build directory in the root of the project and compile using CMake:
