@@ -2,7 +2,7 @@
 
 #include "action/view.hpp"
 #include "error/unknown_argument.hpp"
-#include "input/option_type.hpp"
+#include "input/option.hpp"
 #include "task/done.hpp"
 #include "task/high.hpp"
 #include "task/low.hpp"
@@ -14,10 +14,10 @@ namespace todo {
 namespace action {
 
 View::View(const input::Input &input)
-    : ActionAbstract("view", "View outstanding TODOs", input,
-                     {input::OptionType::all, input::OptionType::global,
-                      input::OptionType::local},
-                     1) {}
+    : ActionAbstract(
+          "view", "View outstanding TODOs", input,
+          {input::Option::all, input::Option::global, input::Option::local},
+          1) {}
 
 void View::run() {
     if (this->getInput().getActionArgCount() == 0) {
@@ -78,11 +78,11 @@ void View::viewTodos(task::TaskTypeAbstract *const taskType) const {
     if (taskType == NULL) {
         throw std::logic_error{"NULL passed to " + std::string{__func__}};
     }
-    if (this->getInput().hasOption(input::OptionType::all)) {
+    if (this->getInput().hasOption(input::Option::all)) {
         taskType->view(true);
         taskType->view(false);
     } else {
-        taskType->view(this->getInput().hasOption(input::OptionType::global));
+        taskType->view(this->getInput().hasOption(input::Option::global));
     }
 }
 

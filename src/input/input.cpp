@@ -37,17 +37,17 @@ Input::Input(int argc, char const *const *argv) {
         auto arg = std::string(argv[i]);
 
         if (processOptions) {
-            if (arg == OptionType::LONG_OPTION_PREFIX) {
+            if (arg == Option::LONG_OPTION_PREFIX) {
                 processOptions = false;
                 continue;
             }
 
-            if (hasPrefix(arg, OptionType::LONG_OPTION_PREFIX)) {
-                /* Remove the prefix and convert to an option type */
-                auto option = OptionType(
-                    arg.erase(0, OptionType::LONG_OPTION_PREFIX.size()));
+            if (hasPrefix(arg, Option::LONG_OPTION_PREFIX)) {
+                /* Remove the prefix and convert to an option */
+                auto option =
+                    Option(arg.erase(0, Option::LONG_OPTION_PREFIX.size()));
 
-                if (option == input::OptionType::UNKNOWN_OPTION_TYPE) {
+                if (option == input::Option::UNKNOWN_OPTION) {
                     throw std::runtime_error("Unknown option '" + arg + "'");
                 }
 
@@ -60,14 +60,14 @@ Input::Input(int argc, char const *const *argv) {
                 this->m_options.insert_or_assign(option, optionArgs);
                 continue;
 
-            } else if (hasPrefix(arg, OptionType::SHORT_OPTION_PREFIX)) {
-                /* Remove the prefix and convert to an option type */
-                arg.erase(0, OptionType::SHORT_OPTION_PREFIX.size());
+            } else if (hasPrefix(arg, Option::SHORT_OPTION_PREFIX)) {
+                /* Remove the prefix and convert to an option */
+                arg.erase(0, Option::SHORT_OPTION_PREFIX.size());
 
                 /* Handle multiple short options e.g. -al */
                 for (std::string::size_type j = 0; j < arg.size(); ++j) {
-                    auto option = OptionType(arg[j]);
-                    if (option == input::OptionType::UNKNOWN_OPTION_TYPE) {
+                    auto option = Option(arg[j]);
+                    if (option == input::Option::UNKNOWN_OPTION) {
                         throw std::runtime_error("Unknown option '" + arg +
                                                  "'");
                     }
@@ -173,21 +173,20 @@ bool Input::hasActionArg(const std::string &arg, int index) const {
     return this->getActionArg(safeIndex) == arg;
 }
 
-bool Input::hasOption(const OptionType &optionType) const {
-    return this->m_options.count(optionType);
+bool Input::hasOption(const Option &option) const {
+    return this->m_options.count(option);
 }
 
-std::vector<OptionType> Input::getOptions() const {
-    std::vector<OptionType> options;
+std::vector<Option> Input::getOptions() const {
+    std::vector<Option> options;
     for (auto const &o : m_options) {
         options.push_back(o.first);
     }
     return options;
 }
 
-std::vector<std::string>
-Input::getOptionArgs(const OptionType &optionType) const {
-    auto args = this->m_options.find(optionType);
+std::vector<std::string> Input::getOptionArgs(const Option &option) const {
+    auto args = this->m_options.find(option);
     if (args == this->m_options.end()) {
         return {};
     }

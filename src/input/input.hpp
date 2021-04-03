@@ -5,7 +5,7 @@
 #include <string> // std::string
 #include <vector> // std::vector
 
-#include "input/option_type.hpp"
+#include "input/option.hpp"
 
 namespace input {
 
@@ -89,36 +89,36 @@ class Input {
     bool hasActionArg(const std::string &arg, int index) const;
 
     /**
-     * @brief Return whether a specific option type was specified.
+     * @brief Return whether a specific option was specified.
      *
-     * @param optionType The option type to check for.
+     * @param option The option to check for.
      *
-     * @return True if the option type is found, false otherwise.
+     * @return True if the option is found, false otherwise.
      */
-    bool hasOption(const OptionType &optionType) const;
+    bool hasOption(const Option &option) const;
 
     /**
      * @brief Get all options specified in the input.
      *
-     * @return A vector of OptionTypes specified in the input.
+     * @return A vector of Options specified in the input.
      */
-    std::vector<OptionType> getOptions() const;
+    std::vector<Option> getOptions() const;
 
     /**
-     * @brief Get all arguments passed to a specific option type.
+     * @brief Get all arguments passed to a specific option.
      *
-     * @param optionType The option type to consider.
+     * @param option The option to consider.
      *
-     * @return A vector of string arguments passed to the option type.
+     * @return A vector of string arguments passed to the option.
      */
-    std::vector<std::string> getOptionArgs(const OptionType &optionType) const;
+    std::vector<std::string> getOptionArgs(const Option &option) const;
 
   private:
     std::string m_action;
 
     std::vector<std::string> m_actionArgs;
 
-    std::map<OptionType, std::vector<std::string>> m_options;
+    std::map<Option, std::vector<std::string>> m_options;
 };
 
 } // namespace input

@@ -9,7 +9,7 @@ namespace action {
 ActionAbstract::ActionAbstract(const std::string &name,
                                const std::string &helpText,
                                const input::Input &input,
-                               std::vector<input::OptionType> validOptions,
+                               std::vector<input::Option> validOptions,
                                std::optional<unsigned int> argLimit)
     : m_name(name), m_helpText(helpText), m_input(input),
       m_validOptions(validOptions), m_argLimit(argLimit) {}
@@ -27,7 +27,7 @@ bool ActionAbstract::isKnownAs(const std::string &name) const {
     return false;
 }
 
-bool ActionAbstract::acceptsOption(const input::OptionType &option) const {
+bool ActionAbstract::acceptsOption(const input::Option &option) const {
     return std::find(this->m_validOptions.begin(), this->m_validOptions.end(),
                      option) != this->m_validOptions.end();
 }
@@ -42,7 +42,7 @@ void ActionAbstract::perform() {
         }
     }
 
-    for (input::OptionType option : input.getOptions()) {
+    for (input::Option option : input.getOptions()) {
         if (!this->acceptsOption(option)) {
             throw std::runtime_error("Option '" + option.toString() +
                                      "' not handled by action: '" +

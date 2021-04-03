@@ -2,64 +2,63 @@
 #include <string>    // std::string
 #include <vector>    // std::vector
 
-#include "input/option_type.hpp"
+#include "input/option.hpp"
 #include "util/string.hpp"
 
 #include "gtest/gtest.h"
 
 /* Construction exceptions */
-TEST(OptionType, Construction) {
-    input::OptionType allLong = input::OptionType("all");
-    input::OptionType allPure = input::OptionType(input::OptionType::all);
-    input::OptionType allShort = input::OptionType("a");
+TEST(Option, Construction) {
+    input::Option allLong = input::Option("all");
+    input::Option allPure = input::Option(input::Option::all);
+    input::Option allShort = input::Option("a");
 
-    EXPECT_EQ(allLong, input::OptionType::all);
-    EXPECT_EQ(allPure, input::OptionType::all);
-    EXPECT_EQ(allShort, input::OptionType::all);
+    EXPECT_EQ(allLong, input::Option::all);
+    EXPECT_EQ(allPure, input::Option::all);
+    EXPECT_EQ(allShort, input::Option::all);
 
-    input::OptionType globalLong = input::OptionType("global");
-    input::OptionType globalPure = input::OptionType(input::OptionType::global);
-    input::OptionType globalShort = input::OptionType('g');
+    input::Option globalLong = input::Option("global");
+    input::Option globalPure = input::Option(input::Option::global);
+    input::Option globalShort = input::Option('g');
 
-    EXPECT_EQ(globalLong, input::OptionType::global);
-    EXPECT_EQ(globalPure, input::OptionType::global);
-    EXPECT_EQ(globalShort, input::OptionType::global);
+    EXPECT_EQ(globalLong, input::Option::global);
+    EXPECT_EQ(globalPure, input::Option::global);
+    EXPECT_EQ(globalShort, input::Option::global);
 
-    input::OptionType localLong = input::OptionType("local");
-    input::OptionType localPure = input::OptionType(input::OptionType::local);
-    input::OptionType localShort = input::OptionType("l");
+    input::Option localLong = input::Option("local");
+    input::Option localPure = input::Option(input::Option::local);
+    input::Option localShort = input::Option("l");
 
-    EXPECT_EQ(localLong, input::OptionType::local);
-    EXPECT_EQ(localPure, input::OptionType::local);
-    EXPECT_EQ(localShort, input::OptionType::local);
+    EXPECT_EQ(localLong, input::Option::local);
+    EXPECT_EQ(localPure, input::Option::local);
+    EXPECT_EQ(localShort, input::Option::local);
 
-    input::OptionType unknownLong = input::OptionType("rubbish");
-    input::OptionType unknownPure =
-        input::OptionType(input::OptionType::UNKNOWN_OPTION_TYPE);
-    input::OptionType unknownShort = input::OptionType("R");
+    input::Option unknownLong = input::Option("rubbish");
+    input::Option unknownPure = input::Option(input::Option::UNKNOWN_OPTION);
+    input::Option unknownShort = input::Option("R");
 
-    EXPECT_EQ(unknownLong, input::OptionType::UNKNOWN_OPTION_TYPE);
-    EXPECT_EQ(unknownPure, input::OptionType::UNKNOWN_OPTION_TYPE);
-    EXPECT_EQ(unknownShort, input::OptionType::UNKNOWN_OPTION_TYPE);
+    EXPECT_EQ(unknownLong, input::Option::UNKNOWN_OPTION);
+    EXPECT_EQ(unknownPure, input::Option::UNKNOWN_OPTION);
+    EXPECT_EQ(unknownShort, input::Option::UNKNOWN_OPTION);
 }
 
 /* Check the logical consistency of the Option Type enum */
-TEST(OptionType, LogicalConsistency) {
+TEST(Option, LogicalConsistency) {
     std::vector<std::string> names;
 
-    for (input::OptionType const o : input::OptionType::ALL_TYPES) {
+    for (input::Option const o : input::Option::ALL_OPTIONS) {
         auto name = o.toString();
 
         /* Strip the prefix */
-        name.erase(0, input::OptionType::LONG_OPTION_PREFIX.size());
+        name.erase(0, input::Option::LONG_OPTION_PREFIX.size());
 
-        /* Only allow alpha-numeric option types */
+        /* Only allow alpha-numeric options */
         if (std::find_if_not(name.begin(), name.end(), isalnum) != name.end()) {
             FAIL() << "Option Type '" + name +
                           "' contains a non-alphanumeric character";
         }
 
-        /* Don't allow the same option type but with different cases */
+        /* Don't allow the same option but with different cases */
         auto nameUpper = util::string::toupper(name);
         auto i = std::find_if(
             names.begin(), names.end(), [nameUpper](std::string n) {
@@ -67,8 +66,7 @@ TEST(OptionType, LogicalConsistency) {
             });
         if (i != names.end()) {
             FAIL() << "Option Type '" + name +
-                          "' conflicts with other declared option type '" + *i +
-                          "'";
+                          "' conflicts with other declared option '" + *i + "'";
         } else {
             names.push_back(name);
         }
@@ -76,77 +74,77 @@ TEST(OptionType, LogicalConsistency) {
 }
 
 /* Test the isValid functionality */
-TEST(OptionType, IsValid) {
-    EXPECT_TRUE(input::OptionType::isValid("all"));
-    EXPECT_TRUE(input::OptionType::isValid("global"));
-    EXPECT_TRUE(input::OptionType::isValid("local"));
-    EXPECT_TRUE(input::OptionType::isValid("a"));
-    EXPECT_TRUE(input::OptionType::isValid("g"));
-    EXPECT_TRUE(input::OptionType::isValid("l"));
-    EXPECT_FALSE(input::OptionType::isValid("rubbish"));
-    EXPECT_FALSE(input::OptionType::isValid("R"));
-    EXPECT_FALSE(input::OptionType::isValid(""));
-    EXPECT_FALSE(input::OptionType::isValid("alll"));
-    EXPECT_FALSE(input::OptionType::isValid("all "));
+TEST(Option, IsValid) {
+    EXPECT_TRUE(input::Option::isValid("all"));
+    EXPECT_TRUE(input::Option::isValid("global"));
+    EXPECT_TRUE(input::Option::isValid("local"));
+    EXPECT_TRUE(input::Option::isValid("a"));
+    EXPECT_TRUE(input::Option::isValid("g"));
+    EXPECT_TRUE(input::Option::isValid("l"));
+    EXPECT_FALSE(input::Option::isValid("rubbish"));
+    EXPECT_FALSE(input::Option::isValid("R"));
+    EXPECT_FALSE(input::Option::isValid(""));
+    EXPECT_FALSE(input::Option::isValid("alll"));
+    EXPECT_FALSE(input::Option::isValid("all "));
 }
 
 /* Test the toString functionality */
-TEST(OptionType, ToString) {
-    input::OptionType all = input::OptionType::all;
+TEST(Option, ToString) {
+    input::Option all = input::Option::all;
     EXPECT_EQ(all.toString(), "--all");
 
-    input::OptionType allShort = input::OptionType("a");
+    input::Option allShort = input::Option("a");
     EXPECT_EQ(allShort.toString(), "-a");
 
-    input::OptionType global = input::OptionType::global;
+    input::Option global = input::Option::global;
     EXPECT_EQ(global.toString(), "--global");
 
-    input::OptionType globalShort = input::OptionType("g");
+    input::Option globalShort = input::Option("g");
     EXPECT_EQ(globalShort.toString(), "-g");
 
-    input::OptionType local = input::OptionType::local;
+    input::Option local = input::Option::local;
     EXPECT_EQ(local.toString(), "--local");
 
-    input::OptionType localShort = input::OptionType("l");
+    input::Option localShort = input::Option("l");
     EXPECT_EQ(localShort.toString(), "-l");
 
-    input::OptionType unknown = input::OptionType::UNKNOWN_OPTION_TYPE;
+    input::Option unknown = input::Option::UNKNOWN_OPTION;
     EXPECT_EQ(unknown.toString(), "");
 
-    input::OptionType rubbish = input::OptionType("rubbish");
+    input::Option rubbish = input::Option("rubbish");
     EXPECT_EQ(rubbish.toString(), "");
 }
 
 /* Test the parameter count functionality */
-TEST(OptionType, ParamCount) {
-    input::OptionType all = input::OptionType::all;
+TEST(Option, ParamCount) {
+    input::Option all = input::Option::all;
     EXPECT_EQ(all.getParamCount(), 0);
 
-    input::OptionType global = input::OptionType::global;
+    input::Option global = input::Option::global;
     EXPECT_EQ(global.getParamCount(), 0);
 
-    input::OptionType local = input::OptionType::local;
+    input::Option local = input::Option::local;
     EXPECT_EQ(local.getParamCount(), 0);
 
-    input::OptionType unknown = input::OptionType::UNKNOWN_OPTION_TYPE;
+    input::Option unknown = input::Option::UNKNOWN_OPTION;
     EXPECT_EQ(unknown.getParamCount(), 0);
 }
 
 /* Test the character representation functionality */
-TEST(OptionType, CharacterRepresentation) {
-    input::OptionType all = input::OptionType::all;
+TEST(Option, CharacterRepresentation) {
+    input::Option all = input::Option::all;
     EXPECT_TRUE(all.hasCharRepresentation());
     EXPECT_EQ(all.getCharRepresentation(), 'a');
 
-    input::OptionType global = input::OptionType::global;
+    input::Option global = input::Option::global;
     EXPECT_TRUE(global.hasCharRepresentation());
     EXPECT_EQ(global.getCharRepresentation(), 'g');
 
-    input::OptionType local = input::OptionType::local;
+    input::Option local = input::Option::local;
     EXPECT_TRUE(local.hasCharRepresentation());
     EXPECT_EQ(local.getCharRepresentation(), 'l');
 
-    input::OptionType unknown = input::OptionType::UNKNOWN_OPTION_TYPE;
+    input::Option unknown = input::Option::UNKNOWN_OPTION;
     EXPECT_FALSE(unknown.hasCharRepresentation());
-    EXPECT_EQ(unknown.getCharRepresentation(), input::OptionType::NULL_CHAR);
+    EXPECT_EQ(unknown.getCharRepresentation(), input::Option::NULL_CHAR);
 }

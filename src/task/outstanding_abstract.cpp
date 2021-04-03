@@ -5,7 +5,7 @@
 
 #include "error/empty_argument.hpp"
 #include "file/definitions.hpp"
-#include "input/option_type.hpp"
+#include "input/option.hpp"
 #include "task/metadata.hpp"
 #include "task/outstanding_abstract.hpp"
 
@@ -30,7 +30,7 @@ void OutstandingAbstract::add(const input::Input &input) {
     task.setMetadata(metadata);
 
     std::ofstream ofs{
-        this->getFile(input.hasOption(input::OptionType::global)).string(),
+        this->getFile(input.hasOption(input::Option::global)).string(),
         std::ios_base::app};
     if (ofs.is_open()) {
         ofs << task << std::endl;

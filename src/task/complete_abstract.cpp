@@ -7,7 +7,7 @@
 #include "file/definitions.hpp"
 #include "file/mutators.hpp"
 #include "input/input.hpp"
-#include "input/option_type.hpp"
+#include "input/option.hpp"
 #include "task/complete_abstract.hpp"
 #include "task/metadata.hpp"
 #include "task/prefix.hpp"
@@ -21,7 +21,7 @@ CompleteAbstract::CompleteAbstract(const std::string &name,
     : TaskTypeAbstract(file::getComplete, name, prefix) {}
 
 void CompleteAbstract::add(const input::Input &input) {
-    bool global = input.hasOption(input::OptionType::global);
+    bool global = input.hasOption(input::Option::global);
 
     /* Make sure we can open the complete file */
     std::ofstream ofs{this->getFile(global).string(), std::ios_base::app};
@@ -52,7 +52,7 @@ void CompleteAbstract::undo(const input::Input &input) {
         throw error::EmptyArgument{"undo"};
     }
 
-    bool global = input.hasOption(input::OptionType::global);
+    bool global = input.hasOption(input::Option::global);
 
     /* Make sure we can open the outstanding file */
     std::ofstream ofs{file::getOutstanding(global).string(),

@@ -1,5 +1,5 @@
 #include "input/input.hpp"
-#include "input/option_type.hpp"
+#include "input/option.hpp"
 #include "gtest/gtest.h"
 
 /* Fixture class to test each public method */
@@ -225,36 +225,35 @@ TEST_F(InputMethods, HasActionArg_StringAndIndex) {
 }
 
 TEST_F(InputMethods, HasOption) {
-    EXPECT_EQ(n0.hasOption(input::OptionType::global), false);
-    EXPECT_EQ(n1.hasOption(input::OptionType::global), false);
-    EXPECT_EQ(n2.hasOption(input::OptionType::global), false);
-    EXPECT_EQ(n3.hasOption(input::OptionType::global), false);
-    EXPECT_EQ(n4.hasOption(input::OptionType::global), true);
-    EXPECT_EQ(n5.hasOption(input::OptionType::global), false);
-    EXPECT_EQ(n6.hasOption(input::OptionType::global), true);
-    EXPECT_EQ(n7.hasOption(input::OptionType::global), true);
-    EXPECT_EQ(n7.hasOption(input::OptionType::all), true);
-    EXPECT_EQ(n8.hasOption(input::OptionType::global), true);
-    EXPECT_EQ(n8.hasOption(input::OptionType::all), false);
-    EXPECT_EQ(n9.hasOption(input::OptionType::global), true);
-    EXPECT_EQ(n9.hasOption(input::OptionType::all), true);
-    EXPECT_EQ(n10.hasOption(input::OptionType::global), true);
-    EXPECT_EQ(n10.hasOption(input::OptionType::all), false);
-    EXPECT_EQ(n11.hasOption(input::OptionType::global), false);
-    EXPECT_EQ(n12.hasOption(input::OptionType::global), false);
-    EXPECT_EQ(n13.hasOption(input::OptionType::global), false);
-    EXPECT_EQ(n14.hasOption(input::OptionType::global), false);
-    EXPECT_EQ(n15.hasOption(input::OptionType::global), true);
-    EXPECT_EQ(n15.hasOption(input::OptionType::all), false);
+    EXPECT_EQ(n0.hasOption(input::Option::global), false);
+    EXPECT_EQ(n1.hasOption(input::Option::global), false);
+    EXPECT_EQ(n2.hasOption(input::Option::global), false);
+    EXPECT_EQ(n3.hasOption(input::Option::global), false);
+    EXPECT_EQ(n4.hasOption(input::Option::global), true);
+    EXPECT_EQ(n5.hasOption(input::Option::global), false);
+    EXPECT_EQ(n6.hasOption(input::Option::global), true);
+    EXPECT_EQ(n7.hasOption(input::Option::global), true);
+    EXPECT_EQ(n7.hasOption(input::Option::all), true);
+    EXPECT_EQ(n8.hasOption(input::Option::global), true);
+    EXPECT_EQ(n8.hasOption(input::Option::all), false);
+    EXPECT_EQ(n9.hasOption(input::Option::global), true);
+    EXPECT_EQ(n9.hasOption(input::Option::all), true);
+    EXPECT_EQ(n10.hasOption(input::Option::global), true);
+    EXPECT_EQ(n10.hasOption(input::Option::all), false);
+    EXPECT_EQ(n11.hasOption(input::Option::global), false);
+    EXPECT_EQ(n12.hasOption(input::Option::global), false);
+    EXPECT_EQ(n13.hasOption(input::Option::global), false);
+    EXPECT_EQ(n14.hasOption(input::Option::global), false);
+    EXPECT_EQ(n15.hasOption(input::Option::global), true);
+    EXPECT_EQ(n15.hasOption(input::Option::all), false);
 }
 
 TEST_F(InputMethods, GetOptionArgs) {
-    EXPECT_EQ(n0.getOptionArgs(input::OptionType::global).size(), 0);
-    EXPECT_EQ(n4.getOptionArgs(input::OptionType::global).size(), 0);
-    EXPECT_EQ(n7.getOptionArgs(input::OptionType::global).size(), 0);
-    EXPECT_EQ(n7.getOptionArgs(input::OptionType::all).size(), 0);
-    EXPECT_EQ(n7.getOptionArgs(input::OptionType::UNKNOWN_OPTION_TYPE).size(),
-              0);
+    EXPECT_EQ(n0.getOptionArgs(input::Option::global).size(), 0);
+    EXPECT_EQ(n4.getOptionArgs(input::Option::global).size(), 0);
+    EXPECT_EQ(n7.getOptionArgs(input::Option::global).size(), 0);
+    EXPECT_EQ(n7.getOptionArgs(input::Option::all).size(), 0);
+    EXPECT_EQ(n7.getOptionArgs(input::Option::UNKNOWN_OPTION).size(), 0);
 }
 
 /* Construction exceptions */

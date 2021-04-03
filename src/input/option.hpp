@@ -1,5 +1,5 @@
-#ifndef INPUT_OPTION_TYPE_H
-#define INPUT_OPTION_TYPE_H
+#ifndef INPUT_OPTION_H
+#define INPUT_OPTION_H
 
 #include <algorithm>
 #include <cctype>
@@ -9,18 +9,18 @@
 
 namespace input {
 
-/* Define the list of command line option types *nd the number of arguments that
+/* Define the list of command line options *nd the number of arguments that
  * can be passed to them. */
-#define OPTION_TYPES(F) F(all, 0), F(global, 0), F(help, 0), F(local, 0)
+#define OPTIONS(F) F(all, 0), F(global, 0), F(help, 0), F(local, 0)
 
 /**
  * @brief A class to describe the available command line options.
  *
  * The class acts as a wrapper around an enum. The enum describes all possible
- * option types for any action, which allows consistency when using the same
+ * options for any action, which allows consistency when using the same
  * options across different actions.
  *
- * Every option type has a long name, which is passed to the program in the
+ * Every option has a long name, which is passed to the program in the
  * format:
  *
  *   --longname
@@ -31,29 +31,25 @@ namespace input {
  *
  *   -l
  *
- * Option types can be passed a set number of arguments, specified by the
- * argument count e.g. an option type with an argument count of 2 would be
+ * Options can be passed a set number of arguments, specified by the
+ * argument count e.g. an option with an argument count of 2 would be
  * passed to the program as follows:
  *
  *   --longname argument1 argument2
  */
-class OptionType {
+class Option {
 
   public:
 #define F(e, n) e
     /**
-     * @brief Enum class for command line option types.
+     * @brief Enum class for command line options.
      */
-    enum Value : uint8_t {
-        OPTION_TYPES(F),
-        NUM_OPTION_TYPES,
-        UNKNOWN_OPTION_TYPE
-    };
+    enum Value : uint8_t { OPTIONS(F), NUM_OPTIONS, UNKNOWN_OPTION };
 
     /**
      * @brief An iterable collection of the enum values.
      */
-    static inline const std::vector<Value> ALL_TYPES = {OPTION_TYPES(F)};
+    static inline const std::vector<Value> ALL_OPTIONS = {OPTIONS(F)};
 #undef F
 
     /**
@@ -79,34 +75,34 @@ class OptionType {
      * @return True if s is a known option, false otherwise.
      */
     static bool isValid(std::string s) {
-        return valueFromString(s) != UNKNOWN_OPTION_TYPE;
+        return valueFromString(s) != UNKNOWN_OPTION;
     }
 
     /**
-     * @brief Initialise an Option Type directly from the enum.
+     * @brief Initialise an Option directly from the enum.
      *
      * Allows the end user to write code like this:
      *
-     *   OptionType o = OptionType::local;
+     *   Option o = Option::local;
      *
-     * @param optionType The option type to initialise.
+     * @param option The option to initialise.
      */
-    OptionType(Value optionType) : m_value(optionType) {}
+    Option(Value option) : m_value(option) {}
 
     /**
-     * @brief Initialise an Option Type from its string representation.
+     * @brief Initialise an Option from its string representation.
      *
      * @param s String to convert to an Option.
      */
-    OptionType(const std::string &s)
+    Option(const std::string &s)
         : m_value(valueFromString(s)), m_shortOption(s.size() == 1) {}
 
     /**
-     * @brief Initialise an Option Type from its character representation.
+     * @brief Initialise an Option from its character representation.
      *
      * @param c Character to convert to an Option.
      */
-    OptionType(char c) : OptionType(std::string(1, c)) {}
+    Option(char c) : Option(std::string(1, c)) {}
 
     /**
      * @brief Allows usage in switch and comparison statements.
@@ -126,26 +122,26 @@ class OptionType {
     explicit operator bool() = delete;
 
     /**
-     * @brief Output an option type to a given stream.
+     * @brief Output an option to a given stream.
      *
      * @param stream The stream to use.
-     * @param optionType The option type to use.
+     * @param option The option to use.
      *
      * @return The given stream.
      */
     friend std::ostream &operator<<(std::ostream &stream,
-                                    const OptionType &optionType) {
-        stream << optionType.toString();
+                                    const Option &option) {
+        stream << option.toString();
         return stream;
     }
 
     /**
-     * @brief Convert the Option Type to its name representation.
+     * @brief Convert the Option to its name representation.
      *
-     * @return The string representation of the Option Type.
+     * @return The string representation of the Option.
      */
     std::string toString() const {
-        if (m_value >= NUM_OPTION_TYPES) {
+        if (m_value >= NUM_OPTIONS) {
             return "";
         }
 
@@ -157,16 +153,16 @@ class OptionType {
     }
 
     /**
-     * @brief Get the parameter count for the option type.
+     * @brief Get the parameter count for the option.
      *
-     * @return The parameter count or 0 if the option type is unknown.
+     * @return The parameter count or 0 if the option is unknown.
      */
     constexpr uint8_t getParamCount() const {
-        return (m_value < NUM_OPTION_TYPES) ? m_paramCount[m_value] : 0;
+        return (m_value < NUM_OPTIONS) ? m_paramCount[m_value] : 0;
     }
 
     /**
-     * @brief Get the single character representation of the Option Type.
+     * @brief Get the single character representation of the Option.
      *
      * @return The corresponding character, or NULL_CHAR if none is found.
      */
@@ -184,7 +180,7 @@ class OptionType {
     }
 
     /**
-     * @brief Whether the Option Type has a single character representation.
+     * @brief Whether the Option has a single character representation.
      *
      * @return True if a single character representation can be found.
      */
@@ -195,15 +191,14 @@ class OptionType {
   private:
 #define F(s, n) #s
     /* String representations of the enum values. */
-    static inline const std::vector<std::string> m_optionNames = {
-        OPTION_TYPES(F)};
+    static inline const std::vector<std::string> m_optionNames = {OPTIONS(F)};
 #undef F
 
 #define F(e, n) n
     /**
      * @brief A mapping of the enum values to their parameter count.
      */
-    static inline const std::vector<uint8_t> m_paramCount = {OPTION_TYPES(F)};
+    static inline const std::vector<uint8_t> m_paramCount = {OPTIONS(F)};
 #undef F
 
     Value m_value;
@@ -215,11 +210,11 @@ class OptionType {
      *
      * @param s String to convert.
      *
-     * @return The matching Value, or UNKNOWN_OPTION_TYPE if string is unknown.
+     * @return The matching Value, or UNKNOWN_OPTION if string is unknown.
      */
     static Value valueFromString(const std::string &s) {
         if (s.length() == 1) {
-            for (OptionType const o : ALL_TYPES) {
+            for (Option const o : ALL_OPTIONS) {
                 if (o.getCharRepresentation() == s[0]) {
                     return o.m_value;
                 }
@@ -231,11 +226,11 @@ class OptionType {
             }
         }
 
-        return UNKNOWN_OPTION_TYPE;
+        return UNKNOWN_OPTION;
     }
 };
 
-#undef OPTION_TYPES
+#undef OPTIONS
 
 } // namespace input
 

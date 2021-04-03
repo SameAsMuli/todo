@@ -2,14 +2,14 @@
 #include "error/empty_argument.hpp"
 #include "file/definitions.hpp"
 #include "file/mutators.hpp"
-#include "input/option_type.hpp"
+#include "input/option.hpp"
 
 namespace todo {
 namespace action {
 
 Remove::Remove(input::Input input)
     : ActionAbstract("remove", "Remove an outstanding TODO", input,
-                     {input::OptionType::global, input::OptionType::local}) {}
+                     {input::Option::global, input::Option::local}) {}
 
 void Remove::run() {
     /* Form and check the seach string */
@@ -19,8 +19,8 @@ void Remove::run() {
     }
 
     file::removeTask(searchString,
-                     file::getOutstanding(this->getInput().hasOption(
-                         input::OptionType::global)));
+                     file::getOutstanding(
+                         this->getInput().hasOption(input::Option::global)));
 }
 
 } // namespace action

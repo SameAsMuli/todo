@@ -4,7 +4,7 @@
 #include "action/help.hpp"
 #include "error/unknown_argument.hpp"
 #include "file/definitions.hpp"
-#include "input/option_type.hpp"
+#include "input/option.hpp"
 #include "util/string.hpp"
 
 namespace {
@@ -67,7 +67,7 @@ namespace action {
 
 Help::Help(input::Input input)
     : ActionAbstract("help", "Display this help text", input,
-                     {input::OptionType::help}, 1) {
+                     {input::Option::help}, 1) {
     this->addAlias("--help");
 }
 
