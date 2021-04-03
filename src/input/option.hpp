@@ -1,11 +1,10 @@
 #ifndef INPUT_OPTION_H
 #define INPUT_OPTION_H
 
-#include <algorithm>
-#include <cctype>
-#include <iostream>
-#include <string>
-#include <vector>
+#include <algorithm> // std::find
+#include <iostream>  // std::ostream
+#include <string>    // std::string
+#include <vector>    // std::vector
 
 namespace input {
 
@@ -113,6 +112,28 @@ class Option {
      * @return Wrapped enum value.
      */
     operator Value() const { return m_value; }
+
+    /**
+     * @brief Define equality between Option objects.
+     *
+     * @param other The other Option to compare to this one.
+     *
+     * @return True if the Value of both Options is equal, false otherwise.
+     */
+    bool operator==(const Option &other) { return m_value == (Value)other; }
+    /**
+     * @brief Define equality between an Option object and a Value.
+     *
+     * Allows the end user to write code like this:
+     *
+     *   Option option{"--global"};
+     *   if (option == Option::global) { ... }
+     *
+     * @param value The Option value to compare against.
+     *
+     * @return True if the Option's value matches value, false otherwise.
+     */
+    bool operator==(const Value &value) { return m_value == value; }
 
     /**
      * @brief Prevent usage as a conditional statement.
@@ -233,5 +254,28 @@ class Option {
 #undef OPTIONS
 
 } // namespace input
+
+namespace std {
+
+/**
+ * @brief Define a hash for the Option class.
+ */
+template <> struct std::hash<input::Option> {
+    /**
+     * @brief Define the hashing function for the Option class.
+     *
+     * As the class is effectively just an enum we only need to case Value to a
+     * size_t type to create an effective hash.
+     *
+     * @param option The option to hash.
+     *
+     * @return A hash of the given option.
+     */
+    size_t operator()(const input::Option &option) const {
+        return static_cast<std::size_t>(option);
+    }
+};
+
+} // namespace std
 
 #endif

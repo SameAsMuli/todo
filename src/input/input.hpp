@@ -1,9 +1,10 @@
 #ifndef INPUT_INPUT_H
 #define INPUT_INPUT_H
 
-#include <map>    // std::map
-#include <string> // std::string
-#include <vector> // std::vector
+#include <string>        // std::string
+#include <unordered_map> // std::unordered_map
+#include <unordered_set> // std::unordered_set
+#include <vector>        // std::vector
 
 #include "input/option.hpp"
 
@@ -100,9 +101,9 @@ class Input {
     /**
      * @brief Get all options specified in the input.
      *
-     * @return A vector of Options specified in the input.
+     * @return An unordered_set of Options specified in the input.
      */
-    std::vector<Option> getOptions() const;
+    std::unordered_set<Option> getOptions() const;
 
     /**
      * @brief Get all arguments passed to a specific option.
@@ -118,7 +119,7 @@ class Input {
 
     std::vector<std::string> m_actionArgs;
 
-    std::map<Option, std::vector<std::string>> m_options;
+    std::unordered_map<Option, std::vector<std::string>> m_options;
 };
 
 } // namespace input

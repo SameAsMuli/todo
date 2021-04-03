@@ -177,10 +177,10 @@ bool Input::hasOption(const Option &option) const {
     return this->m_options.count(option);
 }
 
-std::vector<Option> Input::getOptions() const {
-    std::vector<Option> options;
+std::unordered_set<Option> Input::getOptions() const {
+    std::unordered_set<Option> options;
     for (auto const &o : m_options) {
-        options.push_back(o.first);
+        options.insert(o.first);
     }
     return options;
 }
