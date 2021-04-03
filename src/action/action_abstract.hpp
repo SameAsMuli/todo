@@ -1,9 +1,9 @@
 #ifndef ACTION_ACTION_ABSTRACT_H
 #define ACTION_ACTION_ABSTRACT_H
 
-#include <optional> //std::optional
-#include <string>   // std::string
-#include <vector>   // std::string
+#include <optional>      //std::optional
+#include <string>        // std::string
+#include <unordered_set> // std::unordered_set
 
 #include "input/input.hpp"
 #include "input/option.hpp"
@@ -31,7 +31,7 @@ class ActionAbstract {
      */
     ActionAbstract(const std::string &name, const std::string &helpText,
                    const input::Input &input,
-                   std::vector<input::Option> validOptions = {},
+                   std::unordered_set<input::Option> validOptions = {},
                    std::optional<unsigned int> argLimit = std::nullopt);
 
     /**
@@ -72,7 +72,7 @@ class ActionAbstract {
      *
      * @return An optional number of arguments.
      */
-    std::vector<std::string> getAliases() const { return m_aliases; }
+    std::unordered_set<std::string> getAliases() const { return m_aliases; }
 
     /**
      * @brief Add another alias of this action.
@@ -82,7 +82,7 @@ class ActionAbstract {
      *
      * @param alias A string containing the alias to add.
      */
-    void addAlias(const std::string &alias) { m_aliases.push_back(alias); }
+    void addAlias(const std::string &alias) { m_aliases.insert(alias); }
 
     /**
      * @brief Check if the action is known by the given name.
@@ -98,9 +98,14 @@ class ActionAbstract {
      *
      * @param option The option to check.
      *
-     * @return True if the action can handle the option, false otherwise.
+     * @return True if the option is valid for the action, false otherwise.
      */
-    bool acceptsOption(const input::Option &option) const;
+    bool validOption(const input::Option &option) const;
+
+    /**
+     * @brief Print general information about the action.
+     */
+    void printDetails();
 
     /**
      * @brief Get a detailed description of the action.
@@ -148,9 +153,9 @@ class ActionAbstract {
 
     const std::optional<unsigned int> m_argLimit;
 
-    std::vector<std::string> m_aliases;
+    std::unordered_set<std::string> m_aliases;
 
-    const std::vector<input::Option> m_validOptions;
+    std::unordered_set<input::Option> m_validOptions;
 
     /**
      * @brief Function that describes how the action should behave.

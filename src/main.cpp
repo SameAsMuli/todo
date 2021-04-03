@@ -16,6 +16,7 @@
 #include "file/mutators.hpp"
 #include "input/input.hpp"
 #include "input/option.hpp"
+#include "util/display.hpp"
 
 int main(int argc, char **argv) {
     /* Create the data files if they don't already exist */
@@ -76,7 +77,7 @@ int main(int argc, char **argv) {
 
             std::cerr << "Unknown action: '" << inputAction << "'" << std::endl;
             std::cout << std::endl;
-            help.printGeneralUsage();
+            std::cout << util::display::generalUsage() << std::endl;
             return 1;
         }
     } catch (const std::exception &e) {
