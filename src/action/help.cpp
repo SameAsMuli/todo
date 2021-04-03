@@ -2,7 +2,9 @@
 #include <iostream>  // std::cout
 
 #include "action/help.hpp"
+#include "error/unknown_argument.hpp"
 #include "file/definitions.hpp"
+#include "input/option_type.hpp"
 #include "util/string.hpp"
 
 namespace {
@@ -64,7 +66,8 @@ namespace todo {
 namespace action {
 
 Help::Help(input::Input input)
-    : ActionAbstract("help", "Display this help text", input, 1) {
+    : ActionAbstract("help", "Display this help text", input,
+                     {input::OptionType::help}, 1) {
     this->addAlias("--help");
 }
 
@@ -89,9 +92,7 @@ void Help::printGeneralUsage() const {
 /*** PRIVATE METHODS ***/
 
 void Help::run() {
-    auto actionName = this->getInput().getAction();
-
-    if (actionName.empty()) {
+    if (!this->getInput().hasActionArg(0)) {
         std::string::size_type maxNameLen = 0;
         std::vector<ActionAbstract *>::size_type minSeparatorLen = 3;
 
@@ -127,12 +128,15 @@ void Help::run() {
         std::cout << std::endl;
         std::cout << footer() << std::endl;
     } else {
+        auto actionName = this->getInput().getActionArg(0);
         for (auto const &action : this->m_actions) {
             if (action->getName() == actionName) {
                 printActionDetails(action);
                 break;
             }
         }
+
+        throw error::UnknownArgument(actionName, "action");
     }
 }
 

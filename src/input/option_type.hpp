@@ -11,7 +11,7 @@ namespace input {
 
 /* Define the list of command line option types *nd the number of arguments that
  * can be passed to them. */
-#define OPTION_TYPES(F) F(all, 0), F(global, 0), F(local, 0)
+#define OPTION_TYPES(F) F(all, 0), F(global, 0), F(help, 0), F(local, 0)
 
 /**
  * @brief A class to describe the available command line options.

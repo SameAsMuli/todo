@@ -98,6 +98,13 @@ class Input {
     bool hasOption(const OptionType &optionType) const;
 
     /**
+     * @brief Get all options specified in the input.
+     *
+     * @return A vector of OptionTypes specified in the input.
+     */
+    std::vector<OptionType> getOptions() const;
+
+    /**
      * @brief Get all arguments passed to a specific option type.
      *
      * @param optionType The option type to consider.

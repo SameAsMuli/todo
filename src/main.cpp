@@ -15,6 +15,7 @@
 #include "action/view.hpp"
 #include "file/mutators.hpp"
 #include "input/input.hpp"
+#include "input/option_type.hpp"
 
 int main(int argc, char **argv) {
     /* Create the data files if they don't already exist */
@@ -60,7 +61,11 @@ int main(int argc, char **argv) {
     auto inputAction = input.getAction();
     try {
         if (inputAction.empty()) {
-            view.perform();
+            if (input.hasOption(input::OptionType::help)) {
+                help.perform();
+            } else {
+                view.perform();
+            }
         } else {
             for (auto const &action : actions) {
                 if (action->isKnownAs(inputAction)) {

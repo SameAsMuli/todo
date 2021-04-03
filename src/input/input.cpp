@@ -177,6 +177,14 @@ bool Input::hasOption(const OptionType &optionType) const {
     return this->m_options.count(optionType);
 }
 
+std::vector<OptionType> Input::getOptions() const {
+    std::vector<OptionType> options;
+    for (auto const &o : m_options) {
+        options.push_back(o.first);
+    }
+    return options;
+}
+
 std::vector<std::string>
 Input::getOptionArgs(const OptionType &optionType) const {
     auto args = this->m_options.find(optionType);

@@ -17,8 +17,10 @@ class UnknownArgument : public std::runtime_error {
      * @brief Error with the name of the unrecognised argument.
      *
      * @param arg The unrecognised argument.
+     * @param type The type name of the argument. Defaults to "argument".
      */
-    UnknownArgument(const std::string &arg);
+    UnknownArgument(const std::string &arg,
+                    const std::string &type = "argument");
 };
 
 } // namespace error

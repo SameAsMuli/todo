@@ -14,7 +14,10 @@ namespace todo {
 namespace action {
 
 View::View(const input::Input &input)
-    : ActionAbstract("view", "View outstanding TODOs", input, 1) {}
+    : ActionAbstract("view", "View outstanding TODOs", input,
+                     {input::OptionType::all, input::OptionType::global,
+                      input::OptionType::local},
+                     1) {}
 
 void View::run() {
     if (this->getInput().getActionArgCount() == 0) {
@@ -42,7 +45,7 @@ void View::run() {
     } else if (arg == "reject") {
         this->rejectTodos();
     } else {
-        throw error::UnknownArgument(arg);
+        throw error::UnknownArgument(arg, "task type");
     }
 }
 
@@ -75,7 +78,12 @@ void View::viewTodos(task::TaskTypeAbstract *const taskType) const {
     if (taskType == NULL) {
         throw std::logic_error{"NULL passed to " + std::string{__func__}};
     }
-    taskType->view(this->getInput().hasOption(input::OptionType::global));
+    if (this->getInput().hasOption(input::OptionType::all)) {
+        taskType->view(true);
+        taskType->view(false);
+    } else {
+        taskType->view(this->getInput().hasOption(input::OptionType::global));
+    }
 }
 
 } // namespace action

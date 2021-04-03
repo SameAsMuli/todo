@@ -6,6 +6,7 @@
 #include <vector>   // std::string
 
 #include "input/input.hpp"
+#include "input/option_type.hpp"
 
 namespace todo {
 namespace action {
@@ -22,6 +23,7 @@ class ActionAbstract {
      * @param name The name of the action.
      * @param helpText A short description of the action.
      * @param input The user's input to be passed to the action.
+     * @param validOptions The list of option types accepted by the action.
      * @param argLimit The maximum number of arguments the action allows.
      *
      * If no argLimit is given then a default of std::nullopt is used which
@@ -29,6 +31,7 @@ class ActionAbstract {
      */
     ActionAbstract(const std::string &name, const std::string &helpText,
                    const input::Input &input,
+                   std::vector<input::OptionType> validOptions = {},
                    std::optional<unsigned int> argLimit = std::nullopt);
 
     /**
@@ -91,6 +94,15 @@ class ActionAbstract {
     bool isKnownAs(const std::string &name) const;
 
     /**
+     * @brief Check if the action can handle the given option.
+     *
+     * @param option The option to check.
+     *
+     * @return True if the action can handle the option, false otherwise.
+     */
+    bool acceptsOption(const input::OptionType &option) const;
+
+    /**
      * @brief Get a detailed description of the action.
      *
      * This should provide a detailed, multi-line description of the action. It
@@ -137,6 +149,8 @@ class ActionAbstract {
     const std::optional<unsigned int> m_argLimit;
 
     std::vector<std::string> m_aliases;
+
+    const std::vector<input::OptionType> m_validOptions;
 
     /**
      * @brief Function that describes how the action should behave.
