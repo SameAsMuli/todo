@@ -45,7 +45,7 @@ void CompleteAbstract::add(const input::Input &input) {
 
 void CompleteAbstract::undo(const input::Input &input) {
     /* Check the input */
-    if (input.getActionArgs().empty()) {
+    if (input.getActionArgCount() == 0) {
         throw error::EmptyArgument{"undo"};
     }
 

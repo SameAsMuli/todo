@@ -57,7 +57,7 @@ int main(int argc, char **argv) {
     help.addActions(actions);
 
     /* If no input is given, then view all tasks. Else run the given action */
-    if (input.getActionArgs().empty()) {
+    if (input.getActionArgCount() == 0) {
         view.run();
     } else {
         auto inputAction = input.getAction();

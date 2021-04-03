@@ -36,6 +36,13 @@ class Input {
     std::string getAction() const { return m_action; }
 
     /**
+     * @brief Get the number of arguments passed to the action.
+     *
+     * @return The number of arguments passed to the action.
+     */
+    unsigned int getActionArgCount() const;
+
+    /**
      * @brief Get a specific action argument.
      *
      * @param index The index to check.
@@ -43,13 +50,6 @@ class Input {
      * @return The action argument at the given index.
      */
     std::string getActionArg(int index) const;
-
-    /**
-     * @brief Get all arguments passed to the action.
-     *
-     * @return A vector of string arguments passed to the action.
-     */
-    std::vector<std::string> getActionArgs() const { return m_actionArgs; }
 
     /**
      * @brief Format the action arguments as a single string.

@@ -103,8 +103,17 @@ Input::Input(int argc, char const *const *argv) {
             processOptions = false;
         }
 
+        if (m_action.empty()) {
+            m_action = arg;
+            continue;
+        }
+
         this->m_actionArgs.push_back(arg);
     }
+}
+
+unsigned int Input::getActionArgCount() const {
+    return this->m_actionArgs.size();
 }
 
 std::string Input::getActionArg(int index) const {

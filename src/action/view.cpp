@@ -18,7 +18,7 @@ View::View(const input::Input &input)
     : ActionAbstract("view", "View outstanding TODOs", input, 1) {}
 
 void View::run() {
-    if (this->getInput().getActionArgs().empty()) {
+    if (this->getInput().getActionArgCount() == 0) {
         this->outstandingTodos();
         this->completeTodos();
         return;
