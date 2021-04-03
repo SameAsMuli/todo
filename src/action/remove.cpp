@@ -2,6 +2,7 @@
 #include "error/empty_argument.hpp"
 #include "file/definitions.hpp"
 #include "file/mutators.hpp"
+#include "input/option_type.hpp"
 
 namespace todo {
 namespace action {
@@ -16,7 +17,9 @@ void Remove::run() {
         throw error::EmptyArgument{"remove"};
     }
 
-    file::removeTask(searchString, file::getOutstanding());
+    file::removeTask(searchString,
+                     file::getOutstanding(this->getInput().hasOption(
+                         input::OptionType::global)));
 }
 
 } // namespace action

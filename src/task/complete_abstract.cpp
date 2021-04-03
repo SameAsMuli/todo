@@ -1,12 +1,13 @@
 #include <chrono>    // std::chrono
-#include <cstdio>    // std::perror, std::remove, std::rename
-#include <fstream>   // std::ifstream, std::ofstream
+#include <cstdio>    // std::remove
+#include <fstream>   // std::ofstream
 #include <stdexcept> // std::runtime_error
 
 #include "error/empty_argument.hpp"
 #include "file/definitions.hpp"
 #include "file/mutators.hpp"
 #include "input/input.hpp"
+#include "input/option_type.hpp"
 #include "task/complete_abstract.hpp"
 #include "task/metadata.hpp"
 #include "task/prefix.hpp"
@@ -20,15 +21,17 @@ CompleteAbstract::CompleteAbstract(const std::string &name,
     : TaskTypeAbstract(file::getComplete, name, prefix) {}
 
 void CompleteAbstract::add(const input::Input &input) {
+    bool global = input.hasOption(input::OptionType::global);
+
     /* Make sure we can open the complete file */
-    std::ofstream ofs{this->getFile().string(), std::ios_base::app};
+    std::ofstream ofs{this->getFile(global).string(), std::ios_base::app};
     if (!ofs.is_open()) {
         throw std::runtime_error{"Unable to open TODO file"};
     }
 
     /* Find the task that matches the search string and remove it */
-    auto task =
-        file::removeTask(input.getActionArgString(), file::getOutstanding());
+    auto task = file::removeTask(input.getActionArgString(),
+                                 file::getOutstanding(global));
 
     /* Update the found task with the current time and the previous prefix */
     Metadata metadata = task.getMetadata();
@@ -49,15 +52,18 @@ void CompleteAbstract::undo(const input::Input &input) {
         throw error::EmptyArgument{"undo"};
     }
 
+    bool global = input.hasOption(input::OptionType::global);
+
     /* Make sure we can open the outstanding file */
-    std::ofstream ofs{file::getOutstanding().string(), std::ios_base::app};
+    std::ofstream ofs{file::getOutstanding(global).string(),
+                      std::ios_base::app};
     if (!ofs.is_open()) {
         throw std::runtime_error{"Unable to open TODO file"};
     }
 
     /* Find the task that matches the search string and remove it */
     auto task =
-        file::removeTask(input.getActionArgString(), file::getComplete());
+        file::removeTask(input.getActionArgString(), file::getComplete(global));
 
     /* Update the found task with the previous time and the previous prefix */
     Metadata metadata = task.getMetadata();

@@ -19,6 +19,6 @@ TEST(TaskStream, Simple) {
 
 TEST(TaskStream, UnusualCharacters) {
     std::string s{
-        "1602092538; ;0;~ Use awkward characters; like this '-' and '!'"};
+        "1602092538; ;0;~ Use awkward characters; like this '-' and \"!\""};
     TaskStreamTest();
 }

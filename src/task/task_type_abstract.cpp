@@ -17,8 +17,8 @@ std::filesystem::path TaskTypeAbstract::getFile(bool global) const {
     return this->m_f_file(global);
 }
 
-void TaskTypeAbstract::view() {
-    std::ifstream ifs{this->getFile().string()};
+void TaskTypeAbstract::view(bool global) {
+    std::ifstream ifs{this->getFile(global).string()};
 
     if (ifs.is_open()) {
         Task task;

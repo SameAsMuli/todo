@@ -52,8 +52,10 @@ class TaskTypeAbstract {
 
     /**
      * @brief Print all tasks of this task type.
+     *
+     * @param global Whether to consider local or global only tasks.
      */
-    void view();
+    void view(bool global = false);
 
     /**
      * @brief Add a task of this task type to the data file.

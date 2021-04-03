@@ -19,7 +19,7 @@ OutstandingAbstract::OutstandingAbstract(const std::string &name,
 void OutstandingAbstract::add(const input::Input &input) {
     auto description = input.getActionArgString();
     if (description.empty()) {
-        throw error::EmptyArgument{"add"};
+        throw error::EmptyArgument{"add method"};
     }
 
     /* Create and populate a task to be added */

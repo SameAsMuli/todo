@@ -1,9 +1,8 @@
-#include <fstream>   // std::ifstream
-#include <iostream>  // std::cout
 #include <stdexcept> // std::logic_error
 
 #include "action/view.hpp"
 #include "error/unknown_argument.hpp"
+#include "input/option_type.hpp"
 #include "task/done.hpp"
 #include "task/high.hpp"
 #include "task/low.hpp"
@@ -74,9 +73,9 @@ void View::urgentTodos() const { this->viewTodos(new task::Urgent{}); }
 /* Private methods */
 void View::viewTodos(task::TaskTypeAbstract *const taskType) const {
     if (taskType == NULL) {
-        throw std::logic_error{"NULL passed to viewTodos method"};
+        throw std::logic_error{"NULL passed to " + std::string{__func__}};
     }
-    taskType->view();
+    taskType->view(this->getInput().hasOption(input::OptionType::global));
 }
 
 } // namespace action

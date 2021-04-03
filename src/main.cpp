@@ -56,28 +56,26 @@ int main(int argc, char **argv) {
     /* Pass the list of actions to the help action */
     help.addActions(actions);
 
-    /* If no input is given, then view all tasks. Else run the given action */
-    if (input.getActionArgCount() == 0) {
-        view.run();
-    } else {
-        auto inputAction = input.getAction();
-        if (!inputAction.empty()) {
+    /* If no action is given, then view all tasks. Else run the given action */
+    auto inputAction = input.getAction();
+    try {
+        if (inputAction.empty()) {
+            view.perform();
+        } else {
             for (auto const &action : actions) {
                 if (action->isKnownAs(inputAction)) {
-                    try {
-                        action->perform();
-                    } catch (const std::exception &e) {
-                        std::cerr << e.what() << std::endl;
-                        return 1;
-                    }
+                    action->perform();
                     return 0;
                 }
             }
-        }
 
-        std::cerr << "Unknown action: '" << inputAction << "'" << std::endl;
-        std::cout << std::endl;
-        help.printGeneralUsage();
+            std::cerr << "Unknown action: '" << inputAction << "'" << std::endl;
+            std::cout << std::endl;
+            help.printGeneralUsage();
+            return 1;
+        }
+    } catch (const std::exception &e) {
+        std::cerr << e.what() << std::endl;
         return 1;
     }
 
