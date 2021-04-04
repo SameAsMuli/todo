@@ -1,13 +1,25 @@
 #ifndef UTIL_DISPLAY_H
 #define UTIL_DISPLAY_H
 
-#include <string> // std::string
+#include <string>  // std::string
+#include <utility> // std::pair
+#include <vector>  // std::vector
 
 namespace util {
 namespace display {
 
+/**
+ * @brief Header to display at the top of general output.
+ *
+ * @return A string containing the header information.
+ */
 std::string header();
 
+/**
+ * @brief Footer to display at the bottom of general output.
+ *
+ * @return A string containing the footer information.
+ */
 std::string footer();
 
 /**
@@ -15,7 +27,17 @@ std::string footer();
  *
  * @return A string containing the usage information.
  */
-std::string generalUsage();
+std::string programUsage();
+
+/**
+ * @brief Get the general information about the program.
+ *
+ * @param actions A list of the available actions and thier descriptions.
+ *
+ * @return A string containing the overview information.
+ */
+std::string
+programOverview(std::vector<std::pair<std::string, std::string>> actions);
 
 /**
  * @brief Format a string so that when printed it does not exceed a set width.

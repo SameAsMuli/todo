@@ -4,7 +4,6 @@
 #include <string>     // std::string
 
 #include "file/accessors.hpp"
-#include "task/metadata.hpp"
 
 namespace todo {
 namespace file {

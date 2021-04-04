@@ -1,5 +1,5 @@
-#include <algorithm> // std::sort
-#include <iostream>  // std::cout
+#include <iostream> // std::cout
+#include <utility>  // std::pair
 
 #include "action/help.hpp"
 #include "error/unknown_argument.hpp"
@@ -7,15 +7,6 @@
 #include "input/option.hpp"
 #include "util/display.hpp"
 #include "util/string.hpp"
-
-namespace {
-
-bool actionCompare(todo::action::ActionAbstract *a1,
-                   todo::action::ActionAbstract *a2) {
-    return a1->getName() < a2->getName();
-}
-
-} // namespace
 
 namespace todo {
 namespace action {
@@ -36,49 +27,19 @@ std::string Help::usage() const { return "usage: todo help [action]"; }
 
 void Help::addActions(std::vector<ActionAbstract *> &actions) {
     this->m_actions = actions;
-    std::sort(this->m_actions.begin(), this->m_actions.end(), actionCompare);
 }
 
 /*** PRIVATE METHODS ***/
 
 void Help::run() {
     if (!this->getInput().hasActionArg(0)) {
-        std::string::size_type maxNameLen = 0;
-        std::vector<ActionAbstract *>::size_type minSeparatorLen = 3;
+        std::vector<std::pair<std::string, std::string>> actions;
 
         for (auto const &action : this->m_actions) {
-            if (maxNameLen < action->getName().size()) {
-                maxNameLen = action->getName().size();
-            }
+            actions.push_back({action->getName(), action->getHelpText()});
         }
 
-        std::cout << util::display::header() << std::endl;
-
-        std::cout << "TODO Management Utility" << std::endl;
-        std::cout << std::endl;
-
-        std::cout << util::display::generalUsage() << std::endl;
-
-        std::cout << std::endl;
-        std::cout << util::display::wrap(
-                         "If run with no arguments, then any non-archived "
-                         "tasks will be printed. All tasks are stored in: '" +
-                         std::string(file::getTodoDir(true)) + "'")
-                  << std::endl;
-        std::cout << std::endl;
-        std::cout << "List of actions:" << std::endl;
-
-        for (auto const &action : this->m_actions) {
-            std::cout << "  " + action->getName() + " " +
-                             std::string(
-                                 minSeparatorLen +
-                                     (maxNameLen - action->getName().size()),
-                                 '.') +
-                             " " + action->getHelpText()
-                      << std::endl;
-        }
-
-        std::cout << util::display::footer() << std::endl;
+        std::cout << util::display::programOverview(actions) << std::endl;
     } else {
         auto actionName = this->getInput().getActionArg(0);
         for (auto const &action : this->m_actions) {

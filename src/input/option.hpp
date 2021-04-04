@@ -260,7 +260,7 @@ namespace std {
 /**
  * @brief Define a hash for the Option class.
  */
-template <> struct std::hash<input::Option> {
+template <> struct hash<input::Option> {
     /**
      * @brief Define the hashing function for the Option class.
      *

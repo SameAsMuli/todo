@@ -1,5 +1,7 @@
 #include <exception> // std::exception
 #include <iostream>  // std::cerr
+#include <string>    // std::string
+#include <utility>   // std::pair
 #include <vector>    // std::vector
 
 #include "action/add.hpp"
@@ -63,7 +65,15 @@ int main(int argc, char **argv) {
     try {
         if (inputAction.empty()) {
             if (input.hasOption(input::Option::help)) {
-                help.perform();
+                std::vector<std::pair<std::string, std::string>> actionList;
+
+                for (auto const &action : actions) {
+                    actionList.push_back(
+                        {action->getName(), action->getHelpText()});
+                }
+
+                std::cout << util::display::programOverview(actionList)
+                          << std::endl;
             } else {
                 view.perform();
             }
@@ -77,7 +87,7 @@ int main(int argc, char **argv) {
 
             std::cerr << "Unknown action: '" << inputAction << "'" << std::endl;
             std::cout << std::endl;
-            std::cout << util::display::generalUsage() << std::endl;
+            std::cout << util::display::programUsage() << std::endl;
             return 1;
         }
     } catch (const std::exception &e) {

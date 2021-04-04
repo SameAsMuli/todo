@@ -101,7 +101,7 @@ class Input {
     /**
      * @brief Get all options specified in the input.
      *
-     * @return An unordered_set of Options specified in the input.
+     * @return An unordered set of Options specified in the input.
      */
     std::unordered_set<Option> getOptions() const;
 
