@@ -23,13 +23,6 @@ std::string header();
 std::string footer();
 
 /**
- * @brief Get the usage information for the program.
- *
- * @return A string containing the usage information.
- */
-std::string programUsage();
-
-/**
  * @brief Get the general information about the program.
  *
  * @param actions A list of the available actions and thier descriptions.
@@ -38,6 +31,20 @@ std::string programUsage();
  */
 std::string
 programOverview(std::vector<std::pair<std::string, std::string>> actions);
+
+/**
+ * @brief Get the usage information for the program.
+ *
+ * @return A string containing the usage information.
+ */
+std::string programUsage();
+
+/**
+ * @brief Get the version information for the program.
+ *
+ * @return A string containing the version information.
+ */
+std::string programVersion();
 
 /**
  * @brief Format a string so that when printed it does not exceed a set width.

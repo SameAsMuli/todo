@@ -14,6 +14,7 @@
 #include "action/remove.hpp"
 #include "action/undo.hpp"
 #include "action/urgent.hpp"
+#include "action/version.hpp"
 #include "action/view.hpp"
 #include "file/mutators.hpp"
 #include "input/input.hpp"
@@ -56,6 +57,7 @@ int main(int argc, char **argv) {
     actions.push_back(new todo::action::Remove{input});
     actions.push_back(new todo::action::Undo{input});
     actions.push_back(new todo::action::Urgent{input});
+    actions.push_back(new todo::action::Version{input});
 
     /* Pass the list of actions to the help action */
     help.addActions(actions);

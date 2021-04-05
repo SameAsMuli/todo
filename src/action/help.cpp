@@ -12,8 +12,7 @@ namespace todo {
 namespace action {
 
 Help::Help(input::Input input)
-    : ActionAbstract("help", "Display this help text", input,
-                     {input::Option::help}, 1) {
+    : ActionAbstract("help", "Display this help text", input, {}, 1) {
     this->addAlias("--help");
 }
 

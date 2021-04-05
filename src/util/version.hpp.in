@@ -1,0 +1,19 @@
+#ifndef UTIL_VERSION_H
+#define UTIL_VERSION_H
+
+#include <string> // std::string
+
+namespace todo {
+namespace version {
+
+#define PROJECT_VERSION @PROJECT_VERSION@
+
+std::string getProjectVersion()
+{
+    return "@PROJECT_VERSION@";
+}
+
+} // namespace version
+} // namespace todo
+
+#endif

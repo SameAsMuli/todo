@@ -1,6 +1,7 @@
 #include <algorithm> // std::sort
 #include <sstream>   // std::stringstream
 
+#include "config/version.hpp"
 #include "file/definitions.hpp"
 #include "util/display.hpp"
 #include "util/string.hpp"
@@ -19,14 +20,9 @@ namespace display {
 
 static int MAX_WIDTH = 50;
 
-std::string header() { return ""; }
+std::string header() { return "TODO Management Utility - v" + todo::version(); }
 
-std::string footer() { return "\nWritten by Sam Amis"; }
-
-std::string programUsage() {
-    return "usage: todo [action] [--options] [<args>]\n"
-           "            [--help] [<action>]";
-}
+std::string footer() { return "Written by Sam Amis"; }
 
 std::string
 programOverview(std::vector<std::pair<std::string, std::string>> actions) {
@@ -44,9 +40,7 @@ programOverview(std::vector<std::pair<std::string, std::string>> actions) {
 
     ss << util::display::header() << std::endl;
 
-    ss << "TODO Management Utility" << std::endl;
     ss << std::endl;
-
     ss << util::display::programUsage() << std::endl;
 
     ss << std::endl;
@@ -55,6 +49,7 @@ programOverview(std::vector<std::pair<std::string, std::string>> actions) {
               "tasks will be printed. All tasks are stored in: '" +
               std::string(todo::file::getTodoDir(true)) + "'")
        << std::endl;
+
     ss << std::endl;
     ss << "List of actions:" << std::endl;
 
@@ -70,10 +65,18 @@ programOverview(std::vector<std::pair<std::string, std::string>> actions) {
            << std::endl;
     }
 
+    ss << std::endl;
     ss << util::display::footer();
 
     return ss.str();
 }
+
+std::string programUsage() {
+    return "usage: todo [action] [--options] [<args>]\n"
+           "            [--help] [<action>]";
+}
+
+std::string programVersion() { return "todo version " + todo::version(); }
 
 std::string wrap(const std::string &input) {
     return util::string::wrap(input, MAX_WIDTH);

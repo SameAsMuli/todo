@@ -66,6 +66,7 @@ void ActionAbstract::perform() {
 
 void ActionAbstract::printDetails() {
     std::cout << util::display::header() << std::endl;
+    std::cout << std::endl;
 
     auto buffer = this->getName();
 
@@ -99,6 +100,7 @@ void ActionAbstract::printDetails() {
         std::cout << util::display::wrap(buffer) << std::endl;
     }
 
+    std::cout << std::endl;
     std::cout << util::display::footer() << std::endl;
 }
 
