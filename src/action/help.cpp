@@ -43,8 +43,8 @@ void Help::run() {
         auto actionName = this->getInput().getActionArg(0);
         for (auto const &action : this->m_actions) {
             if (action->getName() == actionName) {
-                this->printDetails();
-                break;
+                action->printDetails();
+                return;
             }
         }
 
