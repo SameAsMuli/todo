@@ -21,10 +21,12 @@ class AddAbstract : public ActionAbstract {
      * @param name The name of the action.
      * @param helpText A short description of the action.
      * @param input The user's input to be passed to the action.
+     * @param validOptions The list of options accepted by this action.
      * @param taskType The type of task this class will add.
      */
     AddAbstract(const std::string &name, const std::string &helpText,
                 const input::Input &input,
+                const std::unordered_set<input::Option> &validOptions,
                 task::TaskTypeAbstract *const taskType);
 
   private:

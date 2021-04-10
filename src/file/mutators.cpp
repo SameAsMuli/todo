@@ -34,14 +34,14 @@ void initialiseFile(const std::filesystem::path &file) {
 namespace todo {
 namespace file {
 
-void initialise() {
-    if (util::fs::HomeDir().empty()) {
+void initialise(bool global) {
+    if (global && util::fs::HomeDir().empty()) {
         throw std::runtime_error("Unable to find HOME directory.");
     }
 
-    initialiseFile(getOutstanding(true));
-    initialiseFile(getComplete(true));
-    initialiseFile(getArchive(true));
+    initialiseFile(getOutstanding(global));
+    initialiseFile(getComplete(global));
+    initialiseFile(getArchive(global));
 
     /* Archive any tasks completed more than a day ago */
     archive(1440, true);

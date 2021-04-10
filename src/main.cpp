@@ -24,7 +24,7 @@
 int main(int argc, char **argv) {
     /* Create the data files if they don't already exist */
     try {
-        todo::file::initialise();
+        todo::file::initialise(true);
     } catch (const std::exception &e) {
         std::cerr << "Failed to initialise: " << e.what() << std::endl;
         return 1;

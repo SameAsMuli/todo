@@ -6,6 +6,17 @@
 #include "util/display.hpp"
 #include "util/string.hpp"
 
+namespace {
+
+std::unordered_set<input::Option>
+includeHelpOption(const std::unordered_set<input::Option> &validOptions) {
+    std::unordered_set<input::Option> set{input::Option::help};
+    set.insert(validOptions.begin(), validOptions.end());
+    return set;
+}
+
+} // namespace
+
 namespace todo {
 namespace action {
 
@@ -14,12 +25,8 @@ ActionAbstract::ActionAbstract(const std::string &name,
                                const input::Input &input,
                                std::unordered_set<input::Option> validOptions,
                                std::optional<unsigned int> argLimit)
-    : m_name(name), m_helpText(helpText), m_input(input), m_argLimit(argLimit) {
-    /* All actions should support the help action */
-    auto set = validOptions;
-    set.insert(input::Option::help);
-    m_validOptions = set;
-}
+    : m_name(name), m_helpText(helpText), m_input(input),
+      m_validOptions(includeHelpOption(validOptions)), m_argLimit(argLimit) {}
 
 bool ActionAbstract::isKnownAs(const std::string &name) const {
     if (this->getName() == name) {

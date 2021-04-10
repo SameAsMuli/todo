@@ -13,10 +13,15 @@ namespace file {
 /**
  * @brief Create the applications data files if necessary.
  *
- * Will create the files "outstanding_tasks" and "complete_tasks" in the
- * XDG_CONFIG_DIR, if they do not already exist.
+ * Will create the files "archive", "complete_tasks" and "outstanding_tasks" in
+ * the chosen todo directory, if they do not already exist.
+ *
+ * If the global flag is set to true then XDG_CONFIG_DIR will be used, otheriwse
+ * the directory ".todo" inside the current working directory is used.
+ *
+ * @param global Whether to use the current working, or global todo, directory.
  */
-void initialise();
+void initialise(bool global);
 
 /**
  * @brief Search a given data file and remove the task matching searchString.

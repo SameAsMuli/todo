@@ -9,7 +9,7 @@ namespace action {
 
 Remove::Remove(input::Input input)
     : ActionAbstract("remove", "Remove an outstanding TODO", input,
-                     {input::Option::global, input::Option::local}) {}
+                     {input::Option::global}) {}
 
 void Remove::run() {
     /* Form and check the seach string */
