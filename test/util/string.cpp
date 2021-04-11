@@ -1,6 +1,20 @@
 #include "util/string.hpp"
 #include "gtest/gtest.h"
 
+TEST(StringUtils, ToInt) {
+    EXPECT_EQ(util::string::toint("3"), 3);
+
+    EXPECT_ANY_THROW(util::string::toint(""));
+
+    EXPECT_ANY_THROW(util::string::toint("f"));
+
+    EXPECT_ANY_THROW(util::string::toint("3f"));
+
+    EXPECT_ANY_THROW(util::string::toint("f3"));
+
+    EXPECT_ANY_THROW(util::string::toint("3f3"));
+}
+
 TEST(StringUtils, ToUpper) {
     EXPECT_EQ(util::string::toupper(""), "");
 
@@ -28,4 +42,7 @@ TEST(StringUtils, Wrap) {
 
     EXPECT_EQ(util::string::wrap("these strings are a problem", 6),
               "these\nstrings\nare a\nproblem");
+
+    EXPECT_EQ(util::string::wrap("what\nif a newline is\nin the mix", 6),
+              "what\nif a\nnewline\nis\nin\nthe\nmix");
 }

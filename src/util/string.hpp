@@ -7,6 +7,15 @@ namespace util {
 namespace string {
 
 /**
+ * @brief Convert a string to an integer.
+ *
+ * @param input The string to convert.
+ *
+ * @return The integer value of the string.
+ */
+int toint(const std::string &input);
+
+/**
  * @brief Convert a given string to entirely uppercase.
  *
  * @param input The string to convert to uppercase.

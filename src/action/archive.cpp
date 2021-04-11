@@ -1,11 +1,15 @@
 #include "action/archive.hpp"
 #include "file/mutators.hpp"
+#include "input/option.hpp"
+#include "util/string.hpp"
 
 namespace todo {
 namespace action {
 
 Archive::Archive(input::Input input)
-    : ActionAbstract("archive", "Archive all complete TODOs", input, 0) {}
+    : ActionAbstract("archive", "Archive all complete TODOs", input, 1) {
+    this->addValidOption(input::Option::global);
+}
 
 std::string Archive::description() const {
     return "Move all tasks to an archive file if they were completed more than "
@@ -21,8 +25,14 @@ std::string Archive::usage() const {
 }
 
 void Archive::run() {
-    // TODO-SAM Allow number of minutes to be changed
-    file::archive(0);
+    auto input = this->getInput();
+    int mins = 0;
+
+    if (input.hasActionArg(0)) {
+        mins = util::string::toint(input.getActionArg(0));
+    }
+
+    file::archive(mins, input.hasOption(input::Option::global));
 }
 
 } // namespace action
