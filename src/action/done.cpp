@@ -5,8 +5,7 @@ namespace todo {
 namespace action {
 
 Done::Done(const input::Input &input)
-    : AddAbstract("done", "Mark a TODO as finished", input, {},
-                  new task::Done{}) {}
+    : AddAbstract("done", "Mark a TODO as finished", input, new task::Done{}) {}
 
 } // namespace action
 } // namespace todo

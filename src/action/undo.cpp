@@ -7,8 +7,10 @@ namespace todo {
 namespace action {
 
 Undo::Undo(input::Input input)
-    : ActionAbstract("undo", "Unmark a TODO as completed", input,
-                     {input::Option::global, input::Option::local}) {}
+    : ActionAbstract("undo", "Unmark a TODO as completed", input) {
+    this->addValidOption(input::Option::global);
+    this->addValidOption(input::Option::local);
+}
 
 void Undo::run() { task::CompleteAbstract::undo(this->getInput()); }
 

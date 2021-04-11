@@ -23,7 +23,6 @@ class ActionAbstract {
      * @param name The name of the action.
      * @param helpText A short description of the action.
      * @param input The user's input to be passed to the action.
-     * @param validOptions The list of options accepted by the action.
      * @param argLimit The maximum number of arguments the action allows.
      *
      * If no argLimit is given then a default of std::nullopt is used which
@@ -31,7 +30,6 @@ class ActionAbstract {
      */
     ActionAbstract(const std::string &name, const std::string &helpText,
                    const input::Input &input,
-                   std::unordered_set<input::Option> validOptions = {},
                    std::optional<unsigned int> argLimit = std::nullopt);
 
     /**
@@ -82,7 +80,7 @@ class ActionAbstract {
      *
      * @param alias A string containing the alias to add.
      */
-    void addAlias(const std::string &alias) { m_aliases.insert(alias); }
+    void addAlias(const std::string &alias);
 
     /**
      * @brief Check if the action is known by the given name.
@@ -92,6 +90,13 @@ class ActionAbstract {
      * @return True if the action name or any of its aliases match the input.
      */
     bool isKnownAs(const std::string &name) const;
+
+    /**
+     * @brief Add an option to the list of accepted options for this action.
+     *
+     * @param option The option to mark as valid.
+     */
+    void addValidOption(const input::Option &option);
 
     /**
      * @brief Check if the action can handle the given option.

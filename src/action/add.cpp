@@ -7,7 +7,9 @@ namespace action {
 
 Add::Add(const input::Input &input)
     : AddAbstract("add", "Add a normal priority TODO", input,
-                  {input::Option::local}, new task::Normal{}) {}
+                  new task::Normal{}) {
+    this->addValidOption(input::Option::local);
+}
 
 } // namespace action
 } // namespace todo

@@ -7,7 +7,7 @@ namespace todo {
 namespace action {
 
 Version::Version(input::Input input)
-    : ActionAbstract("version", "Display the program version", input, {}, 1) {}
+    : ActionAbstract("version", "Display the program version", input, 0) {}
 
 std::string Version::description() const {
     return "Print the version information of the program.";

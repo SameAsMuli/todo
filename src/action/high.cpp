@@ -6,8 +6,9 @@ namespace todo {
 namespace action {
 
 High::High(const input::Input &input)
-    : AddAbstract("high", "Add a high priority TODO", input,
-                  {input::Option::local}, new task::High{}) {}
+    : AddAbstract("high", "Add a high priority TODO", input, new task::High{}) {
+    this->addValidOption(input::Option::local);
+}
 
 } // namespace action
 } // namespace todo

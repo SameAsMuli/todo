@@ -14,10 +14,10 @@ namespace todo {
 namespace action {
 
 View::View(const input::Input &input)
-    : ActionAbstract(
-          "view", "View outstanding TODOs", input,
-          {input::Option::all, input::Option::global, input::Option::local},
-          1) {}
+    : ActionAbstract("view", "View outstanding TODOs", input, 1) {
+    this->addValidOption(input::Option::all);
+    this->addValidOption(input::Option::global);
+}
 
 void View::run() {
     if (this->getInput().getActionArgCount() == 0) {

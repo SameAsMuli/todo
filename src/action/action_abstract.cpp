@@ -6,27 +6,20 @@
 #include "util/display.hpp"
 #include "util/string.hpp"
 
-namespace {
-
-std::unordered_set<input::Option>
-includeHelpOption(const std::unordered_set<input::Option> &validOptions) {
-    std::unordered_set<input::Option> set{input::Option::help};
-    set.insert(validOptions.begin(), validOptions.end());
-    return set;
-}
-
-} // namespace
-
 namespace todo {
 namespace action {
 
 ActionAbstract::ActionAbstract(const std::string &name,
                                const std::string &helpText,
                                const input::Input &input,
-                               std::unordered_set<input::Option> validOptions,
                                std::optional<unsigned int> argLimit)
-    : m_name(name), m_helpText(helpText), m_input(input),
-      m_validOptions(includeHelpOption(validOptions)), m_argLimit(argLimit) {}
+    : m_name(name), m_helpText(helpText), m_input(input), m_argLimit(argLimit) {
+    this->addValidOption(input::Option::help);
+}
+
+void ActionAbstract::addAlias(const std::string &alias) {
+    m_aliases.insert(alias);
+}
 
 bool ActionAbstract::isKnownAs(const std::string &name) const {
     if (this->getName() == name) {
@@ -39,6 +32,10 @@ bool ActionAbstract::isKnownAs(const std::string &name) const {
     }
 
     return false;
+}
+
+void ActionAbstract::addValidOption(const input::Option &option) {
+    m_validOptions.insert(option);
 }
 
 bool ActionAbstract::validOption(const input::Option &option) const {

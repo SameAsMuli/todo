@@ -5,7 +5,7 @@ namespace todo {
 namespace action {
 
 Archive::Archive(input::Input input)
-    : ActionAbstract("archive", "Archive all complete TODOs", input, {}, 0) {}
+    : ActionAbstract("archive", "Archive all complete TODOs", input, 0) {}
 
 std::string Archive::description() const {
     return "Move all tasks to an archive file if they were completed more than "

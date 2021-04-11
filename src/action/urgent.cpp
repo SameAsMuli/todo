@@ -7,7 +7,9 @@ namespace action {
 
 Urgent::Urgent(const input::Input &input)
     : AddAbstract("urgent", "Add an urgent priority TODO", input,
-                  {input::Option::local}, new task::Urgent{}) {}
+                  new task::Urgent{}) {
+    this->addValidOption(input::Option::local);
+}
 
 } // namespace action
 } // namespace todo
