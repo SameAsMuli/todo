@@ -8,6 +8,7 @@ namespace action {
 
 Undo::Undo(input::Input input)
     : ActionAbstract("undo", "Unmark a TODO as completed", input) {
+    this->addValidOption(input::Option::exact);
     this->addValidOption(input::Option::global);
     this->addValidOption(input::Option::local);
 }

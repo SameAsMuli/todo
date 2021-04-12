@@ -34,11 +34,12 @@ void initialise(bool global);
  *
  * @param searchString The substring to search for.
  * @param file The data file to search through.
+ * @param exact If true, searchString must match the whole task description.
  *
  * @return The removed task.
  */
 task::Task removeTask(const std::string &searchString,
-                      const std::filesystem::path &file);
+                      const std::filesystem::path &file, bool exact = false);
 
 /**
  * @brief Search a given data file and remove all tasks matching searchString.

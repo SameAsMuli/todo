@@ -19,11 +19,13 @@ namespace file {
  *
  * @param searchString The substring to search for.
  * @param file The data file to search through.
+ * @param exact If true, searchString must match the whole task description.
  *
  * @return A pair of vectors for matched and unmatched tasks.
  */
 std::pair<std::vector<task::Task>, std::vector<task::Task>>
-search(const std::string &searchString, const std::filesystem::path &file);
+search(const std::string &searchString, const std::filesystem::path &file,
+       bool exact = false);
 
 } // namespace file
 } // namespace todo

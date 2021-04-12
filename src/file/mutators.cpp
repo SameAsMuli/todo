@@ -49,9 +49,9 @@ void initialise(bool global) {
 }
 
 task::Task removeTask(const std::string &searchString,
-                      const std::filesystem::path &file) {
+                      const std::filesystem::path &file, bool exact) {
     /* Search for matching tasks */
-    auto [matchingTasks, nonMatchingTasks] = search(searchString, file);
+    auto [matchingTasks, nonMatchingTasks] = search(searchString, file, exact);
 
     /* Error if no tasks, or more than one task, matched the search string */
     auto numMatches = matchingTasks.size();

@@ -9,7 +9,8 @@ namespace todo {
 namespace file {
 
 std::pair<std::vector<task::Task>, std::vector<task::Task>>
-search(const std::string &searchString, const std::filesystem::path &file) {
+search(const std::string &searchString, const std::filesystem::path &file,
+       bool exact) {
     /* Open the given file */
     std::ifstream fileStream{file.string()};
     if (!fileStream.is_open()) {
@@ -22,10 +23,18 @@ search(const std::string &searchString, const std::filesystem::path &file) {
     /* Attempt to find tasks that match the search string */
     task::Task task;
     while (fileStream >> task) {
-        if (task.getDescription().find(searchString) != std::string::npos) {
-            matchingTasks.push_back(task);
+        if (exact) {
+            if (task.getDescription() == searchString) {
+                matchingTasks.push_back(task);
+            } else {
+                nonMatchingTasks.push_back(task);
+            }
         } else {
-            nonMatchingTasks.push_back(task);
+            if (task.getDescription().find(searchString) != std::string::npos) {
+                matchingTasks.push_back(task);
+            } else {
+                nonMatchingTasks.push_back(task);
+            }
         }
     }
 
