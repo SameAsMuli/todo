@@ -27,8 +27,7 @@ std::string footer() { return "Written by Sam Amis"; }
 std::string
 programOverview(std::vector<std::pair<std::string, std::string>> actions) {
     std::string::size_type maxNameLen = 0;
-    std::vector<std::pair<std::string, std::string>>::size_type
-        minSeparatorLen = 3;
+    std::string::size_type minSeparatorLen = 3;
 
     for (auto const &action : actions) {
         if (maxNameLen < action.first.size()) {

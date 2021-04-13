@@ -175,6 +175,18 @@ class Option {
     }
 
     /**
+     * @brief Display the option with both long and short representations.
+     *
+     * @return A string describing both representations of the option.
+     */
+    std::string getFullString() const {
+        if (this->hasCharRepresentation()) {
+            return this->toString() + ", -" + this->getCharRepresentation();
+        }
+        return this->toString();
+    }
+
+    /**
      * @brief Get the parameter count for the option.
      *
      * @return The parameter count or 0 if the option is unknown.
@@ -210,6 +222,30 @@ class Option {
      */
     constexpr bool hasCharRepresentation() const {
         return this->getCharRepresentation() != NULL_CHAR;
+    }
+
+    /**
+     * @brief Get the description of the option.
+     *
+     * @return A string describing the option's purpose.
+     */
+    std::string getDescription() const {
+        switch (m_value) {
+        case all:
+            return "Consider both local and global TODOs";
+        case exact:
+            return "Only match identical TODOs";
+        case force:
+            return "Perform action on all matched TODOs";
+        case global:
+            return "Consider global TODOs only";
+        case help:
+            return "Display this help text";
+        case local:
+            return "Consider local TODOs only";
+        default:
+            return "";
+        }
     }
 
   private:

@@ -12,6 +12,10 @@ namespace {
 
 bool stringCompare(std::string s1, std::string s2) { return s1 < s2; }
 
+bool optionCompare(input::Option o1, input::Option o2) {
+    return stringCompare(o1.toString(), o2.toString());
+}
+
 } // namespace
 
 namespace todo {
@@ -97,20 +101,30 @@ void ActionAbstract::printDetails() {
         std::cout << "Valid options:" << std::endl;
 
         /* Make sure the options are in alphabetical order */
-        std::vector<std::string> options;
+        std::string::size_type maxOptionStringLen = 0;
+        std::string::size_type minSeparatorLen = 1;
+
         for (auto const &option : unsortedOptions) {
-            if (option.hasCharRepresentation()) {
-                options.push_back(option.toString() + ", -" +
-                                  option.getCharRepresentation());
-            } else {
-                options.push_back(option.toString());
+            auto fullString = option.getFullString();
+            if (maxOptionStringLen < fullString.size()) {
+                maxOptionStringLen = fullString.size();
             }
         }
 
-        std::sort(options.begin(), options.end(), stringCompare);
+        std::vector<input::Option> options;
+        options.insert(options.end(), unsortedOptions.begin(),
+                       unsortedOptions.end());
+        std::sort(options.begin(), options.end(), optionCompare);
 
-        for (auto const &optionString : options) {
-            std::cout << util::display::INDENT << optionString << std::endl;
+        for (auto const &option : options) {
+            auto optionString = option.getFullString();
+            std::cout << util::display::INDENT + optionString + " " +
+                             std::string(
+                                 minSeparatorLen +
+                                     (maxOptionStringLen - optionString.size()),
+                                 ' ') +
+                             " " + option.getDescription()
+                      << std::endl;
         }
     }
 
