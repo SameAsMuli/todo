@@ -1,10 +1,18 @@
-#include <algorithm> // std::find
+#include <algorithm> // std::find, std::sort
 #include <stdexcept> // std::runtime_error
+#include <string>    // std::string
+#include <vector>    // std::vector
 
 #include "action/action_abstract.hpp"
 #include "input/option.hpp"
 #include "util/display.hpp"
 #include "util/string.hpp"
+
+namespace {
+
+bool stringCompare(std::string s1, std::string s2) { return s1 < s2; }
+
+} // namespace
 
 namespace todo {
 namespace action {
@@ -83,14 +91,45 @@ void ActionAbstract::printDetails() {
         std::cout << buffer << std::endl;
     }
 
-    auto aliases = this->getAliases();
-    if (aliases.size() > 0) {
+    auto unsortedOptions = this->getValidOptions();
+    if (unsortedOptions.size() > 0) {
+        std::cout << std::endl;
+        std::cout << "Valid options:" << std::endl;
+
+        /* Make sure the options are in alphabetical order */
+        std::vector<std::string> options;
+        for (auto const &option : unsortedOptions) {
+            if (option.hasCharRepresentation()) {
+                options.push_back(option.toString() + ", -" +
+                                  option.getCharRepresentation());
+            } else {
+                options.push_back(option.toString());
+            }
+        }
+
+        std::sort(options.begin(), options.end(), stringCompare);
+
+        for (auto const &optionString : options) {
+            std::cout << util::display::INDENT << optionString << std::endl;
+        }
+    }
+
+    auto unsortedAliases = this->getAliases();
+    if (unsortedAliases.size() > 0) {
         std::cout << std::endl;
         std::cout << "Aliases:" << std::endl;
 
+        /* Make sure the aliases are in alphabetical order */
+        std::vector<std::string> aliases;
+        aliases.insert(aliases.end(), unsortedAliases.begin(),
+                       unsortedAliases.end());
+        std::sort(aliases.begin(), aliases.end(), stringCompare);
+
         buffer.clear();
         for (auto const &alias : aliases) {
-            if (!buffer.empty()) {
+            if (buffer.empty()) {
+                buffer.append(util::display::INDENT);
+            } else {
                 buffer.append(", ");
             }
             buffer.append(alias);

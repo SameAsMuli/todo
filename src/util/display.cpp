@@ -57,7 +57,7 @@ programOverview(std::vector<std::pair<std::string, std::string>> actions) {
     std::sort(actions.begin(), actions.end(), actionCompare);
 
     for (auto const &action : actions) {
-        ss << "  " + action.first + " " +
+        ss << INDENT + action.first + " " +
                   std::string(minSeparatorLen +
                                   (maxNameLen - action.first.size()),
                               '.') +

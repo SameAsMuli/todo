@@ -12,9 +12,7 @@ namespace todo {
 namespace action {
 
 Help::Help(input::Input input)
-    : ActionAbstract("help", "Display this help text", input, 1) {
-    this->addAlias("--help");
-}
+    : ActionAbstract("help", "Display this help text", input, 1) {}
 
 std::string Help::description() const {
     return "If run with no arguments, then general information about the "

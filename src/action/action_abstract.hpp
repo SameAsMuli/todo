@@ -68,7 +68,7 @@ class ActionAbstract {
     /**
      * @brief Get any additional aliases that can be used to access this action.
      *
-     * @return An optional number of arguments.
+     * @return A set of string aliases for this action.
      */
     std::unordered_set<std::string> getAliases() const { return m_aliases; }
 
@@ -90,6 +90,15 @@ class ActionAbstract {
      * @return True if the action name or any of its aliases match the input.
      */
     bool isKnownAs(const std::string &name) const;
+
+    /**
+     * @brief Get any additional aliases that can be used to access this action.
+     *
+     * @return A set of options that can be used with this action.
+     */
+    std::unordered_set<input::Option> getValidOptions() const {
+        return m_validOptions;
+    }
 
     /**
      * @brief Add an option to the list of accepted options for this action.

@@ -9,6 +9,11 @@ namespace util {
 namespace display {
 
 /**
+ * @brief Indentation string containing 2 whitespace characters.
+ */
+static std::string INDENT = "  ";
+
+/**
  * @brief Header to display at the top of general output.
  *
  * @return A string containing the header information.
