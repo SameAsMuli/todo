@@ -1,6 +1,8 @@
 #ifndef TASK_COMPLETE_ABSTRACT_H
 #define TASK_COMPLETE_ABSTRACT_H
 
+#include "input/input.hpp"
+#include "task/prefix.hpp"
 #include "task/task.hpp"
 #include "task/task_type_abstract.hpp"
 

@@ -48,51 +48,27 @@ void initialise(bool global) {
     archive(1440, false);
 }
 
-task::Task removeTask(const std::string &searchString,
-                      const std::filesystem::path &file, bool exact) {
-    /* Search for matching tasks */
-    auto [matchingTasks, nonMatchingTasks] = search(searchString, file, exact);
-
-    /* Error if no tasks, or more than one task, matched the search string */
-    auto numMatches = matchingTasks.size();
-    if (numMatches == 0) {
-        throw error::UnknownTask();
-    } else if (numMatches > 1) {
-        throw error::InspecificTask(numMatches);
-    }
-
-    /* Open a temp file */
-    std::ofstream tempFile{getTemp().string()};
-    if (!tempFile.is_open()) {
-        throw std::runtime_error{"Unable to open TODO file"};
-    }
-
-    /* Write all non-matching tasks to the temp file */
-    for (auto const &task : nonMatchingTasks) {
-        tempFile << task << '\n';
-    }
-
-    tempFile.close();
-
-    /* Overwrite the given file with the temp file (removes the matched task) */
-    if (std::remove(file.string().c_str()) ||
-        std::rename(getTemp().string().c_str(), file.string().c_str())) {
-        std::perror("Error swapping files");
-        throw std::runtime_error{"Unable to update TODO file"};
-    }
-
-    /* Only have one match, so return it */
-    return matchingTasks.at(0);
-}
-
 std::vector<task::Task> removeTasks(const std::string &searchString,
-                                    const std::filesystem::path &file) {
+                                    const std::filesystem::path &file,
+                                    bool multipleTasks, bool exactMatch) {
     /* Search for matching tasks */
-    auto [matchingTasks, nonMatchingTasks] = search(searchString, file);
+    auto [matchingTasks, nonMatchingTasks] =
+        search(searchString, file, exactMatch);
 
-    /* If no tasks matched just return here */
-    if (matchingTasks.size() == 0) {
-        return matchingTasks;
+    if (multipleTasks) {
+        /* If no tasks matched just return here */
+        if (matchingTasks.size() == 0) {
+            return matchingTasks;
+        }
+    } else {
+        /* Error if no tasks, or more than one task, matched the search string
+         */
+        auto numMatches = matchingTasks.size();
+        if (numMatches == 0) {
+            throw error::UnknownTask();
+        } else if (numMatches > 1) {
+            throw error::InspecificTask(numMatches);
+        }
     }
 
     /* Open a temp file */

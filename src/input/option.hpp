@@ -10,7 +10,8 @@ namespace input {
 
 /* Define the list of command line options *nd the number of arguments that
  * can be passed to them. */
-#define OPTIONS(F) F(all, 0), F(exact, 0), F(global, 0), F(help, 0), F(local, 0)
+#define OPTIONS(F)                                                             \
+    F(all, 0), F(exact, 0), F(force, 0), F(global, 0), F(help, 0), F(local, 0)
 
 /**
  * @brief A class to describe the available command line options.
@@ -191,6 +192,8 @@ class Option {
         switch (m_value) {
         case all:
             return 'a';
+        case force:
+            return 'f';
         case global:
             return 'g';
         case local:

@@ -1,17 +1,12 @@
 #include <chrono>    // std::chrono
-#include <cstdio>    // std::remove
 #include <fstream>   // std::ofstream
 #include <stdexcept> // std::runtime_error
 
-#include "error/empty_argument.hpp"
 #include "file/definitions.hpp"
 #include "file/mutators.hpp"
-#include "input/input.hpp"
 #include "input/option.hpp"
 #include "task/complete_abstract.hpp"
 #include "task/metadata.hpp"
-#include "task/prefix.hpp"
-#include "task/task.hpp"
 
 namespace todo {
 namespace task {
@@ -29,30 +24,28 @@ void CompleteAbstract::add(const input::Input &input) {
         throw std::runtime_error{"Unable to open TODO file"};
     }
 
-    /* Find the task that matches the search string and remove it */
-    auto task = file::removeTask(input.getActionArgString(),
-                                 file::getOutstanding(global),
-                                 input.hasOption(input::Option::exact));
+    /* Find the tasks that match the search string and remove them */
+    auto tasks = file::removeTasks(input.getActionArgString(),
+                                   file::getOutstanding(global),
+                                   input.hasOption(input::Option::force),
+                                   input.hasOption(input::Option::exact));
 
-    /* Update the found task with the current time and the previous prefix */
-    Metadata metadata = task.getMetadata();
-    metadata.setPreviousTimeAdded(task.getMetadata().getTimeAdded());
-    metadata.setTimeAdded(std::chrono::system_clock::now());
-    metadata.setPreviousPrefix(task.getPrefix());
+    for (auto &task : tasks) {
+        /* Update found task with the previous time and the previous prefix */
+        Metadata metadata = task.getMetadata();
+        metadata.setPreviousTimeAdded(task.getMetadata().getTimeAdded());
+        metadata.setTimeAdded(std::chrono::system_clock::now());
+        metadata.setPreviousPrefix(task.getPrefix());
 
-    task.setPrefix(this->getPrefix());
-    task.setMetadata(metadata);
+        task.setPrefix(this->getPrefix());
+        task.setMetadata(metadata);
 
-    /* Write the task to the complete file */
-    ofs << task << std::endl;
+        /* Write the task to the complete file */
+        ofs << task << std::endl;
+    }
 }
 
 void CompleteAbstract::undo(const input::Input &input) {
-    /* Check the input */
-    if (input.getActionArgCount() == 0) {
-        throw error::EmptyArgument{"undo"};
-    }
-
     bool global = input.hasOption(input::Option::global);
 
     /* Make sure we can open the outstanding file */
@@ -62,21 +55,24 @@ void CompleteAbstract::undo(const input::Input &input) {
         throw std::runtime_error{"Unable to open TODO file"};
     }
 
-    /* Find the task that matches the search string and remove it */
-    auto task =
-        file::removeTask(input.getActionArgString(), file::getComplete(global),
-                         input.hasOption(input::Option::exact));
+    /* Find the tasks that match the search string and remove them */
+    auto tasks =
+        file::removeTasks(input.getActionArgString(), file::getComplete(global),
+                          input.hasOption(input::Option::force),
+                          input.hasOption(input::Option::exact));
 
-    /* Update the found task with the previous time and the previous prefix */
-    Metadata metadata = task.getMetadata();
-    metadata.setTimeAdded(task.getMetadata().getPreviousTimeAdded());
-    metadata.setPreviousPrefix(Prefix::NULL_PREFIX);
+    for (auto &task : tasks) {
+        /* Update found task with the previous time and the previous prefix */
+        Metadata metadata = task.getMetadata();
+        metadata.setTimeAdded(task.getMetadata().getPreviousTimeAdded());
+        metadata.setPreviousPrefix(Prefix::NULL_PREFIX);
 
-    task.setPrefix(task.getMetadata().getPreviousPrefix());
-    task.setMetadata(metadata);
+        task.setPrefix(task.getMetadata().getPreviousPrefix());
+        task.setMetadata(metadata);
 
-    /* Write the task to the outstanding file */
-    ofs << task << std::endl;
+        /* Write the task to the outstanding file */
+        ofs << task << std::endl;
+    }
 }
 
 } // namespace task
