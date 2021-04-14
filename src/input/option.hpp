@@ -8,10 +8,17 @@
 
 namespace input {
 
-/* Define the list of command line options *nd the number of arguments that
- * can be passed to them. */
+/**
+ * Define the list of command line options with a short description and the
+ * number of arguments that can be passed to them.
+ */
 #define OPTIONS(F)                                                             \
-    F(all, 0), F(exact, 0), F(force, 0), F(global, 0), F(help, 0), F(local, 0)
+    F(all, "Consider both local and global TODOs", 0),                         \
+        F(exact, "Only match identical TODOs", 0),                             \
+        F(force, "Perform action on all matched TODOs", 0),                    \
+        F(global, "Consider global TODOs only", 0),                            \
+        F(help, "Display this help text", 0),                                  \
+        F(local, "Consider local TODOs only", 0)
 
 /**
  * @brief A class to describe the available command line options.
@@ -40,7 +47,7 @@ namespace input {
 class Option {
 
   public:
-#define F(e, n) e
+#define F(e, d, n) e
     /**
      * @brief Enum class for command line options.
      */
@@ -230,31 +237,23 @@ class Option {
      * @return A string describing the option's purpose.
      */
     std::string getDescription() const {
-        switch (m_value) {
-        case all:
-            return "Consider both local and global TODOs";
-        case exact:
-            return "Only match identical TODOs";
-        case force:
-            return "Perform action on all matched TODOs";
-        case global:
-            return "Consider global TODOs only";
-        case help:
-            return "Display this help text";
-        case local:
-            return "Consider local TODOs only";
-        default:
-            return "";
-        }
+        return (m_value < NUM_OPTIONS) ? m_optionDesc[m_value] : "";
     }
 
   private:
-#define F(s, n) #s
+#define F(s, d, n) #s
     /* String representations of the enum values. */
     static inline const std::vector<std::string> m_optionNames = {OPTIONS(F)};
 #undef F
 
-#define F(e, n) n
+#define F(e, d, n) d
+    /**
+     * @brief A mapping of the enum values to their description.
+     */
+    static inline const std::vector<std::string> m_optionDesc = {OPTIONS(F)};
+#undef F
+
+#define F(e, d, n) n
     /**
      * @brief A mapping of the enum values to their parameter count.
      */
