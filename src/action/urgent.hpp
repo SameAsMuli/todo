@@ -1,7 +1,7 @@
 #ifndef ACTION_URGENT_H
 #define ACTION_URGENT_H
 
-#include "action/add_abstract.hpp"
+#include "action/add_outstanding_abstract.hpp"
 
 namespace todo {
 namespace action {
@@ -9,7 +9,7 @@ namespace action {
 /**
  * @brief Concrete variant of the add action for urgent priority tasks.
  */
-class Urgent : public AddAbstract {
+class Urgent : public AddOutstandingAbstract {
 
   public:
     /**

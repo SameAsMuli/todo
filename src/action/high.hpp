@@ -1,7 +1,7 @@
 #ifndef ACTION_HIGH_H
 #define ACTION_HIGH_H
 
-#include "action/add_abstract.hpp"
+#include "action/add_outstanding_abstract.hpp"
 
 namespace todo {
 namespace action {
@@ -9,7 +9,7 @@ namespace action {
 /**
  * @brief Concrete variant of the add action for high priority tasks.
  */
-class High : public AddAbstract {
+class High : public AddOutstandingAbstract {
 
   public:
     /**

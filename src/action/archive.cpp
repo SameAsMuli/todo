@@ -12,12 +12,12 @@ Archive::Archive(input::Input input)
 }
 
 std::string Archive::description() const {
-    return "Move all tasks to an archive file if they were completed more than "
+    return "Move all TODOs to an archive file if they were completed more than "
            "the given number of minutes ago. If run with no arguments, then "
-           "any completed task is archived.\n\n"
-           "Once archived, tasks will no longer appear when the base view "
-           "action is called. By default, any task older than 24 hours is "
-           "automatically archived.";
+           "any completed TODO is archived.\n\n"
+           "Once archived, TODOs will no longer appear when the view action is "
+           "called. By default, any TODO older than 24 hours is automatically "
+           "archived.";
 }
 
 std::string Archive::usage() const {

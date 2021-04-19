@@ -16,6 +16,66 @@ bool optionCompare(input::Option o1, input::Option o2) {
     return stringCompare(o1.toString(), o2.toString());
 }
 
+void printAliases(const todo::action::ActionAbstract *action) {
+    auto unsortedAliases = action->getAliases();
+    if (unsortedAliases.size() > 0) {
+        std::cout << std::endl;
+        std::cout << "Aliases:" << std::endl;
+
+        /* Make sure the aliases are in alphabetical order */
+        std::vector<std::string> aliases;
+        aliases.insert(aliases.end(), unsortedAliases.begin(),
+                       unsortedAliases.end());
+        std::sort(aliases.begin(), aliases.end(), stringCompare);
+
+        std::string buffer;
+        for (auto const &alias : aliases) {
+            if (buffer.empty()) {
+                buffer.append(util::display::INDENT);
+            } else {
+                buffer.append(", ");
+            }
+            buffer.append(alias);
+        }
+        std::cout << util::display::wrap(buffer) << std::endl;
+    }
+}
+
+void printValidOptions(const todo::action::ActionAbstract *action) {
+    auto unsortedOptions = action->getValidOptions();
+    if (unsortedOptions.size() > 0) {
+        std::cout << std::endl;
+        std::cout << "Valid options:" << std::endl;
+
+        /* Make sure the options are in alphabetical order */
+        std::string::size_type maxOptionStringLen = 0;
+        std::string::size_type minSeparatorLen = 1;
+
+        for (auto const &option : unsortedOptions) {
+            auto fullString = option.getFullString();
+            if (maxOptionStringLen < fullString.size()) {
+                maxOptionStringLen = fullString.size();
+            }
+        }
+
+        std::vector<input::Option> options;
+        options.insert(options.end(), unsortedOptions.begin(),
+                       unsortedOptions.end());
+        std::sort(options.begin(), options.end(), optionCompare);
+
+        for (auto const &option : options) {
+            auto optionString = option.getFullString();
+            std::cout << util::display::INDENT + optionString + " " +
+                             std::string(
+                                 minSeparatorLen +
+                                     (maxOptionStringLen - optionString.size()),
+                                 ' ') +
+                             " " + option.getDescription()
+                      << std::endl;
+        }
+    }
+}
+
 } // namespace
 
 namespace todo {
@@ -95,61 +155,9 @@ void ActionAbstract::printDetails() {
         std::cout << buffer << std::endl;
     }
 
-    auto unsortedOptions = this->getValidOptions();
-    if (unsortedOptions.size() > 0) {
-        std::cout << std::endl;
-        std::cout << "Valid options:" << std::endl;
+    printAliases(this);
 
-        /* Make sure the options are in alphabetical order */
-        std::string::size_type maxOptionStringLen = 0;
-        std::string::size_type minSeparatorLen = 1;
-
-        for (auto const &option : unsortedOptions) {
-            auto fullString = option.getFullString();
-            if (maxOptionStringLen < fullString.size()) {
-                maxOptionStringLen = fullString.size();
-            }
-        }
-
-        std::vector<input::Option> options;
-        options.insert(options.end(), unsortedOptions.begin(),
-                       unsortedOptions.end());
-        std::sort(options.begin(), options.end(), optionCompare);
-
-        for (auto const &option : options) {
-            auto optionString = option.getFullString();
-            std::cout << util::display::INDENT + optionString + " " +
-                             std::string(
-                                 minSeparatorLen +
-                                     (maxOptionStringLen - optionString.size()),
-                                 ' ') +
-                             " " + option.getDescription()
-                      << std::endl;
-        }
-    }
-
-    auto unsortedAliases = this->getAliases();
-    if (unsortedAliases.size() > 0) {
-        std::cout << std::endl;
-        std::cout << "Aliases:" << std::endl;
-
-        /* Make sure the aliases are in alphabetical order */
-        std::vector<std::string> aliases;
-        aliases.insert(aliases.end(), unsortedAliases.begin(),
-                       unsortedAliases.end());
-        std::sort(aliases.begin(), aliases.end(), stringCompare);
-
-        buffer.clear();
-        for (auto const &alias : aliases) {
-            if (buffer.empty()) {
-                buffer.append(util::display::INDENT);
-            } else {
-                buffer.append(", ");
-            }
-            buffer.append(alias);
-        }
-        std::cout << util::display::wrap(buffer) << std::endl;
-    }
+    printValidOptions(this);
 
     buffer = this->description();
     if (!buffer.empty()) {

@@ -15,5 +15,9 @@ AddAbstract::AddAbstract(const std::string &name, const std::string &helpText,
 
 void AddAbstract::run() { this->m_taskType->add(this->getInput()); }
 
+std::string AddAbstract::usage() const {
+    return "usage: todo " + this->getName() + " [<task description>]";
+}
+
 } // namespace action
 } // namespace todo

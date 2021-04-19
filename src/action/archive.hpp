@@ -30,7 +30,7 @@ class Archive : public ActionAbstract {
     /**
      * @brief Get the usage details of the archive action.
      *
-     * @return A string with the usage text of the help action.
+     * @return A string with the usage text of the archive action.
      */
     std::string usage() const override;
 

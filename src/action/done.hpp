@@ -1,7 +1,8 @@
 #ifndef ACTION_DONE_H
 #define ACTION_DONE_H
 
-#include "action/add_abstract.hpp"
+#include "action/add_complete_abstract.hpp"
+#include "input/input.hpp"
 
 namespace todo {
 namespace action {
@@ -9,11 +10,11 @@ namespace action {
 /**
  * @brief Concrete variant of the add action for done tasks.
  */
-class Done : public AddAbstract {
+class Done : public AddCompleteAbstract {
 
   public:
     /**
-     * @brief Initialise the done action for tasks.
+     * @brief Initialise the done action.
      *
      * @param input The user's input.
      */

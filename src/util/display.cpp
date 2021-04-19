@@ -44,9 +44,19 @@ programOverview(std::vector<std::pair<std::string, std::string>> actions) {
 
     ss << std::endl;
     ss << util::display::wrap(
-              "If run with no arguments, then any non-archived "
-              "tasks will be printed. All tasks are stored in: '" +
+              "By default each action will look in the current directory, and "
+              "each subsequent parent directory, until a directory containing "
+              "TODO information is found.\n\n"
+              "If the home directory is reached and no TODO information is "
+              "found, then the action will use the global todo directory. On "
+              "this system this is configured as:\n\n'" +
               std::string(todo::file::getTodoDir(true)) + "'")
+       << std::endl;
+
+    ss << std::endl;
+    ss << util::display::wrap(
+              "If run with no arguments, then the view action is used as a "
+              "default.")
        << std::endl;
 
     ss << std::endl;
