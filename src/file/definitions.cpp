@@ -39,11 +39,11 @@ namespace todo {
 namespace file {
 
 std::filesystem::path getOutstanding(bool global) {
-    return getTodoDir(global) / "outstanding_tasks";
+    return getTodoDir(global) / "outstanding";
 }
 
 std::filesystem::path getComplete(bool global) {
-    return getTodoDir(global) / "complete_tasks";
+    return getTodoDir(global) / "complete";
 }
 
 std::filesystem::path getArchive(bool global) {
