@@ -21,6 +21,13 @@ class Undo : public ActionAbstract {
     Undo(input::Input input);
 
     /**
+     * @brief Get a detailed description of the undo action.
+     *
+     * @return A string with the description of the undo action.
+     */
+    std::string description() const override;
+
+    /**
      * @brief Print the help text and list all available functions.
      */
     void run() override;

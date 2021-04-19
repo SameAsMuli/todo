@@ -21,6 +21,13 @@ class Remove : public ActionAbstract {
     Remove(input::Input input);
 
     /**
+     * @brief Get a detailed description of the remove action.
+     *
+     * @return A string with the description of the remove action.
+     */
+    std::string description() const override;
+
+    /**
      * @brief Remove matching task.
      */
     void run() override;
