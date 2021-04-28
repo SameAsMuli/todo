@@ -7,6 +7,13 @@ namespace todo {
 namespace file {
 
 /**
+ * @brief Return the name used for local todo directories.
+ *
+ * @return A filesystem path with the name used for local todo directories.
+ */
+std::filesystem::path getLocalTodoDirName();
+
+/**
  * @brief Get the "outstanding_tasks" data file.
  *
  * @param global Whether to consider local or global only tasks.

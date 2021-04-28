@@ -5,15 +5,6 @@
 namespace {
 
 /**
- * @brief Return the name used for local todo directories.
- *
- * @return A filesystem path with the name used for local todo directories.
- */
-std::filesystem::path localTodoDirName() {
-    return std::filesystem::path{".todo"};
-}
-
-/**
  * @brief Return whether a directory conatins a valid todo directory.
  *
  * @param path The directory to check.
@@ -21,7 +12,8 @@ std::filesystem::path localTodoDirName() {
  * @return True if the given directory contains a local todo directory.
  */
 bool containsLocalTodoDir(std::filesystem::path path) {
-    return std::filesystem::is_directory(path / localTodoDirName());
+    return std::filesystem::is_directory(path /
+                                         todo::file::getLocalTodoDirName());
 }
 
 /**
@@ -37,6 +29,15 @@ std::filesystem::path globalTodoDir() {
 
 namespace todo {
 namespace file {
+
+/**
+ * @brief Return the name used for local todo directories.
+ *
+ * @return A filesystem path with the name used for local todo directories.
+ */
+std::filesystem::path getLocalTodoDirName() {
+    return std::filesystem::path{".todo"};
+}
 
 std::filesystem::path getOutstanding(bool global) {
     return getTodoDir(global) / "outstanding";
@@ -61,7 +62,7 @@ std::filesystem::path getTodoDir(bool global) {
 
         do {
             if (containsLocalTodoDir(dir)) {
-                return dir / localTodoDirName();
+                return dir / getLocalTodoDirName();
             }
 
             if (dir == util::fs::HomeDir()) {

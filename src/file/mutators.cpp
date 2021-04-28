@@ -39,6 +39,11 @@ void initialise(bool global) {
         throw std::runtime_error("Unable to find HOME directory.");
     }
 
+    if (!global) {
+        std::filesystem::create_directories(util::fs::CurrentDir() /
+                                            getLocalTodoDirName());
+    }
+
     initialiseFile(getOutstanding(global));
     initialiseFile(getComplete(global));
     initialiseFile(getArchive(global));
