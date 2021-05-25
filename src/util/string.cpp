@@ -1,5 +1,6 @@
 #include <algorithm>    // std::transform
 #include <charconv>     // std::from_chars
+#include <cstring>      // std::strcmp
 #include <stdexcept>    // std::runtime_error
 #include <system_error> // std::errc
 
@@ -14,7 +15,7 @@ int toint(const std::string &input) {
     int value = 0;
     auto [p, ec] =
         std::from_chars(input.data(), input.data() + input.size(), value);
-    if (ec != std::errc() || strcmp(p, "\0") != 0) {
+    if (ec != std::errc() || std::strcmp(p, "\0") != 0) {
         throw std::runtime_error("Invalid number: '" + input + "'");
     }
     return value;
