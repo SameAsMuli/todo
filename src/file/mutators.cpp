@@ -68,11 +68,11 @@ std::vector<task::Task> removeTasks(const std::string &searchString,
     } else {
         /* Error if no tasks, or more than one task, matched the search string
          */
-        auto numMatches = matchingTasks.size();
+        unsigned int numMatches = matchingTasks.size();
         if (numMatches == 0) {
-            throw error::UnknownTask();
+            throw error::UnknownTask{};
         } else if (numMatches > 1) {
-            throw error::InspecificTask(numMatches);
+            throw error::InspecificTask{numMatches};
         }
     }
 

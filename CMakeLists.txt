@@ -35,7 +35,7 @@ add_subdirectory(src/util)
 
 add_executable(${PROJECT_NAME} src/main.cpp)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE action config error file input task util)
+target_link_libraries(${PROJECT_NAME} PRIVATE action task file input util error config)
 
 target_include_directories(${PROJECT_NAME} PUBLIC src)
 
