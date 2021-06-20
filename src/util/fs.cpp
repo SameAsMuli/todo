@@ -20,8 +20,14 @@ std::filesystem::path CurrentDir() {
 }
 
 std::filesystem::path HomeDir() {
-    std::string home = std::getenv("HOME");
-    if (!home.empty()) {
+    /* Use user's $HOME if running as a snap */
+    auto home = std::getenv("SNAP_REAL_HOME");
+    if (home != NULL && strlen(home) > 0) {
+        return std::filesystem::path{home};
+    }
+
+    home = std::getenv("HOME");
+    if (home != NULL && strlen(home) > 0) {
         return std::filesystem::path{home};
     }
 
