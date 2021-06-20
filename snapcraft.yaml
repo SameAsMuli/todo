@@ -9,6 +9,7 @@ description: |
   children.
 
 base: core20
+license: MIT
 grade: devel
 confinement: strict
 
