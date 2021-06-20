@@ -1,17 +1,16 @@
-name: todo
+name: sameasmuli-todo
 title: Todo
 version: '0.5.0'
 summary: A command line task management utility
 description: |
-  A command line application to manage tasks and
-  TODOs. Tasks can be given one of 4 priority
-  levels, and can either be a \"global\" task that
-  is accessible from anywhere, or a \"local\" task
-  that is specific to a directory and its childen.
+  A command line application to manage tasks and TODOs. Tasks can be given one
+  of 4 priority levels, and can either be a "global" task that is accessible
+  from anywhere, or a "local" task that is specific to a directory and its
+  children.
 
 base: core20
 grade: devel
-confinement: devmode
+confinement: strict
 
 apps:
   todo:
@@ -21,6 +20,7 @@ build-packages:
   - build-essential
   - automake
   - ccache
+  - git
   - g++
 
 parts:
@@ -28,4 +28,3 @@ parts:
     source: .
     source-type: git
     plugin: cmake
-    build-packages: [g++]
