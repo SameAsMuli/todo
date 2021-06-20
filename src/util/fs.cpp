@@ -1,4 +1,5 @@
 #include <cstdlib>  // std::getenv
+#include <cstring>  // std::strlen
 #include <pwd.h>    // getpwuid
 #include <string>   // std::string
 #include <unistd.h> // getcwd, getuid, PATH_MAX
@@ -22,12 +23,12 @@ std::filesystem::path CurrentDir() {
 std::filesystem::path HomeDir() {
     /* Use user's $HOME if running as a snap */
     auto home = std::getenv("SNAP_REAL_HOME");
-    if (home != NULL && strlen(home) > 0) {
+    if (home != NULL && std::strlen(home) > 0) {
         return std::filesystem::path{home};
     }
 
     home = std::getenv("HOME");
-    if (home != NULL && strlen(home) > 0) {
+    if (home != NULL && std::strlen(home) > 0) {
         return std::filesystem::path{home};
     }
 
