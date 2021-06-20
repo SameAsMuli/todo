@@ -13,6 +13,7 @@
 #include "task/metadata.hpp"
 #include "task/outstanding_abstract.hpp"
 #include "util/fs.hpp"
+#include "util/string.hpp"
 
 namespace todo {
 namespace task {
@@ -24,6 +25,7 @@ OutstandingAbstract::OutstandingAbstract(const std::string &name,
 void OutstandingAbstract::add(const input::Input &input) {
     /* Check we have a valid input */
     auto description = input.getActionArgString();
+    util::string::trim(description);
     if (description.empty()) {
         throw error::EmptyArgument{"add method"};
     }

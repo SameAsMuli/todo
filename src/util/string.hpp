@@ -7,6 +7,54 @@ namespace util {
 namespace string {
 
 /**
+ * @brief Remove all leading whitespace from the given string.
+ *
+ * @param input The string to trim.
+ */
+void ltrim(std::string &input);
+
+/**
+ * @brief Copy a string and remove leading whitespace.
+ *
+ * @param input The string to copy and trim.
+ *
+ * @return A copy of the input string with leading whitespace removed.
+ */
+std::string ltrim_copy(std::string input);
+
+/**
+ * @brief Remove all trailing whitespace from the given string.
+ *
+ * @param input The string to trim.
+ */
+void rtrim(std::string &input);
+
+/**
+ * @brief Copy a string and remove trailing whitespace.
+ *
+ * @param input The string to copy and trim.
+ *
+ * @return A copy of the input string with trailing whitespace removed.
+ */
+std::string rtrim_copy(std::string input);
+
+/**
+ * @brief Remove all leading and trailing whitespace from a string.
+ *
+ * @param input The string to trim.
+ */
+void trim(std::string &input);
+
+/**
+ * @brief Copy a string and remove leading and trailing whitespace.
+ *
+ * @param input The string to copy and trim.
+ *
+ * @return A copy of the input string with leading whitespace removed.
+ */
+std::string trim_copy(std::string input);
+
+/**
  * @brief Convert a string to an integer.
  *
  * @param input The string to convert.

@@ -1,6 +1,42 @@
 #include "util/string.hpp"
 #include "gtest/gtest.h"
 
+TEST(StringUtils, LTrim) {
+    EXPECT_EQ(util::string::ltrim_copy(""), "");
+    EXPECT_EQ(util::string::ltrim_copy(" "), "");
+    EXPECT_EQ(util::string::ltrim_copy("   "), "");
+    EXPECT_EQ(util::string::ltrim_copy("t"), "t");
+    EXPECT_EQ(util::string::ltrim_copy("test"), "test");
+    EXPECT_EQ(util::string::ltrim_copy(" test"), "test");
+    EXPECT_EQ(util::string::ltrim_copy("test "), "test ");
+    EXPECT_EQ(util::string::ltrim_copy(" test "), "test ");
+    EXPECT_EQ(util::string::ltrim_copy("   test   "), "test   ");
+}
+
+TEST(StringUtils, RTrim) {
+    EXPECT_EQ(util::string::rtrim_copy(""), "");
+    EXPECT_EQ(util::string::rtrim_copy(" "), "");
+    EXPECT_EQ(util::string::rtrim_copy("   "), "");
+    EXPECT_EQ(util::string::rtrim_copy("t"), "t");
+    EXPECT_EQ(util::string::rtrim_copy("test"), "test");
+    EXPECT_EQ(util::string::rtrim_copy(" test"), " test");
+    EXPECT_EQ(util::string::rtrim_copy("test "), "test");
+    EXPECT_EQ(util::string::rtrim_copy(" test "), " test");
+    EXPECT_EQ(util::string::rtrim_copy("   test   "), "   test");
+}
+
+TEST(StringUtils, Trim) {
+    EXPECT_EQ(util::string::trim_copy(""), "");
+    EXPECT_EQ(util::string::trim_copy(" "), "");
+    EXPECT_EQ(util::string::trim_copy("   "), "");
+    EXPECT_EQ(util::string::trim_copy("t"), "t");
+    EXPECT_EQ(util::string::trim_copy("test"), "test");
+    EXPECT_EQ(util::string::trim_copy(" test"), "test");
+    EXPECT_EQ(util::string::trim_copy("test "), "test");
+    EXPECT_EQ(util::string::trim_copy(" test "), "test");
+    EXPECT_EQ(util::string::trim_copy("   test   "), "test");
+}
+
 TEST(StringUtils, ToInt) {
     EXPECT_EQ(util::string::toint("3"), 3);
 

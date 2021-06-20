@@ -37,26 +37,24 @@ programOverview(std::vector<std::pair<std::string, std::string>> actions) {
 
     std::stringstream ss;
 
-    ss << util::display::header() << std::endl;
+    ss << header() << std::endl;
 
     ss << std::endl;
-    ss << util::display::programUsage() << std::endl;
+    ss << programUsage() << std::endl;
 
     ss << std::endl;
-    ss << util::display::wrap(
-              "By default each action will look in the current directory, and "
-              "each subsequent parent directory, until a directory containing "
-              "TODO information is found.\n\n"
-              "If the home directory is reached and no TODO information is "
-              "found, then the action will use the global todo directory. On "
-              "this system this is configured as:\n\n'" +
-              std::string(todo::file::getTodoDir(true)) + "'")
+    ss << wrap("By default each action will look in the current directory, and "
+               "each subsequent parent directory, until a directory containing "
+               "TODO information is found.\n\n"
+               "If the home directory is reached and no TODO information is "
+               "found, then the action will use the global todo directory. On "
+               "this system this is configured as:\n\n'" +
+               std::string(todo::file::getTodoDir(true)) + "'")
        << std::endl;
 
     ss << std::endl;
-    ss << util::display::wrap(
-              "If run with no arguments, then the view action is used as a "
-              "default.")
+    ss << wrap("If run with no arguments, then the view action is used as a "
+               "default.")
        << std::endl;
 
     ss << std::endl;
@@ -75,7 +73,7 @@ programOverview(std::vector<std::pair<std::string, std::string>> actions) {
     }
 
     ss << std::endl;
-    ss << util::display::footer();
+    ss << footer();
 
     return ss.str();
 }

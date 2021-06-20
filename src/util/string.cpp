@@ -1,4 +1,5 @@
-#include <algorithm>    // std::transform
+#include <algorithm>    // std::find_if, std::transform
+#include <cctype>       // std::isspace
 #include <charconv>     // std::from_chars
 #include <cstring>      // std::strcmp
 #include <stdexcept>    // std::runtime_error
@@ -10,6 +11,39 @@
 
 namespace util {
 namespace string {
+
+void ltrim(std::string &s) {
+    s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
+                return !std::isspace(ch);
+            }));
+}
+
+std::string ltrim_copy(std::string s) {
+    ltrim(s);
+    return s;
+}
+
+void rtrim(std::string &s) {
+    s.erase(std::find_if(s.rbegin(), s.rend(),
+                         [](unsigned char ch) { return !std::isspace(ch); })
+                .base(),
+            s.end());
+}
+
+std::string rtrim_copy(std::string s) {
+    rtrim(s);
+    return s;
+}
+
+void trim(std::string &s) {
+    ltrim(s);
+    rtrim(s);
+}
+
+std::string trim_copy(std::string s) {
+    trim(s);
+    return s;
+}
 
 int toint(const std::string &input) {
     int value = 0;
