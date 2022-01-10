@@ -9,16 +9,16 @@
 namespace input {
 
 /**
- * Define the list of command line options with a short description and the
- * number of arguments that can be passed to them.
+ * Define the list of command line options with a short description and whether
+ * they take an argument (true) or act as a boolean flag (false).
  */
 #define OPTIONS(F)                                                             \
-    F(all, "Consider both local and global TODOs", 0),                         \
-        F(exact, "Only match identical TODOs", 0),                             \
-        F(force, "Perform action on all matched TODOs", 0),                    \
-        F(global, "Consider global TODOs only", 0),                            \
-        F(help, "Display this help text", 0),                                  \
-        F(local, "Consider local TODOs only", 0)
+    F(all, "Consider both local and global TODOs", false),                     \
+        F(exact, "Only match identical TODOs", false),                         \
+        F(force, "Perform action on all matched TODOs", false),                \
+        F(global, "Consider global TODOs only", false),                        \
+        F(help, "Display this help text", false),                              \
+        F(local, "Consider local TODOs only", false)
 
 /**
  * @brief A class to describe the available command line options.
@@ -38,16 +38,15 @@ namespace input {
  *
  *   -l
  *
- * Options can be passed a set number of arguments, specified by the
- * argument count e.g. an option with an argument count of 2 would be
- * passed to the program as follows:
+ * Options can act as a boolean flag or be passed a single argument:
  *
- *   --longname argument1 argument2
+ *   -l argument
+ *   --longname argument
  */
 class Option {
 
   public:
-#define F(e, d, n) e
+#define F(e, d, a) e
     /**
      * @brief Enum class for command line options.
      */
@@ -194,12 +193,12 @@ class Option {
     }
 
     /**
-     * @brief Get the parameter count for the option.
+     * @brief Whether the Option is a boolean flag or accepts an argument.
      *
-     * @return The parameter count or 0 if the option is unknown.
+     * @return True if the Option takes an argument, false otherwise.
      */
-    constexpr uint8_t getParamCount() const {
-        return (m_value < NUM_OPTIONS) ? m_paramCount[m_value] : 0;
+    constexpr bool requiresArg() const {
+        return (m_value < NUM_OPTIONS) ? m_requiresArg[m_value] : false;
     }
 
     /**
@@ -215,8 +214,12 @@ class Option {
             return 'f';
         case global:
             return 'g';
+        case id:
+            return 'i';
         case local:
             return 'l';
+        case showid:
+            return 'I';
         default:
             return NULL_CHAR;
         }
@@ -241,23 +244,23 @@ class Option {
     }
 
   private:
-#define F(s, d, n) #s
+#define F(s, d, a) #s
     /* String representations of the enum values. */
     static inline const std::vector<std::string> m_optionNames = {OPTIONS(F)};
 #undef F
 
-#define F(e, d, n) d
+#define F(e, d, a) d
     /**
      * @brief A mapping of the enum values to their description.
      */
     static inline const std::vector<std::string> m_optionDesc = {OPTIONS(F)};
 #undef F
 
-#define F(e, d, n) n
+#define F(e, d, a) a
     /**
-     * @brief A mapping of the enum values to their parameter count.
+     * @brief A mapping of the enum values to whether they require an argument.
      */
-    static inline const std::vector<uint8_t> m_paramCount = {OPTIONS(F)};
+    static inline const std::vector<bool> m_requiresArg = {OPTIONS(F)};
 #undef F
 
     Value m_value;

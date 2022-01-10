@@ -47,13 +47,18 @@ Input::Input(int argc, char const *const *argv) {
                 auto option =
                     Option(arg.erase(0, Option::LONG_OPTION_PREFIX.size()));
 
-                if (option == input::Option::UNKNOWN_OPTION) {
+                if (option == Option::UNKNOWN_OPTION) {
                     throw std::runtime_error("Unknown option '" + arg + "'");
                 }
 
                 std::vector<std::string> optionArgs;
 
-                for (int j = 1; j <= option.getParamCount(); j++) {
+                if (option.requiresArg()) {
+                    if (i >= argc) {
+                        throw std::runtime_error(
+                            "No argument given to option '" +
+                            option.toString() + "'");
+                    }
                     optionArgs.push_back(argv[++i]);
                 }
 
@@ -67,23 +72,20 @@ Input::Input(int argc, char const *const *argv) {
                 /* Handle multiple short options e.g. -al */
                 for (std::string::size_type j = 0; j < arg.size(); ++j) {
                     auto option = Option(arg[j]);
-                    if (option == input::Option::UNKNOWN_OPTION) {
+                    if (option == Option::UNKNOWN_OPTION) {
                         throw std::runtime_error("Unknown option '" + arg +
                                                  "'");
                     }
 
                     std::vector<std::string> optionArgs;
 
-                    if (option.getParamCount() > 0) {
-                        if (j < arg.size() - 1) {
+                    if (option.requiresArg()) {
+                        if (j < arg.size() - 1 || i >= argc) {
                             throw std::runtime_error(
-                                "No parameters given to option '" +
+                                "No argument given to option '" +
                                 option.toString() + "'");
                         }
-
-                        for (int j = 1; j <= option.getParamCount(); j++) {
-                            optionArgs.push_back(argv[++i]);
-                        }
+                        optionArgs.push_back(argv[++i]);
                     }
 
                     this->m_options.insert_or_assign(option, optionArgs);

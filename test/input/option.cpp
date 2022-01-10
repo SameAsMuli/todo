@@ -116,18 +116,18 @@ TEST(Option, ToString) {
 }
 
 /* Test the parameter count functionality */
-TEST(Option, ParamCount) {
+TEST(Option, RequiresArg) {
     input::Option all = input::Option::all;
-    EXPECT_EQ(all.getParamCount(), 0);
+    EXPECT_EQ(all.requiresArg(), false);
 
-    input::Option global = input::Option::global;
-    EXPECT_EQ(global.getParamCount(), 0);
+    input::Option id = input::Option::id;
+    EXPECT_EQ(id.requiresArg(), true);
 
     input::Option local = input::Option::local;
-    EXPECT_EQ(local.getParamCount(), 0);
+    EXPECT_EQ(local.requiresArg(), false);
 
     input::Option unknown = input::Option::UNKNOWN_OPTION;
-    EXPECT_EQ(unknown.getParamCount(), 0);
+    EXPECT_EQ(unknown.requiresArg(), false);
 }
 
 /* Test the character representation functionality */
