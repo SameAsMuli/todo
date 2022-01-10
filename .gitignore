@@ -17,3 +17,6 @@ doxydoc
 
 # Ignore any open files
 *.swp
+
+# Ignore mac OS files
+.DS_Store
