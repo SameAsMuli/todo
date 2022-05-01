@@ -1,8 +1,6 @@
 #include <algorithm> // std::find
 #include <stdexcept> // std::logic_error
 
-#include "SafeInt.hpp"
-
 #include "input/input.hpp"
 
 namespace {
@@ -119,23 +117,21 @@ unsigned int Input::getActionArgCount() const {
 }
 
 std::string Input::getActionArg(int index) const {
-    std::vector<std::string>::size_type safeIndex;
-    if (!SafeCast(index, safeIndex)) {
+    if (index < 0) {
         throw std::runtime_error{"Invalid index passed to Input::getActionArg"};
     }
 
-    return this->m_actionArgs.at(safeIndex);
+    return this->m_actionArgs.at(index);
 }
 
 std::string Input::getActionArgString(int index) const {
-    std::vector<std::string>::size_type safeIndex;
-    if (!SafeCast(index, safeIndex)) {
+    if (index < 0) {
         throw std::runtime_error{
             "Invalid index passed to Input::getActionArgString"};
     }
 
     std::string str;
-    for (auto i = safeIndex; i < this->m_actionArgs.size(); i++) {
+    for (auto i = index; i < this->m_actionArgs.size(); i++) {
         if (!str.empty()) {
             str += " ";
         }
@@ -145,12 +141,11 @@ std::string Input::getActionArgString(int index) const {
 }
 
 bool Input::hasActionArg(int index) const {
-    std::vector<std::string>::size_type safeIndex;
-    if (!SafeCast(index, safeIndex)) {
+    if (index < 0) {
         return false;
     }
 
-    return this->m_actionArgs.size() > safeIndex;
+    return this->m_actionArgs.size() > index;
 }
 
 bool Input::hasActionArg(const std::string &arg) const {
@@ -167,12 +162,11 @@ bool Input::hasActionArg(const std::string &arg, int index) const {
         return false;
     }
 
-    std::vector<std::string>::size_type safeIndex;
-    if (!SafeCast(index, safeIndex)) {
+    if (index < 0) {
         return false;
     }
 
-    return this->getActionArg(safeIndex) == arg;
+    return this->getActionArg(index) == arg;
 }
 
 bool Input::hasOption(const Option &option) const {

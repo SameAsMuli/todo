@@ -5,8 +5,6 @@
 #include <stdexcept>    // std::runtime_error
 #include <system_error> // std::errc
 
-#include "SafeInt.hpp"
-
 #include "util/string.hpp"
 
 namespace util {
@@ -62,8 +60,7 @@ std::string toupper(const std::string &input) {
 }
 
 std::string wrap(const std::string &input, int width) {
-    std::string::size_type safeIndex;
-    if (!SafeCast(width, safeIndex)) {
+    if (width <= 0) {
         throw std::runtime_error{"Invalid width passed to util::string::wrap"};
     }
 

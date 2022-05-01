@@ -20,10 +20,6 @@ endif(CCACHE_FOUND)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-# Include SafeInt
-include(cmake/safeint.cmake)
-fetch_safeint()
-
 # Define binary and how to build it
 add_subdirectory(src/action)
 add_subdirectory(src/config)
