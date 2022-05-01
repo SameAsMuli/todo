@@ -214,12 +214,8 @@ class Option {
             return 'f';
         case global:
             return 'g';
-        case id:
-            return 'i';
         case local:
             return 'l';
-        case showid:
-            return 'I';
         default:
             return NULL_CHAR;
         }

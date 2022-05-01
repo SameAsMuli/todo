@@ -120,9 +120,6 @@ TEST(Option, RequiresArg) {
     input::Option all = input::Option::all;
     EXPECT_EQ(all.requiresArg(), false);
 
-    input::Option id = input::Option::id;
-    EXPECT_EQ(id.requiresArg(), true);
-
     input::Option local = input::Option::local;
     EXPECT_EQ(local.requiresArg(), false);
 
