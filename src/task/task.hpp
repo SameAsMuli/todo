@@ -5,6 +5,7 @@
 
 #include "task/metadata.hpp"
 #include "task/prefix.hpp"
+#include "util/string.hpp"
 
 namespace todo {
 namespace task {
@@ -58,9 +59,7 @@ class Task {
      *
      * @param description The description to use.
      */
-    void setDescription(std::string description) {
-        m_description = description;
-    }
+    void setDescription(std::string &description);
 
     /**
      * @brief Set the metadata for the task.

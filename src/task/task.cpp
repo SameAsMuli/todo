@@ -2,6 +2,7 @@
 #include <string>  // std::getline
 
 #include "task/task.hpp"
+#include "util/string.hpp"
 
 namespace todo {
 namespace task {
@@ -11,10 +12,15 @@ Task::Task() {}
 Task::Task(Prefix prefix, std::string &description)
     : m_prefix(prefix), m_description(description) {}
 
+void Task::setDescription(std::string &description) {
+    util::string::trim(description);
+    m_description = description;
+}
+
 std::istream &operator>>(std::istream &stream, Task &task) {
     std::string description;
     Metadata metadata;
-    std::string prefix;
+    Prefix prefix;
 
     /* Decode the metadata for the task */
     stream >> metadata;
@@ -24,11 +30,16 @@ std::istream &operator>>(std::istream &stream, Task &task) {
 
     task.m_metadata = metadata;
 
+    stream >> prefix;
+    if (stream.fail()) {
+        return stream;
+    }
+
+    task.m_prefix = prefix;
+
     /* Decode the description of the task */
-    if (std::getline(stream, prefix, ' ') &&
-        std::getline(stream, description)) {
-        task.m_prefix.setCharacter(prefix[0]);
-        task.m_description = description;
+    if (std::getline(stream, description)) {
+        task.setDescription(description);
     } else {
         /* One operation failed so set the state on the main stream to
          * indicate failure. */

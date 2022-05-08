@@ -9,6 +9,7 @@
 #include "file/accessors.hpp"
 #include "file/definitions.hpp"
 #include "file/mutators.hpp"
+#include "input/input.hpp"
 #include "input/option.hpp"
 #include "task/metadata.hpp"
 #include "task/outstanding_abstract.hpp"

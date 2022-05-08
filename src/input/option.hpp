@@ -128,6 +128,7 @@ class Option {
      * @return True if the Value of both Options is equal, false otherwise.
      */
     bool operator==(const Option &other) { return m_value == (Value)other; }
+
     /**
      * @brief Define equality between an Option object and a Value.
      *

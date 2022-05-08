@@ -15,7 +15,7 @@ static const char DELIMITER = ';';
 namespace todo {
 namespace task {
 
-Metadata::Metadata() : m_previousPrefix(Prefix::NULL_PREFIX) {}
+Metadata::Metadata() : m_previousPrefix(Prefix::UNKNOWN_PREFIX) {}
 
 std::istream &operator>>(std::istream &stream, Metadata &metadata) {
     std::string previousPrefix;
@@ -36,7 +36,7 @@ std::istream &operator>>(std::istream &stream, Metadata &metadata) {
         metadata.m_timeAdded = std::chrono::system_clock::from_time_t(time);
 
         /* Decode the previous prefix */
-        metadata.m_previousPrefix.setCharacter(previousPrefix[0]);
+        metadata.m_previousPrefix = Prefix(previousPrefix[0]);
 
         /* Decode the previous time added timestamp */
         ss = std::stringstream{previousTimestamp};

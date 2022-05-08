@@ -65,7 +65,7 @@ void CompleteAbstract::undo(const input::Input &input) {
         /* Update found task with the previous time and the previous prefix */
         Metadata metadata = task.getMetadata();
         metadata.setTimeAdded(task.getMetadata().getPreviousTimeAdded());
-        metadata.setPreviousPrefix(Prefix::NULL_PREFIX);
+        metadata.setPreviousPrefix(Prefix::UNKNOWN_PREFIX);
 
         task.setPrefix(task.getMetadata().getPreviousPrefix());
         task.setMetadata(metadata);
