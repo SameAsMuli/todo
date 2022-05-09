@@ -6,14 +6,12 @@
 #include "file/mutators.hpp"
 #include "input/option.hpp"
 #include "task/complete_abstract.hpp"
-#include "task/metadata.hpp"
 
 namespace todo {
 namespace task {
 
-CompleteAbstract::CompleteAbstract(const std::string &name,
-                                   const Prefix &prefix)
-    : TaskTypeAbstract(file::getComplete, name, prefix) {}
+CompleteAbstract::CompleteAbstract(const std::string &name, const Type &type)
+    : TaskTypeAbstract(file::getComplete, name, type) {}
 
 void CompleteAbstract::add(const input::Input &input) {
     bool global = input.hasOption(input::Option::global);
@@ -31,14 +29,11 @@ void CompleteAbstract::add(const input::Input &input) {
                                    input.hasOption(input::Option::exact));
 
     for (auto &task : tasks) {
-        /* Update found task with the previous time and the previous prefix */
-        Metadata metadata = task.getMetadata();
-        metadata.setPreviousTimeAdded(task.getMetadata().getTimeAdded());
-        metadata.setTimeAdded(std::chrono::system_clock::now());
-        metadata.setPreviousPrefix(task.getPrefix());
-
-        task.setPrefix(this->getPrefix());
-        task.setMetadata(metadata);
+        /* Update found task with the previous time and the previous type */
+        task.setPreviousType(task.getType());
+        task.setPreviousTimeAdded(task.getTimeAdded());
+        task.setType(this->getType());
+        task.setTimeAdded(std::chrono::system_clock::now());
 
         /* Write the task to the complete file */
         ofs << task << std::endl;
@@ -62,13 +57,10 @@ void CompleteAbstract::undo(const input::Input &input) {
                           input.hasOption(input::Option::exact));
 
     for (auto &task : tasks) {
-        /* Update found task with the previous time and the previous prefix */
-        Metadata metadata = task.getMetadata();
-        metadata.setTimeAdded(task.getMetadata().getPreviousTimeAdded());
-        metadata.setPreviousPrefix(Prefix::UNKNOWN_PREFIX);
-
-        task.setPrefix(task.getMetadata().getPreviousPrefix());
-        task.setMetadata(metadata);
+        /* Update found task with the previous time and the previous type */
+        task.setType(task.getPreviousType());
+        task.setTimeAdded(task.getPreviousTimeAdded());
+        task.setPreviousType(Type::UNKNOWN_TYPE);
 
         /* Write the task to the outstanding file */
         ofs << task << std::endl;

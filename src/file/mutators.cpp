@@ -9,7 +9,6 @@
 #include "file/accessors.hpp"
 #include "file/definitions.hpp"
 #include "file/mutators.hpp"
-#include "task/metadata.hpp"
 #include "util/fs.hpp"
 
 namespace {
@@ -125,7 +124,7 @@ void archive(unsigned int maxMins, bool global) {
     task::Task task;
     while (completeFile >> task) {
         auto ageMins = std::chrono::duration_cast<std::chrono::minutes>(
-                           now - task.getMetadata().getTimeAdded())
+                           now - task.getTimeAdded())
                            .count();
 
         if (maxMins <= ageMins) {

@@ -20,3 +20,4 @@ doxydoc
 
 # Ignore mac OS files
 .DS_Store
+*.icloud

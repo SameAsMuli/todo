@@ -10,8 +10,8 @@ namespace task {
 
 TaskTypeAbstract::TaskTypeAbstract(
     const std::function<std::filesystem::path(bool)> &f_file,
-    const std::string &name, const Prefix &prefix)
-    : m_f_file(f_file), m_name(name), m_prefix(prefix) {}
+    const std::string &name, const Type &type)
+    : m_f_file(f_file), m_name(name), m_type(type) {}
 
 std::filesystem::path TaskTypeAbstract::getFile(bool global) const {
     return this->m_f_file(global);
@@ -23,7 +23,7 @@ void TaskTypeAbstract::view(bool global) {
     if (ifs.is_open()) {
         Task task;
         while (ifs >> task) {
-            if (this->getPrefix() == task.getPrefix()) {
+            if (this->getType() == task.getType()) {
                 std::cout << this->format(task) << std::endl;
             }
         }
@@ -32,7 +32,7 @@ void TaskTypeAbstract::view(bool global) {
 
 std::ostream &operator<<(std::ostream &stream,
                          const TaskTypeAbstract *taskType) {
-    stream << taskType->getPrefix() << std::endl;
+    stream << taskType->getType() << std::endl;
     return stream;
 }
 

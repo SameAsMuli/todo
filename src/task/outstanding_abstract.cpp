@@ -11,7 +11,6 @@
 #include "file/mutators.hpp"
 #include "input/input.hpp"
 #include "input/option.hpp"
-#include "task/metadata.hpp"
 #include "task/outstanding_abstract.hpp"
 #include "util/fs.hpp"
 #include "util/string.hpp"
@@ -20,8 +19,8 @@ namespace todo {
 namespace task {
 
 OutstandingAbstract::OutstandingAbstract(const std::string &name,
-                                         const Prefix &prefix)
-    : TaskTypeAbstract(file::getOutstanding, name, prefix) {}
+                                         const Type &type)
+    : TaskTypeAbstract(file::getOutstanding, name, type) {}
 
 void OutstandingAbstract::add(const input::Input &input) {
     /* Check we have a valid input */
@@ -56,11 +55,8 @@ void OutstandingAbstract::add(const input::Input &input) {
     }
 
     /* Create and populate a task to be added */
-    Metadata metadata;
-    metadata.setTimeAdded(std::chrono::system_clock::now());
-
-    Task task{this->getPrefix(), description};
-    task.setMetadata(metadata);
+    Task task{this->getType(), description};
+    task.setTimeAdded(std::chrono::system_clock::now());
 
     std::ofstream ofs{
         this->getFile(input.hasOption(input::Option::global)).string(),

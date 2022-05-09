@@ -22,10 +22,10 @@ class TaskTypeAbstract {
      *
      * @param f_file Function to return the file used to store the task type.
      * @param name The name of the task type.
-     * @param prefix The prefix for the task type.
+     * @param type The type for the task type.
      */
     TaskTypeAbstract(const std::function<std::filesystem::path(bool)> &f_file,
-                     const std::string &name, const Prefix &prefix);
+                     const std::string &name, const Type &type);
 
     /**
      * @brief Get the data file into which this task type is written.
@@ -44,11 +44,11 @@ class TaskTypeAbstract {
     std::string getName() const { return m_name; }
 
     /**
-     * @brief Get the prefix for this task type.
+     * @brief Get the type for this task type.
      *
-     * @return The character prefix for this task type.
+     * @return The character type for this task type.
      */
-    Prefix getPrefix() const { return m_prefix; }
+    Type getType() const { return m_type; }
 
     /**
      * @brief Print all tasks of this task type.
@@ -67,7 +67,7 @@ class TaskTypeAbstract {
     /**
      * @brief Output a task type to a given stream.
      *
-     * Sends the task type's prefix to the stream.
+     * Sends the task type's type to the stream.
      *
      * @param stream The stream to use.
      * @param taskType The task type to use.
@@ -82,7 +82,7 @@ class TaskTypeAbstract {
 
     const std::string m_name;
 
-    const Prefix m_prefix;
+    const Type m_type;
 
     /**
      * @brief Print a single task.

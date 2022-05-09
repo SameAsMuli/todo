@@ -19,9 +19,9 @@ class OutstandingAbstract : public TaskTypeAbstract {
      * @brief Base constructor for outstanding task types.
      *
      * @param name The name of the task type.
-     * @param prefix The prefix for the task type.
+     * @param type The type for the task type.
      */
-    OutstandingAbstract(const std::string &name, const Prefix &prefix);
+    OutstandingAbstract(const std::string &name, const Type &type);
 
     /**
      * @brief Add a task description to the outstanding_tasks data file.

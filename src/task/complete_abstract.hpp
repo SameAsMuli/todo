@@ -2,9 +2,9 @@
 #define TASK_COMPLETE_ABSTRACT_H
 
 #include "input/input.hpp"
-#include "task/prefix.hpp"
 #include "task/task.hpp"
 #include "task/task_type_abstract.hpp"
+#include "task/type.hpp"
 
 namespace todo {
 namespace task {
@@ -19,9 +19,9 @@ class CompleteAbstract : public TaskTypeAbstract {
      * @brief Base constructor for completed task types.
      *
      * @param name The name of the task type.
-     * @param prefix The prefix for the task type.
+     * @param type The type for the task type.
      */
-    CompleteAbstract(const std::string &name, const Prefix &prefix);
+    CompleteAbstract(const std::string &name, const Type &type);
 
     /**
      * @brief Find a task in outstanding_tasks and move it to complete_tasks.

@@ -3,8 +3,7 @@
 
 #include <iostream> // std::istream
 
-#include "task/metadata.hpp"
-#include "task/prefix.hpp"
+#include "task/type.hpp"
 #include "util/string.hpp"
 
 namespace todo {
@@ -19,26 +18,19 @@ class Task {
     Task();
 
     /**
-     * @brief Create a task with a given prefix and description.
+     * @brief Create a task with a given type and description.
      *
-     * @param prefix The prefix for the task.
+     * @param type The type of the task.
      * @param description The description for the task.
      */
-    Task(Prefix prefix, std::string &description);
+    Task(Type type, std::string &description);
 
     /**
-     * @brief Get the metadata for this task.
+     * @brief Get the type for this task.
      *
-     * @return The metadata object associated with this task.
+     * @return The type of this task.
      */
-    Metadata getMetadata() const { return m_metadata; }
-
-    /**
-     * @brief Get the prefix for this task.
-     *
-     * @return The character that prefixes this task.
-     */
-    Prefix getPrefix() const { return m_prefix; }
+    Type getType() const { return m_type; }
 
     /**
      * @brief Get the description for this task.
@@ -48,11 +40,49 @@ class Task {
     std::string getDescription() const { return m_description; }
 
     /**
-     * @brief Set the prefix for this task.
+     * @brief Return the time the task was added (as the current task type).
      *
-     * @param prefix The prefix to use.
+     * The task may have previously existed as an outstanding task before then
+     * being added as a completed task instead. In that situation this function
+     * should return the time the task was added as complete, not when it was
+     * first added as an outstanding task.
+     *
+     * @return A chrono time point indicating when the task was added.
      */
-    void setPrefix(Prefix prefix) { m_prefix = prefix; }
+    std::chrono::system_clock::time_point getTimeAdded() const {
+        return m_timeAdded;
+    }
+
+    /**
+     * @brief Return the task's former type if it had one.
+     *
+     * A task may be added as one type and then re-added as another type. In
+     * this case the previous task type's type is returned. If there is no
+     * previous task type then ' ' is returned.
+     *
+     * @return The previous type or UNKNOWN_TYPE, if none exists.
+     */
+    Type getPreviousType() const { return m_previousType; }
+
+    /**
+     * @brief Return the time the task was added (as the previous task type).
+     *
+     * A task may be added as one type and then re-added as another type. In
+     * this case the previous task's time added is returned. If there is no
+     * previous time added then the start of system_clock is returned.
+     *
+     * @return A chrono time point for the addition of the previous type.
+     */
+    std::chrono::system_clock::time_point getPreviousTimeAdded() const {
+        return m_previousTimeAdded;
+    }
+
+    /**
+     * @brief Set the type for this task.
+     *
+     * @param type The type to use.
+     */
+    void setType(Type type) { m_type = type; }
 
     /**
      * @brief Set the description for this task.
@@ -62,11 +92,29 @@ class Task {
     void setDescription(std::string &description);
 
     /**
-     * @brief Set the metadata for the task.
+     * @brief Set the time the task was added (as its current task type).
      *
-     * @param metadata The metadata object to add to the task.
+     * @param timeAdded A chrono time point indicating when the task was added.
      */
-    void setMetadata(Metadata metadata) { m_metadata = metadata; }
+    void setTimeAdded(std::chrono::system_clock::time_point timeAdded) {
+        m_timeAdded = timeAdded;
+    }
+
+    /**
+     * @brief Set the former type for this task.
+     *
+     * @param previousType The previous type.
+     */
+    void setPreviousType(Type previousType) { m_previousType = previousType; }
+
+    /**
+     * @brief Set the time the task was added (as the previous task type).
+     *
+     * @param timeAdded A chrono time point for addtion of the previous type.
+     */
+    void setPreviousTimeAdded(std::chrono::system_clock::time_point timeAdded) {
+        m_previousTimeAdded = timeAdded;
+    }
 
     /**
      * @brief Populate a task from a stream.
@@ -84,7 +132,7 @@ class Task {
     /**
      * @brief Output a task to a given stream.
      *
-     * Sends the prefix and description to the stream, separated by a space.
+     * Sends the type and description to the stream, separated by a space.
      *
      * @param stream The stream to use.
      * @param task The task to use.
@@ -94,11 +142,15 @@ class Task {
     friend std::ostream &operator<<(std::ostream &stream, const Task &task);
 
   private:
-    Metadata m_metadata;
-
-    Prefix m_prefix;
+    Type m_type;
 
     std::string m_description;
+
+    std::chrono::system_clock::time_point m_timeAdded;
+
+    Type m_previousType;
+
+    std::chrono::system_clock::time_point m_previousTimeAdded;
 };
 
 } // namespace task

@@ -13,17 +13,17 @@
 
 /* Test all public methods */
 TEST(TaskStream, Simple) {
-    std::string expected_string{"1602092528; ;0;- Run the test"};
+    std::string expected_string{"-;1602092528; ;0;Run the test"};
     TaskStreamTest();
 }
 
 TEST(TaskStream, PreviousPrefix) {
-    std::string expected_string{"1602092528;!;0;+ Run the test"};
+    std::string expected_string{"+;1602092528;!;0;Run the test"};
     TaskStreamTest();
 }
 
 TEST(TaskStream, UnusualCharacters) {
     std::string expected_string{
-        "1602092538; ;0;~ Use awkward characters; like this '-' and \"!\""};
+        "~;1602092538; ;0;Use awkward characters; like this '-' and \"!\""};
     TaskStreamTest();
 }
