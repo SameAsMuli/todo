@@ -18,10 +18,8 @@ class Help : public ActionAbstract {
   public:
     /**
      * @brief Initialise the help action.
-     *
-     * @param input The user's input.
      */
-    Help(input::Input input);
+    Help();
 
     /**
      * @brief Get a detailed description of the help action.
@@ -50,7 +48,7 @@ class Help : public ActionAbstract {
     /**
      * @brief Print the help text and list all available functions.
      */
-    void run() override;
+    void run(const input::Input &input) override;
 };
 
 #endif

@@ -14,10 +14,8 @@ class Low : public AddOutstandingAbstract {
   public:
     /**
      * @brief Initialise the low action for low priority tasks.
-     *
-     * @param input The user's input.
      */
-    Low(const input::Input &input);
+    Low();
 };
 
 } // namespace action

@@ -6,8 +6,7 @@
 namespace todo {
 namespace action {
 
-Remove::Remove(input::Input input)
-    : ActionAbstract("remove", "Remove an outstanding TODO", input) {
+Remove::Remove() : ActionAbstract("remove", "Remove an outstanding TODO") {
     this->addValidOption(input::Option::exact);
     this->addValidOption(input::Option::force);
     this->addValidOption(input::Option::global);
@@ -27,9 +26,7 @@ std::string Remove::description() const {
            "input, and not match against superset TODOs.";
 }
 
-void Remove::run() {
-    auto input = this->getInput();
-
+void Remove::run(const input::Input &input) {
     /* Form and check the seach string */
     auto searchString = input.getActionArgString();
     if (searchString.empty()) {

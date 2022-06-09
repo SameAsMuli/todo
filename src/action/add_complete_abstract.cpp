@@ -6,9 +6,8 @@ namespace action {
 
 AddCompleteAbstract::AddCompleteAbstract(const std::string &name,
                                          const std::string &helpText,
-                                         const input::Input &input,
                                          task::TaskTypeAbstract *const taskType)
-    : AddAbstract(name, helpText, input, taskType) {
+    : AddAbstract(name, helpText, taskType) {
     this->addValidOption(input::Option::exact);
     this->addValidOption(input::Option::force);
 }

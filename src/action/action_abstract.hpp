@@ -22,14 +22,12 @@ class ActionAbstract {
      *
      * @param name The name of the action.
      * @param helpText A short description of the action.
-     * @param input The user's input to be passed to the action.
      * @param argLimit The maximum number of arguments the action allows.
      *
      * If no argLimit is given then a default of std::nullopt is used which
      * indicates that there is no limit.
      */
     ActionAbstract(const std::string &name, const std::string &helpText,
-                   const input::Input &input,
                    std::optional<unsigned int> argLimit = std::nullopt);
 
     /**
@@ -47,13 +45,6 @@ class ActionAbstract {
      * @return A string with the short help text of the action.
      */
     std::string getHelpText() const { return m_helpText; }
-
-    /**
-     * @brief Get the input passed to the action.
-     *
-     * @return The Input object held by the aciton.
-     */
-    input::Input getInput() const { return m_input; }
 
     /**
      * @brief Get the maximum number of arguments allowed for the action.
@@ -130,7 +121,7 @@ class ActionAbstract {
      *
      * To be overriden in derived class.
      *
-     * TODO-SAM Make description() a pure virutal function eventually.
+     * TODO Make description() a pure virutal function eventually.
      *
      * @return A string with the description of the action.
      */
@@ -145,7 +136,7 @@ class ActionAbstract {
      *
      * To be overriden in derived class.
      *
-     * TODO-SAM Make usage() a pure virutal function eventually.
+     * TODO Make usage() a pure virutal function eventually.
      *
      * @return A string with the usage text of the action.
      */
@@ -155,15 +146,15 @@ class ActionAbstract {
      * @brief Perform the main function of the todo action.
      *
      * Verify the number of arguments given before calling the run function.
+     *
+     * @param input The user's input to be passed to the action.
      */
-    void perform();
+    void perform(const input::Input &input);
 
   private:
     const std::string m_name;
 
     const std::string m_helpText;
-
-    const input::Input m_input;
 
     const std::optional<unsigned int> m_argLimit;
 
@@ -175,8 +166,10 @@ class ActionAbstract {
      * @brief Function that describes how the action should behave.
      *
      * To be overriden in derived class.
+     *
+     * @param input The user's input to be passed to the action.
      */
-    virtual void run() = 0;
+    virtual void run(const input::Input &input) = 0;
 };
 
 } // namespace action

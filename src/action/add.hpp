@@ -14,10 +14,8 @@ class Add : public AddOutstandingAbstract {
   public:
     /**
      * @brief Initialise the add action for normal priority tasks.
-     *
-     * @param input The user's input.
      */
-    Add(const input::Input &input);
+    Add();
 };
 
 } // namespace action

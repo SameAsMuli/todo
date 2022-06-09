@@ -42,22 +42,23 @@ int main(int argc, char **argv) {
     /* Create a list of actions */
     std::vector<todo::action::ActionAbstract *> actions;
 
-    todo::action::Help help{input};
+    todo::action::Help help{};
     actions.push_back(&help);
 
-    todo::action::View view{input};
+    todo::action::View view{};
     actions.push_back(&view);
 
-    actions.push_back(new todo::action::Add{input});
-    actions.push_back(new todo::action::Archive{input});
-    actions.push_back(new todo::action::Done{input});
-    actions.push_back(new todo::action::High{input});
-    actions.push_back(new todo::action::Low{input});
-    actions.push_back(new todo::action::Reject{input});
-    actions.push_back(new todo::action::Remove{input});
-    actions.push_back(new todo::action::Undo{input});
-    actions.push_back(new todo::action::Urgent{input});
-    actions.push_back(new todo::action::Version{input});
+    actions.push_back(new todo::action::Add{});
+    actions.push_back(new todo::action::Add{});
+    actions.push_back(new todo::action::Archive{});
+    actions.push_back(new todo::action::Done{});
+    actions.push_back(new todo::action::High{});
+    actions.push_back(new todo::action::Low{});
+    actions.push_back(new todo::action::Reject{});
+    actions.push_back(new todo::action::Remove{});
+    actions.push_back(new todo::action::Undo{});
+    actions.push_back(new todo::action::Urgent{});
+    actions.push_back(new todo::action::Version{});
 
     /* Pass the list of actions to the help action */
     help.addActions(actions);
@@ -77,12 +78,12 @@ int main(int argc, char **argv) {
                 std::cout << util::display::programOverview(actionList)
                           << std::endl;
             } else {
-                view.perform();
+                view.perform(input);
             }
         } else {
             for (auto const &action : actions) {
                 if (action->isKnownAs(inputAction)) {
-                    action->perform();
+                    action->perform(input);
                     return 0;
                 }
             }

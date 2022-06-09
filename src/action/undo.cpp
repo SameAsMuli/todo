@@ -5,8 +5,7 @@
 namespace todo {
 namespace action {
 
-Undo::Undo(input::Input input)
-    : ActionAbstract("undo", "Unmark a TODO as completed", input) {
+Undo::Undo() : ActionAbstract("undo", "Unmark a TODO as completed") {
     this->addAlias("revert");
     this->addValidOption(input::Option::exact);
     this->addValidOption(input::Option::force);
@@ -28,7 +27,9 @@ std::string Undo::description() const {
            "input, and not match against superset TODOs.";
 }
 
-void Undo::run() { task::CompleteAbstract::undo(this->getInput()); }
+void Undo::run(const input::Input &input) {
+    task::CompleteAbstract::undo(input);
+}
 
 } // namespace action
 } // namespace todo

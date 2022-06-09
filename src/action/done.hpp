@@ -15,10 +15,8 @@ class Done : public AddCompleteAbstract {
   public:
     /**
      * @brief Initialise the done action.
-     *
-     * @param input The user's input.
      */
-    Done(const input::Input &input);
+    Done();
 };
 
 } // namespace action

@@ -15,10 +15,8 @@ class Archive : public ActionAbstract {
   public:
     /**
      * @brief Initialise the archive action.
-     *
-     * @param input The user's input.
      */
-    Archive(input::Input input);
+    Archive();
 
     /**
      * @brief Get a detailed description of the archive action.
@@ -38,7 +36,7 @@ class Archive : public ActionAbstract {
     /**
      * @brief Move all complete tasks to the archive data file.
      */
-    void run() override;
+    void run(const input::Input &input) override;
 };
 
 #endif

@@ -11,8 +11,7 @@
 namespace todo {
 namespace action {
 
-Help::Help(input::Input input)
-    : ActionAbstract("help", "Display this help text", input, 1) {}
+Help::Help() : ActionAbstract("help", "Display this help text", 1) {}
 
 std::string Help::description() const {
     return "If run with no arguments, then general information about the "
@@ -28,8 +27,8 @@ void Help::addActions(std::vector<ActionAbstract *> &actions) {
 
 /*** PRIVATE METHODS ***/
 
-void Help::run() {
-    if (!this->getInput().hasActionArg(0)) {
+void Help::run(const input::Input &input) {
+    if (!input.hasActionArg(0)) {
         std::vector<std::pair<std::string, std::string>> actions;
 
         for (auto const &action : this->m_actions) {
@@ -38,7 +37,7 @@ void Help::run() {
 
         std::cout << util::display::programOverview(actions) << std::endl;
     } else {
-        auto actionName = this->getInput().getActionArg(0);
+        auto actionName = input.getActionArg(0);
         for (auto const &action : this->m_actions) {
             if (action->getName() == actionName) {
                 action->printDetails();

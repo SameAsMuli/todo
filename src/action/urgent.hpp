@@ -14,10 +14,8 @@ class Urgent : public AddOutstandingAbstract {
   public:
     /**
      * @brief Initialise the urgent action for high priority tasks.
-     *
-     * @param input The user's input.
      */
-    Urgent(const input::Input &input);
+    Urgent();
 };
 
 } // namespace action

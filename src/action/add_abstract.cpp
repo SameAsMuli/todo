@@ -7,13 +7,14 @@ namespace todo {
 namespace action {
 
 AddAbstract::AddAbstract(const std::string &name, const std::string &helpText,
-                         const input::Input &input,
                          task::TaskTypeAbstract *const taskType)
-    : ActionAbstract(name, helpText, input), m_taskType(taskType) {
+    : ActionAbstract(name, helpText), m_taskType(taskType) {
     this->addValidOption(input::Option::global);
 }
 
-void AddAbstract::run() { this->m_taskType->add(this->getInput()); }
+void AddAbstract::run(const input::Input &input) {
+    this->m_taskType->add(input);
+}
 
 std::string AddAbstract::usage() const {
     return "usage: todo " + this->getName() + " [<task description>]";

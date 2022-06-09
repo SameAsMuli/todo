@@ -15,10 +15,8 @@ class Remove : public ActionAbstract {
   public:
     /**
      * @brief Initialise the remove action.
-     *
-     * @param input The user's input.
      */
-    Remove(input::Input input);
+    Remove();
 
     /**
      * @brief Get a detailed description of the remove action.
@@ -30,7 +28,7 @@ class Remove : public ActionAbstract {
     /**
      * @brief Remove matching task.
      */
-    void run() override;
+    void run(const input::Input &input) override;
 };
 
 #endif

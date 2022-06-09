@@ -15,10 +15,8 @@ class Version : public ActionAbstract {
   public:
     /**
      * @brief Initialise the version action.
-     *
-     * @param input The user's input.
      */
-    Version(input::Input input);
+    Version();
 
     /**
      * @brief Get a detailed description of the version action.
@@ -38,7 +36,7 @@ class Version : public ActionAbstract {
     /**
      * @brief Print the version information.
      */
-    void run() override;
+    void run(const input::Input &input) override;
 };
 
 #endif

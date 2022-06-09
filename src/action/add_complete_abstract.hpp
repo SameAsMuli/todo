@@ -21,11 +21,9 @@ class AddCompleteAbstract : public AddAbstract {
      *
      * @param name The name of the action.
      * @param helpText A short description of the action.
-     * @param input The user's input to be passed to the action.
      * @param taskType The type of task this class will add.
      */
     AddCompleteAbstract(const std::string &name, const std::string &helpText,
-                        const input::Input &input,
                         task::TaskTypeAbstract *const taskType);
 
     /**

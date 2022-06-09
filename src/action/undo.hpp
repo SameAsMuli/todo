@@ -15,10 +15,8 @@ class Undo : public ActionAbstract {
   public:
     /**
      * @brief Initialise the undo action.
-     *
-     * @param input The user's input.
      */
-    Undo(input::Input input);
+    Undo();
 
     /**
      * @brief Get a detailed description of the undo action.
@@ -30,7 +28,7 @@ class Undo : public ActionAbstract {
     /**
      * @brief Print the help text and list all available functions.
      */
-    void run() override;
+    void run(const input::Input &input) override;
 };
 
 #endif

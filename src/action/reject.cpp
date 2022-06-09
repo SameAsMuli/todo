@@ -4,8 +4,8 @@
 namespace todo {
 namespace action {
 
-Reject::Reject(const input::Input &input)
-    : AddCompleteAbstract("reject", "Mark a TODO as rejected", input,
+Reject::Reject()
+    : AddCompleteAbstract("reject", "Mark a TODO as rejected",
                           new task::Rejected{}) {}
 
 } // namespace action

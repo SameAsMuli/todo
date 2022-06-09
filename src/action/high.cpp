@@ -4,8 +4,8 @@
 namespace todo {
 namespace action {
 
-High::High(const input::Input &input)
-    : AddOutstandingAbstract("high", "Add a high priority TODO", input,
+High::High()
+    : AddOutstandingAbstract("high", "Add a high priority TODO",
                              new task::High{}) {}
 
 } // namespace action

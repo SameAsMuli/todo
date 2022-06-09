@@ -14,10 +14,8 @@ class High : public AddOutstandingAbstract {
   public:
     /**
      * @brief Initialise the high action for high priority tasks.
-     *
-     * @param input The user's input.
      */
-    High(const input::Input &input);
+    High();
 };
 
 } // namespace action

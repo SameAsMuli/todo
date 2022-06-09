@@ -6,8 +6,8 @@
 namespace todo {
 namespace action {
 
-Archive::Archive(input::Input input)
-    : ActionAbstract("archive", "Archive all complete TODOs", input, 1) {
+Archive::Archive()
+    : ActionAbstract("archive", "Archive all complete TODOs", 1) {
     this->addValidOption(input::Option::global);
 }
 
@@ -24,8 +24,7 @@ std::string Archive::usage() const {
     return "usage: todo archive [number of minutes]";
 }
 
-void Archive::run() {
-    auto input = this->getInput();
+void Archive::run(const input::Input &input) {
     int mins = 0;
 
     if (input.hasActionArg(0)) {

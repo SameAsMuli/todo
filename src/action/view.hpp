@@ -4,7 +4,6 @@
 #include <filesystem> //std::filesystem
 
 #include "action/action_abstract.hpp"
-#include "task/task_type_abstract.hpp"
 
 namespace todo {
 namespace action {
@@ -17,10 +16,8 @@ class View : public ActionAbstract {
   public:
     /**
      * @brief Initialise the view action.
-     *
-     * @param input The user's input.
      */
-    View(const input::Input &input);
+    View();
 
     /**
      * @brief Print all todo tasks.
@@ -29,56 +26,66 @@ class View : public ActionAbstract {
      * input is non-empty, the input will be matched against a task type and
      * that type will be printed. If the input cannot be matched to a task type
      * then an exception will be thrown.
+     *
+     * @param input The user's input.
      */
-    void run() override;
+    void run(const input::Input &input) override;
 
     /**
      * @brief Print all complete tasks.
+     *
+     * @param input The user's input.
      */
-    void completeTodos() const;
+    void completeTodos(input::Input input) const;
 
     /**
      * @brief Print all outstanding tasks.
+     *
+     * @param input The user's input.
      */
-    void outstandingTodos() const;
+    void outstandingTodos(input::Input input) const;
 
     /**
      * @brief Print all done tasks.
+     *
+     * @param input The user's input.
      */
-    void doneTodos() const;
+    void doneTodos(input::Input input) const;
 
     /**
      * @brief Print all high tasks.
+     *
+     * @param input The user's input.
      */
-    void highTodos() const;
+    void highTodos(input::Input input) const;
 
     /**
      * @brief Print all low priority tasks.
+     *
+     * @param input The user's input.
      */
-    void lowTodos() const;
+    void lowTodos(input::Input input) const;
 
     /**
      * @brief Print all normal priority tasks.
+     *
+     * @param input The user's input.
      */
-    void normalTodos() const;
+    void normalTodos(input::Input input) const;
 
     /**
      * @brief Print all rejected tasks.
+     *
+     * @param input The user's input.
      */
-    void rejectTodos() const;
+    void rejectTodos(input::Input input) const;
 
     /**
      * @brief Print all urgent tasks.
-     */
-    void urgentTodos() const;
-
-  private:
-    /**
-     * @brief Print all tasks of a given task type.
      *
-     * @param taskType The task type to print.
+     * @param input The user's input.
      */
-    void viewTodos(task::TaskTypeAbstract *const taskType) const;
+    void urgentTodos(input::Input input) const;
 };
 
 #endif

@@ -83,9 +83,8 @@ namespace action {
 
 ActionAbstract::ActionAbstract(const std::string &name,
                                const std::string &helpText,
-                               const input::Input &input,
                                std::optional<unsigned int> argLimit)
-    : m_name(name), m_helpText(helpText), m_input(input), m_argLimit(argLimit) {
+    : m_name(name), m_helpText(helpText), m_argLimit(argLimit) {
     this->addValidOption(input::Option::help);
 }
 
@@ -115,9 +114,7 @@ bool ActionAbstract::validOption(const input::Option &option) const {
                      option) != this->m_validOptions.end();
 }
 
-void ActionAbstract::perform() {
-    auto input = this->getInput();
-
+void ActionAbstract::perform(const input::Input &input) {
     if (this->getArgLimit().has_value()) {
         if (input.getActionArgCount() > this->getArgLimit()) {
             throw std::runtime_error("Too many arguments for action: '" +
@@ -136,7 +133,7 @@ void ActionAbstract::perform() {
     if (input.hasOption(input::Option::help)) {
         this->printDetails();
     } else {
-        this->run();
+        this->run(input);
     }
 }
 

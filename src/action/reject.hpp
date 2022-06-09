@@ -15,10 +15,8 @@ class Reject : public AddCompleteAbstract {
   public:
     /**
      * @brief Initialise the reject action.
-     *
-     * @param input The user's input.
      */
-    Reject(const input::Input &input);
+    Reject();
 };
 
 } // namespace action
