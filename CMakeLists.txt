@@ -23,7 +23,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 # Define binary and how to build it
 add_subdirectory(src/action)
 add_subdirectory(src/config)
-add_subdirectory(src/error)
 add_subdirectory(src/file)
 add_subdirectory(src/input)
 add_subdirectory(src/task)
@@ -31,7 +30,7 @@ add_subdirectory(src/util)
 
 add_executable(${PROJECT_NAME} src/main.cpp)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE action task file input util error config)
+target_link_libraries(${PROJECT_NAME} PRIVATE action task file input util config)
 
 target_include_directories(${PROJECT_NAME} PUBLIC src)
 

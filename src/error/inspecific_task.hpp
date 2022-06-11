@@ -2,6 +2,7 @@
 #define TODO_ERROR_INSPECIFIC_TASK_H
 
 #include <stdexcept> // std::runtime_error
+#include <string>    // std::to_string
 
 namespace todo {
 namespace error {
@@ -17,7 +18,9 @@ class InspecificTask : public std::runtime_error {
      *
      * @param count The number of tasks matched.
      */
-    InspecificTask(unsigned int count);
+    InspecificTask(unsigned int count)
+        : std::runtime_error("Search string matched " + std::to_string(count) +
+                             " TODOs, be more specific!") {}
 };
 
 } // namespace error

@@ -21,7 +21,10 @@ class IncompatibleOptions : public std::runtime_error {
      * @param option2 The second incompatible option.
      */
     IncompatibleOptions(const input::Option &option1,
-                        const input::Option &option2);
+                        const input::Option &option2)
+        : std::runtime_error("Options '" + option1.toString() +
+                             "' cannot be used with option '" +
+                             option2.toString() + "'") {}
 };
 
 } // namespace error

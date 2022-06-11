@@ -18,7 +18,8 @@ class UnknownOption : public std::runtime_error {
      *
      * @param option The unrecognised option.
      */
-    UnknownOption(const std::string &option);
+    UnknownOption(const std::string &option)
+        : std::runtime_error("Unknown option: '" + option + "'") {}
 };
 
 } // namespace error

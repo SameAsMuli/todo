@@ -16,7 +16,8 @@ class EmptyArgument : public std::runtime_error {
     /**
      * @brief Error that there was no argument given.
      */
-    EmptyArgument(const std::string &method);
+    EmptyArgument(const std::string &method)
+        : std::runtime_error("Empty input passed to " + method) {}
 };
 
 } // namespace error
