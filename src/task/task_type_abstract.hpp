@@ -87,13 +87,11 @@ class TaskTypeAbstract {
     /**
      * @brief Print a single task.
      *
-     * Allows derived task types to define how they format their tasks.
-     *
      * @param task The task to print.
      *
      * @return The formatted string representation of the given task.
      */
-    virtual std::string format(const Task &task) = 0;
+    std::string format(const Task &task);
 };
 
 } // namespace task

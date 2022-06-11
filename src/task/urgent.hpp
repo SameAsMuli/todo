@@ -17,9 +17,6 @@ class Urgent : public OutstandingAbstract {
 
   public:
     Urgent();
-
-  private:
-    std::string format(const Task &task) override;
 };
 
 } // namespace task

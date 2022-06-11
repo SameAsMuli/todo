@@ -1,20 +1,31 @@
 #ifndef TASK_TYPE_H
 #define TASK_TYPE_H
 
-#include <algorithm> // std::find
-#include <iostream>  // std::ostream
-#include <string>    // std::string
-#include <vector>    // std::vector
+#include <algorithm>  // std::find
+#include <filesystem> // std::filesystem
+#include <iostream>   // std::ostream
+#include <sstream>    // std::stringstream
+#include <string>     // std::string
+#include <vector>     // std::vector
+
+#include "file/definitions.hpp"
+#include "util/ansi.hpp"
 
 namespace todo {
 namespace task {
 
 /**
- * Define the list of task types with their character representation.
+ * Define the list of task types with their character representation, display
+ * colour and any formatting.
  */
 #define TYPES(F)                                                               \
-    F(low, '~'), F(normal, '-'), F(high, '!'), F(urgent, '#'), F(done, '+'),   \
-        F(rejected, '/')
+    F(low, '~', ANSI_FOREGROUND_BLUE, "", "", ""),                             \
+        F(normal, '-', ANSI_FOREGROUND_RED, "", "", ""),                       \
+        F(high, '!', ANSI_FOREGROUND_RED, "", "", ""),                         \
+        F(urgent, '#', ANSI_FOREGROUND_RED, ANSI_BOLD, ANSI_FOREGROUND_RED,    \
+          ANSI_BOLD),                                                          \
+        F(done, '+', ANSI_FOREGROUND_GREEN, "", "", ""),                       \
+        F(rejected, '/', ANSI_FOREGROUND_RED, "", ANSI_FOREGROUND_RED, "")
 
 /**
  * @brief A class to describe the available task types.
@@ -29,7 +40,9 @@ namespace task {
 class Type {
 
   public:
-#define F(e, d) e
+#define F(enum_val, character, char_colour, char_format, desc_colour,          \
+          desc_format)                                                         \
+    enum_val
     /**
      * @brief Enum class for command line types.
      */
@@ -135,7 +148,7 @@ class Type {
 
         if (character == EOF) {
             /* Stream is empty when it wasn't expected it to be, so set the
-             * failbit
+             * failbit.
              */
             stream.setstate(std::ios::failbit);
         } else {
@@ -181,20 +194,111 @@ class Type {
             return NULL_CHAR;
         }
 
-        return this->m_typeDesc[m_value];
+        return this->m_typeChar[m_value];
+    }
+
+    /**
+     * @brief Format a task's description string based on a task type.
+     *
+     * @param description The string to format.
+     *
+     * @return The formatted string.
+     */
+    std::string formatDescription(const std::string &description) const {
+        if (m_value >= NUM_TYPES) {
+            return description;
+        }
+
+        std::stringstream ss;
+
+        ss << this->m_typeCharColour[m_value] << this->m_typeCharFormat[m_value]
+           << this->getCharRepresentation() << ANSI_RESET
+           << this->m_typeDescColour[m_value] << this->m_typeDescFormat[m_value]
+           << " " << description << ANSI_RESET;
+
+        return ss.str();
+    }
+
+    /**
+     * @brief Whether the task type for a completed task, or an outstanding one.
+     *
+     * @return True if the Type is for a completed task, false otherwise.
+     */
+    constexpr bool isComplete() const {
+        switch (m_value) {
+        case done:
+        case rejected:
+            return true;
+        default:
+            return false;
+        }
+    }
+
+    /**
+     * @brief Get the data file into which this task type is written.
+     *
+     * @param global Whether to consider local or global only tasks.
+     *
+     * @return A filesystem path to the data file.
+     */
+    std::filesystem::path getFile(bool global = false) const {
+        if (this->isComplete())
+            return file::getComplete(global);
+        else
+            return file::getOutstanding(global);
     }
 
   private:
-#define F(e, c) #e
+#define F(enum_val, character, char_colour, char_format, desc_colour,          \
+          desc_format)                                                         \
+#enum_val
     /* String representations of the enum values. */
     static inline const std::vector<std::string> m_typeNames = {TYPES(F)};
 #undef F
 
-#define F(e, c) c
+#define F(enum_val, character, char_colour, char_format, desc_colour,          \
+          desc_format)                                                         \
+    character
     /**
-     * @brief A mapping of the enum values to their description.
+     * @brief A mapping of the enum values to their display character.
      */
-    static inline const std::vector<char> m_typeDesc = {TYPES(F)};
+    static inline const std::vector<char> m_typeChar = {TYPES(F)};
+#undef F
+
+#define F(enum_val, character, char_colour, char_format, desc_colour,          \
+          desc_format)                                                         \
+    char_colour
+    /**
+     * @brief A mapping of the enum values to their character colour.
+     */
+    static inline const std::vector<std::string> m_typeCharColour = {TYPES(F)};
+#undef F
+
+#define F(enum_val, character, char_colour, char_format, desc_colour,          \
+          desc_format)                                                         \
+    char_format
+    /**
+     * @brief A mapping of the enum values to their character formatting.
+     */
+    static inline const std::vector<std::string> m_typeCharFormat = {TYPES(F)};
+#undef F
+
+#define F(enum_val, character, char_colour, char_format, desc_colour,          \
+          desc_format)                                                         \
+    desc_colour
+    /**
+     * @brief A mapping of the enum values to their description colour.
+     */
+    static inline const std::vector<std::string> m_typeDescColour = {TYPES(F)};
+#undef F
+
+#define F(enum_val, character, char_colour, char_format, desc_colour,          \
+          desc_format)                                                         \
+    desc_format
+    /**
+     * @brief A mapping of the enum values to their description formatting.
+     */
+    static inline const std::vector<std::string> m_typeDescFormat = {TYPES(F)};
 #undef F
 
     Value m_value;
@@ -209,9 +313,9 @@ class Type {
      * @return The matching Value, or UNKNOWN_TYPE if character is unknown.
      */
     static Value valueFromChar(char c) {
-        for (Type const o : ALL_TYPES) {
-            if (o.getCharRepresentation() == c) {
-                return o.m_value;
+        for (Type const type : ALL_TYPES) {
+            if (type.getCharRepresentation() == c) {
+                return type.m_value;
             }
         }
 

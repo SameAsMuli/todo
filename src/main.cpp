@@ -6,19 +6,15 @@
 
 #include "action/add.hpp"
 #include "action/archive.hpp"
-#include "action/done.hpp"
 #include "action/help.hpp"
-#include "action/high.hpp"
-#include "action/low.hpp"
-#include "action/reject.hpp"
 #include "action/remove.hpp"
 #include "action/undo.hpp"
-#include "action/urgent.hpp"
 #include "action/version.hpp"
 #include "action/view.hpp"
 #include "file/mutators.hpp"
 #include "input/input.hpp"
 #include "input/option.hpp"
+#include "task/type.hpp"
 #include "util/display.hpp"
 
 int main(int argc, char **argv) {
@@ -48,16 +44,14 @@ int main(int argc, char **argv) {
     todo::action::View view{};
     actions.push_back(&view);
 
-    actions.push_back(new todo::action::Add{});
-    actions.push_back(new todo::action::Add{});
+    /* Create an action to add each type of task */
+    for (auto const type : todo::task::Type::ALL_TYPES) {
+        actions.push_back(new todo::action::Add{type});
+    }
+
     actions.push_back(new todo::action::Archive{});
-    actions.push_back(new todo::action::Done{});
-    actions.push_back(new todo::action::High{});
-    actions.push_back(new todo::action::Low{});
-    actions.push_back(new todo::action::Reject{});
     actions.push_back(new todo::action::Remove{});
     actions.push_back(new todo::action::Undo{});
-    actions.push_back(new todo::action::Urgent{});
     actions.push_back(new todo::action::Version{});
 
     /* Pass the list of actions to the help action */

@@ -16,9 +16,6 @@ class High : public OutstandingAbstract {
 
   public:
     High();
-
-  private:
-    std::string format(const Task &task) override;
 };
 
 } // namespace task

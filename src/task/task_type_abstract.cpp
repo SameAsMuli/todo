@@ -36,5 +36,9 @@ std::ostream &operator<<(std::ostream &stream,
     return stream;
 }
 
+std::string TaskTypeAbstract::format(const Task &task) {
+    return this->getType().formatDescription(task.getDescription());
+}
+
 } // namespace task
 } // namespace todo

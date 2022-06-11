@@ -17,9 +17,6 @@ class Rejected : public CompleteAbstract {
 
   public:
     Rejected();
-
-  private:
-    std::string format(const Task &task) override;
 };
 
 } // namespace task

@@ -17,9 +17,6 @@ class Done : public CompleteAbstract {
 
   public:
     Done();
-
-  private:
-    std::string format(const Task &task) override;
 };
 
 } // namespace task

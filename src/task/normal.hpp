@@ -16,9 +16,6 @@ class Normal : public OutstandingAbstract {
 
   public:
     Normal();
-
-  private:
-    std::string format(const Task &task) override;
 };
 
 } // namespace task
