@@ -1,34 +1,46 @@
+#include <fstream>   // std::ifstream
+#include <iostream>  // std::cout
 #include <stdexcept> // std::logic_error
 
 #include "action/view.hpp"
 #include "error/unknown_argument.hpp"
 #include "input/option.hpp"
-#include "task/done.hpp"
-#include "task/high.hpp"
-#include "task/low.hpp"
-#include "task/normal.hpp"
-#include "task/rejected.hpp"
-#include "task/task_type_abstract.hpp"
-#include "task/urgent.hpp"
+#include "task/task.hpp"
 
 namespace {
 
 /**
- * @brief Print all tasks of a given task type.
+ * @brief Print all tasks of a given task type from a specific file.
+ *
+ * @param taskType The task type to print.
+ * @param global Whether to look in the local or global data file.
+ */
+void view(todo::task::Type taskType, bool global) {
+    std::ifstream ifs{taskType.getFile(global).string()};
+
+    if (ifs.is_open()) {
+        todo::task::Task task;
+        while (ifs >> task) {
+            if (taskType == task.getType()) {
+                std::cout << taskType.formatDescription(task.getDescription())
+                          << std::endl;
+            }
+        }
+    }
+}
+
+/**
+ * @brief Print all tasks of a given task type, based on user input.
  *
  * @param input User input options.
  * @param taskType The task type to print.
  */
-void viewTodos(input::Input input,
-               todo::task::TaskTypeAbstract *const taskType) {
-    if (taskType == NULL) {
-        throw std::logic_error{"NULL passed to " + std::string{__func__}};
-    }
+void viewTodos(input::Input input, todo::task::Type taskType) {
     if (input.hasOption(input::Option::all)) {
-        taskType->view(true);
-        taskType->view(false);
+        view(taskType, true);
+        view(taskType, false);
     } else {
-        taskType->view(input.hasOption(input::Option::global));
+        view(taskType, input.hasOption(input::Option::global));
     }
 }
 
@@ -85,27 +97,27 @@ void View::outstandingTodos(input::Input input) const {
 }
 
 void View::doneTodos(input::Input input) const {
-    viewTodos(input, new task::Done{});
+    viewTodos(input, task::Type::done);
 }
 
 void View::highTodos(input::Input input) const {
-    viewTodos(input, new task::High{});
+    viewTodos(input, task::Type::high);
 }
 
 void View::lowTodos(input::Input input) const {
-    viewTodos(input, new task::Low{});
+    viewTodos(input, task::Type::low);
 }
 
 void View::normalTodos(input::Input input) const {
-    viewTodos(input, new task::Normal{});
+    viewTodos(input, task::Type::normal);
 }
 
 void View::rejectTodos(input::Input input) const {
-    viewTodos(input, new task::Rejected{});
+    viewTodos(input, task::Type::rejected);
 }
 
 void View::urgentTodos(input::Input input) const {
-    viewTodos(input, new task::Urgent{});
+    viewTodos(input, task::Type::urgent);
 }
 
 } // namespace action

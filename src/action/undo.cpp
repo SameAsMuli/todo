@@ -1,6 +1,9 @@
+#include <chrono>    // std::chrono
+#include <fstream>   // std::ofstream
+#include <stdexcept> // std::runtime_error
+
 #include "action/undo.hpp"
 #include "file/mutators.hpp"
-#include "task/complete_abstract.hpp"
 
 namespace todo {
 namespace action {
@@ -28,7 +31,30 @@ std::string Undo::description() const {
 }
 
 void Undo::run(const input::Input &input) {
-    task::CompleteAbstract::undo(input);
+    bool global = input.hasOption(input::Option::global);
+
+    /* Make sure we can open the outstanding file */
+    std::ofstream ofs{file::getOutstanding(global).string(),
+                      std::ios_base::app};
+    if (!ofs.is_open()) {
+        throw std::runtime_error{"Unable to open TODO file"};
+    }
+
+    /* Find the tasks that match the search string and remove them */
+    auto tasks =
+        file::removeTasks(input.getActionArgString(), file::getComplete(global),
+                          input.hasOption(input::Option::force),
+                          input.hasOption(input::Option::exact));
+
+    for (auto &task : tasks) {
+        /* Update found task with the previous time and the previous type */
+        task.setType(task.getPreviousType());
+        task.setTimeAdded(task.getPreviousTimeAdded());
+        task.setPreviousType(task::Type::UNKNOWN_TYPE);
+
+        /* Write the task to the outstanding file */
+        ofs << task << std::endl;
+    }
 }
 
 } // namespace action
