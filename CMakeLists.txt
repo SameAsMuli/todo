@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.7)
 project(
   todo
   LANGUAGES  CXX
-  VERSION    0.5.0
+  VERSION    0.6.0
 )
 
 # Generate compile_commands.json(used for clang tooling integration)

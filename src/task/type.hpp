@@ -22,7 +22,7 @@ namespace task {
     F(low, '~', ANSI_FOREGROUND_BLUE, "", "", ""),                             \
         F(normal, '-', ANSI_FOREGROUND_RED, "", "", ""),                       \
         F(high, '!', ANSI_FOREGROUND_RED, "", "", ""),                         \
-        F(urgent, '#', ANSI_FOREGROUND_RED, ANSI_BOLD, ANSI_FOREGROUND_RED,    \
+        F(urgent, '!', ANSI_FOREGROUND_RED, ANSI_BOLD, ANSI_FOREGROUND_RED,    \
           ANSI_BOLD),                                                          \
         F(done, '+', ANSI_FOREGROUND_GREEN, "", "", ""),                       \
         F(rejected, '/', ANSI_FOREGROUND_RED, "", ANSI_FOREGROUND_RED, "")

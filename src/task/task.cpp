@@ -37,7 +37,7 @@ std::istream &operator>>(std::istream &stream, Task &task) {
         std::getline(stream, previousTimestamp, DELIMITER) &&
         std::getline(stream, description)) {
         /* Decode the type */
-        task.m_type = Type(type[0]);
+        task.m_type = Type(type);
 
         /* Decode the time added timestamp */
         std::stringstream ss{timestamp};
@@ -49,7 +49,7 @@ std::istream &operator>>(std::istream &stream, Task &task) {
         task.m_timeAdded = std::chrono::system_clock::from_time_t(time);
 
         /* Decode the previous type */
-        task.m_previousType = Type(previousType[0]);
+        task.m_previousType = Type(previousType);
 
         /* Decode the previous time added timestamp */
         ss = std::stringstream{previousTimestamp};
@@ -73,14 +73,14 @@ std::istream &operator>>(std::istream &stream, Task &task) {
 
 std::ostream &operator<<(std::ostream &stream, const Task &task) {
     /* Output the task type to the stream */
-    stream << task.getType() << DELIMITER;
+    stream << task.getType().toString() << DELIMITER;
 
     /* Output the time added to the stream */
     stream << std::chrono::system_clock::to_time_t(task.getTimeAdded())
            << DELIMITER;
 
     /* Output the previous task type to the stream */
-    stream << task.getPreviousType() << DELIMITER;
+    stream << task.getPreviousType().toString() << DELIMITER;
 
     /* Output the previous time added to the stream */
     stream << std::chrono::system_clock::to_time_t(task.getPreviousTimeAdded())
