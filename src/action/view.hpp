@@ -32,60 +32,18 @@ class View : public ActionAbstract {
     void run(const input::Input &input) override;
 
     /**
-     * @brief Print all complete tasks.
+     * @brief Get a detailed description of the archive action.
      *
-     * @param input The user's input.
+     * @return A string with the description of the archive action.
      */
-    void completeTodos(input::Input input) const;
+    std::string description() const override;
 
     /**
-     * @brief Print all outstanding tasks.
+     * @brief Get the usage details of the archive action.
      *
-     * @param input The user's input.
+     * @return A string with the usage text of the archive action.
      */
-    void outstandingTodos(input::Input input) const;
-
-    /**
-     * @brief Print all done tasks.
-     *
-     * @param input The user's input.
-     */
-    void doneTodos(input::Input input) const;
-
-    /**
-     * @brief Print all high tasks.
-     *
-     * @param input The user's input.
-     */
-    void highTodos(input::Input input) const;
-
-    /**
-     * @brief Print all low priority tasks.
-     *
-     * @param input The user's input.
-     */
-    void lowTodos(input::Input input) const;
-
-    /**
-     * @brief Print all normal priority tasks.
-     *
-     * @param input The user's input.
-     */
-    void normalTodos(input::Input input) const;
-
-    /**
-     * @brief Print all rejected tasks.
-     *
-     * @param input The user's input.
-     */
-    void rejectTodos(input::Input input) const;
-
-    /**
-     * @brief Print all urgent tasks.
-     *
-     * @param input The user's input.
-     */
-    void urgentTodos(input::Input input) const;
+    std::string usage() const override;
 };
 
 #endif

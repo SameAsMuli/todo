@@ -172,7 +172,7 @@ void Add::run(const input::Input &input) {
 }
 
 std::string Add::usage() const {
-    return "usage: todo " + this->getName() + " [<task description>]";
+    return "usage: todo " + this->getName() + " <task description>";
 }
 
 std::string Add::description() const {

@@ -6,8 +6,13 @@
 #include "error/unknown_argument.hpp"
 #include "input/option.hpp"
 #include "task/task.hpp"
+#include "util/display.hpp"
 
 namespace {
+
+const std::string ARG_NAME = "TODO type";
+const std::string ARG_VAL_COMPLETE = "complete";
+const std::string ARG_VAL_OUTSTANDING = "outstanding";
 
 /**
  * @brief Print all tasks of a given task type from a specific file.
@@ -44,80 +49,96 @@ void viewTodos(input::Input input, todo::task::Type taskType) {
     }
 }
 
+/**
+ * @brief Print all complete tasks.
+ *
+ * @param input The user's input.
+ */
+void completeTodos(input::Input input) {
+    viewTodos(input, todo::task::Type::done);
+    viewTodos(input, todo::task::Type::rejected);
+}
+
+/**
+ * @brief Print all outstanding tasks.
+ *
+ * @param input The user's input.
+ */
+void outstandingTodos(input::Input input) {
+    viewTodos(input, todo::task::Type::urgent);
+    viewTodos(input, todo::task::Type::high);
+    viewTodos(input, todo::task::Type::normal);
+    viewTodos(input, todo::task::Type::low);
+}
+
 } // namespace
 
 namespace todo {
 namespace action {
 
-View::View() : ActionAbstract("view", "View outstanding TODOs", 1) {
+View::View() : ActionAbstract("view", "View existing TODOs", 1) {
     this->addValidOption(input::Option::all);
     this->addValidOption(input::Option::global);
 }
 
 void View::run(const input::Input &input) {
     if (input.getActionArgCount() == 0) {
-        this->outstandingTodos(input);
-        this->completeTodos(input);
+        outstandingTodos(input);
+        completeTodos(input);
         return;
     }
 
     auto arg = input.getActionArg(0);
 
-    if (arg == "complete") {
-        this->completeTodos(input);
-    } else if (arg == "outstanding") {
-        this->outstandingTodos(input);
-    } else if (arg == "urgent") {
-        this->urgentTodos(input);
-    } else if (arg == "high") {
-        this->highTodos(input);
-    } else if (arg == "normal") {
-        this->normalTodos(input);
-    } else if (arg == "low") {
-        this->lowTodos(input);
-    } else if (arg == "done") {
-        this->doneTodos(input);
-    } else if (arg == "reject") {
-        this->rejectTodos(input);
+    if (arg == ARG_VAL_COMPLETE) {
+        completeTodos(input);
+    } else if (arg == ARG_VAL_OUTSTANDING) {
+        outstandingTodos(input);
     } else {
-        throw error::UnknownArgument(arg, "task type");
+        task::Type taskType{arg};
+
+        if (taskType == task::Type::UNKNOWN_TYPE) {
+            throw error::UnknownArgument(arg, ARG_NAME);
+        }
+
+        viewTodos(input, taskType);
     }
 }
 
-void View::completeTodos(input::Input input) const {
-    this->doneTodos(input);
-    this->rejectTodos(input);
+std::string View::usage() const {
+    return "usage: todo " + this->getName() + " [<" + ARG_NAME + ">]";
 }
 
-void View::outstandingTodos(input::Input input) const {
-    this->urgentTodos(input);
-    this->highTodos(input);
-    this->normalTodos(input);
-    this->lowTodos(input);
-}
+std::string View::description() const {
+    std::stringstream desc;
+    desc
+        << "View existing TODOs in the specified TODO directory. If run with "
+           "no arguments or options, all outstanding TODOs in the nearest TODO "
+           "directory will be displayed.\n\n"
+           "If the "
+        << input::Option(input::Option::global).toString()
+        << " option is specified, then all outstanding TODOs from the global "
+           "TODO directory will be displayed. If the "
+        << input::Option(input::Option::all).toString()
+        << " option is specified, then both global and local TODOs will be "
+           "displayed.\n\n"
+           "If a "
+        << ARG_NAME
+        << " is specified, only TODOs of that type will be displayed. The "
+           "following are the valid options for "
+        << ARG_NAME << ":\n\n";
 
-void View::doneTodos(input::Input input) const {
-    viewTodos(input, task::Type::done);
-}
+    for (task::Type const type : task::Type::ALL_TYPES) {
+        desc << util::display::INDENT << type.toString() << std::endl;
+    }
 
-void View::highTodos(input::Input input) const {
-    viewTodos(input, task::Type::high);
-}
+    desc << "\nIf a " << ARG_NAME << " of '" << ARG_VAL_COMPLETE
+         << "' is given, then all complete TODOs will be displayed. If a TODO "
+            "type of '"
+         << ARG_VAL_OUTSTANDING
+         << "' is given, then all outstanding TODOs will be displayed.";
 
-void View::lowTodos(input::Input input) const {
-    viewTodos(input, task::Type::low);
-}
-
-void View::normalTodos(input::Input input) const {
-    viewTodos(input, task::Type::normal);
-}
-
-void View::rejectTodos(input::Input input) const {
-    viewTodos(input, task::Type::rejected);
-}
-
-void View::urgentTodos(input::Input input) const {
-    viewTodos(input, task::Type::urgent);
+    return desc.str();
 }
 
 } // namespace action

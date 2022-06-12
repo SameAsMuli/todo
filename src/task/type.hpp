@@ -62,6 +62,17 @@ class Type {
     /**
      * @brief Check if a given character is a valid type.
      *
+     * @param str The character to check.
+     *
+     * @return True if str is a known type, false otherwise.
+     */
+    static bool isValid(std::string str) {
+        return valueFromString(str) != UNKNOWN_TYPE;
+    }
+
+    /**
+     * @brief Check if a given character is a valid type.
+     *
      * @param c The character to check.
      *
      * @return True if c is a known type, false otherwise.
@@ -83,6 +94,13 @@ class Type {
      * @param type The type to initialise.
      */
     Type(Value type) : m_value(type) {}
+
+    /**
+     * @brief Initialise a Type from its string representation.
+     *
+     * @param str String to convert to a Type.
+     */
+    Type(std::string str) : m_value(valueFromString(str)) {}
 
     /**
      * @brief Initialise a Type from its character representation.
@@ -304,6 +322,23 @@ class Type {
     Value m_value;
 
     bool m_shortType = false;
+
+    /**
+     * @brief Convert a string to a Value.
+     *
+     * @param str String to convert.
+     *
+     * @return The matching Value, or UNKNOWN_TYPE if string is unknown.
+     */
+    static Value valueFromString(std::string str) {
+        for (Type const type : ALL_TYPES) {
+            if (type.toString() == str) {
+                return type.m_value;
+            }
+        }
+
+        return UNKNOWN_TYPE;
+    }
 
     /**
      * @brief Convert a character to a Value.
