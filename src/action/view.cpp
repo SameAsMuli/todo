@@ -50,7 +50,9 @@ void view(todo::task::Type taskType, bool global) {
 void viewTodos(input::Input input, todo::task::Type taskType) {
     if (input.hasOption(input::Option::all)) {
         view(taskType, true);
-        view(taskType, false);
+        if (taskType.getFile(true) != taskType.getFile(false)) {
+            view(taskType, false);
+        }
     } else {
         view(taskType, input.hasOption(input::Option::global));
     }
@@ -63,10 +65,13 @@ void viewTodos(input::Input input, todo::task::Type taskType) {
  */
 void viewArchiveTodos(input::Input input) {
     std::vector<todo::task::Task> archivedTasks;
+    auto globalArchiveFile = todo::file::getArchive(true);
+    auto localArchiveFile = todo::file::getArchive(false);
 
-    if (input.hasOption(input::Option::all) ||
-        input.hasOption(input::Option::global)) {
-        std::ifstream ifs{todo::file::getArchive(true).string()};
+    if (localArchiveFile != globalArchiveFile &&
+        (input.hasOption(input::Option::all) ||
+         input.hasOption(input::Option::global))) {
+        std::ifstream ifs{globalArchiveFile.string()};
 
         /* Add global archived tasks to the list */
         if (ifs.is_open()) {
@@ -78,7 +83,7 @@ void viewArchiveTodos(input::Input input) {
     }
 
     if (!input.hasOption(input::Option::global)) {
-        std::ifstream ifs{todo::file::getArchive(false).string()};
+        std::ifstream ifs{localArchiveFile.string()};
 
         /* Add local archived tasks to the list */
         if (ifs.is_open()) {
