@@ -30,6 +30,10 @@ std::string Undo::description() const {
            "input, and not match against superset TODOs.";
 }
 
+std::string Undo::usage() const {
+    return "usage: todo " + this->getName() + " <task description>";
+}
+
 void Undo::run(const input::Input &input) {
     bool global = input.hasOption(input::Option::global);
 

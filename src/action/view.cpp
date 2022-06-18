@@ -175,7 +175,10 @@ void View::run(const input::Input &input) {
 }
 
 std::string View::usage() const {
-    return "usage: todo " + this->getName() + " [<" + ARG_NAME + ">]";
+    return "usage: todo " + this->getName() +
+           " [outstanding|complete|archive]\n"
+           "            " +
+           this->getName() + " [<" + ARG_NAME + ">]";
 }
 
 std::string View::description() const {

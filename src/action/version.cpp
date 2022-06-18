@@ -13,9 +13,7 @@ std::string Version::description() const {
     return "Print the version information of the program.";
 }
 
-std::string Version::usage() const { return "usage: todo version"; }
-
-/*** PRIVATE METHODS ***/
+std::string Version::usage() const { return "usage: todo " + this->getName(); }
 
 void Version::run(const input::Input &input) {
     std::cout << util::display::programVersion() << std::endl;

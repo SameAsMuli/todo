@@ -26,6 +26,14 @@ class Remove : public ActionAbstract {
     std::string description() const override;
 
     /**
+     * @brief Get the usage details of the remove action.
+     *
+     * @return A string with the usage text of the remove action.
+     */
+    std::string usage() const override;
+
+  private:
+    /**
      * @brief Remove matching task.
      */
     void run(const input::Input &input) override;

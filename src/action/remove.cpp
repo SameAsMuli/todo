@@ -26,6 +26,10 @@ std::string Remove::description() const {
            "input, and not match against superset TODOs.";
 }
 
+std::string Remove::usage() const {
+    return "usage: todo " + this->getName() + " <task description>";
+}
+
 void Remove::run(const input::Input &input) {
     /* Form and check the seach string */
     auto searchString = input.getActionArgString();

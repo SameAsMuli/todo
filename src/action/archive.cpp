@@ -21,7 +21,7 @@ std::string Archive::description() const {
 }
 
 std::string Archive::usage() const {
-    return "usage: todo archive [number of minutes]";
+    return "usage: todo " + this->getName() + " [<number of minutes>]";
 }
 
 void Archive::run(const input::Input &input) {

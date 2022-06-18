@@ -19,7 +19,9 @@ std::string Help::description() const {
            "detailed information on that specific action will be shown.";
 }
 
-std::string Help::usage() const { return "usage: todo help [action]"; }
+std::string Help::usage() const {
+    return "usage: todo " + this->getName() + " [<action>]";
+}
 
 void Help::addActions(std::vector<ActionAbstract *> &actions) {
     this->m_actions = actions;

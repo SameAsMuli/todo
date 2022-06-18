@@ -121,11 +121,9 @@ class ActionAbstract {
      *
      * To be overriden in derived class.
      *
-     * TODO Make description() a pure virutal function eventually.
-     *
      * @return A string with the description of the action.
      */
-    virtual std::string description() const { return ""; }
+    virtual std::string description() const = 0;
 
     /**
      * @brief Get the usage details of the action.
@@ -136,11 +134,9 @@ class ActionAbstract {
      *
      * To be overriden in derived class.
      *
-     * TODO Make usage() a pure virutal function eventually.
-     *
      * @return A string with the usage text of the action.
      */
-    virtual std::string usage() const { return ""; }
+    virtual std::string usage() const = 0;
 
     /**
      * @brief Perform the main function of the todo action.

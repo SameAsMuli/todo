@@ -79,7 +79,7 @@ programOverview(std::vector<std::pair<std::string, std::string>> actions) {
 }
 
 std::string programUsage() {
-    return "usage: todo [action] [--options] [<args>]\n"
+    return "usage: todo [<action>] [<options>] [<args>]\n"
            "            [--help] [<action>]";
 }
 
