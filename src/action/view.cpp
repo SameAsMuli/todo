@@ -141,7 +141,7 @@ void viewOutstandingTodos(input::Input input) {
 namespace todo {
 namespace action {
 
-View::View() : ActionAbstract("view", "View existing TODOs", 1) {
+View::View() : ActionAbstract("view", "View existing TODOs") {
     this->addValidOption(input::Option::all);
     this->addValidOption(input::Option::global);
 }
@@ -153,22 +153,25 @@ void View::run(const input::Input &input) {
         return;
     }
 
-    auto arg = input.getActionArg(0);
+    int i = 0;
+    while (input.hasActionArg(i)) {
+        auto arg = input.getActionArg(i++);
 
-    if (arg == ARG_VAL_ARCHIVE) {
-        viewArchiveTodos(input);
-    } else if (arg == ARG_VAL_COMPLETE) {
-        viewCompleteTodos(input);
-    } else if (arg == ARG_VAL_OUTSTANDING) {
-        viewOutstandingTodos(input);
-    } else {
-        task::Type taskType{arg};
+        if (arg == ARG_VAL_ARCHIVE) {
+            viewArchiveTodos(input);
+        } else if (arg == ARG_VAL_COMPLETE) {
+            viewCompleteTodos(input);
+        } else if (arg == ARG_VAL_OUTSTANDING) {
+            viewOutstandingTodos(input);
+        } else {
+            task::Type taskType{arg};
 
-        if (taskType == task::Type::UNKNOWN_TYPE) {
-            throw error::UnknownArgument(arg, ARG_NAME);
+            if (taskType == task::Type::UNKNOWN_TYPE) {
+                throw error::UnknownArgument(arg, ARG_NAME);
+            }
+
+            viewTodos(input, taskType);
         }
-
-        viewTodos(input, taskType);
     }
 }
 

@@ -42,6 +42,7 @@ void Search::run(const input::Input &input) {
 
     if (globalFile != localFile && (input.hasOption(input::Option::all) ||
                                     input.hasOption(input::Option::global))) {
+        /* Search global tasks */
         auto [matchingTasks, nonMatches] =
             file::search(input.getActionArgString(), globalFile,
                          input.hasOption(input::Option::exact));
@@ -50,6 +51,7 @@ void Search::run(const input::Input &input) {
     }
 
     if (!input.hasOption(input::Option::global)) {
+        /* Search local tasks */
         auto [matchingTasks, nonMatches] =
             file::search(input.getActionArgString(), localFile,
                          input.hasOption(input::Option::exact));
