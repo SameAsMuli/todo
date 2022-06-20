@@ -2,6 +2,7 @@
 #define TASK_TASK_H
 
 #include <iostream> // std::istream
+#include <string>   // std::string
 
 #include "task/type.hpp"
 #include "util/string.hpp"
@@ -140,6 +141,13 @@ class Task {
      * @return The given stream.
      */
     friend std::ostream &operator<<(std::ostream &stream, const Task &task);
+
+    /**
+     * @brief Get a version of the task formatted for display to the user.
+     *
+     * @return The formatted string.
+     */
+    std::string formatted() const;
 
   private:
     Type m_type;

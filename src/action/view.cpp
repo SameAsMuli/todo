@@ -34,8 +34,7 @@ void view(todo::task::Type taskType, bool global) {
         todo::task::Task task;
         while (ifs >> task) {
             if (taskType == task.getType()) {
-                std::cout << taskType.formatDescription(task.getDescription())
-                          << std::endl;
+                std::cout << task.formatted() << std::endl;
             }
         }
     }
@@ -110,8 +109,7 @@ void viewArchiveTodos(input::Input input) {
             std::cout << ANSI_BOLD << "\n[" << date << "]" << ANSI_RESET
                       << std::endl;
         }
-        std::cout << task.getType().formatDescription(task.getDescription())
-                  << std::endl;
+        std::cout << task.formatted() << std::endl;
     }
     std::cout << std::endl;
 }

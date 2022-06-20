@@ -92,5 +92,9 @@ std::ostream &operator<<(std::ostream &stream, const Task &task) {
     return stream;
 }
 
+std::string Task::formatted() const {
+    return this->getType().formatDescription(this->getDescription());
+}
+
 } // namespace task
 } // namespace todo

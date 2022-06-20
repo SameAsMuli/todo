@@ -64,8 +64,7 @@ void Search::run(const input::Input &input) {
               });
 
     for (auto const task : searchResults) {
-        std::cout << task.getType().formatDescription(task.getDescription())
-                  << std::endl;
+        std::cout << task.formatted() << std::endl;
     }
 }
 
