@@ -18,6 +18,9 @@ doxydoc
 # Ignore any open files
 *.swp
 
+# Ignore any cached files
+.cache
+
 # Ignore mac OS files
 .DS_Store
 *.icloud
