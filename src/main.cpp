@@ -17,6 +17,7 @@
 #include "input/option.hpp"
 #include "task/type.hpp"
 #include "util/display.hpp"
+#include "util/string.hpp"
 
 int main(int argc, char **argv) {
     /* Create the data files if they don't already exist */
@@ -59,13 +60,12 @@ int main(int argc, char **argv) {
     /* Pass the list of actions to the help action */
     help.addActions(actions);
 
-    /* If no action is given, then view all tasks. Else run the given action */
     auto inputAction = input.getAction();
     try {
+        /* If no action is given, view all tasks - else run the given action */
         if (inputAction.empty()) {
             if (input.hasOption(input::Option::help)) {
                 std::vector<std::pair<std::string, std::string>> actionList;
-
                 for (auto const &action : actions) {
                     actionList.push_back(
                         {action->getName(), action->getHelpText()});
@@ -84,7 +84,36 @@ int main(int argc, char **argv) {
                 }
             }
 
-            std::cerr << "Unknown action: '" << inputAction << "'" << std::endl;
+            /* The given action isn't known, display usage and corrections */
+            std::vector<std::string> actionNames;
+            for (auto const &action : actions) {
+                actionNames.push_back(action->getName());
+            }
+
+            auto corrections =
+                util::string::corrections(inputAction, actionNames);
+
+            std::cerr << "todo: unknown action '" << inputAction << "'"
+                      << std::endl;
+
+            if (corrections.size() > 0) {
+                std::cout << "(did you mean ";
+
+                if (corrections.size() > 1) {
+                    std::cout << "one of ";
+                }
+
+                int i = 0;
+                for (auto const &str : corrections) {
+                    if (i++ > 0) {
+                        std::cout << ", ";
+                    }
+                    std::cout << str;
+                }
+
+                std::cout << "?)" << std::endl;
+            }
+
             std::cout << std::endl;
             std::cout << util::display::programUsage() << std::endl;
             return 1;

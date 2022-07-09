@@ -1,4 +1,4 @@
-#include <algorithm>    // std::find_if, std::transform
+#include <algorithm>    // std::find_if, std::min, std::transform
 #include <cctype>       // std::isspace
 #include <charconv>     // std::from_chars
 #include <cstring>      // std::strcmp
@@ -9,6 +9,95 @@
 
 namespace util {
 namespace string {
+
+int demerau_levenshtein_distance(const std::string &str1,
+                                 const std::string &str2) {
+    auto len1 = str1.length();
+    auto len2 = str2.length();
+
+    if (len1 == 0)
+        return len2;
+    if (len2 == 0)
+        return len1;
+
+    int dist[len1 + 1][len2 + 1];
+
+    /* Initialise the matrix */
+    for (int i = 0; i <= len1; i++)
+        dist[i][0] = i;
+
+    for (int j = 0; j <= len2; j++)
+        dist[0][j] = j;
+
+    /* Compare substrings of increasing length to find minimum distance */
+    for (int i = 1; i <= len1; i++) {
+        for (int j = 1; j <= len2; j++) {
+            if (str1[i - 1] == str2[j - 1]) {
+                dist[i][j] = dist[i - 1][j - 1]; // no operation
+            } else {
+                if (str1[i] == str2[j - 1] && str1[i - 1] == str2[j]) {
+                    dist[i][j] = dist[i - 1][j - 1]; // transpose chars
+                } else {
+                    dist[i][j] =
+                        std::min(std::min(dist[i - 1][j],  // delete char
+                                          dist[i][j - 1]), // insert char
+                                 dist[i - 1][j - 1]        // substitute char
+                                 ) +
+                        1;
+                }
+            }
+        }
+    }
+
+    return dist[len1][len2];
+}
+
+std::vector<std::string> corrections(const std::string &input,
+                                     const std::vector<std::string> &dictionary,
+                                     unsigned int max_distance) {
+    std::vector<std::pair<std::string, unsigned int>> weighted_suggestions;
+
+    for (int i = 0; i < dictionary.size(); i++) {
+        auto suggestion = dictionary[i];
+
+        /* Ignore empty suggestions */
+        if (suggestion.size() == 0) {
+            continue;
+        }
+
+        auto dist =
+            util::string::demerau_levenshtein_distance(input, suggestion);
+
+        /* For an exact match, there's no need to return any corrections */
+        if (dist == 0) {
+            return {};
+        }
+
+        if (dist <= max_distance) {
+            weighted_suggestions.push_back({suggestion, dist});
+        }
+    }
+
+    /* Sort the suggestions by ascending distance, and then alphabetically */
+    std::sort(weighted_suggestions.begin(), weighted_suggestions.end(),
+              [](std::pair<std::string, unsigned int> a,
+                 std::pair<std::string, unsigned int> b) {
+                  if (a.second == b.second) {
+                      return a.first < b.first;
+                  }
+                  return a.second < b.second;
+              });
+
+    std::vector<std::string> suggestions;
+    for (const auto &[suggestion, _] : weighted_suggestions) {
+        /* Guard against repeats in the dictionary */
+        if (std::find(suggestions.begin(), suggestions.end(), suggestion) ==
+            suggestions.end())
+            suggestions.push_back(suggestion);
+    }
+
+    return suggestions;
+}
 
 void ltrim(std::string &s) {
     s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
