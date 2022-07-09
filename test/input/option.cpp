@@ -2,10 +2,10 @@
 #include <string>    // std::string
 #include <vector>    // std::vector
 
+#include "gtest/gtest.h"
+
 #include "input/option.hpp"
 #include "util/string.hpp"
-
-#include "gtest/gtest.h"
 
 /* Construction exceptions */
 TEST(Option, Construction) {

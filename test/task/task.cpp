@@ -1,7 +1,8 @@
 #include <sstream> // std::stringstream
 
-#include "task/task.hpp"
 #include "gtest/gtest.h"
+
+#include "task/task.hpp"
 
 #define TaskStreamTest()                                                       \
     todo::task::Task task;                                                     \

@@ -1,6 +1,7 @@
+#include "gtest/gtest.h"
+
 #include "input/input.hpp"
 #include "input/option.hpp"
-#include "gtest/gtest.h"
 
 /* Fixture class to test each public method */
 class InputMethods : public ::testing::Test {

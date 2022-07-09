@@ -1,5 +1,43 @@
-#include "util/string.hpp"
+#include "gmock/gmock.h"
 #include "gtest/gtest.h"
+
+#include "util/string.hpp"
+
+TEST(StringUtils, DemerauLevenshteinDistance) {
+    EXPECT_EQ(util::string::demerau_levenshtein_distance("", ""), 0);
+    EXPECT_EQ(util::string::demerau_levenshtein_distance(" ", ""), 1);
+    EXPECT_EQ(util::string::demerau_levenshtein_distance("", " "), 1);
+    EXPECT_EQ(util::string::demerau_levenshtein_distance("test", ""), 4);
+    EXPECT_EQ(util::string::demerau_levenshtein_distance("test", "test"), 0);
+    EXPECT_EQ(util::string::demerau_levenshtein_distance("test", "tset"), 1);
+    EXPECT_EQ(util::string::demerau_levenshtein_distance("test", "tests"), 1);
+    EXPECT_EQ(util::string::demerau_levenshtein_distance("test", "est"), 1);
+    EXPECT_EQ(util::string::demerau_levenshtein_distance("test", "text"), 1);
+    EXPECT_EQ(util::string::demerau_levenshtein_distance("test", "toast"), 2);
+    EXPECT_EQ(util::string::demerau_levenshtein_distance("test", "tots"), 2);
+    EXPECT_EQ(util::string::demerau_levenshtein_distance("test", "rubbish"), 6);
+}
+
+TEST(StringUtils, Corrections) {
+    std::vector<std::string> dictionary = {
+        "toast", "", "test", "test", "roast", "float", "text",
+    };
+    EXPECT_EQ(util::string::corrections("", dictionary).size(), 0);
+    EXPECT_EQ(util::string::corrections("test", dictionary).size(), 0);
+    EXPECT_THAT(util::string::corrections("melt", dictionary),
+                testing::ElementsAre("test", "text"));
+    EXPECT_THAT(util::string::corrections("next", dictionary),
+                testing::ElementsAre("text", "test"));
+    EXPECT_THAT(util::string::corrections("bloat", dictionary),
+                testing::ElementsAre("float"));
+    EXPECT_THAT(util::string::corrections("tast", dictionary),
+                testing::ElementsAre("test", "toast", "roast", "text"));
+    EXPECT_THAT(util::string::corrections("tast", dictionary, 3),
+                testing::ElementsAre("test", "toast", "roast", "text"));
+    EXPECT_THAT(
+        util::string::corrections("tast", dictionary, 4),
+        testing::ElementsAre("test", "toast", "roast", "text", "float"));
+}
 
 TEST(StringUtils, LTrim) {
     EXPECT_EQ(util::string::ltrim_copy(""), "");
