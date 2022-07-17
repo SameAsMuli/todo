@@ -32,16 +32,16 @@ class View : public ActionAbstract {
     void run(const input::Input &input) override;
 
     /**
-     * @brief Get a detailed description of the archive action.
+     * @brief Get a detailed description of the view action.
      *
-     * @return A string with the description of the archive action.
+     * @return A string with the description of the view action.
      */
     std::string description() const override;
 
     /**
-     * @brief Get the usage details of the archive action.
+     * @brief Get the usage details of the view action.
      *
-     * @return A string with the usage text of the archive action.
+     * @return A string with the usage text of the view action.
      */
     std::string usage() const override;
 };
