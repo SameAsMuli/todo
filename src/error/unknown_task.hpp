@@ -16,7 +16,7 @@ class UnknownTask : public std::runtime_error {
      * @brief Error that there are no tasks matched by the given description.
      */
     UnknownTask()
-        : std::runtime_error("Search string didn't match any TODOs") {}
+        : std::runtime_error("search string didn't match any TODOs") {}
 };
 
 } // namespace error

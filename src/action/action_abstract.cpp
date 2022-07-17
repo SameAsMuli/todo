@@ -117,14 +117,14 @@ bool ActionAbstract::validOption(const input::Option &option) const {
 void ActionAbstract::perform(const input::Input &input) {
     if (this->getArgLimit().has_value()) {
         if (input.getActionArgCount() > this->getArgLimit()) {
-            throw std::runtime_error("Too many arguments for action: '" +
+            throw std::runtime_error("too many arguments for action: '" +
                                      this->getName() + "'");
         }
     }
 
     for (input::Option option : input.getOptions()) {
         if (!this->validOption(option)) {
-            throw std::runtime_error("Option '" + option.toString() +
+            throw std::runtime_error("option '" + option.toString() +
                                      "' not handled by action: '" +
                                      this->getName() + "'");
         }

@@ -15,7 +15,7 @@ class DuplicateTask : public std::runtime_error {
     /**
      * @brief Error for a pre-existing task.
      */
-    DuplicateTask() : std::runtime_error("Task already exists") {}
+    DuplicateTask() : std::runtime_error("task already exists") {}
 };
 
 } // namespace error

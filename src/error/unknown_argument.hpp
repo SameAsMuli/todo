@@ -21,7 +21,7 @@ class UnknownArgument : public std::runtime_error {
      */
     UnknownArgument(const std::string &arg,
                     const std::string &type = "argument")
-        : std::runtime_error("Unknown " + type + ": '" + arg + "'") {}
+        : std::runtime_error("unknown " + type + ": '" + arg + "'") {}
 };
 
 } // namespace error

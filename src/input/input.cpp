@@ -26,7 +26,7 @@ Input::Input(int argc, char const *const *argv) {
 
     if (argc < 1) {
         throw std::logic_error{
-            "Invalid argc value passed to Input constructor"};
+            "invalid argc value passed to Input constructor"};
     }
 
     bool processOptions = true;
@@ -46,7 +46,7 @@ Input::Input(int argc, char const *const *argv) {
                     Option(arg.erase(0, Option::LONG_OPTION_PREFIX.size()));
 
                 if (option == Option::UNKNOWN_OPTION) {
-                    throw std::runtime_error("Unknown option '" + arg + "'");
+                    throw std::runtime_error("unknown option '" + arg + "'");
                 }
 
                 std::vector<std::string> optionArgs;
@@ -54,7 +54,7 @@ Input::Input(int argc, char const *const *argv) {
                 if (option.requiresArg()) {
                     if (i >= argc) {
                         throw std::runtime_error(
-                            "No argument given to option '" +
+                            "no argument given to option '" +
                             option.toString() + "'");
                     }
                     optionArgs.push_back(argv[++i]);
@@ -71,7 +71,7 @@ Input::Input(int argc, char const *const *argv) {
                 for (std::string::size_type j = 0; j < arg.size(); ++j) {
                     auto option = Option(arg[j]);
                     if (option == Option::UNKNOWN_OPTION) {
-                        throw std::runtime_error("Unknown option '" + arg +
+                        throw std::runtime_error("unknown option '" + arg +
                                                  "'");
                     }
 
@@ -80,7 +80,7 @@ Input::Input(int argc, char const *const *argv) {
                     if (option.requiresArg()) {
                         if (j < arg.size() - 1 || i >= argc) {
                             throw std::runtime_error(
-                                "No argument given to option '" +
+                                "no argument given to option '" +
                                 option.toString() + "'");
                         }
                         optionArgs.push_back(argv[++i]);
@@ -118,7 +118,7 @@ unsigned int Input::getActionArgCount() const {
 
 std::string Input::getActionArg(int index) const {
     if (index < 0) {
-        throw std::runtime_error{"Invalid index passed to Input::getActionArg"};
+        throw std::runtime_error{"invalid index passed to Input::getActionArg"};
     }
 
     return this->m_actionArgs.at(index);
@@ -127,7 +127,7 @@ std::string Input::getActionArg(int index) const {
 std::string Input::getActionArgString(int index) const {
     if (index < 0) {
         throw std::runtime_error{
-            "Invalid index passed to Input::getActionArgString"};
+            "invalid index passed to Input::getActionArgString"};
     }
 
     std::string str;

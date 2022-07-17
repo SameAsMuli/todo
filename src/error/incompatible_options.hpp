@@ -22,7 +22,7 @@ class IncompatibleOptions : public std::runtime_error {
      */
     IncompatibleOptions(const input::Option &option1,
                         const input::Option &option2)
-        : std::runtime_error("Options '" + option1.toString() +
+        : std::runtime_error("options '" + option1.toString() +
                              "' cannot be used with option '" +
                              option2.toString() + "'") {}
 };

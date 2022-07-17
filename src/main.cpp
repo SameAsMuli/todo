@@ -19,12 +19,15 @@
 #include "util/display.hpp"
 #include "util/string.hpp"
 
+static const std::string ERR_PREFIX = "todo: ";
+
 int main(int argc, char **argv) {
     /* Create the data files if they don't already exist */
     try {
         todo::file::initialise(true);
     } catch (const std::exception &e) {
-        std::cerr << "Failed to initialise: " << e.what() << std::endl;
+        std::cerr << ERR_PREFIX << "failed to initialise: " << e.what()
+                  << std::endl;
         return 1;
     }
 
@@ -33,7 +36,7 @@ int main(int argc, char **argv) {
     try {
         input = input::Input{argc, argv};
     } catch (const std::exception &e) {
-        std::cerr << e.what() << std::endl;
+        std::cerr << ERR_PREFIX << e.what() << std::endl;
         return 1;
     }
 
@@ -93,7 +96,7 @@ int main(int argc, char **argv) {
             auto corrections =
                 util::string::corrections(inputAction, actionNames);
 
-            std::cerr << "todo: unknown action '" << inputAction << "'"
+            std::cerr << ERR_PREFIX << "unknown action '" << inputAction << "'"
                       << std::endl;
 
             if (corrections.size() > 0) {
@@ -119,7 +122,7 @@ int main(int argc, char **argv) {
             return 1;
         }
     } catch (const std::exception &e) {
-        std::cerr << e.what() << std::endl;
+        std::cerr << ERR_PREFIX << e.what() << std::endl;
         return 1;
     }
 
