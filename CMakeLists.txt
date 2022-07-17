@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.7)
+cmake_minimum_required(VERSION 3.11)
 
 # Define Project
 project(
@@ -20,9 +20,23 @@ endif(CCACHE_FOUND)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-# Include Howard Hinnant's Date library
-include(cmake/date.cmake)
-fetch_date()
+# Include required dependencies
+include(FetchContent)
+
+FetchContent_Declare(
+  date
+  GIT_REPOSITORY https://github.com/HowardHinnant/date.git
+  GIT_TAG        v3.0.1
+)
+
+FetchContent_Declare(
+  googletest
+  GIT_REPOSITORY https://github.com/google/googletest.git
+  GIT_TAG        release-1.12.1
+)
+
+FetchContent_MakeAvailable(date googletest)
+include_directories(SYSTEM ${date_SOURCE_DIR}/include)
 
 # Define binary and how to build it
 add_subdirectory(src/action)
@@ -43,10 +57,6 @@ target_compile_options(${PROJECT_NAME} PUBLIC -std=c++17 -g -O0 -pedantic -Wall
   -Wformat=2 -Winit-self -Wmissing-include-dirs -Woverloaded-virtual
   -Wredundant-decls -Wshadow -Wsign-conversion -Wsign-promo -Wstrict-overflow=5
   -Wundef -Wswitch-default -Werror -Wno-unused)
-
-# Include Google Test
-include(cmake/googletest.cmake)
-fetch_googletest()
 
 # Include tests
 enable_testing()
