@@ -19,11 +19,11 @@ namespace task {
  * colour and any formatting.
  */
 #define TYPES(F)                                                               \
-    F(low, '~', ANSI_FOREGROUND_BLUE, "", "", ""),                             \
-        F(normal, '-', ANSI_FOREGROUND_RED, "", "", ""),                       \
+    F(urgent, '!', ANSI_FOREGROUND_RED, ANSI_BOLD, ANSI_FOREGROUND_RED,        \
+      ANSI_BOLD),                                                              \
         F(high, '!', ANSI_FOREGROUND_RED, "", "", ""),                         \
-        F(urgent, '!', ANSI_FOREGROUND_RED, ANSI_BOLD, ANSI_FOREGROUND_RED,    \
-          ANSI_BOLD),                                                          \
+        F(normal, '-', ANSI_FOREGROUND_RED, "", "", ""),                       \
+        F(low, '~', ANSI_FOREGROUND_BLUE, "", "", ""),                         \
         F(done, '+', ANSI_FOREGROUND_GREEN, "", "", ""),                       \
         F(rejected, '/', ANSI_FOREGROUND_RED, "", ANSI_FOREGROUND_RED, "")
 
@@ -44,7 +44,7 @@ class Type {
           desc_format)                                                         \
     enum_val
     /**
-     * @brief Enum class for command line types.
+     * @brief Enum class for task types.
      */
     enum Value : uint8_t { TYPES(F), NUM_TYPES, UNKNOWN_TYPE };
 
@@ -250,20 +250,6 @@ class Type {
         default:
             return false;
         }
-    }
-
-    /**
-     * @brief Get the data file into which this task type is written.
-     *
-     * @param global Whether to consider local or global only tasks.
-     *
-     * @return A filesystem path to the data file.
-     */
-    std::filesystem::path getFile(bool global = false) const {
-        if (this->isComplete())
-            return file::getComplete(global);
-        else
-            return file::getOutstanding(global);
     }
 
   private:

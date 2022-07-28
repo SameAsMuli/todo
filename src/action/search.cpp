@@ -2,8 +2,33 @@
 #include <vector>    // std::vector
 
 #include "action/search.hpp"
-#include "file/accessors.hpp"
+#include "error/incompatible_options.hpp"
 #include "file/definitions.hpp"
+#include "file/file.hpp"
+#include "file/tasks_data.hpp"
+#include "task/task.hpp"
+
+namespace {
+
+std::function<bool(const todo::task::Task &)>
+getSearchFunc(std::string searchString, bool exact) {
+    if (exact) {
+        return [searchString](const auto &task) {
+            return task.getDescription() == searchString;
+        };
+    }
+    return [searchString](const auto &task) {
+        return task.getDescription().find(searchString) != std::string::npos;
+    };
+}
+
+std::vector<todo::task::Task> searchTasks(const todo::file::TasksData &tasks,
+                                          const std::string &searchString,
+                                          bool exact) {
+    return tasks.search(getSearchFunc(searchString, exact));
+}
+
+} // namespace
 
 namespace todo {
 namespace action {
@@ -36,37 +61,46 @@ std::string Search::usage() const {
 }
 
 void Search::run(const input::Input &input) {
+    bool all = input.hasOption(input::Option::all);
+    bool exact = input.hasOption(input::Option::exact);
+    bool global = input.hasOption(input::Option::global);
+
+    /* Sense check the options */
+    if (all && global) {
+        throw error::IncompatibleOptions(input::Option::all,
+                                         input::Option::global);
+    }
+
     std::vector<task::Task> searchResults;
-    auto globalFile = todo::file::getOutstanding(true);
-    auto localFile = todo::file::getOutstanding(false);
+    std::string searchString = input.getActionArgString();
 
-    if (globalFile != localFile && (input.hasOption(input::Option::all) ||
-                                    input.hasOption(input::Option::global))) {
-        /* Search global tasks */
-        auto [matchingTasks, nonMatches] =
-            file::search(input.getActionArgString(), globalFile,
-                         input.hasOption(input::Option::exact));
-        searchResults.insert(searchResults.end(), matchingTasks.begin(),
-                             matchingTasks.end());
+    /* Search for matching tasks */
+    if (all) {
+        searchResults = searchTasks(file::TasksData{file::File::tasks, true},
+                                    searchString, exact);
+
+        if (file::getTodoDir(false) != file::getTodoDir(true)) {
+            auto matchingTasks = searchTasks(
+                file::TasksData{file::File::tasks, false}, searchString, exact);
+            searchResults.insert(searchResults.end(), matchingTasks.begin(),
+                                 matchingTasks.end());
+        }
+    } else {
+        searchResults = searchTasks(file::TasksData{file::File::tasks, global},
+                                    searchString, exact);
     }
 
-    if (!input.hasOption(input::Option::global)) {
-        /* Search local tasks */
-        auto [matchingTasks, nonMatches] =
-            file::search(input.getActionArgString(), localFile,
-                         input.hasOption(input::Option::exact));
-        searchResults.insert(searchResults.end(), matchingTasks.begin(),
-                             matchingTasks.end());
-    }
-
-    /* Sort the list by descending priority */
+    /* Sort the list by descending priority and time added */
     std::sort(searchResults.begin(), searchResults.end(),
               [](const auto &lhs, const auto &rhs) {
-                  return lhs.getType() > rhs.getType();
+                  if (lhs.getType() == rhs.getType()) {
+                      return lhs.getTimeAdded() < rhs.getTimeAdded();
+                  }
+                  return lhs.getType() < rhs.getType();
               });
 
     for (auto const task : searchResults) {
-        std::cout << task.formatted() << std::endl;
+        std::cout << task << std::endl;
     }
 }
 

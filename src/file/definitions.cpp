@@ -30,28 +30,9 @@ std::filesystem::path globalTodoDir() {
 namespace todo {
 namespace file {
 
-/**
- * @brief Return the name used for local todo directories.
- *
- * @return A filesystem path with the name used for local todo directories.
- */
 std::filesystem::path getLocalTodoDirName() {
     return std::filesystem::path{".todo"};
 }
-
-std::filesystem::path getOutstanding(bool global) {
-    return getTodoDir(global) / "outstanding";
-}
-
-std::filesystem::path getComplete(bool global) {
-    return getTodoDir(global) / "complete";
-}
-
-std::filesystem::path getArchive(bool global) {
-    return getTodoDir(global) / "archive";
-}
-
-std::filesystem::path getTemp() { return getTodoDir(true) / "temp"; }
 
 std::filesystem::path getTodoDir(bool global) {
     if (!global) {

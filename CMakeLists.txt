@@ -35,8 +35,18 @@ FetchContent_Declare(
   GIT_TAG        release-1.12.1
 )
 
-FetchContent_MakeAvailable(date googletest)
-include_directories(SYSTEM ${date_SOURCE_DIR}/include)
+FetchContent_Declare(
+  json
+  GIT_REPOSITORY https://github.com/nlohmann/json.git
+  GIT_TAG        v3.10.5
+)
+
+FetchContent_MakeAvailable(date googletest json)
+include_directories(
+    SYSTEM
+    ${date_SOURCE_DIR}/include
+    ${json_SOURCE_DIR}/include
+)
 
 # Define binary and how to build it
 add_subdirectory(src/action)

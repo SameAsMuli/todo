@@ -82,58 +82,69 @@ class Task {
      * @brief Set the type for this task.
      *
      * @param type The type to use.
+     *
+     * @{
      */
-    void setType(Type type) { m_type = type; }
+    void setType(const Type &type) { m_type = type; }
+    void setType(const Type &&type) { m_type = type; }
+    /** @} */
 
     /**
      * @brief Set the description for this task.
      *
      * @param description The description to use.
+     *
+     * @{
      */
-    void setDescription(std::string &description);
+    void setDescription(const std::string &description);
+    void setDescription(const std::string &&description);
+    /** @} */
 
     /**
      * @brief Set the time the task was added (as its current task type).
      *
      * @param timeAdded A chrono time point indicating when the task was added.
+     *
+     * @{
      */
-    void setTimeAdded(std::chrono::system_clock::time_point timeAdded) {
+    void setTimeAdded(const std::chrono::system_clock::time_point &timeAdded) {
         m_timeAdded = timeAdded;
     }
+    void setTimeAdded(const std::chrono::system_clock::time_point &&timeAdded) {
+        m_timeAdded = timeAdded;
+    }
+    /** @} */
 
     /**
      * @brief Set the former type for this task.
      *
      * @param previousType The previous type.
      */
-    void setPreviousType(Type previousType) { m_previousType = previousType; }
+    void setPreviousType(const Type &previousType) {
+        m_previousType = previousType;
+    }
 
     /**
      * @brief Set the time the task was added (as the previous task type).
      *
-     * @param timeAdded A chrono time point for addtion of the previous type.
+     * @param timeAdded A chrono time point for addition of the previous type.
+     *
+     * @{
      */
-    void setPreviousTimeAdded(std::chrono::system_clock::time_point timeAdded) {
+    void setPreviousTimeAdded(
+        const std::chrono::system_clock::time_point &timeAdded) {
         m_previousTimeAdded = timeAdded;
     }
-
-    /**
-     * @brief Populate a task from a stream.
-     *
-     * If the stream cannot be fully converted to a task then it has the failbit
-     * set against it.
-     *
-     * @param stream The stream to use.
-     * @param task The task to populate.
-     *
-     * @return The given stream.
-     */
-    friend std::istream &operator>>(std::istream &stream, Task &task);
+    void setPreviousTimeAdded(
+        const std::chrono::system_clock::time_point &&timeAdded) {
+        m_previousTimeAdded = timeAdded;
+    }
+    /** @} */
 
     /**
      * @brief Output a task to a given stream.
      *
-     * Sends the type and description to the stream, separated by a space.
+     * Formats the task with colour.
      *
      * @param stream The stream to use.
      * @param task The task to use.
@@ -141,13 +152,6 @@ class Task {
      * @return The given stream.
      */
     friend std::ostream &operator<<(std::ostream &stream, const Task &task);
-
-    /**
-     * @brief Get a version of the task formatted for display to the user.
-     *
-     * @return The formatted string.
-     */
-    std::string formatted() const;
 
   private:
     Type m_type;

@@ -7,53 +7,14 @@ namespace todo {
 namespace file {
 
 /**
- * @brief Return the name used for local todo directories.
+ * @brief Return the name used for the top level of local todo directories.
  *
- * @return A filesystem path with the name used for local todo directories.
+ * @return A filesystem path with the name used for each local todo directory.
  */
 std::filesystem::path getLocalTodoDirName();
 
 /**
- * @brief Get the "outstanding_tasks" data file.
- *
- * @param global Whether to consider local or global only tasks.
- *
- * @return A filesystem path to the data file.
- */
-std::filesystem::path getOutstanding(bool global = false);
-
-/**
- * @brief Get the "complete_tasks" data file.
- *
- * @param global Whether to consider local or global only tasks.
- *
- * @return A filesystem path to the data file.
- */
-std::filesystem::path getComplete(bool global = false);
-
-/**
- * @brief Get the "archive" data file.
- *
- * Completed tasks can be manually or automatically archived to this file.
- *
- * @param global Whether to consider local or global only tasks.
- *
- * @return A filesystem path to the data file.
- */
-std::filesystem::path getArchive(bool global = false);
-
-/**
- * @brief Get the "temp" data file.
- *
- * This is used for copying between outstanding and complete data files to make
- * sure there is no accidental data loss.
- *
- * @return A filesystem path to the data file.
- */
-std::filesystem::path getTemp();
-
-/**
- * @brief Get the directory containing the todo data files.
+ * @brief Get the directory containing all todo-related files.
  *
  * If global is set to false, then the function will search the current
  * directory, followed by each successive parent directory, until either a todo
@@ -63,9 +24,9 @@ std::filesystem::path getTemp();
  * set to true, then this function will return a path to "<configHome>/todo"
  * where "<configHome>" is the value returned by util::xdg::configHome.
  *
- * @param global Whether to only return the global todo directory.
+ * @param global Whether to return the global or local todo directory.
  *
- * @return A filesystem path to the directory containing the data files.
+ * @return A filesystem path to the directory containing all todo files.
  */
 std::filesystem::path getTodoDir(bool global);
 

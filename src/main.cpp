@@ -17,17 +17,23 @@
 #include "input/option.hpp"
 #include "task/type.hpp"
 #include "util/display.hpp"
+#include "util/fs.hpp"
 #include "util/string.hpp"
 
 static const std::string ERR_PREFIX = "todo: ";
 
 int main(int argc, char **argv) {
-    /* Create the data files if they don't already exist */
+    /* Sanity check the environment and perform any archiving that's needed */
     try {
-        todo::file::initialise(true);
+        if (util::fs::HomeDir().empty()) {
+            throw std::runtime_error{"unable to find HOME directory"};
+        }
+
+        /* Archive any tasks completed more than a day ago */
+        todo::file::archiveTasks(1440, true);
+        todo::file::archiveTasks(1440, false);
     } catch (const std::exception &e) {
-        std::cerr << ERR_PREFIX << "failed to initialise: " << e.what()
-                  << std::endl;
+        std::cerr << ERR_PREFIX << e.what() << std::endl;
         return 1;
     }
 

@@ -1,14 +1,13 @@
-#include <chrono>    // std::chrono
-#include <fstream>   // std::ofstream
-#include <ostream>   // std::endl
-#include <stdexcept> // std::runtime_error
+#include <chrono> // std::chrono
 
 #include "action/add.hpp"
 #include "error/duplicate_task.hpp"
 #include "error/empty_argument.hpp"
 #include "error/incompatible_options.hpp"
-#include "file/accessors.hpp"
-#include "file/mutators.hpp"
+#include "error/inspecific_task.hpp"
+#include "error/unknown_task.hpp"
+#include "file/definitions.hpp"
+#include "file/tasks_data.hpp"
 #include "input/option.hpp"
 #include "util/fs.hpp"
 #include "util/string.hpp"
@@ -16,30 +15,39 @@
 namespace {
 
 void addCompleteTask(const todo::task::Type type, const input::Input &input) {
-    bool global = input.hasOption(input::Option::global);
+    /* Open the tasks file */
+    auto tasks = todo::file::TasksData{todo::file::File::tasks,
+                                       input.hasOption(input::Option::global)};
 
-    /* Make sure we can open the complete file */
-    std::ofstream ofs{type.getFile(global).string(), std::ios_base::app};
-    if (!ofs.is_open()) {
-        throw std::runtime_error{"Unable to open TODO file"};
+    /* Find all matching tasks and set them as complete */
+    auto exact = input.hasOption(input::Option::exact);
+    auto searchString = input.getActionArgString();
+    unsigned int matches = 0;
+
+    tasks.forEach([exact, &matches, searchString, type](auto &task) mutable {
+        if (exact ? task.getDescription() == searchString
+                  : task.getDescription().find(searchString) !=
+                        std::string::npos) {
+            task.setPreviousType(task.getType());
+            task.setPreviousTimeAdded(task.getTimeAdded());
+            task.setType(type);
+            task.setTimeAdded(std::chrono::system_clock::now());
+            matches++;
+        }
+    });
+
+    /* If we aren't using force, check we affected exactly one task */
+    if (!input.hasOption(input::Option::force)) {
+        if (matches == 0) {
+            throw todo::error::UnknownTask{};
+        }
+        if (matches > 1) {
+            throw todo::error::InspecificTask{matches};
+        }
     }
 
-    /* Find the tasks that match the search string and remove them */
-    auto tasks = todo::file::removeTasks(input.getActionArgString(),
-                                         todo::file::getOutstanding(global),
-                                         input.hasOption(input::Option::force),
-                                         input.hasOption(input::Option::exact));
-
-    for (auto &task : tasks) {
-        /* Update found task with the previous time and the previous type */
-        task.setPreviousType(task.getType());
-        task.setPreviousTimeAdded(task.getTimeAdded());
-        task.setType(type);
-        task.setTimeAdded(std::chrono::system_clock::now());
-
-        /* Write the task to the complete file */
-        ofs << task << std::endl;
-    }
+    /* Write changes to file */
+    tasks.write();
 }
 
 void addOutstandingTask(const todo::task::Type type,
@@ -52,41 +60,42 @@ void addOutstandingTask(const todo::task::Type type,
     }
 
     /* Sense check the options */
-    if (input.hasOption(input::Option::local) &&
-        input.hasOption(input::Option::global)) {
+    auto local = input.hasOption(input::Option::local);
+    auto global = input.hasOption(input::Option::global);
+
+    if (local && global) {
         throw todo::error::IncompatibleOptions(input::Option::local,
                                                input::Option::global);
     }
 
-    /* Create a local todo file if needed */
-    if (input.hasOption(input::Option::local)) {
-        auto dir = util::fs::CurrentDir();
-        if (dir != todo::file::getTodoDir(false)) {
-            todo::file::initialise(false);
-        }
+    /* Create a local todo director if needed */
+    if (local) {
+        util::fs::initDir(todo::file::getLocalTodoDirName());
     }
 
-    /* Check that the task doesn't already exist */
-    auto [match, others] = todo::file::search(
-        description, type.getFile(input.hasOption(input::Option::global)),
-        true);
+    /* Read the tasks file for the chosen directory */
+    auto tasks = todo::file::TasksData{todo::file::File::tasks, global};
 
-    if (match.size() > 0) {
-        throw todo::error::DuplicateTask();
+    /* Check that the task doesn't already exist */
+    auto matchingTasks = tasks.search([description](const auto &task) {
+        return task.getDescription() == description;
+    });
+
+    if (matchingTasks.size() > 0) {
+        for (auto const &task : matchingTasks) {
+            if (!task.getType().isComplete()) {
+                throw todo::error::DuplicateTask();
+            }
+        }
     }
 
     /* Create and populate a task to be added */
     todo::task::Task task{type, description};
     task.setTimeAdded(std::chrono::system_clock::now());
+    tasks.addTask(task);
 
-    std::ofstream ofs{
-        type.getFile(input.hasOption(input::Option::global)).string(),
-        std::ios_base::app};
-    if (ofs.is_open()) {
-        ofs << task << std::endl;
-    } else {
-        throw std::runtime_error{"Unable to open TODO file"};
-    }
+    /* Write changes to file */
+    tasks.write();
 }
 
 std::string constructActionName(const todo::task::Type type) {

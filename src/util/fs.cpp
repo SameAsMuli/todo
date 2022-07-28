@@ -1,5 +1,6 @@
 #include <cstdlib>  // std::getenv
 #include <cstring>  // std::strlen
+#include <fstream>  // std::ofstream
 #include <pwd.h>    // getpwuid
 #include <string>   // std::string
 #include <unistd.h> // getcwd, getuid, PATH_MAX
@@ -51,6 +52,20 @@ std::filesystem::path RootDir() {
          * Path to indicate failure.
          */
         return {};
+    }
+}
+
+void initDir(const std::filesystem::path dir) {
+    std::filesystem::create_directories(dir);
+}
+
+void initFile(const std::filesystem::path &file) {
+    /* Create parent directory if it doesn't already exist */
+    std::filesystem::create_directories(file.parent_path());
+
+    /* Create file if it doesn't already exist */
+    if (!std::filesystem::exists(file)) {
+        std::ofstream(file.string());
     }
 }
 

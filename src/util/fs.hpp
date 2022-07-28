@@ -29,6 +29,20 @@ std::filesystem::path HomeDir();
  */
 std::filesystem::path RootDir();
 
+/**
+ * @brief Create a directory if it doesn't already exist.
+ *
+ * @param dir The path to the directory.
+ */
+void initDir(const std::filesystem::path dir);
+
+/**
+ * @brief Create a file if it doesn't already exist.
+ *
+ * @param file The path to the file.
+ */
+void initFile(const std::filesystem::path &file);
+
 } // namespace fs
 } // namespace util
 

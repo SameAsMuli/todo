@@ -1,7 +1,10 @@
 #include "action/remove.hpp"
 #include "error/empty_argument.hpp"
+#include "error/inspecific_task.hpp"
+#include "error/unknown_task.hpp"
 #include "file/definitions.hpp"
 #include "file/mutators.hpp"
+#include "file/tasks_data.hpp"
 
 namespace todo {
 namespace action {
@@ -37,11 +40,34 @@ void Remove::run(const input::Input &input) {
         throw error::EmptyArgument{"remove"};
     }
 
-    file::removeTasks(
-        searchString,
-        file::getOutstanding(input.hasOption(input::Option::global)),
-        input.hasOption(input::Option::force),
-        input.hasOption(input::Option::exact));
+    /* Get options */
+    auto exact = input.hasOption(input::Option::exact);
+    auto force = input.hasOption(input::Option::force);
+    auto global = input.hasOption(input::Option::global);
+
+    /* Read the tasks file */
+    auto tasks = file::TasksData{file::File::tasks, global};
+
+    /* Remove matching tasks */
+    auto numRemoved = tasks.removeTasks([exact, searchString](auto &task) {
+        if (exact) {
+            return task.getDescription() == searchString;
+        }
+        return task.getDescription().find(searchString) != std::string::npos;
+    });
+
+    /* If we aren't using force, check we affected exactly one task */
+    if (!force) {
+        if (numRemoved == 0) {
+            throw error::UnknownTask{};
+        }
+        if (numRemoved > 1) {
+            throw error::InspecificTask{numRemoved};
+        }
+    }
+
+    /* Write changes to file */
+    tasks.write();
 }
 
 } // namespace action

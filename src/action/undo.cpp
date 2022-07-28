@@ -3,7 +3,9 @@
 #include <stdexcept> // std::runtime_error
 
 #include "action/undo.hpp"
-#include "file/mutators.hpp"
+#include "error/inspecific_task.hpp"
+#include "error/unknown_task.hpp"
+#include "file/tasks_data.hpp"
 
 namespace todo {
 namespace action {
@@ -35,30 +37,38 @@ std::string Undo::usage() const {
 }
 
 void Undo::run(const input::Input &input) {
-    bool global = input.hasOption(input::Option::global);
+    /* Open the tasks file */
+    auto tasks = file::TasksData{file::File::tasks,
+                                 input.hasOption(input::Option::global)};
 
-    /* Make sure we can open the outstanding file */
-    std::ofstream ofs{file::getOutstanding(global).string(),
-                      std::ios_base::app};
-    if (!ofs.is_open()) {
-        throw std::runtime_error{"Unable to open TODO file"};
+    /* Find all matching tasks and revert them */
+    auto exact = input.hasOption(input::Option::exact);
+    auto searchString = input.getActionArgString();
+    unsigned int matches = 0;
+
+    tasks.forEach([exact, &matches, searchString](auto &task) {
+        if (exact ? task.getDescription() == searchString
+                  : task.getDescription().find(searchString) !=
+                        std::string::npos) {
+            task.setType(task.getPreviousType());
+            task.setTimeAdded(task.getPreviousTimeAdded());
+            task.setPreviousType(task::Type::UNKNOWN_TYPE);
+            matches++;
+        }
+    });
+
+    /* If we aren't using force, check we affected exactly one task */
+    if (input.hasOption(input::Option::force)) {
+        if (matches == 0) {
+            throw error::UnknownTask{};
+        }
+        if (matches > 1) {
+            throw error::InspecificTask{matches};
+        }
     }
 
-    /* Find the tasks that match the search string and remove them */
-    auto tasks =
-        file::removeTasks(input.getActionArgString(), file::getComplete(global),
-                          input.hasOption(input::Option::force),
-                          input.hasOption(input::Option::exact));
-
-    for (auto &task : tasks) {
-        /* Update found task with the previous time and the previous type */
-        task.setType(task.getPreviousType());
-        task.setTimeAdded(task.getPreviousTimeAdded());
-        task.setPreviousType(task::Type::UNKNOWN_TYPE);
-
-        /* Write the task to the outstanding file */
-        ofs << task << std::endl;
-    }
+    /* Write changes to file */
+    tasks.write();
 }
 
 } // namespace action
