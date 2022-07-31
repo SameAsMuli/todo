@@ -96,11 +96,6 @@ Input::Input(int argc, char const *const *argv) {
                 m_action = arg;
                 continue;
             }
-
-            /* Once we have stopped receiving valid options and the action has
-             * been specified, assume the user is passing normal aguments.
-             */
-            processOptions = false;
         }
 
         if (m_action.empty()) {
