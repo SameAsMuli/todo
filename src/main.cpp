@@ -6,6 +6,7 @@
 
 #include "action/add.hpp"
 #include "action/archive.hpp"
+#include "action/complete.hpp"
 #include "action/help.hpp"
 #include "action/remove.hpp"
 #include "action/search.hpp"
@@ -57,7 +58,11 @@ int main(int argc, char **argv) {
 
     /* Create an action to add each type of task */
     for (auto const type : todo::task::Type::ALL_TYPES) {
-        actions.push_back(new todo::action::Add{type});
+        if (todo::task::Type{type}.isComplete()) {
+            actions.push_back(new todo::action::Complete{type});
+        } else {
+            actions.push_back(new todo::action::Add{type});
+        }
     }
 
     actions.push_back(new todo::action::Archive{});
