@@ -29,7 +29,7 @@ const std::string ARG_VAL_OUTSTANDING = "outstanding";
  *
  * @param tasks The list of all tasks to search.
  */
-void viewArchiveTodos(const todo::file::TasksData &tasks) {
+void view_archive_todos(const todo::file::TasksData &tasks) {
     /* Get all archived tasks */
     auto archivedTasks = tasks.search([](const auto &task) { return true; });
 
@@ -39,13 +39,13 @@ void viewArchiveTodos(const todo::file::TasksData &tasks) {
     /* Sort the list by descending completion date */
     std::sort(archivedTasks.begin(), archivedTasks.end(),
               [](const auto &lhs, const auto &rhs) {
-                  return lhs.getTimeAdded() > rhs.getTimeAdded();
+                  return lhs.get_time_added() > rhs.get_time_added();
               });
 
     /* Output the tasks in the list */
     date::sys_days date;
     for (auto const task : archivedTasks) {
-        auto completionDate = date::floor<date::days>(task.getTimeAdded());
+        auto completionDate = date::floor<date::days>(task.get_time_added());
         if (date != completionDate) {
             date = completionDate;
             using namespace date;
@@ -63,14 +63,14 @@ void viewArchiveTodos(const todo::file::TasksData &tasks) {
  * @param tasks The list of all tasks to search.
  * @param taskType The task type to match against.
  */
-void viewTaskType(const todo::file::TasksData &tasks,
-                  const todo::task::Type taskType) {
+void view_task_type(const todo::file::TasksData &tasks,
+                    const todo::task::Type taskType) {
     auto matchingTasks = tasks.search(
-        [taskType](const auto &task) { return task.getType() == taskType; });
+        [taskType](const auto &task) { return task.get_type() == taskType; });
 
     std::sort(matchingTasks.begin(), matchingTasks.end(),
               [](const auto &lhs, const auto &rhs) {
-                  return lhs.getTimeAdded() < rhs.getTimeAdded();
+                  return lhs.get_time_added() < rhs.get_time_added();
               });
 
     for (auto const task : matchingTasks) {
@@ -83,9 +83,9 @@ void viewTaskType(const todo::file::TasksData &tasks,
  *
  * @param tasks The list of all tasks to search.
  */
-void viewCompleteTodos(const todo::file::TasksData &tasks) {
-    viewTaskType(tasks, todo::task::Type::done);
-    viewTaskType(tasks, todo::task::Type::rejected);
+void view_complete_todos(const todo::file::TasksData &tasks) {
+    view_task_type(tasks, todo::task::Type::done);
+    view_task_type(tasks, todo::task::Type::rejected);
 }
 
 /**
@@ -94,10 +94,10 @@ void viewCompleteTodos(const todo::file::TasksData &tasks) {
  * @param tasks The list of all tasks to search.
  */
 void viewOutstandingTodos(const todo::file::TasksData &tasks) {
-    viewTaskType(tasks, todo::task::Type::urgent);
-    viewTaskType(tasks, todo::task::Type::high);
-    viewTaskType(tasks, todo::task::Type::normal);
-    viewTaskType(tasks, todo::task::Type::low);
+    view_task_type(tasks, todo::task::Type::urgent);
+    view_task_type(tasks, todo::task::Type::high);
+    view_task_type(tasks, todo::task::Type::normal);
+    view_task_type(tasks, todo::task::Type::low);
 }
 
 void viewTasks(input::Input input, bool global) {
@@ -105,22 +105,22 @@ void viewTasks(input::Input input, bool global) {
     auto tasks = todo::file::TasksData{todo::file::File::tasks, global};
 
     /* If no input is given, show all tasks */
-    if (input.getActionArgCount() == 0) {
+    if (input.get_actionArgCount() == 0) {
         viewOutstandingTodos(tasks);
-        viewCompleteTodos(tasks);
+        view_complete_todos(tasks);
         return;
     }
 
     int i = 0;
-    while (input.hasActionArg(i)) {
-        auto arg = input.getActionArg(i++);
+    while (input.has_action_arg(i)) {
+        auto arg = input.get_actionArg(i++);
 
         if (arg == ARG_VAL_ARCHIVE) {
             auto archivedTasks =
                 todo::file::TasksData{todo::file::File::archived_tasks, global};
-            viewArchiveTodos(archivedTasks);
+            view_archive_todos(archivedTasks);
         } else if (arg == ARG_VAL_COMPLETE) {
-            viewCompleteTodos(tasks);
+            view_complete_todos(tasks);
         } else if (arg == ARG_VAL_OUTSTANDING) {
             viewOutstandingTodos(tasks);
         } else {
@@ -130,7 +130,7 @@ void viewTasks(input::Input input, bool global) {
                 throw todo::error::UnknownArgument(arg, ARG_NAME);
             }
 
-            viewTaskType(tasks, taskType);
+            view_task_type(tasks, taskType);
         }
     }
 }
@@ -141,8 +141,8 @@ namespace todo {
 namespace action {
 
 View::View() : ActionAbstract("view", "View existing TODOs") {
-    this->addValidOption(input::Option::all);
-    this->addValidOption(input::Option::global);
+    this->add_valid_option(input::Option::all);
+    this->add_valid_option(input::Option::global);
 }
 
 void View::run(const input::Input &input) {
@@ -158,7 +158,7 @@ void View::run(const input::Input &input) {
     /* Check which tasks file to consider */
     if (all) {
         viewTasks(input, true);
-        if (file::getTodoDir(false) != file::getTodoDir(true)) {
+        if (file::get_todo_dir(false) != file::get_todo_dir(true)) {
             viewTasks(input, false);
         }
     } else {
@@ -167,10 +167,10 @@ void View::run(const input::Input &input) {
 }
 
 std::string View::usage() const {
-    return "usage: todo " + this->getName() +
+    return "usage: todo " + this->get_name() +
            " [outstanding|complete|archive]\n"
            "            " +
-           this->getName() + " [<" + ARG_NAME + ">]";
+           this->get_name() + " [<" + ARG_NAME + ">]";
 }
 
 std::string View::description() const {
@@ -181,11 +181,11 @@ std::string View::description() const {
             "TODO "
             "directory will be displayed.\n\n"
             "If the "
-         << input::Option(input::Option::global).toString()
+         << input::Option(input::Option::global).to_string()
          << " option is specified, then all outstanding TODOs from the "
             "global "
             "TODO directory will be displayed. If the "
-         << input::Option(input::Option::all).toString()
+         << input::Option(input::Option::all).to_string()
          << " option is specified, then both global and local TODOs will be "
             "displayed.\n\n"
             "If a "
@@ -195,7 +195,7 @@ std::string View::description() const {
          << ARG_NAME << ":\n\n";
 
     for (task::Type const type : task::Type::ALL_TYPES) {
-        desc << util::display::INDENT << type.toString() << std::endl;
+        desc << util::display::INDENT << type.to_string() << std::endl;
     }
 
     desc << "\nIf a " << ARG_NAME << " of '" << ARG_VAL_COMPLETE

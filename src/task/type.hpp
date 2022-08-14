@@ -66,8 +66,8 @@ class Type {
      *
      * @return True if str is a known type, false otherwise.
      */
-    static bool isValid(std::string str) {
-        return valueFromString(str) != UNKNOWN_TYPE;
+    static bool is_valid(std::string str) {
+        return value_from_string(str) != UNKNOWN_TYPE;
     }
 
     /**
@@ -77,7 +77,7 @@ class Type {
      *
      * @return True if c is a known type, false otherwise.
      */
-    static bool isValid(char c) { return valueFromChar(c) != UNKNOWN_TYPE; }
+    static bool is_valid(char c) { return value_from_char(c) != UNKNOWN_TYPE; }
 
     /**
      * @brief Default constructor for a Type.
@@ -100,14 +100,14 @@ class Type {
      *
      * @param str String to convert to a Type.
      */
-    Type(std::string str) : m_value(valueFromString(str)) {}
+    Type(std::string str) : m_value(value_from_string(str)) {}
 
     /**
      * @brief Initialise a Type from its character representation.
      *
      * @param c Character to convert to a Type.
      */
-    Type(char c) : m_value(valueFromChar(c)) {}
+    Type(char c) : m_value(value_from_char(c)) {}
 
     /**
      * @brief Allows usage in switch and comparison statements.
@@ -170,7 +170,7 @@ class Type {
              */
             stream.setstate(std::ios::failbit);
         } else {
-            type.m_value = valueFromChar(character);
+            type.m_value = value_from_char(character);
         }
 
         return stream;
@@ -185,7 +185,7 @@ class Type {
      * @return The given stream.
      */
     friend std::ostream &operator<<(std::ostream &stream, const Type &type) {
-        stream << type.getCharRepresentation();
+        stream << type.get_char_representation();
         return stream;
     }
 
@@ -194,7 +194,7 @@ class Type {
      *
      * @return The string representation of the Type.
      */
-    std::string toString() const {
+    std::string to_string() const {
         if (m_value >= NUM_TYPES) {
             return "";
         }
@@ -207,7 +207,7 @@ class Type {
      *
      * @return The corresponding character, or NULL_CHAR if none is found.
      */
-    constexpr char getCharRepresentation() const {
+    constexpr char get_char_representation() const {
         if (m_value >= NUM_TYPES) {
             return NULL_CHAR;
         }
@@ -222,7 +222,7 @@ class Type {
      *
      * @return The formatted string.
      */
-    std::string formatDescription(const std::string &description) const {
+    std::string format_description(const std::string &description) const {
         if (m_value >= NUM_TYPES) {
             return description;
         }
@@ -230,7 +230,7 @@ class Type {
         std::stringstream ss;
 
         ss << this->m_typeCharColour[m_value] << this->m_typeCharFormat[m_value]
-           << this->getCharRepresentation() << ANSI_RESET
+           << this->get_char_representation() << ANSI_RESET
            << this->m_typeDescColour[m_value] << this->m_typeDescFormat[m_value]
            << " " << description << ANSI_RESET;
 
@@ -242,7 +242,7 @@ class Type {
      *
      * @return True if the Type is for a completed task, false otherwise.
      */
-    constexpr bool isComplete() const {
+    constexpr bool is_complete() const {
         switch (m_value) {
         case done:
         case rejected:
@@ -316,9 +316,9 @@ class Type {
      *
      * @return The matching Value, or UNKNOWN_TYPE if string is unknown.
      */
-    static Value valueFromString(std::string str) {
+    static Value value_from_string(std::string str) {
         for (Type const type : ALL_TYPES) {
-            if (type.toString() == str) {
+            if (type.to_string() == str) {
                 return type.m_value;
             }
         }
@@ -333,9 +333,9 @@ class Type {
      *
      * @return The matching Value, or UNKNOWN_TYPE if character is unknown.
      */
-    static Value valueFromChar(char c) {
+    static Value value_from_char(char c) {
         for (Type const type : ALL_TYPES) {
-            if (type.getCharRepresentation() == c) {
+            if (type.get_char_representation() == c) {
                 return type.m_value;
             }
         }

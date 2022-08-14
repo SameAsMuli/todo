@@ -41,21 +41,21 @@ std::string footer();
  * @return A string containing the overview information.
  */
 std::string
-programOverview(std::vector<std::pair<std::string, std::string>> actions);
+program_overview(std::vector<std::pair<std::string, std::string>> actions);
 
 /**
  * @brief Get the usage information for the program.
  *
  * @return A string containing the usage information.
  */
-std::string programUsage();
+std::string program_usage();
 
 /**
  * @brief Get the version information for the program.
  *
  * @return A string containing the version information.
  */
-std::string programVersion();
+std::string program_version();
 
 /**
  * @brief Format a string so that when printed it does not exceed a set width.

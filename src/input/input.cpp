@@ -9,7 +9,7 @@ const std::vector<std::string>::size_type ACTION_INDEX = 1;
 
 const std::vector<std::string>::size_type PARAM_START_INDEX = 2;
 
-bool hasPrefix(const std::string &str, const std::string &prefix) {
+bool has_prefix(const std::string &str, const std::string &prefix) {
     return prefix.size() < str.size() &&
            std::mismatch(prefix.begin(), prefix.end(), str.begin()).first ==
                prefix.end();
@@ -40,7 +40,7 @@ Input::Input(int argc, char const *const *argv) {
                 continue;
             }
 
-            if (hasPrefix(arg, Option::LONG_OPTION_PREFIX)) {
+            if (has_prefix(arg, Option::LONG_OPTION_PREFIX)) {
                 /* Remove the prefix and convert to an option */
                 auto option =
                     Option(arg.erase(0, Option::LONG_OPTION_PREFIX.size()));
@@ -51,11 +51,11 @@ Input::Input(int argc, char const *const *argv) {
 
                 std::vector<std::string> optionArgs;
 
-                if (option.requiresArg()) {
+                if (option.requires_arg()) {
                     if (i >= argc) {
                         throw std::runtime_error(
                             "no argument given to option '" +
-                            option.toString() + "'");
+                            option.to_string() + "'");
                     }
                     optionArgs.push_back(argv[++i]);
                 }
@@ -63,7 +63,7 @@ Input::Input(int argc, char const *const *argv) {
                 this->m_options.insert_or_assign(option, optionArgs);
                 continue;
 
-            } else if (hasPrefix(arg, Option::SHORT_OPTION_PREFIX)) {
+            } else if (has_prefix(arg, Option::SHORT_OPTION_PREFIX)) {
                 /* Remove the prefix and convert to an option */
                 arg.erase(0, Option::SHORT_OPTION_PREFIX.size());
 
@@ -77,11 +77,11 @@ Input::Input(int argc, char const *const *argv) {
 
                     std::vector<std::string> optionArgs;
 
-                    if (option.requiresArg()) {
+                    if (option.requires_arg()) {
                         if (j < arg.size() - 1 || i >= argc) {
                             throw std::runtime_error(
                                 "no argument given to option '" +
-                                option.toString() + "'");
+                                option.to_string() + "'");
                         }
                         optionArgs.push_back(argv[++i]);
                     }
@@ -107,22 +107,23 @@ Input::Input(int argc, char const *const *argv) {
     }
 }
 
-unsigned int Input::getActionArgCount() const {
+unsigned int Input::get_actionArgCount() const {
     return this->m_actionArgs.size();
 }
 
-std::string Input::getActionArg(int index) const {
+std::string Input::get_actionArg(int index) const {
     if (index < 0) {
-        throw std::runtime_error{"invalid index passed to Input::getActionArg"};
+        throw std::runtime_error{
+            "invalid index passed to Input::get_actionArg"};
     }
 
     return this->m_actionArgs.at(index);
 }
 
-std::string Input::getActionArgString(int index) const {
+std::string Input::get_actionArgString(int index) const {
     if (index < 0) {
         throw std::runtime_error{
-            "invalid index passed to Input::getActionArgString"};
+            "invalid index passed to Input::get_actionArgString"};
     }
 
     std::string str;
@@ -135,7 +136,7 @@ std::string Input::getActionArgString(int index) const {
     return str;
 }
 
-bool Input::hasActionArg(int index) const {
+bool Input::has_action_arg(int index) const {
     if (index < 0) {
         return false;
     }
@@ -143,7 +144,7 @@ bool Input::hasActionArg(int index) const {
     return this->m_actionArgs.size() > index;
 }
 
-bool Input::hasActionArg(const std::string &arg) const {
+bool Input::has_action_arg(const std::string &arg) const {
     if (arg.empty()) {
         return false;
     }
@@ -152,7 +153,7 @@ bool Input::hasActionArg(const std::string &arg) const {
                      arg) != this->m_actionArgs.end();
 }
 
-bool Input::hasActionArg(const std::string &arg, int index) const {
+bool Input::has_action_arg(const std::string &arg, int index) const {
     if (arg.empty()) {
         return false;
     }
@@ -161,14 +162,14 @@ bool Input::hasActionArg(const std::string &arg, int index) const {
         return false;
     }
 
-    return this->getActionArg(index) == arg;
+    return this->get_actionArg(index) == arg;
 }
 
 bool Input::hasOption(const Option &option) const {
     return this->m_options.count(option);
 }
 
-std::unordered_set<Option> Input::getOptions() const {
+std::unordered_set<Option> Input::get_options() const {
     std::unordered_set<Option> options;
     for (auto const &o : m_options) {
         options.insert(o.first);
@@ -176,7 +177,7 @@ std::unordered_set<Option> Input::getOptions() const {
     return options;
 }
 
-std::vector<std::string> Input::getOptionArgs(const Option &option) const {
+std::vector<std::string> Input::get_option_args(const Option &option) const {
     auto args = this->m_options.find(option);
     if (args == this->m_options.end()) {
         return {};

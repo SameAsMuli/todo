@@ -10,14 +10,14 @@
 
 namespace {
 
-bool stringCompare(std::string s1, std::string s2) { return s1 < s2; }
+bool string_compare(std::string s1, std::string s2) { return s1 < s2; }
 
-bool optionCompare(input::Option o1, input::Option o2) {
-    return stringCompare(o1.toString(), o2.toString());
+bool option_compare(input::Option o1, input::Option o2) {
+    return string_compare(o1.to_string(), o2.to_string());
 }
 
-void printAliases(const todo::action::ActionAbstract *action) {
-    auto unsortedAliases = action->getAliases();
+void print_aliases(const todo::action::ActionAbstract *action) {
+    auto unsortedAliases = action->get_aliases();
     if (unsortedAliases.size() > 0) {
         std::cout << std::endl;
         std::cout << "Aliases:" << std::endl;
@@ -26,7 +26,7 @@ void printAliases(const todo::action::ActionAbstract *action) {
         std::vector<std::string> aliases;
         aliases.insert(aliases.end(), unsortedAliases.begin(),
                        unsortedAliases.end());
-        std::sort(aliases.begin(), aliases.end(), stringCompare);
+        std::sort(aliases.begin(), aliases.end(), string_compare);
 
         std::string buffer;
         for (auto const &alias : aliases) {
@@ -42,8 +42,8 @@ void printAliases(const todo::action::ActionAbstract *action) {
     }
 }
 
-void printValidOptions(const todo::action::ActionAbstract *action) {
-    auto unsortedOptions = action->getValidOptions();
+void print_valid_options(const todo::action::ActionAbstract *action) {
+    auto unsortedOptions = action->get_valid_options();
     if (unsortedOptions.size() > 0) {
         std::cout << std::endl;
         std::cout << "Valid options:" << std::endl;
@@ -53,7 +53,7 @@ void printValidOptions(const todo::action::ActionAbstract *action) {
         std::string::size_type minSeparatorLen = 1;
 
         for (auto const &option : unsortedOptions) {
-            auto fullString = option.getFullString();
+            auto fullString = option.get_full_string();
             if (maxOptionStringLen < fullString.size()) {
                 maxOptionStringLen = fullString.size();
             }
@@ -62,16 +62,16 @@ void printValidOptions(const todo::action::ActionAbstract *action) {
         std::vector<input::Option> options;
         options.insert(options.end(), unsortedOptions.begin(),
                        unsortedOptions.end());
-        std::sort(options.begin(), options.end(), optionCompare);
+        std::sort(options.begin(), options.end(), option_compare);
 
         for (auto const &option : options) {
-            auto optionString = option.getFullString();
+            auto optionString = option.get_full_string();
             std::cout << util::display::INDENT + optionString + " " +
                              std::string(
                                  minSeparatorLen +
                                      (maxOptionStringLen - optionString.size()),
                                  ' ') +
-                             " " + option.getDescription()
+                             " " + option.get_description()
                       << std::endl;
         }
     }
@@ -86,15 +86,15 @@ ActionAbstract::ActionAbstract(const std::string &name,
                                const std::string &helpText,
                                std::optional<unsigned int> argLimit)
     : m_name(name), m_helpText(helpText), m_argLimit(argLimit) {
-    this->addValidOption(input::Option::help);
+    this->add_valid_option(input::Option::help);
 }
 
-void ActionAbstract::addAlias(const std::string &alias) {
+void ActionAbstract::add_alias(const std::string &alias) {
     m_aliases.insert(alias);
 }
 
-bool ActionAbstract::isKnownAs(const std::string &name) const {
-    if (this->getName() == name) {
+bool ActionAbstract::is_known_as(const std::string &name) const {
+    if (this->get_name() == name) {
         return true;
     }
 
@@ -106,46 +106,46 @@ bool ActionAbstract::isKnownAs(const std::string &name) const {
     return false;
 }
 
-void ActionAbstract::addValidOption(const input::Option &option) {
+void ActionAbstract::add_valid_option(const input::Option &option) {
     m_validOptions.insert(option);
 }
 
-bool ActionAbstract::validOption(const input::Option &option) const {
+bool ActionAbstract::valid_option(const input::Option &option) const {
     return std::find(this->m_validOptions.begin(), this->m_validOptions.end(),
                      option) != this->m_validOptions.end();
 }
 
 void ActionAbstract::perform(const input::Input &input) {
-    if (this->getArgLimit().has_value()) {
-        if (input.getActionArgCount() > this->getArgLimit()) {
+    if (this->get_arg_limit().has_value()) {
+        if (input.get_actionArgCount() > this->get_arg_limit()) {
             throw std::runtime_error("too many arguments for action: '" +
-                                     this->getName() + "'");
+                                     this->get_name() + "'");
         }
     }
 
-    for (input::Option option : input.getOptions()) {
-        if (!this->validOption(option)) {
-            throw std::runtime_error("option '" + option.toString() +
+    for (input::Option option : input.get_options()) {
+        if (!this->valid_option(option)) {
+            throw std::runtime_error("option '" + option.to_string() +
                                      "' not handled by action: '" +
-                                     this->getName() + "'");
+                                     this->get_name() + "'");
         }
     }
 
     if (input.hasOption(input::Option::help)) {
-        this->printDetails();
+        this->print_details();
     } else {
         this->run(input);
     }
 }
 
-void ActionAbstract::printDetails() {
+void ActionAbstract::print_details() {
     std::cout << util::display::header() << std::endl;
     std::cout << std::endl;
 
-    auto buffer = this->getName();
+    auto buffer = this->get_name();
 
     std::cout << "todo " << util::string::toupper(buffer) << " - "
-              << this->getHelpText() << std::endl;
+              << this->get_help_text() << std::endl;
 
     buffer = this->usage();
     if (!buffer.empty()) {
@@ -153,9 +153,9 @@ void ActionAbstract::printDetails() {
         std::cout << buffer << std::endl;
     }
 
-    printAliases(this);
+    print_aliases(this);
 
-    printValidOptions(this);
+    print_valid_options(this);
 
     buffer = this->description();
     if (!buffer.empty()) {

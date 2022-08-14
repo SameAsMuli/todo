@@ -16,28 +16,28 @@ DataAbstract *DataAbstract::init(File fileType, bool global) {
     }
 }
 
-std::filesystem::path DataAbstract::getFile() const {
-    return getTodoDir(m_global) / "data" / m_fileType.fileName();
+std::filesystem::path DataAbstract::get_file() const {
+    return get_todo_dir(m_global) / "data" / m_fileType.file_name();
 }
 
 void DataAbstract::read() {
     /* Ensure the file and directory exist before reading */
-    initialiseFile();
+    initialise_file();
     read_derived();
 }
 
 void DataAbstract::write() const {
     /* Ensure the file and directory exist before writing */
-    initialiseFile();
+    initialise_file();
     write_derived();
 }
 
-void DataAbstract::initialiseFile() const {
+void DataAbstract::initialise_file() const {
     /* Create the file and directory if it doesn't already exist */
-    util::fs::initFile(getFile());
+    util::fs::init_file(get_file());
 
     /* Allow derived classes to perform any extra initialisation they need */
-    initialiseFile_derived();
+    initialise_file_derived();
 }
 
 } // namespace file

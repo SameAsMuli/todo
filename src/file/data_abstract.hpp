@@ -32,7 +32,7 @@ class DataAbstract {
      *
      * @return A filesystem path to the data file.
      */
-    std::filesystem::path getFile() const;
+    std::filesystem::path get_file() const;
 
     /**
      * @brief Read the contents of the data file into this class.
@@ -56,7 +56,7 @@ class DataAbstract {
     /**
      * @brief Create file and parent directories if required.
      */
-    void initialiseFile() const;
+    void initialise_file() const;
 
   private:
     File m_fileType;
@@ -76,7 +76,7 @@ class DataAbstract {
     /**
      * @brief Allow derived classes to perform specific initialisation actions.
      */
-    virtual void initialiseFile_derived() const {};
+    virtual void initialise_file_derived() const {};
 };
 
 } // namespace file

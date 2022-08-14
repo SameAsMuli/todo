@@ -35,7 +35,7 @@ class ActionAbstract {
      *
      * @return A string with the name of the action.
      */
-    std::string getName() const { return m_name; }
+    std::string get_name() const { return m_name; }
 
     /**
      * @brief Get a short description of the action.
@@ -44,7 +44,7 @@ class ActionAbstract {
      *
      * @return A string with the short help text of the action.
      */
-    std::string getHelpText() const { return m_helpText; }
+    std::string get_help_text() const { return m_helpText; }
 
     /**
      * @brief Get the maximum number of arguments allowed for the action.
@@ -54,24 +54,24 @@ class ActionAbstract {
      *
      * @return An optional number of arguments.
      */
-    std::optional<unsigned int> getArgLimit() const { return m_argLimit; }
+    std::optional<unsigned int> get_arg_limit() const { return m_argLimit; }
 
     /**
      * @brief Get any additional aliases that can be used to access this action.
      *
      * @return A set of string aliases for this action.
      */
-    std::unordered_set<std::string> getAliases() const { return m_aliases; }
+    std::unordered_set<std::string> get_aliases() const { return m_aliases; }
 
     /**
      * @brief Add another alias of this action.
      *
      * Aliases are other names that can be used to reference an action, besides
-     * the default name accessed via getName().
+     * the default name accessed via get_name().
      *
      * @param alias A string containing the alias to add.
      */
-    void addAlias(const std::string &alias);
+    void add_alias(const std::string &alias);
 
     /**
      * @brief Check if the action is known by the given name.
@@ -80,14 +80,14 @@ class ActionAbstract {
      *
      * @return True if the action name or any of its aliases match the input.
      */
-    bool isKnownAs(const std::string &name) const;
+    bool is_known_as(const std::string &name) const;
 
     /**
      * @brief Get any additional aliases that can be used to access this action.
      *
      * @return A set of options that can be used with this action.
      */
-    std::unordered_set<input::Option> getValidOptions() const {
+    std::unordered_set<input::Option> get_valid_options() const {
         return m_validOptions;
     }
 
@@ -96,7 +96,7 @@ class ActionAbstract {
      *
      * @param option The option to mark as valid.
      */
-    void addValidOption(const input::Option &option);
+    void add_valid_option(const input::Option &option);
 
     /**
      * @brief Check if the action can handle the given option.
@@ -105,12 +105,12 @@ class ActionAbstract {
      *
      * @return True if the option is valid for the action, false otherwise.
      */
-    bool validOption(const input::Option &option) const;
+    bool valid_option(const input::Option &option) const;
 
     /**
      * @brief Print general information about the action.
      */
-    void printDetails();
+    void print_details();
 
     /**
      * @brief Get a detailed description of the action.

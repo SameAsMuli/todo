@@ -13,10 +13,10 @@ std::string Version::description() const {
     return "Print the version information of the program.";
 }
 
-std::string Version::usage() const { return "usage: todo " + this->getName(); }
+std::string Version::usage() const { return "usage: todo " + this->get_name(); }
 
 void Version::run(const input::Input &input) {
-    std::cout << util::display::programVersion() << std::endl;
+    std::cout << util::display::program_version() << std::endl;
 }
 
 } // namespace action

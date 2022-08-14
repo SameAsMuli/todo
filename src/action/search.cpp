@@ -11,21 +11,21 @@
 namespace {
 
 std::function<bool(const todo::task::Task &)>
-getSearchFunc(std::string searchString, bool exact) {
+get_search_func(std::string searchString, bool exact) {
     if (exact) {
         return [searchString](const auto &task) {
-            return task.getDescription() == searchString;
+            return task.get_description() == searchString;
         };
     }
     return [searchString](const auto &task) {
-        return task.getDescription().find(searchString) != std::string::npos;
+        return task.get_description().find(searchString) != std::string::npos;
     };
 }
 
-std::vector<todo::task::Task> searchTasks(const todo::file::TasksData &tasks,
-                                          const std::string &searchString,
-                                          bool exact) {
-    return tasks.search(getSearchFunc(searchString, exact));
+std::vector<todo::task::Task> search_tasks(const todo::file::TasksData &tasks,
+                                           const std::string &searchString,
+                                           bool exact) {
+    return tasks.search(get_search_func(searchString, exact));
 }
 
 } // namespace
@@ -35,10 +35,10 @@ namespace action {
 
 Search::Search()
     : ActionAbstract("search", "Search through outstanding TODOs") {
-    this->addValidOption(input::Option::all);
-    this->addValidOption(input::Option::exact);
-    this->addValidOption(input::Option::global);
-    this->addAlias("grep");
+    this->add_valid_option(input::Option::all);
+    this->add_valid_option(input::Option::exact);
+    this->add_valid_option(input::Option::global);
+    this->add_alias("grep");
 }
 
 std::string Search::description() const {
@@ -47,17 +47,17 @@ std::string Search::description() const {
            "the action will search the closest data file and match any TODO "
            "which is a superset of the given input.\n\n"
            "Use the " +
-           input::Option(input::Option::exact).toString() +
+           input::Option(input::Option::exact).to_string() +
            " option to only match TODOs that have the same description as the "
            "input, and not match against superset TODOs. Use the " +
-           input::Option(input::Option::global).toString() +
+           input::Option(input::Option::global).to_string() +
            " option to search the global TODO file. Use the " +
-           input::Option(input::Option::all).toString() +
+           input::Option(input::Option::all).to_string() +
            " to search both the global and local TODO files.";
 }
 
 std::string Search::usage() const {
-    return "usage: todo " + this->getName() + " <task description>";
+    return "usage: todo " + this->get_name() + " <task description>";
 }
 
 void Search::run(const input::Input &input) {
@@ -72,31 +72,31 @@ void Search::run(const input::Input &input) {
     }
 
     std::vector<task::Task> searchResults;
-    std::string searchString = input.getActionArgString();
+    std::string searchString = input.get_actionArgString();
 
     /* Search for matching tasks */
     if (all) {
-        searchResults = searchTasks(file::TasksData{file::File::tasks, true},
-                                    searchString, exact);
+        searchResults = search_tasks(file::TasksData{file::File::tasks, true},
+                                     searchString, exact);
 
-        if (file::getTodoDir(false) != file::getTodoDir(true)) {
-            auto matchingTasks = searchTasks(
+        if (file::get_todo_dir(false) != file::get_todo_dir(true)) {
+            auto matchingTasks = search_tasks(
                 file::TasksData{file::File::tasks, false}, searchString, exact);
             searchResults.insert(searchResults.end(), matchingTasks.begin(),
                                  matchingTasks.end());
         }
     } else {
-        searchResults = searchTasks(file::TasksData{file::File::tasks, global},
-                                    searchString, exact);
+        searchResults = search_tasks(file::TasksData{file::File::tasks, global},
+                                     searchString, exact);
     }
 
     /* Sort the list by descending priority and time added */
     std::sort(searchResults.begin(), searchResults.end(),
               [](const auto &lhs, const auto &rhs) {
-                  if (lhs.getType() == rhs.getType()) {
-                      return lhs.getTimeAdded() < rhs.getTimeAdded();
+                  if (lhs.get_type() == rhs.get_type()) {
+                      return lhs.get_time_added() < rhs.get_time_added();
                   }
-                  return lhs.getType() < rhs.getType();
+                  return lhs.get_type() < rhs.get_type();
               });
 
     for (auto const task : searchResults) {

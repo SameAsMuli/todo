@@ -11,9 +11,9 @@ namespace {
  *
  * @return True if the given directory contains a local todo directory.
  */
-bool containsLocalTodoDir(std::filesystem::path path) {
+bool contains_local_todo_dir(std::filesystem::path path) {
     return std::filesystem::is_directory(path /
-                                         todo::file::getLocalTodoDirName());
+                                         todo::file::get_local_todo_dir_name());
 }
 
 /**
@@ -21,8 +21,8 @@ bool containsLocalTodoDir(std::filesystem::path path) {
  *
  * @return A filesystem path to the global todo directory.
  */
-std::filesystem::path globalTodoDir() {
-    return util::xdg::configHome() / "todo";
+std::filesystem::path global_todo_dir() {
+    return util::xdg::config_home() / "todo";
 }
 
 } // namespace
@@ -30,23 +30,23 @@ std::filesystem::path globalTodoDir() {
 namespace todo {
 namespace file {
 
-std::filesystem::path getLocalTodoDirName() {
+std::filesystem::path get_local_todo_dir_name() {
     return std::filesystem::path{".todo"};
 }
 
-std::filesystem::path getTodoDir(bool global) {
+std::filesystem::path get_todo_dir(bool global) {
     if (!global) {
-        auto dir = util::fs::CurrentDir();
+        auto dir = util::fs::current_dir();
         if (dir.empty()) {
-            return globalTodoDir();
+            return global_todo_dir();
         }
 
         do {
-            if (containsLocalTodoDir(dir)) {
-                return dir / getLocalTodoDirName();
+            if (contains_local_todo_dir(dir)) {
+                return dir / get_local_todo_dir_name();
             }
 
-            if (dir == util::fs::HomeDir()) {
+            if (dir == util::fs::home_dir()) {
                 break;
             }
 
@@ -54,7 +54,7 @@ std::filesystem::path getTodoDir(bool global) {
         } while (dir != dir.parent_path());
     }
 
-    return globalTodoDir();
+    return global_todo_dir();
 }
 
 } // namespace file

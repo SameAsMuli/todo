@@ -20,8 +20,8 @@ static const std::string KEY_TASKS = "tasks";
 static const std::string KEY_TIME_ADDED = "timeAdded";
 static const std::string KEY_TYPE = "type";
 
-std::string getStringFromJson(const std::string &filePath, const JSON &json,
-                              const std::string &key) {
+std::string get_string_from_json(const std::string &filePath, const JSON &json,
+                                 const std::string &key) {
     if (!json.contains(key)) {
         throw todo::error::InvalidConfig(filePath,
                                          "no '" + key + "' key found");
@@ -38,8 +38,8 @@ std::string getStringFromJson(const std::string &filePath, const JSON &json,
     return value.get<std::string>();
 }
 
-time_t getTimeTFromJson(const std::string &filePath, const JSON &json,
-                        const std::string &key) {
+time_t get_time_t_from_json(const std::string &filePath, const JSON &json,
+                            const std::string &key) {
     if (!json.contains(key)) {
         throw todo::error::InvalidConfig(filePath,
                                          "no '" + key + "' key found");
@@ -68,16 +68,16 @@ TasksData::TasksData(File fileType, bool global)
     case File::tasks:
         break;
     default:
-        throw std::logic_error{"file type '" + fileType.fileName() +
+        throw std::logic_error{"file type '" + fileType.file_name() +
                                "' is not a tasks file"};
     }
     read();
 }
 
-void TasksData::addTask(const task::Task &task) { m_tasks.push_back(task); }
+void TasksData::add_task(const task::Task &task) { m_tasks.push_back(task); }
 
 unsigned int
-TasksData::removeTasks(std::function<bool(const task::Task &)> matchFunc) {
+TasksData::remove_tasks(std::function<bool(const task::Task &)> matchFunc) {
     unsigned int matches = 0;
 
     auto it = m_tasks.begin();
@@ -106,14 +106,14 @@ TasksData::search(std::function<bool(const task::Task &)> searchFunc) const {
     return matchingTasks;
 }
 
-void TasksData::forEach(std::function<void(task::Task &)> function) {
+void TasksData::for_each(std::function<void(task::Task &)> function) {
     for (auto &task : m_tasks) {
         function(task);
     }
 }
 
 void TasksData::read_derived() {
-    auto filePathStr = getFile().string();
+    auto filePathStr = get_file().string();
 
     std::ifstream fileStream{filePathStr};
     JSON j_taskFile;
@@ -139,20 +139,20 @@ void TasksData::read_derived() {
     for (auto const &j_task : j_tasks) {
         task::Task task;
 
-        task.setType(
-            task::Type{getStringFromJson(filePathStr, j_task, KEY_TYPE)});
-        task.setPreviousType(
-            task::Type{getStringFromJson(filePathStr, j_task, KEY_PREV_TYPE)});
-        task.setDescription(
-            getStringFromJson(filePathStr, j_task, KEY_DESCRIPTION));
+        task.set_type(
+            task::Type{get_string_from_json(filePathStr, j_task, KEY_TYPE)});
+        task.set_previous_type(task::Type{
+            get_string_from_json(filePathStr, j_task, KEY_PREV_TYPE)});
+        task.set_description(
+            get_string_from_json(filePathStr, j_task, KEY_DESCRIPTION));
 
         auto t = std::chrono::system_clock::from_time_t(
-            getTimeTFromJson(filePathStr, j_task, KEY_TIME_ADDED));
-        task.setTimeAdded(t);
+            get_time_t_from_json(filePathStr, j_task, KEY_TIME_ADDED));
+        task.set_time_added(t);
 
         t = std::chrono::system_clock::from_time_t(
-            getTimeTFromJson(filePathStr, j_task, KEY_PREV_TIME_ADDED));
-        task.setPreviousTimeAdded(t);
+            get_time_t_from_json(filePathStr, j_task, KEY_PREV_TIME_ADDED));
+        task.set_previous_time_added(t);
 
         m_tasks.push_back(task);
     }
@@ -167,13 +167,13 @@ void TasksData::write_derived() const {
     for (auto const &task : m_tasks) {
         JSON j_task;
 
-        j_task[KEY_TYPE] = task.getType().toString();
-        j_task[KEY_PREV_TYPE] = task.getPreviousType().toString();
-        j_task[KEY_DESCRIPTION] = task.getDescription();
+        j_task[KEY_TYPE] = task.get_type().to_string();
+        j_task[KEY_PREV_TYPE] = task.get_previous_type().to_string();
+        j_task[KEY_DESCRIPTION] = task.get_description();
         j_task[KEY_TIME_ADDED] =
-            std::chrono::system_clock::to_time_t(task.getTimeAdded());
-        j_task[KEY_PREV_TIME_ADDED] =
-            std::chrono::system_clock::to_time_t(task.getPreviousTimeAdded());
+            std::chrono::system_clock::to_time_t(task.get_time_added());
+        j_task[KEY_PREV_TIME_ADDED] = std::chrono::system_clock::to_time_t(
+            task.get_previous_time_added());
 
         j_tasks.push_back(j_task);
     }
@@ -182,18 +182,18 @@ void TasksData::write_derived() const {
     j_taskFile[KEY_TASKS] = j_tasks;
 
     /* Write the json structure to the tasks file */
-    std::ofstream ofs{getFile().string()};
+    std::ofstream ofs{get_file().string()};
     if (ofs.is_open()) {
         ofs << j_taskFile;
     } else {
-        throw std::runtime_error{"Unable to open file '" + getFile().string() +
+        throw std::runtime_error{"Unable to open file '" + get_file().string() +
                                  "'"};
     }
 }
 
-void TasksData::initialiseFile_derived() const {
+void TasksData::initialise_file_derived() const {
     /* If the file is non-empty, no more initialisation is needed */
-    if (std::filesystem::file_size(getFile()) != 0) {
+    if (std::filesystem::file_size(get_file()) != 0) {
         return;
     }
 
@@ -202,11 +202,11 @@ void TasksData::initialiseFile_derived() const {
     j_taskFile[KEY_TASKS] = JSON::array({});
 
     /* Write the json structure to the tasks file */
-    std::ofstream ofs{getFile().string()};
+    std::ofstream ofs{get_file().string()};
     if (ofs.is_open()) {
         ofs << j_taskFile;
     } else {
-        throw std::runtime_error{"Unable to open file '" + getFile().string() +
+        throw std::runtime_error{"Unable to open file '" + get_file().string() +
                                  "'"};
     }
 }

@@ -9,8 +9,8 @@ namespace action {
 
 Archive::Archive()
     : ActionAbstract("archive", "Archive all complete TODOs", 1) {
-    this->addValidOption(input::Option::all);
-    this->addValidOption(input::Option::global);
+    this->add_valid_option(input::Option::all);
+    this->add_valid_option(input::Option::global);
 }
 
 std::string Archive::description() const {
@@ -23,7 +23,7 @@ std::string Archive::description() const {
 }
 
 std::string Archive::usage() const {
-    return "usage: todo " + this->getName() + " [<number of minutes>]";
+    return "usage: todo " + this->get_name() + " [<number of minutes>]";
 }
 
 void Archive::run(const input::Input &input) {
@@ -39,17 +39,17 @@ void Archive::run(const input::Input &input) {
     /* Get the number of minutes in the past to archive from */
     int mins = 0;
 
-    if (input.hasActionArg(0)) {
-        mins = util::string::toint(input.getActionArg(0));
+    if (input.has_action_arg(0)) {
+        mins = util::string::toint(input.get_actionArg(0));
     }
 
     if (all) {
-        file::archiveTasks(mins, true);
-        if (file::getTodoDir(false) != file::getTodoDir(true)) {
-            file::archiveTasks(mins, false);
+        file::archive_tasks(mins, true);
+        if (file::get_todo_dir(false) != file::get_todo_dir(true)) {
+            file::archive_tasks(mins, false);
         }
     } else {
-        file::archiveTasks(mins, global);
+        file::archive_tasks(mins, global);
     }
 }
 

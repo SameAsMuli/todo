@@ -16,7 +16,7 @@ namespace file {
  * @param numMins Maximum number of minutes until a complete task gets archived.
  * @param global Whether to consider local or global only tasks.
  */
-void archiveTasks(unsigned int maxMins, bool global = false);
+void archive_tasks(unsigned int maxMins, bool global = false);
 
 } // namespace file
 } // namespace todo

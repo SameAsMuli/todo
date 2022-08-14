@@ -15,7 +15,7 @@ namespace xdg {
  *
  * @return A filesystem path to the directory.
  */
-std::filesystem::path configHome();
+std::filesystem::path config_home();
 
 /**
  * @brief Find the configured XDG_DATA_HOME directory.
@@ -25,9 +25,9 @@ std::filesystem::path configHome();
  *
  * @return A filesystem path to the directory.
  */
-std::filesystem::path dataHome();
+std::filesystem::path data_home();
 
-/* return getEnvDirs("XDG_DATA_DIRS", "/usr/local/share/:/usr/share/"); */
+/* return get_env_dirs("XDG_DATA_DIRS", "/usr/local/share/:/usr/share/"); */
 
 /**
  * @brief Find the configured list of XDG_CONFIG_DIRS.
@@ -37,7 +37,7 @@ std::filesystem::path dataHome();
  *
  * @return A vector of filesystem paths to the directories.
  */
-std::vector<std::filesystem::path> configDirs();
+std::vector<std::filesystem::path> config_dirs();
 
 /**
  * @brief Find the configured list of XDG_DATA_DIRS.
@@ -48,7 +48,7 @@ std::vector<std::filesystem::path> configDirs();
  *
  * @return A vector of filesystem paths to the directories.
  */
-std::vector<std::filesystem::path> dataDirs();
+std::vector<std::filesystem::path> data_dirs();
 
 /**
  * @brief Find the configured XDG_CACHE_HOME directory.
@@ -58,7 +58,7 @@ std::vector<std::filesystem::path> dataDirs();
  *
  * @return A filesystem path to the directory.
  */
-std::filesystem::path cacheHome();
+std::filesystem::path cache_home();
 
 /**
  * @brief Find the configured XDG_RUNTIME_DIR directory.
@@ -69,7 +69,7 @@ std::filesystem::path cacheHome();
  *
  * @return A filesystem path to the directory.
  */
-std::filesystem::path runtimeDir();
+std::filesystem::path runtime_dir();
 
 } // namespace xdg
 } // namespace util

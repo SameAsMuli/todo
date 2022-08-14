@@ -34,7 +34,7 @@ class TasksData : public DataAbstract {
      *
      * @param task The task to add to the file.
      */
-    void addTask(const task::Task &task);
+    void add_task(const task::Task &task);
 
     /**
      * @brief Remove a task if it meets a certain criteria.
@@ -43,7 +43,8 @@ class TasksData : public DataAbstract {
      *
      * @return The number of tasks that were removed.
      */
-    unsigned int removeTasks(std::function<bool(const task::Task &)> matchFunc);
+    unsigned int
+    remove_tasks(std::function<bool(const task::Task &)> matchFunc);
 
     /**
      * @brief Search all stored tasks and return any matches.
@@ -60,7 +61,7 @@ class TasksData : public DataAbstract {
      *
      * @param function A callback describing the action to perform on each task.
      */
-    void forEach(std::function<void(task::Task &)> function);
+    void for_each(std::function<void(task::Task &)> function);
 
   private:
     std::vector<task::Task> m_tasks;
@@ -78,7 +79,7 @@ class TasksData : public DataAbstract {
     /**
      * @brief Put an empty array in the tasks file if it's currently empty.
      */
-    void initialiseFile_derived() const override;
+    void initialise_file_derived() const override;
 };
 
 } // namespace file

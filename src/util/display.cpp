@@ -10,12 +10,12 @@
 
 namespace {
 
-bool actionCompare(std::pair<std::string, std::string> a1,
-                   std::pair<std::string, std::string> a2) {
+bool action_compare(std::pair<std::string, std::string> a1,
+                    std::pair<std::string, std::string> a2) {
     return a1.first < a2.first;
 }
 
-unsigned int getTerminalWidth() {
+unsigned int get_terminal_width() {
     struct winsize w;
     ioctl(fileno(stdin), TIOCGWINSZ, &w);
     return w.ws_col;
@@ -31,7 +31,7 @@ std::string header() { return "TODO Management Utility - v" + todo::version(); }
 std::string footer() { return "Written by Sam Amis"; }
 
 std::string
-programOverview(std::vector<std::pair<std::string, std::string>> actions) {
+program_overview(std::vector<std::pair<std::string, std::string>> actions) {
     std::string::size_type maxNameLen = 0;
     std::string::size_type minSeparatorLen = 3;
 
@@ -46,7 +46,7 @@ programOverview(std::vector<std::pair<std::string, std::string>> actions) {
     ss << header() << std::endl;
 
     ss << std::endl;
-    ss << programUsage() << std::endl;
+    ss << program_usage() << std::endl;
 
     ss << std::endl;
     ss << wrap("By default each action will look in the current directory, and "
@@ -55,7 +55,7 @@ programOverview(std::vector<std::pair<std::string, std::string>> actions) {
                "If the home directory is reached and no TODO information is "
                "found, then the action will use the global todo directory. On "
                "this system this is configured as:\n\n'" +
-                   std::string(todo::file::getTodoDir(true)) + "'",
+                   std::string(todo::file::get_todo_dir(true)) + "'",
                0, WIDTH)
        << std::endl;
 
@@ -69,7 +69,7 @@ programOverview(std::vector<std::pair<std::string, std::string>> actions) {
     ss << "List of actions:" << std::endl;
 
     /* Make sure the actions are in alphabetical order */
-    std::sort(actions.begin(), actions.end(), actionCompare);
+    std::sort(actions.begin(), actions.end(), action_compare);
 
     for (auto const &action : actions) {
         ss << INDENT + action.first + " " +
@@ -86,16 +86,16 @@ programOverview(std::vector<std::pair<std::string, std::string>> actions) {
     return ss.str();
 }
 
-std::string programUsage() {
+std::string program_usage() {
     return "usage: todo [<action>] [<options>] [<args>]\n"
            "            [--help] [<action>]";
 }
 
-std::string programVersion() { return "todo version " + todo::version(); }
+std::string program_version() { return "todo version " + todo::version(); }
 
 std::string wrap(const std::string &input, std::optional<unsigned int> maxWidth,
                  unsigned int indentWidth) {
-    auto termWidth = getTerminalWidth();
+    auto termWidth = get_terminal_width();
     auto width = maxWidth.has_value() ? std::min(termWidth, maxWidth.value())
                                       : termWidth;
     return util::string::wrap(input, width, indentWidth);

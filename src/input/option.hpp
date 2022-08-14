@@ -33,7 +33,7 @@ namespace input {
  *   --longname
  *
  * A type can also be optionally given a single character reference, which is
- * defined in getCharRepresentation and can be passed to the program in the
+ * defined in get_char_representation and can be passed to the program in the
  * format:
  *
  *   -l
@@ -80,8 +80,8 @@ class Option {
      *
      * @return True if s is a known option, false otherwise.
      */
-    static bool isValid(std::string s) {
-        return valueFromString(s) != UNKNOWN_OPTION;
+    static bool is_valid(std::string s) {
+        return value_from_string(s) != UNKNOWN_OPTION;
     }
 
     /**
@@ -101,7 +101,7 @@ class Option {
      * @param s String to convert to an Option.
      */
     Option(const std::string &s)
-        : m_value(valueFromString(s)), m_shortOption(s.size() == 1) {}
+        : m_value(value_from_string(s)), m_shortOption(s.size() == 1) {}
 
     /**
      * @brief Initialise an Option from its character representation.
@@ -160,7 +160,7 @@ class Option {
      */
     friend std::ostream &operator<<(std::ostream &stream,
                                     const Option &option) {
-        stream << option.toString();
+        stream << option.to_string();
         return stream;
     }
 
@@ -169,13 +169,13 @@ class Option {
      *
      * @return The string representation of the Option.
      */
-    std::string toString() const {
+    std::string to_string() const {
         if (m_value >= NUM_OPTIONS) {
             return "";
         }
 
         if (m_shortOption) {
-            return SHORT_OPTION_PREFIX + this->getCharRepresentation();
+            return SHORT_OPTION_PREFIX + this->get_char_representation();
         }
 
         return LONG_OPTION_PREFIX + m_optionNames[m_value];
@@ -186,11 +186,11 @@ class Option {
      *
      * @return A string describing both representations of the option.
      */
-    std::string getFullString() const {
-        if (this->hasCharRepresentation()) {
-            return this->toString() + ", -" + this->getCharRepresentation();
+    std::string get_full_string() const {
+        if (this->has_char_representation()) {
+            return this->to_string() + ", -" + this->get_char_representation();
         }
-        return this->toString();
+        return this->to_string();
     }
 
     /**
@@ -198,8 +198,8 @@ class Option {
      *
      * @return True if the Option takes an argument, false otherwise.
      */
-    constexpr bool requiresArg() const {
-        return (m_value < NUM_OPTIONS) ? m_requiresArg[m_value] : false;
+    constexpr bool requires_arg() const {
+        return (m_value < NUM_OPTIONS) ? m_requires_arg[m_value] : false;
     }
 
     /**
@@ -207,7 +207,7 @@ class Option {
      *
      * @return The corresponding character, or NULL_CHAR if none is found.
      */
-    constexpr char getCharRepresentation() const {
+    constexpr char get_char_representation() const {
         switch (m_value) {
         case all:
             return 'a';
@@ -227,8 +227,8 @@ class Option {
      *
      * @return True if a single character representation can be found.
      */
-    constexpr bool hasCharRepresentation() const {
-        return this->getCharRepresentation() != NULL_CHAR;
+    constexpr bool has_char_representation() const {
+        return this->get_char_representation() != NULL_CHAR;
     }
 
     /**
@@ -236,7 +236,7 @@ class Option {
      *
      * @return A string describing the option's purpose.
      */
-    std::string getDescription() const {
+    std::string get_description() const {
         return (m_value < NUM_OPTIONS) ? m_optionDesc[m_value] : "";
     }
 
@@ -257,7 +257,7 @@ class Option {
     /**
      * @brief A mapping of the enum values to whether they require an argument.
      */
-    static inline const std::vector<bool> m_requiresArg = {OPTIONS(F)};
+    static inline const std::vector<bool> m_requires_arg = {OPTIONS(F)};
 #undef F
 
     Value m_value;
@@ -271,10 +271,10 @@ class Option {
      *
      * @return The matching Value, or UNKNOWN_OPTION if string is unknown.
      */
-    static Value valueFromString(const std::string &s) {
+    static Value value_from_string(const std::string &s) {
         if (s.length() == 1) {
             for (Option const o : ALL_OPTIONS) {
-                if (o.getCharRepresentation() == s[0]) {
+                if (o.get_char_representation() == s[0]) {
                     return o.m_value;
                 }
             }

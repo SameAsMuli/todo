@@ -34,7 +34,8 @@ std::vector<std::filesystem::path> split(const std::string &str, char delim) {
  *
  * @return A filesystem path from varName or defaultValue.
  */
-std::filesystem::path getEnvDir(const char *varName, std::string defaultValue) {
+std::filesystem::path get_env_dir(const char *varName,
+                                  std::string defaultValue) {
     auto value = std::getenv(varName);
     static std::filesystem::path path;
 
@@ -55,8 +56,8 @@ std::filesystem::path getEnvDir(const char *varName, std::string defaultValue) {
  *
  * @return A vector of filesystem paths from varName or defaultValue.
  */
-std::vector<std::filesystem::path> getEnvDirs(const char *varName,
-                                              std::string defaultValue) {
+std::vector<std::filesystem::path> get_env_dirs(const char *varName,
+                                                std::string defaultValue) {
     auto value = std::getenv(varName);
     std::string listString;
 
@@ -74,27 +75,27 @@ std::vector<std::filesystem::path> getEnvDirs(const char *varName,
 namespace util {
 namespace xdg {
 
-std::filesystem::path configHome() {
-    return getEnvDir("XDG_CONFIG_HOME", util::fs::HomeDir() / ".config");
+std::filesystem::path config_home() {
+    return get_env_dir("XDG_CONFIG_HOME", util::fs::home_dir() / ".config");
 }
 
-std::filesystem::path dataHome() {
-    return getEnvDir("XDG_DATA_HOME", util::fs::HomeDir() / ".local/share");
+std::filesystem::path data_home() {
+    return get_env_dir("XDG_DATA_HOME", util::fs::home_dir() / ".local/share");
 }
 
-std::vector<std::filesystem::path> configDirs() {
-    return getEnvDirs("XDG_CONFIG_DIRS", "/etc/xdg");
+std::vector<std::filesystem::path> config_dirs() {
+    return get_env_dirs("XDG_CONFIG_DIRS", "/etc/xdg");
 }
 
-std::vector<std::filesystem::path> dataDirs() {
-    return getEnvDirs("XDG_DATA_DIRS", "/usr/local/share/:/usr/share/");
+std::vector<std::filesystem::path> data_dirs() {
+    return get_env_dirs("XDG_DATA_DIRS", "/usr/local/share/:/usr/share/");
 }
 
-std::filesystem::path cacheHome() {
-    return getEnvDir("XDG_CACHE_HOME", util::fs::HomeDir() / ".cache");
+std::filesystem::path cache_home() {
+    return get_env_dir("XDG_CACHE_HOME", util::fs::home_dir() / ".cache");
 }
 
-std::filesystem::path runtimeDir() {
+std::filesystem::path runtime_dir() {
     auto value = std::getenv("XDG_RUNTIME_DIR");
 
     if (value == NULL) {

@@ -84,7 +84,7 @@ class File {
      *
      * @return A string of the name of the associated file with this type.
      */
-    std::string fileName() const { return m_typeNames[m_value]; }
+    std::string file_name() const { return m_typeNames[m_value]; }
 
   private:
 #define F(enum_val) #enum_val

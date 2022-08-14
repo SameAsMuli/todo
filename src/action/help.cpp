@@ -20,29 +20,29 @@ std::string Help::description() const {
 }
 
 std::string Help::usage() const {
-    return "usage: todo " + this->getName() + " [<action>]";
+    return "usage: todo " + this->get_name() + " [<action>]";
 }
 
-void Help::addActions(std::vector<ActionAbstract *> &actions) {
+void Help::add_actions(std::vector<ActionAbstract *> &actions) {
     this->m_actions = actions;
 }
 
 /*** PRIVATE METHODS ***/
 
 void Help::run(const input::Input &input) {
-    if (!input.hasActionArg(0)) {
+    if (!input.has_action_arg(0)) {
         std::vector<std::pair<std::string, std::string>> actions;
 
         for (auto const &action : this->m_actions) {
-            actions.push_back({action->getName(), action->getHelpText()});
+            actions.push_back({action->get_name(), action->get_help_text()});
         }
 
-        std::cout << util::display::programOverview(actions) << std::endl;
+        std::cout << util::display::program_overview(actions) << std::endl;
     } else {
-        auto actionName = input.getActionArg(0);
+        auto actionName = input.get_actionArg(0);
         for (auto const &action : this->m_actions) {
-            if (action->getName() == actionName) {
-                action->printDetails();
+            if (action->get_name() == actionName) {
+                action->print_details();
                 return;
             }
         }

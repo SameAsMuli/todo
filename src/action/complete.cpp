@@ -7,12 +7,12 @@
 
 namespace {
 
-std::string constructActionName(const todo::task::Type type) {
+std::string construct_action_name(const todo::task::Type type) {
     switch (type) {
     case todo::task::Type::rejected:
         return "reject";
     default:
-        return type.toString();
+        return type.to_string();
     }
 }
 
@@ -22,16 +22,16 @@ namespace todo {
 namespace action {
 
 Complete::Complete(const task::Type taskType)
-    : ActionAbstract(constructActionName(taskType),
-                     "Mark a TODO as " + taskType.toString()),
+    : ActionAbstract(construct_action_name(taskType),
+                     "Mark a TODO as " + taskType.to_string()),
       m_taskType(taskType) {
     /* Define the valid options for this action */
-    this->addValidOption(input::Option::global);
-    this->addValidOption(input::Option::exact);
-    this->addValidOption(input::Option::force);
+    this->add_valid_option(input::Option::global);
+    this->add_valid_option(input::Option::exact);
+    this->add_valid_option(input::Option::force);
 
-    if (!taskType.isComplete()) {
-        throw std::logic_error{"non-complete type '" + taskType.toString() +
+    if (!taskType.is_complete()) {
+        throw std::logic_error{"non-complete type '" + taskType.to_string() +
                                "' used for a completion action"};
     }
 }
@@ -43,18 +43,18 @@ void Complete::run(const input::Input &input) {
 
     /* Find all matching tasks and set them as complete */
     auto exact = input.hasOption(input::Option::exact);
-    auto searchString = input.getActionArgString();
-    auto type = this->getTaskType();
+    auto searchString = input.get_actionArgString();
+    auto type = this->get_task_type();
     unsigned int matches = 0;
 
-    tasks.forEach([exact, &matches, searchString, type](auto &task) mutable {
-        if (exact ? task.getDescription() == searchString
-                  : task.getDescription().find(searchString) !=
+    tasks.for_each([exact, &matches, searchString, type](auto &task) mutable {
+        if (exact ? task.get_description() == searchString
+                  : task.get_description().find(searchString) !=
                         std::string::npos) {
-            task.setPreviousType(task.getType());
-            task.setPreviousTimeAdded(task.getTimeAdded());
-            task.setType(type);
-            task.setTimeAdded(std::chrono::system_clock::now());
+            task.set_previous_type(task.get_type());
+            task.set_previous_time_added(task.get_time_added());
+            task.set_type(type);
+            task.set_time_added(std::chrono::system_clock::now());
             matches++;
         }
     });
@@ -74,23 +74,24 @@ void Complete::run(const input::Input &input) {
 }
 
 std::string Complete::usage() const {
-    return "usage: todo " + this->getName() + " <task description>";
+    return "usage: todo " + this->get_name() + " <task description>";
 }
 
 std::string Complete::description() const {
-    return "Mark any outstanding TODOs as " + this->getTaskType().toString() +
+    return "Mark any outstanding TODOs as " +
+           this->get_task_type().to_string() +
            " if they match the given input. The TODO will then be "
            "considered as complete.\n\n"
            "By default, the action will match any TODO which is a superset "
            "of the given input, but will only allow a single TODO to be "
            "marked as " +
-           this->getTaskType().toString() +
+           this->get_task_type().to_string() +
            "at a time.\n\n"
            "To mark all matched TODOs as " +
-           this->getTaskType().toString() + ", use the " +
-           input::Option(input::Option::force).toString() +
+           this->get_task_type().to_string() + ", use the " +
+           input::Option(input::Option::force).to_string() +
            " option. Use the " +
-           input::Option(input::Option::exact).toString() +
+           input::Option(input::Option::exact).to_string() +
            " option to only match TODOs that have the same description as "
            "the input, and not match against superset TODOs.";
 }

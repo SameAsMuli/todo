@@ -21,20 +21,22 @@
 #include "util/fs.hpp"
 #include "util/string.hpp"
 
-static const std::string ERR_PREFIX = "todo: ";
+static void print_err(const std::string &msg) {
+    std::cerr << "todo: " << msg << std::endl;
+}
 
 int main(int argc, char **argv) {
     /* Sanity check the environment and perform any archiving that's needed */
     try {
-        if (util::fs::HomeDir().empty()) {
+        if (util::fs::home_dir().empty()) {
             throw std::runtime_error{"unable to find HOME directory"};
         }
 
         /* Archive any tasks completed more than a day ago */
-        todo::file::archiveTasks(1440, true);
-        todo::file::archiveTasks(1440, false);
+        todo::file::archive_tasks(1440, true);
+        todo::file::archive_tasks(1440, false);
     } catch (const std::exception &e) {
-        std::cerr << ERR_PREFIX << e.what() << std::endl;
+        print_err(e.what());
         return 1;
     }
 
@@ -43,7 +45,7 @@ int main(int argc, char **argv) {
     try {
         input = input::Input{argc, argv};
     } catch (const std::exception &e) {
-        std::cerr << ERR_PREFIX << e.what() << std::endl;
+        print_err(e.what());
         return 1;
     }
 
@@ -58,7 +60,7 @@ int main(int argc, char **argv) {
 
     /* Create an action to add each type of task */
     for (auto const type : todo::task::Type::ALL_TYPES) {
-        if (todo::task::Type{type}.isComplete()) {
+        if (todo::task::Type{type}.is_complete()) {
             actions.push_back(new todo::action::Complete{type});
         } else {
             actions.push_back(new todo::action::Add{type});
@@ -72,9 +74,9 @@ int main(int argc, char **argv) {
     actions.push_back(new todo::action::Version{});
 
     /* Pass the list of actions to the help action */
-    help.addActions(actions);
+    help.add_actions(actions);
 
-    auto inputAction = input.getAction();
+    auto inputAction = input.get_action();
     try {
         /* If no action is given, view all tasks - else run the given action */
         if (inputAction.empty()) {
@@ -82,17 +84,17 @@ int main(int argc, char **argv) {
                 std::vector<std::pair<std::string, std::string>> actionList;
                 for (auto const &action : actions) {
                     actionList.push_back(
-                        {action->getName(), action->getHelpText()});
+                        {action->get_name(), action->get_help_text()});
                 }
 
-                std::cout << util::display::programOverview(actionList)
+                std::cout << util::display::program_overview(actionList)
                           << std::endl;
             } else {
                 view.perform(input);
             }
         } else {
             for (auto const &action : actions) {
-                if (action->isKnownAs(inputAction)) {
+                if (action->is_known_as(inputAction)) {
                     action->perform(input);
                     return 0;
                 }
@@ -101,14 +103,13 @@ int main(int argc, char **argv) {
             /* The given action isn't known, display usage and corrections */
             std::vector<std::string> actionNames;
             for (auto const &action : actions) {
-                actionNames.push_back(action->getName());
+                actionNames.push_back(action->get_name());
             }
 
             auto corrections =
                 util::string::corrections(inputAction, actionNames);
 
-            std::cerr << ERR_PREFIX << "unknown action '" << inputAction << "'"
-                      << std::endl;
+            print_err("unknown action '" + inputAction + "'");
 
             if (corrections.size() > 0) {
                 std::cout << "(did you mean ";
@@ -129,11 +130,11 @@ int main(int argc, char **argv) {
             }
 
             std::cout << std::endl;
-            std::cout << util::display::programUsage() << std::endl;
+            std::cout << util::display::program_usage() << std::endl;
             return 1;
         }
     } catch (const std::exception &e) {
-        std::cerr << ERR_PREFIX << e.what() << std::endl;
+        print_err(e.what());
         return 1;
     }
 

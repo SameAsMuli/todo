@@ -34,14 +34,14 @@ class Input {
      *
      * @return The action name or empty string if not available.
      */
-    std::string getAction() const { return m_action; }
+    std::string get_action() const { return m_action; }
 
     /**
      * @brief Get the number of arguments passed to the action.
      *
      * @return The number of arguments passed to the action.
      */
-    unsigned int getActionArgCount() const;
+    unsigned int get_actionArgCount() const;
 
     /**
      * @brief Get a specific action argument.
@@ -50,7 +50,7 @@ class Input {
      *
      * @return The action argument at the given index.
      */
-    std::string getActionArg(int index) const;
+    std::string get_actionArg(int index) const;
 
     /**
      * @brief Format the action arguments as a single string.
@@ -59,7 +59,7 @@ class Input {
      *
      * @return A space separated string of all the action arguments.
      */
-    std::string getActionArgString(int index = 0) const;
+    std::string get_actionArgString(int index = 0) const;
 
     /**
      * @brief Return whether the action arguments vector has a specific index.
@@ -68,7 +68,7 @@ class Input {
      *
      * @return True if the index exists, false otherwise.
      */
-    bool hasActionArg(int index) const;
+    bool has_action_arg(int index) const;
 
     /**
      * @brief Return whether a given string is in the action arguments.
@@ -77,7 +77,7 @@ class Input {
      *
      * @return True if inputs contain the arg, false otherwise.
      */
-    bool hasActionArg(const std::string &arg) const;
+    bool has_action_arg(const std::string &arg) const;
 
     /**
      * @brief Return whether the nth input is a specific string.
@@ -87,7 +87,7 @@ class Input {
      *
      * @return True if the index equals arg, false otherwise.
      */
-    bool hasActionArg(const std::string &arg, int index) const;
+    bool has_action_arg(const std::string &arg, int index) const;
 
     /**
      * @brief Return whether a specific option was specified.
@@ -103,7 +103,7 @@ class Input {
      *
      * @return An unordered set of Options specified in the input.
      */
-    std::unordered_set<Option> getOptions() const;
+    std::unordered_set<Option> get_options() const;
 
     /**
      * @brief Get all arguments passed to a specific option.
@@ -112,7 +112,7 @@ class Input {
      *
      * @return A vector of string arguments passed to the option.
      */
-    std::vector<std::string> getOptionArgs(const Option &option) const;
+    std::vector<std::string> get_option_args(const Option &option) const;
 
   private:
     std::string m_action;

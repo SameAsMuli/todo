@@ -40,7 +40,7 @@ class Help : public ActionAbstract {
      *
      * @param functions A vector list of functions.
      */
-    void addActions(std::vector<ActionAbstract *> &functions);
+    void add_actions(std::vector<ActionAbstract *> &functions);
 
   private:
     std::vector<ActionAbstract *> m_actions;

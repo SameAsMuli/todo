@@ -31,14 +31,14 @@ class Task {
      *
      * @return The type of this task.
      */
-    Type getType() const { return m_type; }
+    Type get_type() const { return m_type; }
 
     /**
      * @brief Get the description for this task.
      *
      * @return The description for this task.
      */
-    std::string getDescription() const { return m_description; }
+    std::string get_description() const { return m_description; }
 
     /**
      * @brief Return the time the task was added (as the current task type).
@@ -50,7 +50,7 @@ class Task {
      *
      * @return A chrono time point indicating when the task was added.
      */
-    std::chrono::system_clock::time_point getTimeAdded() const {
+    std::chrono::system_clock::time_point get_time_added() const {
         return m_timeAdded;
     }
 
@@ -63,7 +63,7 @@ class Task {
      *
      * @return The previous type or UNKNOWN_TYPE, if none exists.
      */
-    Type getPreviousType() const { return m_previousType; }
+    Type get_previous_type() const { return m_previousType; }
 
     /**
      * @brief Return the time the task was added (as the previous task type).
@@ -74,7 +74,7 @@ class Task {
      *
      * @return A chrono time point for the addition of the previous type.
      */
-    std::chrono::system_clock::time_point getPreviousTimeAdded() const {
+    std::chrono::system_clock::time_point get_previous_time_added() const {
         return m_previousTimeAdded;
     }
 
@@ -85,8 +85,8 @@ class Task {
      *
      * @{
      */
-    void setType(const Type &type) { m_type = type; }
-    void setType(const Type &&type) { m_type = type; }
+    void set_type(const Type &type) { m_type = type; }
+    void set_type(const Type &&type) { m_type = type; }
     /** @} */
 
     /**
@@ -96,8 +96,8 @@ class Task {
      *
      * @{
      */
-    void setDescription(const std::string &description);
-    void setDescription(const std::string &&description);
+    void set_description(const std::string &description);
+    void set_description(const std::string &&description);
     /** @} */
 
     /**
@@ -107,10 +107,12 @@ class Task {
      *
      * @{
      */
-    void setTimeAdded(const std::chrono::system_clock::time_point &timeAdded) {
+    void
+    set_time_added(const std::chrono::system_clock::time_point &timeAdded) {
         m_timeAdded = timeAdded;
     }
-    void setTimeAdded(const std::chrono::system_clock::time_point &&timeAdded) {
+    void
+    set_time_added(const std::chrono::system_clock::time_point &&timeAdded) {
         m_timeAdded = timeAdded;
     }
     /** @} */
@@ -120,7 +122,7 @@ class Task {
      *
      * @param previousType The previous type.
      */
-    void setPreviousType(const Type &previousType) {
+    void set_previous_type(const Type &previousType) {
         m_previousType = previousType;
     }
 
@@ -131,11 +133,11 @@ class Task {
      *
      * @{
      */
-    void setPreviousTimeAdded(
+    void set_previous_time_added(
         const std::chrono::system_clock::time_point &timeAdded) {
         m_previousTimeAdded = timeAdded;
     }
-    void setPreviousTimeAdded(
+    void set_previous_time_added(
         const std::chrono::system_clock::time_point &&timeAdded) {
         m_previousTimeAdded = timeAdded;
     }

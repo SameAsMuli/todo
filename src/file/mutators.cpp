@@ -7,21 +7,21 @@
 namespace todo {
 namespace file {
 
-void archiveTasks(unsigned int maxMins, bool global) {
+void archive_tasks(unsigned int maxMins, bool global) {
     auto archiveTasks = TasksData{File::archived_tasks, global};
     auto now = std::chrono::system_clock::now();
     auto tasks = TasksData{File::tasks, global};
 
-    tasks.removeTasks([&archiveTasks, maxMins, now](auto &task) {
-        if (!task.getType().isComplete())
+    tasks.remove_tasks([&archiveTasks, maxMins, now](auto &task) {
+        if (!task.get_type().is_complete())
             return false;
 
         auto ageMins = std::chrono::duration_cast<std::chrono::minutes>(
-                           now - task.getTimeAdded())
+                           now - task.get_time_added())
                            .count();
 
         if (maxMins <= ageMins) {
-            archiveTasks.addTask(task);
+            archiveTasks.add_task(task);
             return true;
         }
         return false;

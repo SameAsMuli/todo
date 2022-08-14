@@ -10,7 +10,7 @@
 namespace util {
 namespace fs {
 
-std::filesystem::path CurrentDir() {
+std::filesystem::path current_dir() {
     try {
         return std::filesystem::current_path();
     } catch (const std::exception &e) {
@@ -21,7 +21,7 @@ std::filesystem::path CurrentDir() {
     }
 }
 
-std::filesystem::path HomeDir() {
+std::filesystem::path home_dir() {
     /* Use user's $HOME if running as a snap */
     auto home = std::getenv("SNAP_REAL_HOME");
     if (home != NULL && std::strlen(home) > 0) {
@@ -44,9 +44,9 @@ std::filesystem::path HomeDir() {
     return {};
 }
 
-std::filesystem::path RootDir() {
+std::filesystem::path root_dir() {
     try {
-        return CurrentDir().root_path();
+        return current_dir().root_path();
     } catch (const std::exception &e) {
         /* If we got here, getcwd() has failed so let's just return an empty
          * Path to indicate failure.
@@ -55,11 +55,11 @@ std::filesystem::path RootDir() {
     }
 }
 
-void initDir(const std::filesystem::path dir) {
+void init_dir(const std::filesystem::path dir) {
     std::filesystem::create_directories(dir);
 }
 
-void initFile(const std::filesystem::path &file) {
+void init_file(const std::filesystem::path &file) {
     /* Create parent directory if it doesn't already exist */
     std::filesystem::create_directories(file.parent_path());
 

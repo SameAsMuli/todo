@@ -22,9 +22,9 @@ class IncompatibleOptions : public std::runtime_error {
      */
     IncompatibleOptions(const input::Option &option1,
                         const input::Option &option2)
-        : std::runtime_error("options '" + option1.toString() +
+        : std::runtime_error("options '" + option1.to_string() +
                              "' cannot be used with option '" +
-                             option2.toString() + "'") {}
+                             option2.to_string() + "'") {}
 };
 
 } // namespace error

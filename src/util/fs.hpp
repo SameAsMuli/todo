@@ -11,7 +11,7 @@ namespace fs {
  *
  * @return The filesystem path to the current directory, or an empty path.
  */
-std::filesystem::path CurrentDir();
+std::filesystem::path current_dir();
 
 /**
  * @brief Find the home directory for the system.
@@ -20,28 +20,28 @@ std::filesystem::path CurrentDir();
  *
  * @return The filesystem path to the home directory, or an empty path.
  */
-std::filesystem::path HomeDir();
+std::filesystem::path home_dir();
 
 /**
  * @brief Find the root directory for the system.
  *
  * @return The filesystem path to the root directory, or an empty path.
  */
-std::filesystem::path RootDir();
+std::filesystem::path root_dir();
 
 /**
  * @brief Create a directory if it doesn't already exist.
  *
  * @param dir The path to the directory.
  */
-void initDir(const std::filesystem::path dir);
+void init_dir(const std::filesystem::path dir);
 
 /**
  * @brief Create a file if it doesn't already exist.
  *
  * @param file The path to the file.
  */
-void initFile(const std::filesystem::path &file);
+void init_file(const std::filesystem::path &file);
 
 } // namespace fs
 } // namespace util

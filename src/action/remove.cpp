@@ -10,9 +10,9 @@ namespace todo {
 namespace action {
 
 Remove::Remove() : ActionAbstract("remove", "Remove an outstanding TODO") {
-    this->addValidOption(input::Option::exact);
-    this->addValidOption(input::Option::force);
-    this->addValidOption(input::Option::global);
+    this->add_valid_option(input::Option::exact);
+    this->add_valid_option(input::Option::force);
+    this->add_valid_option(input::Option::global);
 }
 
 std::string Remove::description() const {
@@ -22,20 +22,20 @@ std::string Remove::description() const {
            "the given input, but will only allow a single TODO to be removed "
            "at a time.\n\n"
            "To remove all matched TODOs, use the " +
-           input::Option(input::Option::force).toString() +
+           input::Option(input::Option::force).to_string() +
            " option. Use the " +
-           input::Option(input::Option::exact).toString() +
+           input::Option(input::Option::exact).to_string() +
            " option to only match TODOs that have the same description as the "
            "input, and not match against superset TODOs.";
 }
 
 std::string Remove::usage() const {
-    return "usage: todo " + this->getName() + " <task description>";
+    return "usage: todo " + this->get_name() + " <task description>";
 }
 
 void Remove::run(const input::Input &input) {
     /* Form and check the seach string */
-    auto searchString = input.getActionArgString();
+    auto searchString = input.get_actionArgString();
     if (searchString.empty()) {
         throw error::EmptyArgument{"remove"};
     }
@@ -49,11 +49,11 @@ void Remove::run(const input::Input &input) {
     auto tasks = file::TasksData{file::File::tasks, global};
 
     /* Remove matching tasks */
-    auto numRemoved = tasks.removeTasks([exact, searchString](auto &task) {
+    auto numRemoved = tasks.remove_tasks([exact, searchString](auto &task) {
         if (exact) {
-            return task.getDescription() == searchString;
+            return task.get_description() == searchString;
         }
-        return task.getDescription().find(searchString) != std::string::npos;
+        return task.get_description().find(searchString) != std::string::npos;
     });
 
     /* If we aren't using force, check we affected exactly one task */

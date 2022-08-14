@@ -11,10 +11,10 @@ namespace todo {
 namespace action {
 
 Undo::Undo() : ActionAbstract("undo", "Unmark a TODO as completed") {
-    this->addAlias("revert");
-    this->addValidOption(input::Option::exact);
-    this->addValidOption(input::Option::force);
-    this->addValidOption(input::Option::global);
+    this->add_alias("revert");
+    this->add_valid_option(input::Option::exact);
+    this->add_valid_option(input::Option::force);
+    this->add_valid_option(input::Option::global);
 }
 
 std::string Undo::description() const {
@@ -25,15 +25,15 @@ std::string Undo::description() const {
            "the given input, but will only allow a single TODO to be undone "
            "at a time.\n\n"
            "To remove all matched TODOs, use the " +
-           input::Option(input::Option::force).toString() +
+           input::Option(input::Option::force).to_string() +
            " option. Use the " +
-           input::Option(input::Option::exact).toString() +
+           input::Option(input::Option::exact).to_string() +
            " option to only match TODOs that have the same description as the "
            "input, and not match against superset TODOs.";
 }
 
 std::string Undo::usage() const {
-    return "usage: todo " + this->getName() + " <task description>";
+    return "usage: todo " + this->get_name() + " <task description>";
 }
 
 void Undo::run(const input::Input &input) {
@@ -43,16 +43,16 @@ void Undo::run(const input::Input &input) {
 
     /* Find all matching tasks and revert them */
     auto exact = input.hasOption(input::Option::exact);
-    auto searchString = input.getActionArgString();
+    auto searchString = input.get_actionArgString();
     unsigned int matches = 0;
 
-    tasks.forEach([exact, &matches, searchString](auto &task) {
-        if (exact ? task.getDescription() == searchString
-                  : task.getDescription().find(searchString) !=
+    tasks.for_each([exact, &matches, searchString](auto &task) {
+        if (exact ? task.get_description() == searchString
+                  : task.get_description().find(searchString) !=
                         std::string::npos) {
-            task.setType(task.getPreviousType());
-            task.setTimeAdded(task.getPreviousTimeAdded());
-            task.setPreviousType(task::Type::UNKNOWN_TYPE);
+            task.set_type(task.get_previous_type());
+            task.set_time_added(task.get_previous_time_added());
+            task.set_previous_type(task::Type::UNKNOWN_TYPE);
             matches++;
         }
     });

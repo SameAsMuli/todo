@@ -47,7 +47,7 @@ TEST(Option, LogicalConsistency) {
     std::vector<std::string> names;
 
     for (input::Option const o : input::Option::ALL_OPTIONS) {
-        auto name = o.toString();
+        auto name = o.to_string();
 
         /* Strip the prefix */
         name.erase(0, input::Option::LONG_OPTION_PREFIX.size());
@@ -75,73 +75,73 @@ TEST(Option, LogicalConsistency) {
 
 /* Test the isValid functionality */
 TEST(Option, IsValid) {
-    EXPECT_TRUE(input::Option::isValid("all"));
-    EXPECT_TRUE(input::Option::isValid("global"));
-    EXPECT_TRUE(input::Option::isValid("local"));
-    EXPECT_TRUE(input::Option::isValid("a"));
-    EXPECT_TRUE(input::Option::isValid("g"));
-    EXPECT_TRUE(input::Option::isValid("l"));
-    EXPECT_FALSE(input::Option::isValid("rubbish"));
-    EXPECT_FALSE(input::Option::isValid("R"));
-    EXPECT_FALSE(input::Option::isValid(""));
-    EXPECT_FALSE(input::Option::isValid("alll"));
-    EXPECT_FALSE(input::Option::isValid("all "));
+    EXPECT_TRUE(input::Option::is_valid("all"));
+    EXPECT_TRUE(input::Option::is_valid("global"));
+    EXPECT_TRUE(input::Option::is_valid("local"));
+    EXPECT_TRUE(input::Option::is_valid("a"));
+    EXPECT_TRUE(input::Option::is_valid("g"));
+    EXPECT_TRUE(input::Option::is_valid("l"));
+    EXPECT_FALSE(input::Option::is_valid("rubbish"));
+    EXPECT_FALSE(input::Option::is_valid("R"));
+    EXPECT_FALSE(input::Option::is_valid(""));
+    EXPECT_FALSE(input::Option::is_valid("alll"));
+    EXPECT_FALSE(input::Option::is_valid("all "));
 }
 
-/* Test the toString functionality */
+/* Test the to_string functionality */
 TEST(Option, ToString) {
     input::Option all = input::Option::all;
-    EXPECT_EQ(all.toString(), "--all");
+    EXPECT_EQ(all.to_string(), "--all");
 
     input::Option allShort = input::Option("a");
-    EXPECT_EQ(allShort.toString(), "-a");
+    EXPECT_EQ(allShort.to_string(), "-a");
 
     input::Option global = input::Option::global;
-    EXPECT_EQ(global.toString(), "--global");
+    EXPECT_EQ(global.to_string(), "--global");
 
     input::Option globalShort = input::Option("g");
-    EXPECT_EQ(globalShort.toString(), "-g");
+    EXPECT_EQ(globalShort.to_string(), "-g");
 
     input::Option local = input::Option::local;
-    EXPECT_EQ(local.toString(), "--local");
+    EXPECT_EQ(local.to_string(), "--local");
 
     input::Option localShort = input::Option("l");
-    EXPECT_EQ(localShort.toString(), "-l");
+    EXPECT_EQ(localShort.to_string(), "-l");
 
     input::Option unknown = input::Option::UNKNOWN_OPTION;
-    EXPECT_EQ(unknown.toString(), "");
+    EXPECT_EQ(unknown.to_string(), "");
 
     input::Option rubbish = input::Option("rubbish");
-    EXPECT_EQ(rubbish.toString(), "");
+    EXPECT_EQ(rubbish.to_string(), "");
 }
 
 /* Test the parameter count functionality */
 TEST(Option, RequiresArg) {
     input::Option all = input::Option::all;
-    EXPECT_EQ(all.requiresArg(), false);
+    EXPECT_EQ(all.requires_arg(), false);
 
     input::Option local = input::Option::local;
-    EXPECT_EQ(local.requiresArg(), false);
+    EXPECT_EQ(local.requires_arg(), false);
 
     input::Option unknown = input::Option::UNKNOWN_OPTION;
-    EXPECT_EQ(unknown.requiresArg(), false);
+    EXPECT_EQ(unknown.requires_arg(), false);
 }
 
 /* Test the character representation functionality */
 TEST(Option, CharacterRepresentation) {
     input::Option all = input::Option::all;
-    EXPECT_TRUE(all.hasCharRepresentation());
-    EXPECT_EQ(all.getCharRepresentation(), 'a');
+    EXPECT_TRUE(all.has_char_representation());
+    EXPECT_EQ(all.get_char_representation(), 'a');
 
     input::Option global = input::Option::global;
-    EXPECT_TRUE(global.hasCharRepresentation());
-    EXPECT_EQ(global.getCharRepresentation(), 'g');
+    EXPECT_TRUE(global.has_char_representation());
+    EXPECT_EQ(global.get_char_representation(), 'g');
 
     input::Option local = input::Option::local;
-    EXPECT_TRUE(local.hasCharRepresentation());
-    EXPECT_EQ(local.getCharRepresentation(), 'l');
+    EXPECT_TRUE(local.has_char_representation());
+    EXPECT_EQ(local.get_char_representation(), 'l');
 
     input::Option unknown = input::Option::UNKNOWN_OPTION;
-    EXPECT_FALSE(unknown.hasCharRepresentation());
-    EXPECT_EQ(unknown.getCharRepresentation(), input::Option::NULL_CHAR);
+    EXPECT_FALSE(unknown.has_char_representation());
+    EXPECT_EQ(unknown.get_char_representation(), input::Option::NULL_CHAR);
 }

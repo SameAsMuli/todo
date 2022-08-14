@@ -28,7 +28,7 @@ class Complete : public ActionAbstract {
      *
      * @return The task type for this action.
      */
-    task::Type getTaskType() const { return m_taskType; }
+    task::Type get_task_type() const { return m_taskType; }
 
     /**
      * @brief Get the usage details of the completion action.
