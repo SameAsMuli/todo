@@ -113,11 +113,13 @@ std::string toupper(const std::string &input);
  * when the string contains a word that is longer than the given width.
  *
  * @param input The string to format.
- * @param width The maximum width of each line.
+ * @param maxWidth The maximum width of each line.
+ * @param indentWidth The number of spaces to insert after each newline.
  *
  * @return A copy of the input string which the correct text wrapping.
  */
-std::string wrap(const std::string &input, int width);
+std::string wrap(const std::string &input, unsigned int maxWidth,
+                 unsigned int indentWidth = 0);
 
 } // namespace string
 } // namespace util

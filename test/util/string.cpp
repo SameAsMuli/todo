@@ -111,6 +111,10 @@ TEST(StringUtils, Wrap) {
 
     EXPECT_EQ(util::string::wrap("test", 6), "test");
 
+    EXPECT_EQ(util::string::wrap("longest", 6), "longest");
+
+    EXPECT_EQ(util::string::wrap("longest longest", 6), "longest\nlongest");
+
     EXPECT_EQ(util::string::wrap("now a short string", 6),
               "now a\nshort\nstring");
 
@@ -118,5 +122,31 @@ TEST(StringUtils, Wrap) {
               "these\nstrings\nare a\nproblem");
 
     EXPECT_EQ(util::string::wrap("what\nif a newline is\nin the mix", 6),
-              "what\nif a\nnewline\nis\nin\nthe\nmix");
+              "what\nif a\nnewline\nis\nin the\nmix");
+
+    EXPECT_EQ(util::string::wrap("", 6, 1), "");
+
+    EXPECT_EQ(util::string::wrap("test", 6, 1), "test");
+
+    EXPECT_EQ(util::string::wrap("longest", 6, 1), "longest");
+
+    EXPECT_EQ(util::string::wrap("longest longest", 6, 1), "longest\n longest");
+
+    EXPECT_EQ(util::string::wrap("now a short string", 6, 1),
+              "now a\n short\n string");
+
+    EXPECT_EQ(util::string::wrap("these strings are a problem", 6, 1),
+              "these\n strings\n are a\n problem");
+
+    EXPECT_EQ(util::string::wrap("these strings are a problem", 6, 2),
+              "these\n  strings\n  are\n  a\n  problem");
+
+    EXPECT_EQ(util::string::wrap("what\nif a newline is\nin the mix", 6, 1),
+              "what\n if a\n newline\n is\n in\n the\n mix");
+
+    EXPECT_EQ(util::string::wrap("what\nif a newline is\nin the mix", 6, 2),
+              "what\n  if a\n  newline\n  is\n  in\n  the\n  mix");
+
+    EXPECT_EQ(util::string::wrap("what\nif a newline is\nin the mix", 6, 3),
+              "what\n   if\n   a\n   newline\n   is\n   in\n   the\n   mix");
 }

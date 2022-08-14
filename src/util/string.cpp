@@ -148,42 +148,65 @@ std::string toupper(const std::string &input) {
     return str;
 }
 
-std::string wrap(const std::string &input, int width) {
-    if (width <= 0) {
-        throw std::runtime_error{"Invalid width passed to util::string::wrap"};
+std::string wrap(const std::string &input, unsigned int maxWidth,
+                 unsigned int indentWidth) {
+    if (maxWidth <= 0) {
+        throw std::runtime_error{
+            "invalid maxWidth passed to util::string::wrap"};
+    }
+
+    if (maxWidth <= indentWidth) {
+        throw std::runtime_error{
+            "smaller maxWidth than indentWidth passed to util::string::wrap"};
     }
 
     std::string::size_type newlinePos = 0;
     std::string::size_type spacePos = 0;
+    std::string::size_type prevSpacePos = 0;
     auto str = std::string(input);
+    auto buff = std::string(str);
 
-    /* Loop till the last line is less than 'width' number of characters long */
-    while (width < input.length() - spacePos) {
+    /* Loop till the last line is less than 'maxWidth' number of characters long
+     */
+    while (maxWidth <= str.length() - spacePos) {
         /* Check where the last newline character was */
-        newlinePos = str.rfind('\n', spacePos + width);
+        newlinePos = str.rfind('\n', spacePos + maxWidth + 1);
 
         if (newlinePos == std::string::npos || newlinePos == spacePos) {
-            /* The current line is longer than 'width' number of characters so
-             * split it at the last space character before exceeding 'width'.
+            /* The current line is longer than 'maxWidth' number of characters
+             * so split it at the last space character before exceeding
+             * 'maxWidth'.
              */
-            spacePos = str.rfind(' ', spacePos + width);
+            spacePos = str.rfind(' ', spacePos + maxWidth + 1);
 
             if (newlinePos == std::string::npos ||
                 (spacePos != std::string::npos && spacePos > newlinePos)) {
-                str.at(spacePos) = '\n';
+                if (spacePos == std::string::npos) {
+                    /* String is a single word longer than maxWidth, just end
+                     * here */
+                    break;
+                } else {
+                    str.at(spacePos) = '\n';
+                }
 
             } else {
-                /* There are no space characters in the next 'width' number of
-                 * characters so look for the next appropriate place to split.
+                /* There are no space characters in the next 'maxWidth'
+                 * number of characters so look for the next appropriate
+                 * place to split.
                  */
-                spacePos = str.find(' ', spacePos + width);
+                spacePos = str.find(' ', spacePos + maxWidth + 1);
 
                 if (spacePos == std::string::npos) {
                     /* No more spaces in the string, so stop here */
+                    if (prevSpacePos != 0) {
+                        /* Add any indent characters */
+                        str.insert(prevSpacePos + 1,
+                                   std::string(indentWidth, ' '));
+                    }
                     break;
                 }
 
-                newlinePos = str.find('\n', spacePos + width);
+                newlinePos = str.find('\n', spacePos + maxWidth + 1);
 
                 if (spacePos < newlinePos) {
                     str.at(spacePos) = '\n';
@@ -193,11 +216,31 @@ std::string wrap(const std::string &input, int width) {
             }
 
         } else {
-            /* There was a newline character within 'width' number of characters
-             * from the start of the line, so we don't need to wrap this line
-             * and can now start counting from that point.
+            /* There was a newline character within 'maxWidth' number of
+             * characters from the start of the line, so we don't need to
+             * wrap this line and can now start counting from that point.
              */
             spacePos = newlinePos;
+        }
+
+        /* Add any indent characters */
+        if (prevSpacePos != 0) {
+            str.insert(prevSpacePos + 1, std::string(indentWidth, ' '));
+            spacePos += indentWidth;
+        } else {
+            maxWidth -= indentWidth;
+        }
+
+        prevSpacePos = spacePos;
+        buff = str;
+
+        if (indentWidth > 0) {
+            if (maxWidth > str.length() - spacePos) {
+                if (str.length() > spacePos) {
+                    str.insert(prevSpacePos + 1, std::string(indentWidth, ' '));
+                    spacePos += indentWidth;
+                }
+            }
         }
     }
 
