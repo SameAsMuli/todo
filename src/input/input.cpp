@@ -107,23 +107,23 @@ Input::Input(int argc, char const *const *argv) {
     }
 }
 
-unsigned int Input::get_actionArgCount() const {
+unsigned int Input::get_action_arg_count() const {
     return this->m_actionArgs.size();
 }
 
-std::string Input::get_actionArg(int index) const {
+std::string Input::get_action_arg(int index) const {
     if (index < 0) {
         throw std::runtime_error{
-            "invalid index passed to Input::get_actionArg"};
+            "invalid index passed to Input::get_action_arg"};
     }
 
     return this->m_actionArgs.at(index);
 }
 
-std::string Input::get_actionArgString(int index) const {
+std::string Input::get_action_arg_string(int index) const {
     if (index < 0) {
         throw std::runtime_error{
-            "invalid index passed to Input::get_actionArgString"};
+            "invalid index passed to Input::get_action_arg_string"};
     }
 
     std::string str;
@@ -162,10 +162,10 @@ bool Input::has_action_arg(const std::string &arg, int index) const {
         return false;
     }
 
-    return this->get_actionArg(index) == arg;
+    return this->get_action_arg(index) == arg;
 }
 
-bool Input::hasOption(const Option &option) const {
+bool Input::has_option(const Option &option) const {
     return this->m_options.count(option);
 }
 

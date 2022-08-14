@@ -39,7 +39,7 @@ void Help::run(const input::Input &input) {
 
         std::cout << util::display::program_overview(actions) << std::endl;
     } else {
-        auto actionName = input.get_actionArg(0);
+        auto actionName = input.get_action_arg(0);
         for (auto const &action : this->m_actions) {
             if (action->get_name() == actionName) {
                 action->print_details();

@@ -13,6 +13,7 @@ using JSON = nlohmann::json;
 
 namespace {
 
+static const int INDENT_WIDTH = 2;
 static const std::string KEY_DESCRIPTION = "description";
 static const std::string KEY_PREV_TIME_ADDED = "previousTimeAdded";
 static const std::string KEY_PREV_TYPE = "previousType";
@@ -184,7 +185,7 @@ void TasksData::write_derived() const {
     /* Write the json structure to the tasks file */
     std::ofstream ofs{get_file().string()};
     if (ofs.is_open()) {
-        ofs << j_taskFile;
+        ofs << j_taskFile.dump(INDENT_WIDTH);
     } else {
         throw std::runtime_error{"Unable to open file '" + get_file().string() +
                                  "'"};
@@ -204,7 +205,7 @@ void TasksData::initialise_file_derived() const {
     /* Write the json structure to the tasks file */
     std::ofstream ofs{get_file().string()};
     if (ofs.is_open()) {
-        ofs << j_taskFile;
+        ofs << j_taskFile.dump(INDENT_WIDTH);
     } else {
         throw std::runtime_error{"Unable to open file '" + get_file().string() +
                                  "'"};

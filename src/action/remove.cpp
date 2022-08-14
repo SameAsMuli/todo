@@ -35,15 +35,15 @@ std::string Remove::usage() const {
 
 void Remove::run(const input::Input &input) {
     /* Form and check the seach string */
-    auto searchString = input.get_actionArgString();
+    auto searchString = input.get_action_arg_string();
     if (searchString.empty()) {
         throw error::EmptyArgument{"remove"};
     }
 
     /* Get options */
-    auto exact = input.hasOption(input::Option::exact);
-    auto force = input.hasOption(input::Option::force);
-    auto global = input.hasOption(input::Option::global);
+    auto exact = input.has_option(input::Option::exact);
+    auto force = input.has_option(input::Option::force);
+    auto global = input.has_option(input::Option::global);
 
     /* Read the tasks file */
     auto tasks = file::TasksData{file::File::tasks, global};

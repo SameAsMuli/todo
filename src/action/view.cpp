@@ -105,7 +105,7 @@ void viewTasks(input::Input input, bool global) {
     auto tasks = todo::file::TasksData{todo::file::File::tasks, global};
 
     /* If no input is given, show all tasks */
-    if (input.get_actionArgCount() == 0) {
+    if (input.get_action_arg_count() == 0) {
         viewOutstandingTodos(tasks);
         view_complete_todos(tasks);
         return;
@@ -113,7 +113,7 @@ void viewTasks(input::Input input, bool global) {
 
     int i = 0;
     while (input.has_action_arg(i)) {
-        auto arg = input.get_actionArg(i++);
+        auto arg = input.get_action_arg(i++);
 
         if (arg == ARG_VAL_ARCHIVE) {
             auto archivedTasks =
@@ -147,8 +147,8 @@ View::View() : ActionAbstract("view", "View existing TODOs") {
 
 void View::run(const input::Input &input) {
     /* Sense check the options */
-    bool all = input.hasOption(input::Option::all);
-    bool global = input.hasOption(input::Option::global);
+    bool all = input.has_option(input::Option::all);
+    bool global = input.has_option(input::Option::global);
 
     if (all && global) {
         throw todo::error::IncompatibleOptions(input::Option::all,

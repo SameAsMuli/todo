@@ -7,6 +7,7 @@
 #include "action/add.hpp"
 #include "action/archive.hpp"
 #include "action/complete.hpp"
+#include "action/edit.hpp"
 #include "action/help.hpp"
 #include "action/remove.hpp"
 #include "action/search.hpp"
@@ -68,6 +69,7 @@ int main(int argc, char **argv) {
     }
 
     actions.push_back(new todo::action::Archive{});
+    actions.push_back(new todo::action::Edit{});
     actions.push_back(new todo::action::Remove{});
     actions.push_back(new todo::action::Search{});
     actions.push_back(new todo::action::Undo{});
@@ -80,7 +82,7 @@ int main(int argc, char **argv) {
     try {
         /* If no action is given, view all tasks - else run the given action */
         if (inputAction.empty()) {
-            if (input.hasOption(input::Option::help)) {
+            if (input.has_option(input::Option::help)) {
                 std::vector<std::pair<std::string, std::string>> actionList;
                 for (auto const &action : actions) {
                     actionList.push_back(

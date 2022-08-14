@@ -28,8 +28,8 @@ std::string Archive::usage() const {
 
 void Archive::run(const input::Input &input) {
     /* Sense check the options */
-    bool all = input.hasOption(input::Option::all);
-    bool global = input.hasOption(input::Option::global);
+    bool all = input.has_option(input::Option::all);
+    bool global = input.has_option(input::Option::global);
 
     if (all && global) {
         throw error::IncompatibleOptions(input::Option::all,
@@ -40,7 +40,7 @@ void Archive::run(const input::Input &input) {
     int mins = 0;
 
     if (input.has_action_arg(0)) {
-        mins = util::string::toint(input.get_actionArg(0));
+        mins = util::string::toint(input.get_action_arg(0));
     }
 
     if (all) {

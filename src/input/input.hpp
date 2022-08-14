@@ -41,7 +41,7 @@ class Input {
      *
      * @return The number of arguments passed to the action.
      */
-    unsigned int get_actionArgCount() const;
+    unsigned int get_action_arg_count() const;
 
     /**
      * @brief Get a specific action argument.
@@ -50,7 +50,7 @@ class Input {
      *
      * @return The action argument at the given index.
      */
-    std::string get_actionArg(int index) const;
+    std::string get_action_arg(int index) const;
 
     /**
      * @brief Format the action arguments as a single string.
@@ -59,7 +59,7 @@ class Input {
      *
      * @return A space separated string of all the action arguments.
      */
-    std::string get_actionArgString(int index = 0) const;
+    std::string get_action_arg_string(int index = 0) const;
 
     /**
      * @brief Return whether the action arguments vector has a specific index.
@@ -96,7 +96,7 @@ class Input {
      *
      * @return True if the option is found, false otherwise.
      */
-    bool hasOption(const Option &option) const;
+    bool has_option(const Option &option) const;
 
     /**
      * @brief Get all options specified in the input.

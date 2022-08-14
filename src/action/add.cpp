@@ -51,15 +51,15 @@ Add::Add(const task::Type taskType)
 
 void Add::run(const input::Input &input) {
     /* Check we have a valid input */
-    auto description = input.get_actionArgString();
+    auto description = input.get_action_arg_string();
     util::string::trim(description);
     if (description.empty()) {
         throw todo::error::EmptyArgument{"add method"};
     }
 
     /* Sense check the options */
-    auto local = input.hasOption(input::Option::local);
-    auto global = input.hasOption(input::Option::global);
+    auto local = input.has_option(input::Option::local);
+    auto global = input.has_option(input::Option::global);
 
     if (local && global) {
         throw todo::error::IncompatibleOptions(input::Option::local,

@@ -43,6 +43,15 @@ void init_dir(const std::filesystem::path dir);
  */
 void init_file(const std::filesystem::path &file);
 
+/**
+ * @brief Check if a path is executable.
+ *
+ * @param path The path to check.
+ *
+ * @return True if the path is executable, false otherwise.
+ */
+bool is_executable(const std::string &path);
+
 } // namespace fs
 } // namespace util
 

@@ -75,91 +75,91 @@ TEST_F(InputMethods, GetAction) {
 }
 
 TEST_F(InputMethods, GetActionArgCount) {
-    EXPECT_EQ(n0.get_actionArgCount(), 0);
-    EXPECT_EQ(n1.get_actionArgCount(), 0);
-    EXPECT_EQ(n2.get_actionArgCount(), 1);
-    EXPECT_EQ(n3.get_actionArgCount(), 2);
-    EXPECT_EQ(n4.get_actionArgCount(), 2);
-    EXPECT_EQ(n5.get_actionArgCount(), 2);
-    EXPECT_EQ(n6.get_actionArgCount(), 2);
-    EXPECT_EQ(n7.get_actionArgCount(), 2);
-    EXPECT_EQ(n8.get_actionArgCount(), 2);
-    EXPECT_EQ(n9.get_actionArgCount(), 2);
-    EXPECT_EQ(n10.get_actionArgCount(), 2);
-    EXPECT_EQ(n11.get_actionArgCount(), 3);
-    EXPECT_EQ(n12.get_actionArgCount(), 3);
-    EXPECT_EQ(n13.get_actionArgCount(), 3);
-    EXPECT_EQ(n14.get_actionArgCount(), 3);
-    EXPECT_EQ(n15.get_actionArgCount(), 2);
+    EXPECT_EQ(n0.get_action_arg_count(), 0);
+    EXPECT_EQ(n1.get_action_arg_count(), 0);
+    EXPECT_EQ(n2.get_action_arg_count(), 1);
+    EXPECT_EQ(n3.get_action_arg_count(), 2);
+    EXPECT_EQ(n4.get_action_arg_count(), 2);
+    EXPECT_EQ(n5.get_action_arg_count(), 2);
+    EXPECT_EQ(n6.get_action_arg_count(), 2);
+    EXPECT_EQ(n7.get_action_arg_count(), 2);
+    EXPECT_EQ(n8.get_action_arg_count(), 2);
+    EXPECT_EQ(n9.get_action_arg_count(), 2);
+    EXPECT_EQ(n10.get_action_arg_count(), 2);
+    EXPECT_EQ(n11.get_action_arg_count(), 3);
+    EXPECT_EQ(n12.get_action_arg_count(), 3);
+    EXPECT_EQ(n13.get_action_arg_count(), 3);
+    EXPECT_EQ(n14.get_action_arg_count(), 3);
+    EXPECT_EQ(n15.get_action_arg_count(), 2);
 }
 
 TEST_F(InputMethods, GetActionArg) {
     /* Basic expectations */
-    EXPECT_EQ(n3.get_actionArg(0), "first argument");
-    EXPECT_EQ(n3.get_actionArg(1), "2nd");
+    EXPECT_EQ(n3.get_action_arg(0), "first argument");
+    EXPECT_EQ(n3.get_action_arg(1), "2nd");
 
     /* Options should be ignored */
-    EXPECT_EQ(n4.get_actionArg(0), "first argument");
-    EXPECT_EQ(n4.get_actionArg(1), "2nd");
-    EXPECT_EQ(n5.get_actionArg(0), "first argument");
-    EXPECT_EQ(n5.get_actionArg(1), "2nd");
-    EXPECT_EQ(n6.get_actionArg(0), "first argument");
-    EXPECT_EQ(n6.get_actionArg(1), "2nd");
-    EXPECT_EQ(n7.get_actionArg(0), "first argument");
-    EXPECT_EQ(n7.get_actionArg(1), "2nd");
-    EXPECT_EQ(n8.get_actionArg(0), "first argument");
-    EXPECT_EQ(n8.get_actionArg(1), "2nd");
-    EXPECT_EQ(n9.get_actionArg(0), "first argument");
-    EXPECT_EQ(n9.get_actionArg(1), "2nd");
-    EXPECT_EQ(n10.get_actionArg(0), "first argument");
-    EXPECT_EQ(n10.get_actionArg(1), "2nd");
-    EXPECT_EQ(n11.get_actionArg(0), "--global");
-    EXPECT_EQ(n11.get_actionArg(1), "first argument");
-    EXPECT_EQ(n11.get_actionArg(2), "2nd");
-    EXPECT_EQ(n12.get_actionArg(0), "first argument");
-    EXPECT_EQ(n12.get_actionArg(1), "--global");
-    EXPECT_EQ(n12.get_actionArg(2), "2nd");
-    EXPECT_EQ(n13.get_actionArg(0), "--global");
-    EXPECT_EQ(n13.get_actionArg(1), "first argument");
-    EXPECT_EQ(n13.get_actionArg(2), "2nd");
-    EXPECT_EQ(n14.get_actionArg(0), "action");
-    EXPECT_EQ(n14.get_actionArg(1), "first argument");
-    EXPECT_EQ(n14.get_actionArg(2), "2nd");
-    EXPECT_EQ(n15.get_actionArg(0), "--all");
-    EXPECT_EQ(n15.get_actionArg(1), "first argument");
+    EXPECT_EQ(n4.get_action_arg(0), "first argument");
+    EXPECT_EQ(n4.get_action_arg(1), "2nd");
+    EXPECT_EQ(n5.get_action_arg(0), "first argument");
+    EXPECT_EQ(n5.get_action_arg(1), "2nd");
+    EXPECT_EQ(n6.get_action_arg(0), "first argument");
+    EXPECT_EQ(n6.get_action_arg(1), "2nd");
+    EXPECT_EQ(n7.get_action_arg(0), "first argument");
+    EXPECT_EQ(n7.get_action_arg(1), "2nd");
+    EXPECT_EQ(n8.get_action_arg(0), "first argument");
+    EXPECT_EQ(n8.get_action_arg(1), "2nd");
+    EXPECT_EQ(n9.get_action_arg(0), "first argument");
+    EXPECT_EQ(n9.get_action_arg(1), "2nd");
+    EXPECT_EQ(n10.get_action_arg(0), "first argument");
+    EXPECT_EQ(n10.get_action_arg(1), "2nd");
+    EXPECT_EQ(n11.get_action_arg(0), "--global");
+    EXPECT_EQ(n11.get_action_arg(1), "first argument");
+    EXPECT_EQ(n11.get_action_arg(2), "2nd");
+    EXPECT_EQ(n12.get_action_arg(0), "first argument");
+    EXPECT_EQ(n12.get_action_arg(1), "--global");
+    EXPECT_EQ(n12.get_action_arg(2), "2nd");
+    EXPECT_EQ(n13.get_action_arg(0), "--global");
+    EXPECT_EQ(n13.get_action_arg(1), "first argument");
+    EXPECT_EQ(n13.get_action_arg(2), "2nd");
+    EXPECT_EQ(n14.get_action_arg(0), "action");
+    EXPECT_EQ(n14.get_action_arg(1), "first argument");
+    EXPECT_EQ(n14.get_action_arg(2), "2nd");
+    EXPECT_EQ(n15.get_action_arg(0), "--all");
+    EXPECT_EQ(n15.get_action_arg(1), "first argument");
 
     /* Invalid indexes should throw exceptions */
-    EXPECT_ANY_THROW(n3.get_actionArg(-1));
-    EXPECT_ANY_THROW(n3.get_actionArg(2));
+    EXPECT_ANY_THROW(n3.get_action_arg(-1));
+    EXPECT_ANY_THROW(n3.get_action_arg(2));
 }
 
 TEST_F(InputMethods, GetActionArgString) {
     /* Basic expectations */
-    EXPECT_EQ(n0.get_actionArgString(), "");
-    EXPECT_EQ(n1.get_actionArgString(), "");
-    EXPECT_EQ(n2.get_actionArgString(), "first argument");
-    EXPECT_EQ(n3.get_actionArgString(), "first argument 2nd");
-    EXPECT_EQ(n3.get_actionArgString(0), "first argument 2nd");
-    EXPECT_EQ(n3.get_actionArgString(1), "2nd");
-    EXPECT_EQ(n4.get_actionArgString(), "first argument 2nd");
-    EXPECT_EQ(n5.get_actionArgString(), "first argument 2nd");
-    EXPECT_EQ(n6.get_actionArgString(), "first argument 2nd");
-    EXPECT_EQ(n7.get_actionArgString(), "first argument 2nd");
-    EXPECT_EQ(n8.get_actionArgString(), "first argument 2nd");
-    EXPECT_EQ(n9.get_actionArgString(), "first argument 2nd");
-    EXPECT_EQ(n10.get_actionArgString(), "first argument 2nd");
-    EXPECT_EQ(n11.get_actionArgString(), "--global first argument 2nd");
-    EXPECT_EQ(n12.get_actionArgString(), "first argument --global 2nd");
-    EXPECT_EQ(n13.get_actionArgString(), "--global first argument 2nd");
-    EXPECT_EQ(n14.get_actionArgString(), "action first argument 2nd");
-    EXPECT_EQ(n15.get_actionArgString(), "--all first argument");
+    EXPECT_EQ(n0.get_action_arg_string(), "");
+    EXPECT_EQ(n1.get_action_arg_string(), "");
+    EXPECT_EQ(n2.get_action_arg_string(), "first argument");
+    EXPECT_EQ(n3.get_action_arg_string(), "first argument 2nd");
+    EXPECT_EQ(n3.get_action_arg_string(0), "first argument 2nd");
+    EXPECT_EQ(n3.get_action_arg_string(1), "2nd");
+    EXPECT_EQ(n4.get_action_arg_string(), "first argument 2nd");
+    EXPECT_EQ(n5.get_action_arg_string(), "first argument 2nd");
+    EXPECT_EQ(n6.get_action_arg_string(), "first argument 2nd");
+    EXPECT_EQ(n7.get_action_arg_string(), "first argument 2nd");
+    EXPECT_EQ(n8.get_action_arg_string(), "first argument 2nd");
+    EXPECT_EQ(n9.get_action_arg_string(), "first argument 2nd");
+    EXPECT_EQ(n10.get_action_arg_string(), "first argument 2nd");
+    EXPECT_EQ(n11.get_action_arg_string(), "--global first argument 2nd");
+    EXPECT_EQ(n12.get_action_arg_string(), "first argument --global 2nd");
+    EXPECT_EQ(n13.get_action_arg_string(), "--global first argument 2nd");
+    EXPECT_EQ(n14.get_action_arg_string(), "action first argument 2nd");
+    EXPECT_EQ(n15.get_action_arg_string(), "--all first argument");
 
     /* Indexes bigger than size should return an empty string */
-    EXPECT_EQ(n3.get_actionArgString(2), "");
-    EXPECT_EQ(n3.get_actionArgString(3), "");
+    EXPECT_EQ(n3.get_action_arg_string(2), "");
+    EXPECT_EQ(n3.get_action_arg_string(3), "");
 
     /* Negative indexes should throw exceptions */
-    EXPECT_ANY_THROW(n3.get_actionArgString(-1));
+    EXPECT_ANY_THROW(n3.get_action_arg_string(-1));
 }
 
 TEST_F(InputMethods, HasActionArg_Index) {
@@ -224,27 +224,27 @@ TEST_F(InputMethods, HasActionArg_StringAndIndex) {
 }
 
 TEST_F(InputMethods, HasOption) {
-    EXPECT_EQ(n0.hasOption(input::Option::global), false);
-    EXPECT_EQ(n1.hasOption(input::Option::global), false);
-    EXPECT_EQ(n2.hasOption(input::Option::global), false);
-    EXPECT_EQ(n3.hasOption(input::Option::global), false);
-    EXPECT_EQ(n4.hasOption(input::Option::global), true);
-    EXPECT_EQ(n5.hasOption(input::Option::global), true);
-    EXPECT_EQ(n6.hasOption(input::Option::global), true);
-    EXPECT_EQ(n7.hasOption(input::Option::global), true);
-    EXPECT_EQ(n7.hasOption(input::Option::all), true);
-    EXPECT_EQ(n8.hasOption(input::Option::global), true);
-    EXPECT_EQ(n8.hasOption(input::Option::all), true);
-    EXPECT_EQ(n9.hasOption(input::Option::global), true);
-    EXPECT_EQ(n9.hasOption(input::Option::all), true);
-    EXPECT_EQ(n10.hasOption(input::Option::global), true);
-    EXPECT_EQ(n10.hasOption(input::Option::all), true);
-    EXPECT_EQ(n11.hasOption(input::Option::global), false);
-    EXPECT_EQ(n12.hasOption(input::Option::global), false);
-    EXPECT_EQ(n13.hasOption(input::Option::global), false);
-    EXPECT_EQ(n14.hasOption(input::Option::global), false);
-    EXPECT_EQ(n15.hasOption(input::Option::global), true);
-    EXPECT_EQ(n15.hasOption(input::Option::all), false);
+    EXPECT_EQ(n0.has_option(input::Option::global), false);
+    EXPECT_EQ(n1.has_option(input::Option::global), false);
+    EXPECT_EQ(n2.has_option(input::Option::global), false);
+    EXPECT_EQ(n3.has_option(input::Option::global), false);
+    EXPECT_EQ(n4.has_option(input::Option::global), true);
+    EXPECT_EQ(n5.has_option(input::Option::global), true);
+    EXPECT_EQ(n6.has_option(input::Option::global), true);
+    EXPECT_EQ(n7.has_option(input::Option::global), true);
+    EXPECT_EQ(n7.has_option(input::Option::all), true);
+    EXPECT_EQ(n8.has_option(input::Option::global), true);
+    EXPECT_EQ(n8.has_option(input::Option::all), true);
+    EXPECT_EQ(n9.has_option(input::Option::global), true);
+    EXPECT_EQ(n9.has_option(input::Option::all), true);
+    EXPECT_EQ(n10.has_option(input::Option::global), true);
+    EXPECT_EQ(n10.has_option(input::Option::all), true);
+    EXPECT_EQ(n11.has_option(input::Option::global), false);
+    EXPECT_EQ(n12.has_option(input::Option::global), false);
+    EXPECT_EQ(n13.has_option(input::Option::global), false);
+    EXPECT_EQ(n14.has_option(input::Option::global), false);
+    EXPECT_EQ(n15.has_option(input::Option::global), true);
+    EXPECT_EQ(n15.has_option(input::Option::all), false);
 }
 
 TEST_F(InputMethods, GetOptionArgs) {

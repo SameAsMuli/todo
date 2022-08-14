@@ -61,9 +61,9 @@ std::string Search::usage() const {
 }
 
 void Search::run(const input::Input &input) {
-    bool all = input.hasOption(input::Option::all);
-    bool exact = input.hasOption(input::Option::exact);
-    bool global = input.hasOption(input::Option::global);
+    bool all = input.has_option(input::Option::all);
+    bool exact = input.has_option(input::Option::exact);
+    bool global = input.has_option(input::Option::global);
 
     /* Sense check the options */
     if (all && global) {
@@ -72,7 +72,7 @@ void Search::run(const input::Input &input) {
     }
 
     std::vector<task::Task> searchResults;
-    std::string searchString = input.get_actionArgString();
+    std::string searchString = input.get_action_arg_string();
 
     /* Search for matching tasks */
     if (all) {
