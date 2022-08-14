@@ -24,8 +24,8 @@ class ActionAbstract {
      * @param helpText A short description of the action.
      * @param argLimit The maximum number of arguments the action allows.
      *
-     * If no argLimit is given then a default of std::nullopt is used which
-     * indicates that there is no limit.
+     * If no argLimit is given, then a default of std::nullopt is used. This is
+     * used to indicate that there is no limit.
      */
     ActionAbstract(const std::string &name, const std::string &helpText,
                    std::optional<unsigned int> argLimit = std::nullopt);

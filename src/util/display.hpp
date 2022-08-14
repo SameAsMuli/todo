@@ -1,12 +1,18 @@
 #ifndef UTIL_DISPLAY_H
 #define UTIL_DISPLAY_H
 
+#include <optional>
 #include <string>  // std::string
 #include <utility> // std::pair
 #include <vector>  // std::vector
 
 namespace util {
 namespace display {
+
+/**
+ * @brief A default line width that can be used for consistency across output.
+ */
+static unsigned int WIDTH = 50;
 
 /**
  * @brief Indentation string containing 2 whitespace characters.
@@ -59,10 +65,19 @@ std::string programVersion();
  * when the string contains a word that is longer than the set width.
  *
  * @param input The string to format.
+ * @param maxWidth The maximum width of each line.
+ * @param indentWidth The number of spaces to insert after each newline.
+ *
+ * If no maxWidth is given, then a default of std::nullopt is used. This is used
+ * to indicate that the terminal width should be used as the max width.
+ *
+ * If no indentWidth is given, then a default of 0 is used.
  *
  * @return A copy of the input string which the correct text wrapping.
  */
-std::string wrap(const std::string &input);
+std::string wrap(const std::string &input,
+                 std::optional<unsigned int> maxWidth = std::nullopt,
+                 unsigned int indentWidth = 0);
 
 } // namespace display
 } // namespace util

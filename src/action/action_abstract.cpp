@@ -37,7 +37,8 @@ void printAliases(const todo::action::ActionAbstract *action) {
             }
             buffer.append(alias);
         }
-        std::cout << util::display::wrap(buffer) << std::endl;
+        std::cout << util::display::wrap(buffer, util::display::WIDTH)
+                  << std::endl;
     }
 }
 
@@ -159,7 +160,8 @@ void ActionAbstract::printDetails() {
     buffer = this->description();
     if (!buffer.empty()) {
         std::cout << std::endl;
-        std::cout << util::display::wrap(buffer) << std::endl;
+        std::cout << util::display::wrap(buffer, util::display::WIDTH)
+                  << std::endl;
     }
 
     std::cout << std::endl;

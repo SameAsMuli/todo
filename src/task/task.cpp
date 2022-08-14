@@ -2,7 +2,7 @@
 #include <string>  // std::getline
 
 #include "task/task.hpp"
-#include "util/string.hpp"
+#include "util/display.hpp"
 
 namespace {
 
@@ -29,7 +29,9 @@ void Task::setDescription(const std::string &&description) {
 }
 
 std::ostream &operator<<(std::ostream &stream, const Task &task) {
-    stream << task.getType().formatDescription(task.getDescription());
+    stream << util::display::wrap(
+        task.getType().formatDescription(task.getDescription()), std::nullopt,
+        2);
     return stream;
 }
 

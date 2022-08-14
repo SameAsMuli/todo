@@ -1,5 +1,7 @@
-#include <algorithm> // std::sort
-#include <sstream>   // std::stringstream
+#include <algorithm> // std::min, std::sort
+#include <iostream>
+#include <sstream>     // std::stringstream
+#include <sys/ioctl.h> // struct winsize, TIOCGWINSZ
 
 #include "config/version.hpp"
 #include "file/definitions.hpp"
@@ -13,12 +15,16 @@ bool actionCompare(std::pair<std::string, std::string> a1,
     return a1.first < a2.first;
 }
 
+unsigned int getTerminalWidth() {
+    struct winsize w;
+    ioctl(fileno(stdin), TIOCGWINSZ, &w);
+    return w.ws_col;
+}
+
 } // namespace
 
 namespace util {
 namespace display {
-
-static int MAX_WIDTH = 50;
 
 std::string header() { return "TODO Management Utility - v" + todo::version(); }
 
@@ -49,12 +55,14 @@ programOverview(std::vector<std::pair<std::string, std::string>> actions) {
                "If the home directory is reached and no TODO information is "
                "found, then the action will use the global todo directory. On "
                "this system this is configured as:\n\n'" +
-               std::string(todo::file::getTodoDir(true)) + "'")
+                   std::string(todo::file::getTodoDir(true)) + "'",
+               0, WIDTH)
        << std::endl;
 
     ss << std::endl;
     ss << wrap("If run with no arguments, then the view action is used as a "
-               "default.")
+               "default.",
+               0, WIDTH)
        << std::endl;
 
     ss << std::endl;
@@ -85,8 +93,12 @@ std::string programUsage() {
 
 std::string programVersion() { return "todo version " + todo::version(); }
 
-std::string wrap(const std::string &input) {
-    return util::string::wrap(input, MAX_WIDTH);
+std::string wrap(const std::string &input, std::optional<unsigned int> maxWidth,
+                 unsigned int indentWidth) {
+    auto termWidth = getTerminalWidth();
+    auto width = maxWidth.has_value() ? std::min(termWidth, maxWidth.value())
+                                      : termWidth;
+    return util::string::wrap(input, width, indentWidth);
 }
 
 } // namespace display
