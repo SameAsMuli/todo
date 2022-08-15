@@ -4,6 +4,7 @@
 #include "error/inspecific_task.hpp"
 #include "error/unknown_task.hpp"
 #include "file/tasks_data.hpp"
+#include "util/display.hpp"
 #include "util/env.hpp"
 
 namespace {
@@ -16,15 +17,31 @@ static const std::vector<std::string> EDITOR_COMMANDS = {"nvim", "vim", "nano",
 namespace todo {
 namespace action {
 
-Edit::Edit() : ActionAbstract("edit", "Edit a specific TODO", 0) {
+Edit::Edit() : ActionAbstract("edit", "Edit the TODO file directly", 0) {
     this->add_valid_option(input::Option::global);
 }
 
 std::string Edit::description() const {
-    return "Edit a specific TODO through an interactive editor. The inputs to "
-           "this action will be used to search TODO descriptions to find a "
-           "matching item to alter. Only one TODO can be modified at a time. "
-           "Both outstanding and complete TODOs will be considered.";
+    std::stringstream ss;
+
+    ss << "Edit the TODO file directly, rather than using the command line "
+          "interface. If the EDITOR environment variable is set, it will be "
+          "used as the editor. Otherwise, the program will try to use one of "
+          "these editors, in the order specified:\n"
+       << std::endl;
+
+    for (const auto &editor : EDITOR_COMMANDS) {
+        ss << util::display::INDENT << editor << std::endl;
+    }
+
+    ss << "\nIf none of these editors are available, the program will exit."
+       << std::endl;
+
+    ss << "\nOnce the TODO file has finished being edited, it will be checked "
+          "to make sure it follows the correct format. If not, all changes "
+          "will be reverted.";
+
+    return ss.str();
 }
 
 std::string Edit::usage() const {
