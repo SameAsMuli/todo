@@ -137,6 +137,8 @@ void TasksData::read_derived() {
                                    "'" + KEY_TASKS + "' is not an array");
     }
 
+    std::vector<task::Task> tasks;
+
     for (auto const &j_task : j_tasks) {
         task::Task task;
 
@@ -155,8 +157,10 @@ void TasksData::read_derived() {
             get_time_t_from_json(filePathStr, j_task, KEY_PREV_TIME_ADDED));
         task.set_previous_time_added(t);
 
-        m_tasks.push_back(task);
+        tasks.push_back(task);
     }
+
+    m_tasks = tasks;
 }
 
 void TasksData::write_derived() const {

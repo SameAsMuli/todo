@@ -72,8 +72,7 @@ void Edit::run(const input::Input &input) {
         tasksData.read();
     } catch (const std::exception &e) {
         /* Restore the backup */
-        tasksData = backup;
-        tasksData.write();
+        backup.write();
         throw std::runtime_error{
             std::string{"reverting changes, error found in tasks file: "} +
             e.what()};
