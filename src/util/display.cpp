@@ -56,13 +56,13 @@ program_overview(std::vector<std::pair<std::string, std::string>> actions) {
                "found, then the action will use the global todo directory. On "
                "this system this is configured as:\n\n'" +
                    std::string(todo::file::get_todo_dir(true)) + "'",
-               0, WIDTH)
+               WIDTH)
        << std::endl;
 
     ss << std::endl;
     ss << wrap("If run with no arguments, then the view action is used as a "
                "default.",
-               0, WIDTH)
+               WIDTH)
        << std::endl;
 
     ss << std::endl;
