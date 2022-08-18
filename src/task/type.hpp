@@ -3,7 +3,7 @@
 
 #include <algorithm>  // std::find
 #include <filesystem> // std::filesystem
-#include <iostream>   // std::ostream
+#include <iostream>   // std::istream, std::ostream
 #include <sstream>    // std::stringstream
 #include <string>     // std::string
 #include <vector>     // std::vector
@@ -148,33 +148,6 @@ class Type {
      * @return N/A
      */
     explicit operator bool() = delete;
-
-    /**
-     * @brief Populate the type from a stream.
-     *
-     * Takes the first character from the stream and uses that as the type
-     * character. If that character is not recognised, then UNKNOWN_TYPE is
-     * used.
-     *
-     * @param stream The stream to use.
-     * @param type The type object to populate.
-     *
-     * @return The given stream.
-     */
-    friend std::istream &operator>>(std::istream &stream, Type &type) {
-        char character = stream.get();
-
-        if (character == EOF) {
-            /* Stream is empty when it wasn't expected it to be, so set the
-             * failbit.
-             */
-            stream.setstate(std::ios::failbit);
-        } else {
-            type.m_value = value_from_char(character);
-        }
-
-        return stream;
-    }
 
     /**
      * @brief Output a type to a given stream.
