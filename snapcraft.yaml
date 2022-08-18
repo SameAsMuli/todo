@@ -1,6 +1,7 @@
 name: sameasmuli-todo
 title: Todo
-version: '0.5.0'
+epoch: 1
+version: '1.0.0'
 summary: A command line task management utility
 description: |
   A command line application to manage tasks and TODOs. Tasks can be given one
