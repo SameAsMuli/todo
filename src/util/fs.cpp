@@ -45,17 +45,6 @@ std::filesystem::path home_dir() {
     return {};
 }
 
-std::filesystem::path root_dir() {
-    try {
-        return current_dir().root_path();
-    } catch (const std::exception &e) {
-        /* If we got here, getcwd() has failed so let's just return an empty
-         * Path to indicate failure.
-         */
-        return {};
-    }
-}
-
 void init_dir(const std::filesystem::path dir) {
     std::filesystem::create_directories(dir);
 }

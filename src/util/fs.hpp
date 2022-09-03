@@ -23,13 +23,6 @@ std::filesystem::path current_dir();
 std::filesystem::path home_dir();
 
 /**
- * @brief Find the root directory for the system.
- *
- * @return The filesystem path to the root directory, or an empty path.
- */
-std::filesystem::path root_dir();
-
-/**
  * @brief Create a directory if it doesn't already exist.
  *
  * @param dir The path to the directory.
