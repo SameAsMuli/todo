@@ -44,9 +44,7 @@ std::string Edit::description() const {
     return ss.str();
 }
 
-std::string Edit::usage() const {
-    return "usage: todo " + this->get_name() + " <task description>";
-}
+std::string Edit::usage() const { return "usage: todo " + this->get_name(); }
 
 void Edit::run(const input::Input &input) {
     /* Open the tasks file */
