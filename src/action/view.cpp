@@ -93,7 +93,7 @@ void view_complete_todos(const todo::file::TasksData &tasks) {
  *
  * @param tasks The list of all tasks to search.
  */
-void viewOutstandingTodos(const todo::file::TasksData &tasks) {
+void view_outstanding_todos(const todo::file::TasksData &tasks) {
     view_task_type(tasks, todo::task::Type::urgent);
     view_task_type(tasks, todo::task::Type::high);
     view_task_type(tasks, todo::task::Type::normal);
@@ -106,7 +106,7 @@ void viewTasks(input::Input input, bool global) {
 
     /* If no input is given, show all tasks */
     if (input.get_action_arg_count() == 0) {
-        viewOutstandingTodos(tasks);
+        view_outstanding_todos(tasks);
         view_complete_todos(tasks);
         return;
     }
@@ -122,7 +122,7 @@ void viewTasks(input::Input input, bool global) {
         } else if (arg == ARG_VAL_COMPLETE) {
             view_complete_todos(tasks);
         } else if (arg == ARG_VAL_OUTSTANDING) {
-            viewOutstandingTodos(tasks);
+            view_outstanding_todos(tasks);
         } else {
             todo::task::Type taskType{arg};
 
