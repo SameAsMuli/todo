@@ -9,6 +9,9 @@ compile_commands.json
 install_manifest.txt
 todo
 
+# Ignore ctags file
+.tags
+
 # Ignore Doxygen directory
 doxydoc
 

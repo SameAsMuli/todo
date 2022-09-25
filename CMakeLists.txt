@@ -68,6 +68,37 @@ target_compile_options(${PROJECT_NAME} PUBLIC -std=c++17 -g -O0 -pedantic -Wall
   -Wredundant-decls -Wshadow -Wsign-conversion -Wsign-promo -Wstrict-overflow=5
   -Wundef -Wswitch-default -Werror -Wno-unused)
 
+# Generate a tags file if ctags is available
+find_program(CTAGS_FOUND ctags)
+if(CTAGS_FOUND)
+    set_source_files_properties(tags PROPERTIES GENERATED true)
+    add_custom_target(
+        tags
+        COMMAND ctags -R --c++-kinds=+p --fields=+iaS --extras=+q --language-force=C++
+            ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}
+        COMMAND ln -sf ${CMAKE_CURRENT_BINARY_DIR}/tags ${PROJECT_SOURCE_DIR}/.tags
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+    )
+    add_dependencies(${PROJECT_NAME} tags)
+endif(CTAGS_FOUND)
+
+# Create link to compile_commands.json in project root
+add_custom_target(
+    compile_commands
+    COMMAND ln -sf ${CMAKE_CURRENT_BINARY_DIR}/compile_commands.json
+        ${PROJECT_SOURCE_DIR}/compile_commands.json
+    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+)
+add_dependencies(${PROJECT_NAME} compile_commands)
+
+# Ensure git hooks are installed
+add_custom_target(
+    git_hooks
+    COMMAND git config core.hooksPath ${PROJECT_SOURCE_DIR}/.githooks
+    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+)
+add_dependencies(${PROJECT_NAME} git_hooks)
+
 # Include tests
 enable_testing()
 add_subdirectory(test)

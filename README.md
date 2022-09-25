@@ -25,7 +25,7 @@ Available for installation via the snap store:
 [![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/sameasmuli-todo)
 
 ## Build From Source
-Requires a C++17 compatible compiler, CMake and an internet connection to compile; all other dependencies are downloaded via CMake. Create a build directory in the root of the project and compile using CMake:
+Requires a C++17 compatible compiler, CMake, git, and an internet connection to compile; all other dependencies are downloaded via CMake. Create a build directory in the root of the project and compile using CMake:
 ```
 mkdir build
 cd build
