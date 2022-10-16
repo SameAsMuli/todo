@@ -38,8 +38,9 @@ Complete::Complete(const task::Type taskType)
 
 void Complete::run(const input::Input &input) {
     /* Open the tasks file */
-    auto tasks = todo::file::TasksData{todo::file::File::tasks,
-                                       input.has_option(input::Option::global)};
+    auto tasks = todo::file::TasksData{
+        todo::file::File::tasks,
+        file::get_todo_dir(input.has_option(input::Option::global))};
 
     /* Find all matching tasks and set them as complete */
     auto exact = input.has_option(input::Option::exact);
@@ -47,17 +48,18 @@ void Complete::run(const input::Input &input) {
     auto type = this->get_task_type();
     unsigned int matches = 0;
 
-    tasks.for_each([exact, &matches, searchString, type](auto &task) mutable {
-        if (exact ? task.get_description() == searchString
-                  : task.get_description().find(searchString) !=
-                        std::string::npos) {
-            task.set_previous_type(task.get_type());
-            task.set_previous_time_added(task.get_time_added());
-            task.set_type(type);
-            task.set_time_added(std::chrono::system_clock::now());
-            matches++;
-        }
-    });
+    tasks.for_each(
+        [exact, &matches, searchString, type](task::Task &task) mutable {
+            if (exact ? task.get_description() == searchString
+                      : task.get_description().find(searchString) !=
+                            std::string::npos) {
+                task.set_previous_type(task.get_type());
+                task.set_previous_time_added(task.get_time_added());
+                task.set_type(type);
+                task.set_time_added(std::chrono::system_clock::now());
+                matches++;
+            }
+        });
 
     /* If we aren't using force, check we affected exactly one task */
     if (!input.has_option(input::Option::force)) {

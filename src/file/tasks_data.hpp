@@ -24,10 +24,11 @@ class TasksData : public DataAbstract {
      * This function will read the file and populate this class with the
      * contents.
      *
-     * @param fileType The type of tasks file to open.
-     * @param global Whether to consider the global or local tasks file.
+     * @param fileType The type of tasks file to read.
+     * @param dir The directory to read the file from.
      */
-    TasksData(File fileType, bool global = false);
+    TasksData(const File &fileType,
+              const std::filesystem::path &dir = get_todo_dir(false));
 
     /**
      * @brief Add a task to the task list file.
@@ -60,8 +61,12 @@ class TasksData : public DataAbstract {
      * @brief Loop all stored tasks and perform an action on each one.
      *
      * @param function A callback describing the action to perform on each task.
+     *
+     * @{
      */
     void for_each(std::function<void(task::Task &)> function);
+    void for_each(std::function<void(const task::Task &)> function) const;
+    /** @} */
 
   private:
     std::vector<task::Task> m_tasks;

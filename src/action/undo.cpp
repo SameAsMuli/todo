@@ -38,15 +38,16 @@ std::string Undo::usage() const {
 
 void Undo::run(const input::Input &input) {
     /* Open the tasks file */
-    auto tasks = file::TasksData{file::File::tasks,
-                                 input.has_option(input::Option::global)};
+    auto tasks = file::TasksData{
+        file::File::tasks,
+        file::get_todo_dir(input.has_option(input::Option::global))};
 
     /* Find all matching tasks and revert them */
     auto exact = input.has_option(input::Option::exact);
     auto searchString = input.get_action_arg_string();
     unsigned int matches = 0;
 
-    tasks.for_each([exact, &matches, searchString](auto &task) {
+    tasks.for_each([exact, &matches, searchString](task::Task &task) {
         if (exact ? task.get_description() == searchString
                   : task.get_description().find(searchString) !=
                         std::string::npos) {

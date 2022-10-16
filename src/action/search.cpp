@@ -76,18 +76,17 @@ void Search::run(const input::Input &input) {
 
     /* Search for matching tasks */
     if (all) {
-        searchResults = search_tasks(file::TasksData{file::File::tasks, true},
-                                     searchString, exact);
-
-        if (file::get_todo_dir(false) != file::get_todo_dir(true)) {
-            auto matchingTasks = search_tasks(
-                file::TasksData{file::File::tasks, false}, searchString, exact);
+        auto todoDirs = file::get_local_todo_dir_hierarchy();
+        for (const auto &dir : todoDirs) {
+            auto tasks = file::TasksData{file::File::tasks, dir};
+            auto matchingTasks = search_tasks(tasks, searchString, exact);
             searchResults.insert(searchResults.end(), matchingTasks.begin(),
                                  matchingTasks.end());
         }
     } else {
-        searchResults = search_tasks(file::TasksData{file::File::tasks, global},
-                                     searchString, exact);
+        searchResults = search_tasks(
+            file::TasksData{file::File::tasks, file::get_todo_dir(global)},
+            searchString, exact);
     }
 
     /* Sort the list by descending priority and time added */
@@ -99,7 +98,7 @@ void Search::run(const input::Input &input) {
                   return lhs.get_type() < rhs.get_type();
               });
 
-    for (auto const task : searchResults) {
+    for (const auto task : searchResults) {
         std::cout << task << std::endl;
     }
 }

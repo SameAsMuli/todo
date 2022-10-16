@@ -13,7 +13,7 @@ namespace input {
  * they take an argument (true) or act as a boolean flag (false).
  */
 #define OPTIONS(F)                                                             \
-    F(all, "Consider both local and global TODOs", false),                     \
+    F(all, "Consider all TODOs in and above the current directory", false),    \
         F(exact, "Only match identical TODOs", false),                         \
         F(force, "Perform action on all matched TODOs", false),                \
         F(global, "Consider global TODOs only", false),                        \

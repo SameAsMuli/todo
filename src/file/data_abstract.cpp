@@ -5,19 +5,21 @@
 namespace todo {
 namespace file {
 
-DataAbstract::DataAbstract(File fileType, bool global)
-    : m_fileType(fileType), m_global(global) {}
+DataAbstract::DataAbstract(const File &fileType,
+                           const std::filesystem::path &dir)
+    : m_fileType(fileType), m_dir(dir) {}
 
-DataAbstract *DataAbstract::init(File fileType, bool global) {
+DataAbstract *DataAbstract::init(const File &fileType,
+                                 std::filesystem::path dir) {
     switch (fileType) {
     case File::archived_tasks:
     case File::tasks:
-        return new TasksData{fileType, global};
+        return new TasksData{fileType, dir};
     }
 }
 
 std::filesystem::path DataAbstract::get_file() const {
-    return get_todo_dir(m_global) / "data" / m_fileType.file_name();
+    return m_dir / "data" / m_fileType.file_name();
 }
 
 void DataAbstract::read() {

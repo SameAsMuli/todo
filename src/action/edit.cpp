@@ -48,8 +48,9 @@ std::string Edit::usage() const { return "usage: todo " + this->get_name(); }
 
 void Edit::run(const input::Input &input) {
     /* Open the tasks file */
-    auto tasksData = file::TasksData{file::File::tasks,
-                                     input.has_option(input::Option::global)};
+    auto tasksData = file::TasksData{
+        file::File::tasks,
+        file::get_todo_dir(input.has_option(input::Option::global))};
 
     /* Choose the editor to use */
     auto var = std::getenv("EDITOR");

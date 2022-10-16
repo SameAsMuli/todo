@@ -3,6 +3,7 @@
 
 #include <filesystem>
 
+#include "file/definitions.hpp"
 #include "file/file.hpp"
 
 namespace todo {
@@ -21,11 +22,12 @@ class DataAbstract {
      * @brief Initialise a concrete instance of this class.
      *
      * @param fileType The data file type to read.
-     * @param global Whether to consider the local or global data file.
+     * @param dir The directory to read the file from.
      *
      * @return An instance of a class derived from DataAbstract.
      */
-    static DataAbstract *init(File fileType, bool global = false);
+    static DataAbstract *init(const File &fileType,
+                              std::filesystem::path dir = get_todo_dir(false));
 
     /**
      * @brief Get the file path for this data file.
@@ -49,9 +51,9 @@ class DataAbstract {
      * @brief Abstract constructor for class representation of a data file.
      *
      * @param fileType The type of file being represented by this class.
-     * @param global Whether to consider the global or local data file.
+     * @param dir The directory in which the data file is located.
      */
-    DataAbstract(File fileType, bool global = false);
+    DataAbstract(const File &fileType, const std::filesystem::path &dir);
 
     /**
      * @brief Create file and parent directories if required.
@@ -61,7 +63,7 @@ class DataAbstract {
   private:
     File m_fileType;
 
-    bool m_global;
+    std::filesystem::path m_dir;
 
     /**
      * @brief Allow derived classes to perform specific read actions.

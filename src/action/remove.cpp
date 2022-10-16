@@ -46,7 +46,7 @@ void Remove::run(const input::Input &input) {
     auto global = input.has_option(input::Option::global);
 
     /* Read the tasks file */
-    auto tasks = file::TasksData{file::File::tasks, global};
+    auto tasks = file::TasksData{file::File::tasks, file::get_todo_dir(global)};
 
     /* Remove matching tasks */
     auto numRemoved = tasks.remove_tasks([exact, searchString](auto &task) {

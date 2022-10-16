@@ -62,8 +62,8 @@ time_t get_time_t_from_json(const std::string &filePath, const JSON &json,
 namespace todo {
 namespace file {
 
-TasksData::TasksData(File fileType, bool global)
-    : DataAbstract(fileType, global) {
+TasksData::TasksData(const File &fileType, const std::filesystem::path &dir)
+    : DataAbstract(fileType, dir) {
     switch (fileType) {
     case File::archived_tasks:
     case File::tasks:
@@ -109,6 +109,13 @@ TasksData::search(std::function<bool(const task::Task &)> searchFunc) const {
 
 void TasksData::for_each(std::function<void(task::Task &)> function) {
     for (auto &task : m_tasks) {
+        function(task);
+    }
+}
+
+void TasksData::for_each(
+    std::function<void(const task::Task &)> function) const {
+    for (auto const &task : m_tasks) {
         function(task);
     }
 }

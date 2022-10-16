@@ -29,32 +29,39 @@ const std::string ARG_VAL_OUTSTANDING = "outstanding";
  *
  * @param tasks The list of all tasks to search.
  */
-void view_archive_todos(const todo::file::TasksData &tasks) {
-    /* Get all archived tasks */
-    auto archivedTasks = tasks.search([](const auto &task) { return true; });
+void view_archive_todos(const std::vector<std::filesystem::path> &dirs) {
+    for (const auto &dir : dirs) {
+        auto tasks =
+            todo::file::TasksData{todo::file::File::archived_tasks, dir};
 
-    if (archivedTasks.size() == 0)
-        return;
+        /* Get all archived tasks */
+        auto archivedTasks =
+            tasks.search([](const auto &task) { return true; });
 
-    /* Sort the list by descending completion date */
-    std::sort(archivedTasks.begin(), archivedTasks.end(),
-              [](const auto &lhs, const auto &rhs) {
-                  return lhs.get_time_added() > rhs.get_time_added();
-              });
+        if (archivedTasks.size() == 0)
+            return;
 
-    /* Output the tasks in the list */
-    date::sys_days date;
-    for (auto const task : archivedTasks) {
-        auto completionDate = date::floor<date::days>(task.get_time_added());
-        if (date != completionDate) {
-            date = completionDate;
-            using namespace date;
-            std::cout << ANSI_BOLD << "\n[" << date << "]" << ANSI_RESET
-                      << std::endl;
+        /* Sort the list by descending completion date */
+        std::sort(archivedTasks.begin(), archivedTasks.end(),
+                  [](const auto &lhs, const auto &rhs) {
+                      return lhs.get_time_added() > rhs.get_time_added();
+                  });
+
+        /* Output the tasks in the list */
+        date::sys_days date;
+        for (auto const task : archivedTasks) {
+            auto completionDate =
+                date::floor<date::days>(task.get_time_added());
+            if (date != completionDate) {
+                date = completionDate;
+                using namespace date;
+                std::cout << ANSI_BOLD << "\n[" << date << "]" << ANSI_RESET
+                          << std::endl;
+            }
+            std::cout << task << std::endl;
         }
-        std::cout << task << std::endl;
+        std::cout << std::endl;
     }
-    std::cout << std::endl;
 }
 
 /**
@@ -63,18 +70,15 @@ void view_archive_todos(const todo::file::TasksData &tasks) {
  * @param tasks The list of all tasks to search.
  * @param taskType The task type to match against.
  */
-void view_task_type(const todo::file::TasksData &tasks,
+void view_task_type(const std::vector<std::filesystem::path> &dirs,
                     const todo::task::Type taskType) {
-    auto matchingTasks = tasks.search(
-        [taskType](const auto &task) { return task.get_type() == taskType; });
-
-    std::sort(matchingTasks.begin(), matchingTasks.end(),
-              [](const auto &lhs, const auto &rhs) {
-                  return lhs.get_time_added() < rhs.get_time_added();
-              });
-
-    for (auto const task : matchingTasks) {
-        std::cout << task << std::endl;
+    for (const auto &dir : dirs) {
+        auto tasks = todo::file::TasksData{todo::file::File::tasks, dir};
+        tasks.for_each([taskType](const auto &task) {
+            if (task.get_type() == taskType) {
+                std::cout << task << '\n';
+            }
+        });
     }
 }
 
@@ -83,9 +87,9 @@ void view_task_type(const todo::file::TasksData &tasks,
  *
  * @param tasks The list of all tasks to search.
  */
-void view_complete_todos(const todo::file::TasksData &tasks) {
-    view_task_type(tasks, todo::task::Type::done);
-    view_task_type(tasks, todo::task::Type::rejected);
+void view_complete_todos(const std::vector<std::filesystem::path> &dirs) {
+    view_task_type(dirs, todo::task::Type::done);
+    view_task_type(dirs, todo::task::Type::rejected);
 }
 
 /**
@@ -93,21 +97,19 @@ void view_complete_todos(const todo::file::TasksData &tasks) {
  *
  * @param tasks The list of all tasks to search.
  */
-void view_outstanding_todos(const todo::file::TasksData &tasks) {
-    view_task_type(tasks, todo::task::Type::urgent);
-    view_task_type(tasks, todo::task::Type::high);
-    view_task_type(tasks, todo::task::Type::normal);
-    view_task_type(tasks, todo::task::Type::low);
+void view_outstanding_todos(const std::vector<std::filesystem::path> &dirs) {
+    view_task_type(dirs, todo::task::Type::urgent);
+    view_task_type(dirs, todo::task::Type::high);
+    view_task_type(dirs, todo::task::Type::normal);
+    view_task_type(dirs, todo::task::Type::low);
 }
 
-void viewTasks(input::Input input, bool global) {
-    /* Read the tasks file */
-    auto tasks = todo::file::TasksData{todo::file::File::tasks, global};
-
+void view_tasks(input::Input input,
+                const std::vector<std::filesystem::path> &dirs) {
     /* If no input is given, show all tasks */
     if (input.get_action_arg_count() == 0) {
-        view_outstanding_todos(tasks);
-        view_complete_todos(tasks);
+        view_outstanding_todos(dirs);
+        view_complete_todos(dirs);
         return;
     }
 
@@ -116,13 +118,11 @@ void viewTasks(input::Input input, bool global) {
         auto arg = input.get_action_arg(i++);
 
         if (arg == ARG_VAL_ARCHIVE) {
-            auto archivedTasks =
-                todo::file::TasksData{todo::file::File::archived_tasks, global};
-            view_archive_todos(archivedTasks);
+            view_archive_todos(dirs);
         } else if (arg == ARG_VAL_COMPLETE) {
-            view_complete_todos(tasks);
+            view_complete_todos(dirs);
         } else if (arg == ARG_VAL_OUTSTANDING) {
-            view_outstanding_todos(tasks);
+            view_outstanding_todos(dirs);
         } else {
             todo::task::Type taskType{arg};
 
@@ -130,7 +130,7 @@ void viewTasks(input::Input input, bool global) {
                 throw todo::error::UnknownArgument(arg, ARG_NAME);
             }
 
-            view_task_type(tasks, taskType);
+            view_task_type(dirs, taskType);
         }
     }
 }
@@ -157,12 +157,9 @@ void View::run(const input::Input &input) {
 
     /* Check which tasks file to consider */
     if (all) {
-        viewTasks(input, true);
-        if (file::get_todo_dir(false) != file::get_todo_dir(true)) {
-            viewTasks(input, false);
-        }
+        view_tasks(input, file::get_local_todo_dir_hierarchy());
     } else {
-        viewTasks(input, global);
+        view_tasks(input, {file::get_todo_dir(global)});
     }
 }
 
@@ -175,19 +172,16 @@ std::string View::usage() const {
 
 std::string View::description() const {
     std::stringstream desc;
-    desc << "View existing TODOs in the specified TODO directory. If run "
-            "with "
+    desc << "View existing TODOs in the specified TODO directory. If run with "
             "no arguments or options, all outstanding TODOs in the nearest "
-            "TODO "
-            "directory will be displayed.\n\n"
+            "TODO directory will be displayed.\n\n"
             "If the "
          << input::Option(input::Option::global).to_string()
-         << " option is specified, then all outstanding TODOs from the "
-            "global "
+         << " option is specified, then all outstanding TODOs from the global "
             "TODO directory will be displayed. If the "
          << input::Option(input::Option::all).to_string()
-         << " option is specified, then both global and local TODOs will be "
-            "displayed.\n\n"
+         << " option is specified, then all TODOs in and above the current "
+            "directory will be displayed.\n\n"
             "If a "
          << ARG_NAME
          << " is specified, only TODOs of that type will be displayed. The "

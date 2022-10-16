@@ -72,7 +72,8 @@ void Add::run(const input::Input &input) {
     }
 
     /* Read the tasks file for the chosen directory */
-    auto tasks = todo::file::TasksData{todo::file::File::tasks, global};
+    auto tasks = todo::file::TasksData{todo::file::File::tasks,
+                                       file::get_todo_dir(global)};
 
     /* Check that the task doesn't already exist */
     auto matchingTasks = tasks.search([description](const auto &task) {

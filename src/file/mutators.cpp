@@ -8,9 +8,9 @@ namespace todo {
 namespace file {
 
 void archive_tasks(unsigned int maxMins, bool global) {
-    auto archiveTasks = TasksData{File::archived_tasks, global};
+    auto archiveTasks = TasksData{File::archived_tasks, get_todo_dir(global)};
     auto now = std::chrono::system_clock::now();
-    auto tasks = TasksData{File::tasks, global};
+    auto tasks = TasksData{File::tasks, get_todo_dir(global)};
 
     tasks.remove_tasks([&archiveTasks, maxMins, now](auto &task) {
         if (!task.get_type().is_complete())
