@@ -33,14 +33,14 @@ void Help::run(const input::Input &input) {
     if (!input.has_action_arg(0)) {
         std::vector<std::pair<std::string, std::string>> actions;
 
-        for (auto const &action : this->m_actions) {
+        for (const auto &action : this->m_actions) {
             actions.push_back({action->get_name(), action->get_help_text()});
         }
 
         std::cout << util::display::program_overview(actions) << std::endl;
     } else {
         auto actionName = input.get_action_arg(0);
-        for (auto const &action : this->m_actions) {
+        for (const auto &action : this->m_actions) {
             if (action->get_name() == actionName) {
                 action->print_details();
                 return;

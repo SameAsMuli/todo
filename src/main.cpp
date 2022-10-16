@@ -60,7 +60,7 @@ int main(int argc, char **argv) {
     actions.push_back(&view);
 
     /* Create an action to add each type of task */
-    for (auto const type : todo::task::Type::ALL_TYPES) {
+    for (const auto type : todo::task::Type::ALL_TYPES) {
         if (todo::task::Type{type}.is_complete()) {
             actions.push_back(new todo::action::Complete{type});
         } else {
@@ -84,7 +84,7 @@ int main(int argc, char **argv) {
         if (inputAction.empty()) {
             if (input.has_option(input::Option::help)) {
                 std::vector<std::pair<std::string, std::string>> actionList;
-                for (auto const &action : actions) {
+                for (const auto &action : actions) {
                     actionList.push_back(
                         {action->get_name(), action->get_help_text()});
                 }
@@ -95,7 +95,7 @@ int main(int argc, char **argv) {
                 view.perform(input);
             }
         } else {
-            for (auto const &action : actions) {
+            for (const auto &action : actions) {
                 if (action->is_known_as(inputAction)) {
                     action->perform(input);
                     return 0;
@@ -104,7 +104,7 @@ int main(int argc, char **argv) {
 
             /* The given action isn't known, display usage and corrections */
             std::vector<std::string> actionNames;
-            for (auto const &action : actions) {
+            for (const auto &action : actions) {
                 actionNames.push_back(action->get_name());
             }
 
@@ -121,7 +121,7 @@ int main(int argc, char **argv) {
                 }
 
                 int i = 0;
-                for (auto const &str : corrections) {
+                for (const auto &str : corrections) {
                     if (i++ > 0) {
                         std::cout << ", ";
                     }

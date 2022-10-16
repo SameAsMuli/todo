@@ -49,7 +49,7 @@ void view_archive_todos(const std::vector<std::filesystem::path> &dirs) {
 
         /* Output the tasks in the list */
         date::sys_days date;
-        for (auto const task : archivedTasks) {
+        for (const auto task : archivedTasks) {
             auto completionDate =
                 date::floor<date::days>(task.get_time_added());
             if (date != completionDate) {

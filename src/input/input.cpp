@@ -171,7 +171,7 @@ bool Input::has_option(const Option &option) const {
 
 std::unordered_set<Option> Input::get_options() const {
     std::unordered_set<Option> options;
-    for (auto const &o : m_options) {
+    for (const auto &o : m_options) {
         options.insert(o.first);
     }
     return options;

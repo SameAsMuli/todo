@@ -35,7 +35,7 @@ program_overview(std::vector<std::pair<std::string, std::string>> actions) {
     std::string::size_type maxNameLen = 0;
     std::string::size_type minSeparatorLen = 3;
 
-    for (auto const &action : actions) {
+    for (const auto &action : actions) {
         if (maxNameLen < action.first.size()) {
             maxNameLen = action.first.size();
         }
@@ -71,7 +71,7 @@ program_overview(std::vector<std::pair<std::string, std::string>> actions) {
     /* Make sure the actions are in alphabetical order */
     std::sort(actions.begin(), actions.end(), action_compare);
 
-    for (auto const &action : actions) {
+    for (const auto &action : actions) {
         ss << INDENT + action.first + " " +
                   std::string(minSeparatorLen +
                                   (maxNameLen - action.first.size()),

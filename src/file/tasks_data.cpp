@@ -98,7 +98,7 @@ std::vector<task::Task>
 TasksData::search(std::function<bool(const task::Task &)> searchFunc) const {
     std::vector<task::Task> matchingTasks;
 
-    for (auto const &task : m_tasks) {
+    for (const auto &task : m_tasks) {
         if (searchFunc(task)) {
             matchingTasks.push_back(task);
         }
@@ -115,7 +115,7 @@ void TasksData::for_each(std::function<void(task::Task &)> function) {
 
 void TasksData::for_each(
     std::function<void(const task::Task &)> function) const {
-    for (auto const &task : m_tasks) {
+    for (const auto &task : m_tasks) {
         function(task);
     }
 }
@@ -146,7 +146,7 @@ void TasksData::read_derived() {
 
     std::vector<task::Task> tasks;
 
-    for (auto const &j_task : j_tasks) {
+    for (const auto &j_task : j_tasks) {
         task::Task task;
 
         task.set_type(
@@ -176,7 +176,7 @@ void TasksData::write_derived() const {
     std::vector<JSON> j_tasks;
 
     /* Populate a json array with task data */
-    for (auto const &task : m_tasks) {
+    for (const auto &task : m_tasks) {
         JSON j_task;
 
         j_task[KEY_TYPE] = task.get_type().to_string();

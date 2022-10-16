@@ -81,7 +81,7 @@ void Add::run(const input::Input &input) {
     });
 
     if (matchingTasks.size() > 0) {
-        for (auto const &task : matchingTasks) {
+        for (const auto &task : matchingTasks) {
             if (!task.get_type().is_complete()) {
                 throw todo::error::DuplicateTask();
             }

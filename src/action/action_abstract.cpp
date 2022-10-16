@@ -29,7 +29,7 @@ void print_aliases(const todo::action::ActionAbstract *action) {
         std::sort(aliases.begin(), aliases.end(), string_compare);
 
         std::string buffer;
-        for (auto const &alias : aliases) {
+        for (const auto &alias : aliases) {
             if (buffer.empty()) {
                 buffer.append(util::display::INDENT);
             } else {
@@ -52,7 +52,7 @@ void print_valid_options(const todo::action::ActionAbstract *action) {
         std::string::size_type maxOptionStringLen = 0;
         std::string::size_type minSeparatorLen = 1;
 
-        for (auto const &option : unsortedOptions) {
+        for (const auto &option : unsortedOptions) {
             auto fullString = option.get_full_string();
             if (maxOptionStringLen < fullString.size()) {
                 maxOptionStringLen = fullString.size();
@@ -64,7 +64,7 @@ void print_valid_options(const todo::action::ActionAbstract *action) {
                        unsortedOptions.end());
         std::sort(options.begin(), options.end(), option_compare);
 
-        for (auto const &option : options) {
+        for (const auto &option : options) {
             auto optionString = option.get_full_string();
             std::cout << util::display::INDENT + optionString + " " +
                              std::string(
