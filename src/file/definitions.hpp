@@ -2,6 +2,7 @@
 #define TODO_FILE_DEFINITIONS_H
 
 #include <filesystem> // std::filesystem
+#include <vector>     // std::vector
 
 namespace todo {
 namespace file {
