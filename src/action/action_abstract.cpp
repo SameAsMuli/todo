@@ -138,7 +138,7 @@ void ActionAbstract::perform(const input::Input &input) {
     }
 }
 
-void ActionAbstract::print_details() {
+void ActionAbstract::print_details() const {
     std::cout << util::display::header() << std::endl;
     std::cout << std::endl;
 

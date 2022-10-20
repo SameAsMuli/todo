@@ -31,6 +31,11 @@ class ActionAbstract {
                    std::optional<unsigned int> argLimit = std::nullopt);
 
     /**
+     * @brief Base destructor for an action.
+     */
+    virtual ~ActionAbstract() = default;
+
+    /**
      * @brief Get the name of the action.
      *
      * @return A string with the name of the action.
@@ -110,7 +115,7 @@ class ActionAbstract {
     /**
      * @brief Print general information about the action.
      */
-    void print_details();
+    void print_details() const;
 
     /**
      * @brief Get a detailed description of the action.
