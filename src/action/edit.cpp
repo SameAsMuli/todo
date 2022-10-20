@@ -81,7 +81,14 @@ void Edit::run(const input::Input &input) {
 
     /* Construct and run the edit command */
     auto command = editor + " " + tasksData.get_file().string();
-    std::system(command.c_str());
+    auto ret = std::system(command.c_str());
+
+    if (ret) {
+        /* Restore the backup */
+        backup.write();
+        throw std::runtime_error{
+            "reverting changes, the editor exited with a non-zero status."};
+    }
 
     /* Check that the tasks file is still valid */
     try {

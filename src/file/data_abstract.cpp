@@ -16,6 +16,8 @@ DataAbstract *DataAbstract::init(const File &fileType,
     case File::tasks:
         return new TasksData{fileType, dir};
     }
+
+    return nullptr;
 }
 
 std::filesystem::path DataAbstract::get_file() const {
