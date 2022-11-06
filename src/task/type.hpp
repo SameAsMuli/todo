@@ -87,7 +87,8 @@ class Type {
     /**
      * @brief Initialise a Type directly from the enum.
      *
-     * Allows the end user to write code like this:
+     * This is intentionally not an explicit constructor, which allows the end
+     * user to write code like this:
      *
      *   Type t = Type::urgent;
      *
