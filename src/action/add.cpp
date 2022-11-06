@@ -80,12 +80,10 @@ void Add::run(const input::Input &input) {
         return task.get_description() == description;
     });
 
-    if (matchingTasks.size() > 0) {
-        for (const auto &task : matchingTasks) {
-            if (!task.get_type().is_complete()) {
-                throw todo::error::DuplicateTask();
-            }
-        }
+    if (matchingTasks.size() > 0 &&
+        std::any_of(matchingTasks.begin(), matchingTasks.end(),
+                    [](const auto &task) { return !task.is_complete(); })) {
+        throw todo::error::DuplicateTask{};
     }
 
     /* Create and populate a task to be added */

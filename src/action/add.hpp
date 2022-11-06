@@ -21,7 +21,7 @@ class Add : public ActionAbstract {
      *
      * @param taskType The type of task this class will add.
      */
-    Add(const task::Type taskType);
+    explicit Add(const task::Type taskType);
 
     /**
      * @brief Get the type of task added by this action.

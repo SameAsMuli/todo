@@ -21,7 +21,7 @@ class Complete : public ActionAbstract {
      *
      * @param taskType The new type this class will give to completed tasks.
      */
-    Complete(const task::Type taskType);
+    explicit Complete(const task::Type taskType);
 
     /**
      * @brief Get the completion type used by this action.

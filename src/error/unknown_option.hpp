@@ -18,7 +18,7 @@ class UnknownOption : public std::runtime_error {
      *
      * @param option The unrecognised option.
      */
-    UnknownOption(const std::string &option)
+    explicit UnknownOption(const std::string &option)
         : std::runtime_error("unknown option: '" + option + "'") {}
 };
 

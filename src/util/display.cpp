@@ -10,11 +10,6 @@
 
 namespace {
 
-bool action_compare(std::pair<std::string, std::string> a1,
-                    std::pair<std::string, std::string> a2) {
-    return a1.first < a2.first;
-}
-
 unsigned int get_terminal_width() {
     struct winsize w;
     ioctl(fileno(stdin), TIOCGWINSZ, &w);
@@ -35,11 +30,10 @@ program_overview(std::vector<std::pair<std::string, std::string>> actions) {
     std::string::size_type maxNameLen = 0;
     std::string::size_type minSeparatorLen = 3;
 
-    for (const auto &action : actions) {
-        if (maxNameLen < action.first.size()) {
-            maxNameLen = action.first.size();
-        }
-    }
+    maxNameLen =
+        std::max_element(actions.begin(), actions.end(), [](auto a, auto b) {
+            return a.first.size() < b.first.size();
+        })->first.size();
 
     std::stringstream ss;
 
@@ -69,7 +63,8 @@ program_overview(std::vector<std::pair<std::string, std::string>> actions) {
     ss << "List of actions:" << std::endl;
 
     /* Make sure the actions are in alphabetical order */
-    std::sort(actions.begin(), actions.end(), action_compare);
+    std::sort(actions.begin(), actions.end(),
+              [](auto a1, auto a2) { return a1.first < a2.first; });
 
     for (const auto &action : actions) {
         ss << INDENT + action.first + " " +

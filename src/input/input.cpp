@@ -11,8 +11,8 @@ const std::vector<std::string>::size_type PARAM_START_INDEX = 2;
 
 bool has_prefix(const std::string &str, const std::string &prefix) {
     return prefix.size() < str.size() &&
-           std::mismatch(prefix.begin(), prefix.end(), str.begin()).first ==
-               prefix.end();
+           std::mismatch(prefix.begin(), prefix.end(), str.begin(), str.end())
+                   .first == prefix.end();
 }
 
 } // namespace

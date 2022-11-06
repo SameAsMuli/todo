@@ -27,8 +27,8 @@ class TasksData : public DataAbstract {
      * @param fileType The type of tasks file to read.
      * @param dir The directory to read the file from.
      */
-    TasksData(const File &fileType,
-              const std::filesystem::path &dir = get_todo_dir(false));
+    explicit TasksData(const File &fileType,
+                       const std::filesystem::path &dir = get_todo_dir(false));
 
     /**
      * @brief Add a task to the task list file.

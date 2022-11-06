@@ -83,11 +83,15 @@ int main(int argc, char **argv) {
         /* If no action is given, view all tasks - else run the given action */
         if (inputAction.empty()) {
             if (input.has_option(input::Option::help)) {
+                /* Populate list of action names and descriptions */
                 std::vector<std::pair<std::string, std::string>> actionList;
-                for (const auto &action : actions) {
-                    actionList.push_back(
-                        {action->get_name(), action->get_help_text()});
-                }
+                std::transform(
+                    actions.begin(), actions.end(),
+                    std::back_inserter(actionList),
+                    [](const auto &action)
+                        -> std::pair<std::string, std::string> {
+                        return {action->get_name(), action->get_help_text()};
+                    });
 
                 std::cout << util::display::program_overview(actionList)
                           << std::endl;
@@ -95,18 +99,23 @@ int main(int argc, char **argv) {
                 view.perform(input);
             }
         } else {
-            for (const auto &action : actions) {
-                if (action->is_known_as(inputAction)) {
-                    action->perform(input);
-                    return 0;
-                }
+            /* Attempt to find a matching action */
+            auto action =
+                std::find_if(actions.begin(), actions.end(),
+                             [&inputAction](const auto &action) {
+                                 return action->is_known_as(inputAction);
+                             });
+
+            if (action != std::end(actions)) {
+                (*action)->perform(input);
+                return 0;
             }
 
             /* The given action isn't known, display usage and corrections */
             std::vector<std::string> actionNames;
-            for (const auto &action : actions) {
-                actionNames.push_back(action->get_name());
-            }
+            std::transform(
+                actions.begin(), actions.end(), std::back_inserter(actionNames),
+                [](const auto &action) { return action->get_name(); });
 
             auto corrections =
                 util::string::corrections(inputAction, actionNames);

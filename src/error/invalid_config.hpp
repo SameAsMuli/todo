@@ -19,7 +19,8 @@ class InvalidConfig : public std::runtime_error {
      * @param file The name of the malformed configuration file.
      * @param desc An optional description explaining the problem encountered.
      */
-    InvalidConfig(const std::string &file, const std::string &desc = "")
+    explicit InvalidConfig(const std::string &file,
+                           const std::string &desc = "")
         : std::runtime_error("failed to parse file '" + file + "'" +
                              (desc.empty() ? "" : ": " + desc)) {}
 };

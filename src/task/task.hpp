@@ -79,6 +79,13 @@ class Task {
     }
 
     /**
+     * @brief Return whether this task is marked as being complete.
+     *
+     * @return TRUE if the task is complete, FALSE otherwise.
+     */
+    bool is_complete() const;
+
+    /**
      * @brief Set the type for this task.
      *
      * @param type The type to use.

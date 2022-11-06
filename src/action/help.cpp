@@ -33,21 +33,25 @@ void Help::run(const input::Input &input) {
     if (!input.has_action_arg(0)) {
         std::vector<std::pair<std::string, std::string>> actions;
 
-        for (const auto &action : this->m_actions) {
-            actions.push_back({action->get_name(), action->get_help_text()});
-        }
+        std::transform(this->m_actions.begin(), this->m_actions.end(),
+                       std::back_inserter(actions), [](const auto &action) {
+                           return std::make_pair(action->get_name(),
+                                                 action->get_help_text());
+                       });
 
         std::cout << util::display::program_overview(actions) << std::endl;
     } else {
         auto actionName = input.get_action_arg(0);
-        for (const auto &action : this->m_actions) {
-            if (action->get_name() == actionName) {
-                action->print_details();
-                return;
-            }
-        }
+        auto action =
+            std::find_if(this->m_actions.begin(), this->m_actions.end(),
+                         [&actionName](const auto &action) {
+                             return action->get_name() == actionName;
+                         });
 
-        throw error::UnknownArgument(actionName, "action");
+        if (action == this->m_actions.end())
+            throw error::UnknownArgument(actionName, "action");
+
+        (*action)->print_details();
     }
 }
 

@@ -100,14 +100,14 @@ class Type {
      *
      * @param str String to convert to a Type.
      */
-    Type(std::string str) : m_value(value_from_string(str)) {}
+    explicit Type(std::string str) : m_value(value_from_string(str)) {}
 
     /**
      * @brief Initialise a Type from its character representation.
      *
      * @param c Character to convert to a Type.
      */
-    Type(char c) : m_value(value_from_char(c)) {}
+    explicit Type(char c) : m_value(value_from_char(c)) {}
 
     /**
      * @brief Allows usage in switch and comparison statements.
@@ -290,12 +290,10 @@ class Type {
      * @return The matching Value, or UNKNOWN_TYPE if string is unknown.
      */
     static Value value_from_string(std::string str) {
-        for (Type const type : ALL_TYPES) {
-            if (type.to_string() == str) {
-                return type.m_value;
-            }
+        auto i = std::find(m_typeNames.begin(), m_typeNames.end(), str);
+        if (i != m_typeNames.end()) {
+            return Value(i - m_typeNames.begin());
         }
-
         return UNKNOWN_TYPE;
     }
 
@@ -307,12 +305,10 @@ class Type {
      * @return The matching Value, or UNKNOWN_TYPE if character is unknown.
      */
     static Value value_from_char(char c) {
-        for (Type const type : ALL_TYPES) {
-            if (type.get_char_representation() == c) {
-                return type.m_value;
-            }
+        auto i = std::find(m_typeChar.begin(), m_typeChar.end(), c);
+        if (i != m_typeChar.end()) {
+            return Value(i - m_typeChar.begin());
         }
-
         return UNKNOWN_TYPE;
     }
 };

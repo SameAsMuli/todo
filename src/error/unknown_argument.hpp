@@ -19,8 +19,8 @@ class UnknownArgument : public std::runtime_error {
      * @param arg The unrecognised argument.
      * @param type The type name of the argument. Defaults to "argument".
      */
-    UnknownArgument(const std::string &arg,
-                    const std::string &type = "argument")
+    explicit UnknownArgument(const std::string &arg,
+                             const std::string &type = "argument")
         : std::runtime_error("unknown " + type + ": '" + arg + "'") {}
 };
 

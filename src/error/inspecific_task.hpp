@@ -18,7 +18,7 @@ class InspecificTask : public std::runtime_error {
      *
      * @param count The number of tasks matched.
      */
-    InspecificTask(unsigned int count)
+    explicit InspecificTask(unsigned int count)
         : std::runtime_error("search string matched " + std::to_string(count) +
                              " TODOs, be more specific!") {}
 };

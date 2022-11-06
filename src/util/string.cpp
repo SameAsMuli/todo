@@ -150,21 +150,15 @@ std::string toupper(const std::string &input) {
 
 std::string wrap(const std::string &input, unsigned int maxWidth,
                  unsigned int indentWidth) {
-    if (maxWidth <= 0) {
-        throw std::runtime_error{
-            "invalid maxWidth passed to util::string::wrap"};
-    }
-
     if (maxWidth <= indentWidth) {
         throw std::runtime_error{
             "smaller maxWidth than indentWidth passed to util::string::wrap"};
     }
 
-    std::string::size_type newlinePos = 0;
+    std::string::size_type newlinePos;
     std::string::size_type spacePos = 0;
     std::string::size_type prevSpacePos = 0;
     auto str = std::string(input);
-    auto buff = std::string(str);
 
     /* Loop till the last line is less than 'maxWidth' number of characters long
      */
@@ -232,7 +226,6 @@ std::string wrap(const std::string &input, unsigned int maxWidth,
         }
 
         prevSpacePos = spacePos;
-        buff = str;
 
         if (indentWidth > 0) {
             if (maxWidth > str.length() - spacePos) {

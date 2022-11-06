@@ -13,7 +13,7 @@ void archive_tasks(unsigned int maxMins, bool global) {
     auto tasks = TasksData{File::tasks, get_todo_dir(global)};
 
     tasks.remove_tasks([&archiveTasks, maxMins, now](auto &task) {
-        if (!task.get_type().is_complete())
+        if (!task.is_complete())
             return false;
 
         auto ageMins = std::chrono::duration_cast<std::chrono::minutes>(

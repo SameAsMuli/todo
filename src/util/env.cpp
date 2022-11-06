@@ -24,7 +24,6 @@ bool command_exists(const std::string &command) {
         return false;
     }
 
-    std::string delimiter = ":";
     std::string path = std::string{var};
     size_t start_pos = 0, end_pos = 0;
 

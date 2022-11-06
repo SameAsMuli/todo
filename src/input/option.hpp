@@ -100,7 +100,7 @@ class Option {
      *
      * @param s String to convert to an Option.
      */
-    Option(const std::string &s)
+    explicit Option(const std::string &s)
         : m_value(value_from_string(s)), m_shortOption(s.size() == 1) {}
 
     /**
@@ -108,7 +108,7 @@ class Option {
      *
      * @param c Character to convert to an Option.
      */
-    Option(char c) : Option(std::string(1, c)) {}
+    explicit Option(char c) : Option(std::string(1, c)) {}
 
     /**
      * @brief Allows usage in switch and comparison statements.
@@ -273,10 +273,13 @@ class Option {
      */
     static Value value_from_string(const std::string &s) {
         if (s.length() == 1) {
-            for (Option const o : ALL_OPTIONS) {
-                if (o.get_char_representation() == s[0]) {
-                    return o.m_value;
-                }
+            auto i = std::find_if(
+                ALL_OPTIONS.begin(), ALL_OPTIONS.end(), [&s](const Option &o) {
+                    return o.get_char_representation() == s[0];
+                });
+
+            if (i != ALL_OPTIONS.end()) {
+                return Value(i - ALL_OPTIONS.begin());
             }
         } else {
             auto i = std::find(m_optionNames.begin(), m_optionNames.end(), s);
