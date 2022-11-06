@@ -100,14 +100,13 @@ int main(int argc, char **argv) {
             }
         } else {
             /* Attempt to find a matching action */
-            auto action =
-                std::find_if(actions.begin(), actions.end(),
-                             [&inputAction](const auto &action) {
-                                 return action->is_known_as(inputAction);
-                             });
+            auto it = std::find_if(actions.begin(), actions.end(),
+                                   [&inputAction](const auto &action) {
+                                       return action->is_known_as(inputAction);
+                                   });
 
-            if (action != std::end(actions)) {
-                (*action)->perform(input);
+            if (it != std::end(actions)) {
+                (*it)->perform(input);
                 return 0;
             }
 
