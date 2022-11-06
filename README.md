@@ -1,5 +1,7 @@
 # TODO
 [![sameasmuli-todo](https://snapcraft.io/sameasmuli-todo/badge.svg)](https://snapcraft.io/sameasmuli-todo)
+[![Build](https://github.com/SameAsMuli/todo/actions/workflows/cmake.yml/badge.svg)](https://github.com/SameAsMuli/todo/actions)
+[![Codacy](https://github.com/SameAsMuli/todo/actions/workflows/codacy.yml/badge.svg)](https://github.com/SameAsMuli/todo/actions)
 
 A command line TODO management utility written in C++.
 
