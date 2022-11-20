@@ -71,15 +71,6 @@ class Type {
     }
 
     /**
-     * @brief Check if a given character is a valid type.
-     *
-     * @param c The character to check.
-     *
-     * @return True if c is a known type, false otherwise.
-     */
-    static bool is_valid(char c) { return value_from_char(c) != UNKNOWN_TYPE; }
-
-    /**
      * @brief Default constructor for a Type.
      */
     Type() : m_value(UNKNOWN_TYPE) {}
@@ -102,13 +93,6 @@ class Type {
      * @param str String to convert to a Type.
      */
     explicit Type(std::string str) : m_value(value_from_string(str)) {}
-
-    /**
-     * @brief Initialise a Type from its character representation.
-     *
-     * @param c Character to convert to a Type.
-     */
-    explicit Type(char c) : m_value(value_from_char(c)) {}
 
     /**
      * @brief Allows usage in switch and comparison statements.
@@ -294,21 +278,6 @@ class Type {
         auto i = std::find(m_typeNames.begin(), m_typeNames.end(), str);
         if (i != m_typeNames.end()) {
             return Value(i - m_typeNames.begin());
-        }
-        return UNKNOWN_TYPE;
-    }
-
-    /**
-     * @brief Convert a character to a Value.
-     *
-     * @param c Character to convert.
-     *
-     * @return The matching Value, or UNKNOWN_TYPE if character is unknown.
-     */
-    static Value value_from_char(char c) {
-        auto i = std::find(m_typeChar.begin(), m_typeChar.end(), c);
-        if (i != m_typeChar.end()) {
-            return Value(i - m_typeChar.begin());
         }
         return UNKNOWN_TYPE;
     }
