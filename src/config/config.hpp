@@ -1,6 +1,7 @@
 #ifndef CONFIG_CONFIG_H
 #define CONFIG_CONFIG_H
 
+#include <mutex>    // std::lock_guard, std::mutex
 #include <optional> // std::optional
 
 #include "config/key.hpp"

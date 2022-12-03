@@ -1,10 +1,11 @@
 #ifndef CONFIG_KEY_H
 #define CONFIG_KEY_H
 
-#include <iostream> // std::istream, std::ostream
-#include <sstream>  // std::istringstream
-#include <string>   // std::string
-#include <vector>   // std::vector
+#include <algorithm> // std::find
+#include <iostream>  // std::istream, std::ostream
+#include <sstream>   // std::istringstream
+#include <string>    // std::string
+#include <vector>    // std::vector
 
 namespace {
 
