@@ -15,3 +15,5 @@ target_include_directories(
   config
   PUBLIC ${CMAKE_BINARY_DIR} ${PROJECT_SOURCE_DIR}/src
 )
+
+target_compile_options(config PUBLIC -g)

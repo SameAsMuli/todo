@@ -10,7 +10,7 @@ namespace file {
 /**
  * Define the list of data file types.
  */
-#define FILES(F) F(archived_tasks), F(tasks)
+#define FILES(F) F(archived_tasks), F(config), F(tasks)
 
 /**
  * @brief A class to describe the available data file types.
@@ -30,7 +30,7 @@ class File {
     /**
      * @brief An iterable collection of the enum values.
      */
-    static inline const std::vector<Value> ALL_TYPES = {FILES(F)};
+    static inline const std::vector<Value> ALL_FILES = {FILES(F)};
 #undef F
 
     /**
@@ -39,16 +39,16 @@ class File {
     File() = delete;
 
     /**
-     * @brief Initialise a Type directly from the enum.
+     * @brief Initialise a File directly from the enum.
      *
      * This is intentionally not an explicit constructor, which allows the end
      * user to write code like this:
      *
-     *   Type t = Type::tasks;
+     *   File f = File::tasks;
      *
-     * @param type The type to initialise.
+     * @param file The file to initialise.
      */
-    File(Value type) : m_value(type) {}
+    File(Value file) : m_value(file) {}
 
     /**
      * @brief Allows usage in switch and comparison statements.
@@ -58,25 +58,25 @@ class File {
     operator Value() const { return m_value; }
 
     /**
-     * @brief Define equality between Type objects.
+     * @brief Define equality between File objects.
      *
-     * @param other The other Type to compare to this one.
+     * @param other The other File to compare to this one.
      *
-     * @return True if the Value of both Types is equal, false otherwise.
+     * @return True if the Value of both File is equal, false otherwise.
      */
     bool operator==(const File &other) { return m_value == (Value)other; }
 
     /**
-     * @brief Define equality between a Type object and a Value.
+     * @brief Define equality between a File object and a Value.
      *
      * Allows the end user to write code like this:
      *
-     *   Type type{'!'};
-     *   if (type == Type::urgent) { ... }
+     *   File file{"tasks"};
+     *   if (file == File::urgent) { ... }
      *
-     * @param value The Type value to compare against.
+     * @param value The File value to compare against.
      *
-     * @return True if the Type's value matches value, false otherwise.
+     * @return True if the File's value matches value, false otherwise.
      */
     bool operator==(const Value &value) { return m_value == value; }
 
@@ -85,12 +85,12 @@ class File {
      *
      * @return A string of the name of the associated file with this type.
      */
-    std::string file_name() const { return m_typeNames[m_value]; }
+    std::string file_name() const { return m_fileNames[m_value]; }
 
   private:
 #define F(enum_val) #enum_val
     /* String representations of the enum values. */
-    static inline const std::vector<std::string> m_typeNames = {FILES(F)};
+    static inline const std::vector<std::string> m_fileNames = {FILES(F)};
 #undef F
 
     Value m_value;
@@ -104,21 +104,21 @@ class File {
 namespace std {
 
 /**
- * @brief Define a hash for the Type class.
+ * @brief Define a hash for the File class.
  */
 template <> struct hash<todo::file::File> {
     /**
-     * @brief Define the hashing function for the Type class.
+     * @brief Define the hashing function for the File class.
      *
      * As the class is effectively just an enum we only need to case Value to a
      * size_t type to create an effective hash.
      *
-     * @param type The type to hash.
+     * @param file The file to hash.
      *
-     * @return A hash of the given type.
+     * @return A hash of the given file.
      */
-    size_t operator()(const todo::file::File &type) const {
-        return static_cast<std::size_t>(type);
+    size_t operator()(const todo::file::File &file) const {
+        return static_cast<std::size_t>(file);
     }
 };
 

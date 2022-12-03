@@ -62,7 +62,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE action task file input util config
 
 target_include_directories(${PROJECT_NAME} PUBLIC src)
 
-target_compile_options(${PROJECT_NAME} PUBLIC -std=c++17 -g -O0 -pedantic -Wall
+target_compile_options(${PROJECT_NAME} PUBLIC -std=c++17 -g -pedantic -Wall
   -Wextra -Wcast-align -Wcast-qual -Wctor-dtor-privacy -Wdisabled-optimization
   -Wformat=2 -Winit-self -Wmissing-include-dirs -Woverloaded-virtual
   -Wredundant-decls -Wshadow -Wsign-conversion -Wsign-promo -Wstrict-overflow=5

@@ -3,7 +3,7 @@
 
 #include <functional> // std::function
 
-#include "file/data_abstract.hpp"
+#include "file/file_abstract.hpp"
 #include "task/task.hpp"
 
 namespace todo {
@@ -15,7 +15,7 @@ namespace file {
  * This class defines the object representation of the tasks data file, allowing
  * simple serialization/de-serialization between itself and the data file.
  */
-class TasksData : public DataAbstract {
+class TasksData : public FileAbstract {
 
   public:
     /**

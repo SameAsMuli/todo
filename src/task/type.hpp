@@ -60,9 +60,9 @@ class Type {
     static inline const char NULL_CHAR = ' ';
 
     /**
-     * @brief Check if a given character is a valid type.
+     * @brief Check if a given string is a valid type.
      *
-     * @param str The character to check.
+     * @param str The string to check.
      *
      * @return True if str is a known type, false otherwise.
      */
@@ -118,7 +118,7 @@ class Type {
      *
      * Allows the end user to write code like this:
      *
-     *   Type type{'!'};
+     *   Type type{"!"};
      *   if (type == Type::urgent) { ... }
      *
      * @param value The Type value to compare against.

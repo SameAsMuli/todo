@@ -13,3 +13,5 @@ target_include_directories(
   file
   PUBLIC ${PROJECT_SOURCE_DIR}/src
 )
+
+target_compile_options(file PUBLIC -g)

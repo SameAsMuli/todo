@@ -1,19 +1,15 @@
 #include <chrono>  // std::chrono
 #include <fstream> // std::ifstream, std::ofstream
 
-#include "nlohmann/json.hpp"
-
+#include "config/json.hpp"
 #include "error/invalid_config.hpp"
 #include "file/definitions.hpp"
 #include "file/tasks_data.hpp"
 #include "task/task.hpp"
 #include "task/type.hpp"
 
-using JSON = nlohmann::json;
-
 namespace {
 
-static const int INDENT_WIDTH = 2;
 static const std::string KEY_DESCRIPTION = "description";
 static const std::string KEY_PREV_TIME_ADDED = "previousTimeAdded";
 static const std::string KEY_PREV_TYPE = "previousType";
@@ -63,7 +59,7 @@ namespace todo {
 namespace file {
 
 TasksData::TasksData(const File &fileType, const std::filesystem::path &dir)
-    : DataAbstract(fileType, dir) {
+    : FileAbstract(fileType, dir, "data") {
     switch (fileType) {
     case File::archived_tasks:
     case File::tasks:
@@ -196,7 +192,7 @@ void TasksData::write_derived() const {
     /* Write the json structure to the tasks file */
     std::ofstream ofs{get_file().string()};
     if (ofs.is_open()) {
-        ofs << j_taskFile.dump(INDENT_WIDTH);
+        ofs << j_taskFile.dump(config::json::INDENT);
     } else {
         throw std::runtime_error{"Unable to open file '" + get_file().string() +
                                  "'"};
@@ -204,11 +200,6 @@ void TasksData::write_derived() const {
 }
 
 void TasksData::initialise_file_derived() const {
-    /* If the file is non-empty, no more initialisation is needed */
-    if (std::filesystem::file_size(get_file()) != 0) {
-        return;
-    }
-
     /* Add an empty array of tasks to a json structure */
     JSON j_taskFile;
     j_taskFile[KEY_TASKS] = JSON::array({});
@@ -216,7 +207,7 @@ void TasksData::initialise_file_derived() const {
     /* Write the json structure to the tasks file */
     std::ofstream ofs{get_file().string()};
     if (ofs.is_open()) {
-        ofs << j_taskFile.dump(INDENT_WIDTH);
+        ofs << j_taskFile.dump(config::json::INDENT);
     } else {
         throw std::runtime_error{"Unable to open file '" + get_file().string() +
                                  "'"};

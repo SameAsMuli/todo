@@ -13,3 +13,5 @@ target_include_directories(
   task
   PUBLIC ${PROJECT_SOURCE_DIR}/src
 )
+
+target_compile_options(task PUBLIC -g)
