@@ -47,7 +47,7 @@ enum ConfigType {
  * Define the list of config keys with their type and descriptions.
  */
 #define KEYS_INT(F)                                                            \
-    F(archive_time, integer,                                                   \
+    F(archive_timeout, integer,                                                \
       "Archive tasks completed more than this many minutes ago", 1440)
 
 #define KEYS_STR(F)                                                            \

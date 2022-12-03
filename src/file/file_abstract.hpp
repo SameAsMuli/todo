@@ -67,6 +67,11 @@ class FileAbstract {
         const std::filesystem::path &sub_dir = std::filesystem::path{});
 
     /**
+     * @brief Virtual destructor for class.
+     */
+    virtual ~FileAbstract() = 0;
+
+    /**
      * @brief Create file and parent directories if required.
      */
     void initialise_file() const;

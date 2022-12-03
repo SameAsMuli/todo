@@ -14,6 +14,7 @@
 #include "action/undo.hpp"
 #include "action/version.hpp"
 #include "action/view.hpp"
+#include "config/config.hpp"
 #include "file/mutators.hpp"
 #include "input/input.hpp"
 #include "input/option.hpp"
@@ -34,8 +35,9 @@ int main(int argc, char **argv) {
         }
 
         /* Archive any tasks completed more than a day ago */
-        todo::file::archive_tasks(1440, true);
-        todo::file::archive_tasks(1440, false);
+        auto archive_timeout = Config::get<int>(ConfigKey::archive_timeout);
+        todo::file::archive_tasks(unsigned(archive_timeout), true);
+        todo::file::archive_tasks(unsigned(archive_timeout), false);
     } catch (const std::exception &e) {
         print_err(e.what());
         return 1;

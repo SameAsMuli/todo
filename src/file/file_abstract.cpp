@@ -11,6 +11,8 @@ FileAbstract::FileAbstract(const File &fileType,
                            const std::filesystem::path &sub_dir)
     : m_fileType(fileType), m_dir(dir), m_sub_dir(sub_dir) {}
 
+FileAbstract::~FileAbstract(){};
+
 FileAbstract *FileAbstract::init(const File &fileType,
                                  const std::filesystem::path &dir) {
     switch (fileType) {

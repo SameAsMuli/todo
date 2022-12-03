@@ -61,4 +61,7 @@ class Config {
 } // namespace config
 } // namespace todo
 
+using Config = todo::config::Config;
+using ConfigKey = todo::config::Key;
+
 #endif
