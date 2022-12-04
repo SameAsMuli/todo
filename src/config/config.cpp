@@ -9,6 +9,28 @@ void Config::init() {
         m_config.reset(new Config{});
 }
 
+std::string Config::get_str(const Key &key) {
+    switch (key.type()) {
+    case integer:
+        return std::to_string(get<int>(key));
+    case string:
+        return get<std::string>(key);
+    default:
+        return "";
+    }
+}
+
+std::string Config::default_str(const Key &key) {
+    switch (key.type()) {
+    case integer:
+        return std::to_string(default_value<int>(key));
+    case string:
+        return "'" + default_value<std::string>(key) + "'";
+    default:
+        return "";
+    }
+}
+
 std::optional<file::Config> Config::find_file(const Key &key) {
     /* Initialise the class if this is the first time calling it */
     if (m_config == nullptr)

@@ -39,7 +39,8 @@ enum ConfigType {
     real,
     string,
     array_boolean,
-    array_number,
+    array_integer,
+    array_real,
     array_string
 };
 

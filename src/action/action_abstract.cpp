@@ -4,6 +4,7 @@
 #include <vector>    // std::vector
 
 #include "action/action_abstract.hpp"
+#include "config/config.hpp"
 #include "input/option.hpp"
 #include "util/display.hpp"
 #include "util/string.hpp"
@@ -14,6 +15,10 @@ bool string_compare(std::string s1, std::string s2) { return s1 < s2; }
 
 bool option_compare(input::Option o1, input::Option o2) {
     return string_compare(o1.to_string(), o2.to_string());
+}
+
+bool key_compare(ConfigKey k1, ConfigKey k2) {
+    return string_compare(k1.to_string(), k2.to_string());
 }
 
 void print_aliases(const todo::action::ActionAbstract *action) {
@@ -66,13 +71,74 @@ void print_valid_options(const todo::action::ActionAbstract *action) {
 
         for (const auto &option : options) {
             auto optionString = option.get_full_string();
-            std::cout << util::display::INDENT + optionString + " " +
-                             std::string(
-                                 minSeparatorLen +
-                                     (maxOptionStringLen - optionString.size()),
-                                 ' ') +
-                             " " + option.get_description()
+            auto indentString =
+                util::display::INDENT + optionString + " " +
+                std::string(minSeparatorLen +
+                                (maxOptionStringLen - optionString.size()),
+                            ' ') +
+                " ";
+            auto buffer = indentString + option.get_description();
+            std::cout << util::display::wrap(buffer, util::display::WIDTH,
+                                             indentString.size())
                       << std::endl;
+        }
+    }
+}
+
+void print_related_config(const todo::action::ActionAbstract *action) {
+    auto unsortedKeys = action->get_related_config();
+    if (unsortedKeys.size() > 0) {
+        std::cout << std::endl;
+        std::cout << "Related Configuration:" << std::endl;
+
+        /* Make sure the keys are in alphabetical order */
+        std::string::size_type maxKeyStringLen = 0;
+        std::string::size_type minSeparatorLen = 1;
+
+        for (const auto &key : unsortedKeys) {
+            auto fullString = key.to_string();
+            if (maxKeyStringLen < fullString.size()) {
+                maxKeyStringLen = fullString.size();
+            }
+        }
+
+        std::vector<ConfigKey> keys;
+        keys.insert(keys.end(), unsortedKeys.begin(), unsortedKeys.end());
+        std::sort(keys.begin(), keys.end(), key_compare);
+
+        for (const auto &key : keys) {
+            auto keyString = key.to_string();
+            auto indentString =
+                util::display::INDENT + keyString + " " +
+                std::string(minSeparatorLen +
+                                (maxKeyStringLen - keyString.size()),
+                            ' ') +
+                " ";
+            std::cout << util::display::wrap(indentString + key.description(),
+                                             util::display::WIDTH,
+                                             indentString.size())
+                      << std::endl;
+
+            /* Current value of configuration */
+            auto currentIndent =
+                std::string(indentString.size(), ' ') + "[Current: ";
+            auto currentStr = Config::get_str(key);
+            std::cout << util::display::wrap(currentIndent + currentStr + "]",
+                                             util::display::WIDTH,
+                                             currentIndent.size())
+                      << std::endl;
+
+            /* Default value of configuration (if different from current) */
+            auto defaultStr = Config::default_str(key);
+            if (defaultStr != currentStr) {
+                auto defaultIndent =
+                    std::string(indentString.size(), ' ') + "[Default: ";
+                auto currentStr = Config::get_str(key);
+                std::cout << util::display::wrap(
+                                 defaultIndent + defaultStr + "]",
+                                 util::display::WIDTH, defaultIndent.size())
+                          << std::endl;
+            }
         }
     }
 }
@@ -108,6 +174,10 @@ bool ActionAbstract::is_known_as(const std::string &name) const {
 
 void ActionAbstract::add_valid_option(const input::Option &option) {
     m_validOptions.insert(option);
+}
+
+void ActionAbstract::add_related_config(const ConfigKey &key) {
+    m_relatedConfig.insert(key);
 }
 
 bool ActionAbstract::valid_option(const input::Option &option) const {
@@ -154,8 +224,8 @@ void ActionAbstract::print_details() const {
     }
 
     print_aliases(this);
-
     print_valid_options(this);
+    print_related_config(this);
 
     buffer = this->description();
     if (!buffer.empty()) {

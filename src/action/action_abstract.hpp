@@ -5,6 +5,7 @@
 #include <string>        // std::string
 #include <unordered_set> // std::unordered_set
 
+#include "config/config.hpp"
 #include "input/input.hpp"
 #include "input/option.hpp"
 
@@ -88,7 +89,7 @@ class ActionAbstract {
     bool is_known_as(const std::string &name) const;
 
     /**
-     * @brief Get any additional aliases that can be used to access this action.
+     * @brief Get any options that can be used to with this action.
      *
      * @return A set of options that can be used with this action.
      */
@@ -97,11 +98,27 @@ class ActionAbstract {
     }
 
     /**
+     * @brief Get any configuration keys whose behaviour relates to this action.
+     *
+     * @return A set of ConfigKeys that relate to this action.
+     */
+    std::unordered_set<ConfigKey> get_related_config() const {
+        return m_relatedConfig;
+    }
+
+    /**
      * @brief Add an option to the list of accepted options for this action.
      *
      * @param option The option to mark as valid.
      */
     void add_valid_option(const input::Option &option);
+
+    /**
+     * @brief Add a configuration key to the related keys for this action.
+     *
+     * @param key The key to mark as related.
+     */
+    void add_related_config(const ConfigKey &key);
 
     /**
      * @brief Check if the action can handle the given option.
@@ -162,6 +179,8 @@ class ActionAbstract {
     std::unordered_set<std::string> m_aliases;
 
     std::unordered_set<input::Option> m_validOptions;
+
+    std::unordered_set<ConfigKey> m_relatedConfig;
 
     /**
      * @brief Function that describes how the action should behave.

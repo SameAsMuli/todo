@@ -33,16 +33,43 @@ class Config {
      * @param key The configuration key to consider.
      */
     template <typename T> static T get(const Key &key) {
-        T value;
         auto config = find_file(key);
+        if (!config.has_value())
+            return default_value<T>(key);
 
-        if (config.has_value())
-            config.value().get(key, value);
-        else
-            key.default_value(value);
-
+        T value;
+        config.value().get(key, value);
         return value;
     }
+
+    /**
+     * @brief Get the current value as a string.
+     *
+     * @param key The configuration key to consider.
+     *
+     * @return A string representation of the current configuration value.
+     */
+    static std::string get_str(const Key &key);
+
+    /**
+     * @brief Get the default value of a given configuration key.
+     *
+     * @param key The configuration key to consider.
+     */
+    template <typename T> static T default_value(const Key &key) {
+        T value;
+        key.default_value(value);
+        return value;
+    }
+
+    /**
+     * @brief Get the default value as a string.
+     *
+     * @param key The configuration key to consider.
+     *
+     * @return A string representation of the default configuration value.
+     */
+    static std::string default_str(const Key &key);
 
   private:
     inline static std::unique_ptr<Config> m_config;
