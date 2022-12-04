@@ -1,4 +1,5 @@
 #include "action/archive.hpp"
+#include "config/config.hpp"
 #include "error/incompatible_options.hpp"
 #include "file/mutators.hpp"
 #include "input/option.hpp"
@@ -11,15 +12,22 @@ Archive::Archive()
     : ActionAbstract("archive", "Archive all complete TODOs", 1) {
     this->add_valid_option(input::Option::all);
     this->add_valid_option(input::Option::global);
+    this->add_related_config(ConfigKey::archive_timeout);
 }
 
 std::string Archive::description() const {
+    ConfigKey archive_timeout = ConfigKey::archive_timeout;
+    auto default_timeout = Config::default_value<int>(archive_timeout);
+
     return "Move all TODOs to an archive file if they were completed more than "
            "the given number of minutes ago. If run with no arguments, then "
-           "any completed TODO is archived.\n\n"
-           "Once archived, TODOs will no longer appear when the view action is "
-           "called. By default, any TODO older than 24 hours is automatically "
-           "archived.";
+           "any completed TODO is archived. Once archived, TODOs will no "
+           "longer appear when the view action is called.\n\n"
+           "By default, any TODO completed more than " +
+           std::to_string(default_timeout) +
+           " minutes ago is automatically archived. This can be overridden by "
+           "configuring '" +
+           archive_timeout.to_string() + "'.";
 }
 
 std::string Archive::usage() const {
