@@ -54,7 +54,7 @@ void Add::run(const input::Input &input) {
     auto description = input.get_action_arg_string();
     util::string::trim(description);
     if (description.empty()) {
-        throw todo::error::EmptyArgument{"add method"};
+        throw todo::error::EmptyArgument{this->get_name() + " action"};
     }
 
     /* Sense check the options */
@@ -66,7 +66,7 @@ void Add::run(const input::Input &input) {
                                                input::Option::global);
     }
 
-    /* Create a local todo director if needed */
+    /* Create a local todo directory if needed */
     if (local) {
         util::fs::init_dir(todo::file::get_local_todo_dir_name());
     }

@@ -38,11 +38,11 @@ class FileAbstract {
     std::filesystem::path get_file() const;
 
     /**
-     * @brief Get the sub-directory that stores this todo file.
+     * @brief Get the todo directory that stores this file.
      *
-     * @return A filesystem path relative to the main directory for this file.
+     * @return A filesystem path to the todo directory containing this file.
      */
-    std::filesystem::path get_sub_dir() const;
+    std::filesystem::path get_dir() const { return m_dir; }
 
     /**
      * @brief Read the contents of the todo file into this class.

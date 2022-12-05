@@ -7,6 +7,7 @@
 #include "action/add.hpp"
 #include "action/archive.hpp"
 #include "action/complete.hpp"
+#include "action/config.hpp"
 #include "action/edit.hpp"
 #include "action/help.hpp"
 #include "action/remove.hpp"
@@ -71,6 +72,7 @@ int main(int argc, char **argv) {
     }
 
     actions.push_back(new todo::action::Archive{});
+    actions.push_back(new todo::action::Config{});
     actions.push_back(new todo::action::Edit{});
     actions.push_back(new todo::action::Remove{});
     actions.push_back(new todo::action::Search{});

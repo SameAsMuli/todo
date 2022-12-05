@@ -204,7 +204,10 @@ class Key {
             throw std::logic_error{"key '" + to_string() +
                                    "' must be used with type string"};
         }
-        value = m_strDefaults[m_value - first(KEYS_STR(F))];
+        if (m_value == UNKNOWN_KEY)
+            value = {};
+        else
+            value = m_strDefaults[m_value - first(KEYS_STR(F))];
     }
 #undef F
     /* @} */

@@ -30,6 +30,13 @@ class Config : public FileAbstract {
     explicit Config(const std::filesystem::path &dir = get_todo_dir(false));
 
     /**
+     * @brief Destructor for the Configuration.
+     *
+     * Will write the internal state of the class to the linked file.
+     */
+    ~Config();
+
+    /**
      * @brief Check if the config file contains the given Key.
      *
      * @param key The key to search for.
@@ -41,14 +48,25 @@ class Config : public FileAbstract {
     /**
      * @brief Get the value of a given configuration key.
      *
-     * @param key The configuration key to consider.
-     * @param value The value reference to populate.
+     * This function assumes the key already exists in the configuration.
      *
-     * @{
+     * @param key The configuration key to consider.
+     *
+     * @return The value of the configuration.
      */
-    void get(const config::Key &key, int &value) const;
-    void get(const config::Key &key, std::string &value) const;
-    /* @} */
+    template <typename T> T get(const config::Key &key) const {
+        return m_json_config[key.to_string()];
+    }
+
+    /**
+     * @brief Set the value of a given configuration key.
+     *
+     * @param key The configuration key to consider.
+     * @param value The new value.
+     */
+    template <typename T> void set(const config::Key &key, const T &value) {
+        m_json_config[key.to_string()] = value;
+    }
 
   private:
     JSON m_json_config;

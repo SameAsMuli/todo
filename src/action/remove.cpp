@@ -37,7 +37,7 @@ void Remove::run(const input::Input &input) {
     /* Form and check the seach string */
     auto searchString = input.get_action_arg_string();
     if (searchString.empty()) {
-        throw error::EmptyArgument{"remove"};
+        throw error::EmptyArgument{this->get_name() + " action"};
     }
 
     /* Get options */

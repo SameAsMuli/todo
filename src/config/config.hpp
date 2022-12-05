@@ -31,25 +31,49 @@ class Config {
      * used.
      *
      * @param key The configuration key to consider.
+     * @param global Whether to consider global config only.
      */
-    template <typename T> static T get(const Key &key) {
-        auto config = find_file(key);
-        if (!config.has_value())
+    template <typename T> static T get(const Key &key, bool global = false) {
+        auto file = find_file(key, global);
+        if (file == nullptr)
             return default_value<T>(key);
+        return file->get<T>(key);
+    }
 
-        T value;
-        config.value().get(key, value);
-        return value;
+    /**
+     * @brief Set the value of a given configuration.
+     *
+     * @param key The configuration key to set.
+     * @param value The new value.
+     * @param global Whether to set in the global todo configuration.
+     */
+    template <typename T>
+    static void set(const Key &key, const T &value, bool global = false) {
+        auto file = find_file(global);
+        if (file == nullptr)
+            throw std::runtime_error{"Unable to locate config file"};
+        file->set(key, value);
     }
 
     /**
      * @brief Get the current value as a string.
      *
      * @param key The configuration key to consider.
+     * @param global Whether to consider global config only.
      *
      * @return A string representation of the current configuration value.
      */
-    static std::string get_str(const Key &key);
+    static std::string get_str(const Key &key, bool global = false);
+
+    /**
+     * @brief Set the value of a given configuration from a string value.
+     *
+     * @param key The configuration key to consider.
+     * @param value The new value as a string.
+     * @param global Whether to consider the global todo configuration.
+     */
+    static void set_str(const Key &key, const std::string &value,
+                        bool global = false);
 
     /**
      * @brief Get the default value of a given configuration key.
@@ -75,14 +99,33 @@ class Config {
     inline static std::unique_ptr<Config> m_config;
     inline static std::mutex m_init_mutex;
 
+    std::vector<std::shared_ptr<file::Config>> m_configFiles;
+
+    /**
+     * @brief Private constructor to ensure usage as a singleton.
+     */
+    Config();
+
+    /**
+     * @brief Get either the local or global config file.
+     *
+     * This function will initialise the files if they do not already exist.
+     *
+     * @param global Whether to look for the global file or not.
+     *
+     * @return The specified configuration file.
+     */
+    static std::shared_ptr<file::Config> find_file(bool global);
+
     /**
      * @brief Find the closest config file containing the given key.
      *
      * @param key The key to consider.
+     * @param global Whether to consider global config only.
      *
      * @return An optional Config file, populated if a suitable file is found.
      */
-    static std::optional<file::Config> find_file(const Key &key);
+    static std::shared_ptr<file::Config> find_file(const Key &key, bool global);
 };
 
 } // namespace config

@@ -11,16 +11,10 @@ Config::Config(const std::filesystem::path &dir)
     read();
 }
 
+Config::~Config() { write(); }
+
 bool Config::has_key(const config::Key &key) const {
     return m_json_config.contains(key.to_string());
-}
-
-void Config::get(const config::Key &key, int &value) const {
-    value = m_json_config[key.to_string()];
-}
-
-void Config::get(const config::Key &key, std::string &value) const {
-    value = m_json_config[key.to_string()];
 }
 
 void Config::read_derived() {
