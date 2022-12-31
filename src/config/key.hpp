@@ -196,7 +196,7 @@ class Key {
             throw std::logic_error{"key '" + to_string() +
                                    "' must be used with type int"};
         }
-        value = m_intDefaults[m_value - first(KEYS_INT(F))];
+        value = m_intDefaults[unsigned(m_value - first(KEYS_INT(F)))];
     }
 
     void default_value(std::string &value) const {
@@ -207,7 +207,7 @@ class Key {
         if (m_value == UNKNOWN_KEY)
             value = {};
         else
-            value = m_strDefaults[m_value - first(KEYS_STR(F))];
+            value = m_strDefaults[unsigned(m_value - first(KEYS_STR(F)))];
     }
 #undef F
     /* @} */
@@ -260,7 +260,7 @@ class Key {
         return UNKNOWN_KEY;
     }
 
-    static Key first(const Key &key1, ...) { return key1; }
+    static Value first(const Key &key1, ...) { return key1.m_value; }
 };
 
 #undef KEYS
