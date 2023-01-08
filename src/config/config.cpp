@@ -25,7 +25,7 @@ std::string Config::default_str(const Key &key) {
     case integer:
         return std::to_string(default_value<int>(key));
     case string:
-        return "'" + default_value<std::string>(key) + "'";
+        return default_value<std::string>(key);
     default:
         return "";
     }
