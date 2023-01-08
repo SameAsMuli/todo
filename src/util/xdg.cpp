@@ -88,7 +88,7 @@ std::vector<std::filesystem::path> config_dirs() {
 }
 
 std::vector<std::filesystem::path> data_dirs() {
-    return get_env_dirs("XDG_DATA_DIRS", "/usr/local/share/:/usr/share/");
+    return get_env_dirs("XDG_DATA_DIRS", "/usr/local/share:/usr/share");
 }
 
 std::filesystem::path cache_home() {
