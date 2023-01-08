@@ -62,11 +62,13 @@ target_link_libraries(${PROJECT_NAME} PRIVATE action task file input util config
 
 target_include_directories(${PROJECT_NAME} PUBLIC src)
 
-target_compile_options(${PROJECT_NAME} PUBLIC -std=c++17 -g -pedantic -Wall
+target_compile_options(${PROJECT_NAME} PUBLIC -std=c++17 -pedantic -Wall
   -Wextra -Wcast-align -Wcast-qual -Wctor-dtor-privacy -Wdisabled-optimization
   -Wformat=2 -Winit-self -Wmissing-include-dirs -Woverloaded-virtual
   -Wredundant-decls -Wshadow -Wsign-conversion -Wsign-promo -Wstrict-overflow=5
-  -Wundef -Wswitch-default -Werror -Wno-unused)
+  -Wundef -Wswitch-default -Werror -Wno-unused
+  $<$<CONFIG:Debug>: -g3>
+  $<$<CONFIG:Release>: -O3>)
 
 # Generate a tags file if ctags is available
 find_program(CTAGS_FOUND ctags)

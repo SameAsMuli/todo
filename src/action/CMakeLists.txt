@@ -14,4 +14,6 @@ target_include_directories(
   PUBLIC ${PROJECT_SOURCE_DIR}/src
 )
 
-target_compile_options(action PUBLIC -g)
+target_compile_options(action PUBLIC
+    $<$<CONFIG:Debug>: -g3>
+    $<$<CONFIG:Release>: -O3>)

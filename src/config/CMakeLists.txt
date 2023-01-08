@@ -16,4 +16,6 @@ target_include_directories(
   PUBLIC ${CMAKE_BINARY_DIR} ${PROJECT_SOURCE_DIR}/src
 )
 
-target_compile_options(config PUBLIC -g)
+target_compile_options(config PUBLIC
+    $<$<CONFIG:Debug>: -g3>
+    $<$<CONFIG:Release>: -O3>)
