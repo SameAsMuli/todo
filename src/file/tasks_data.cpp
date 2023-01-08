@@ -194,7 +194,7 @@ void TasksData::write_derived() const {
     if (ofs.is_open()) {
         ofs << j_taskFile.dump(config::json::INDENT);
     } else {
-        throw std::runtime_error{"Unable to open file '" + get_file().string() +
+        throw std::runtime_error{"unable to open file '" + get_file().string() +
                                  "'"};
     }
 }
@@ -209,7 +209,7 @@ void TasksData::initialise_file_derived() const {
     if (ofs.is_open()) {
         ofs << j_taskFile.dump(config::json::INDENT);
     } else {
-        throw std::runtime_error{"Unable to open file '" + get_file().string() +
+        throw std::runtime_error{"unable to open file '" + get_file().string() +
                                  "'"};
     }
 }

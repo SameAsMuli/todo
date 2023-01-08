@@ -137,7 +137,7 @@ int toint(const std::string &input) {
     auto [p, ec] =
         std::from_chars(input.data(), input.data() + input.size(), value);
     if (ec != std::errc() || std::strcmp(p, "\0") != 0) {
-        throw std::runtime_error("Invalid number: '" + input + "'");
+        throw std::runtime_error("invalid number: '" + input + "'");
     }
     return value;
 }

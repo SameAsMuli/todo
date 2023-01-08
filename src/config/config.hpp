@@ -51,7 +51,7 @@ class Config {
     static void set(const Key &key, const T &value, bool global = false) {
         auto file = find_file(global);
         if (file == nullptr)
-            throw std::runtime_error{"Unable to locate config file"};
+            throw std::runtime_error{"unable to locate config file"};
         file->set(key, value);
     }
 

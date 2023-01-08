@@ -35,7 +35,7 @@ void Config::write_derived() const {
     if (ofs.is_open()) {
         ofs << m_json_config.dump(config::json::INDENT);
     } else {
-        throw std::runtime_error{"Unable to open file '" + get_file().string() +
+        throw std::runtime_error{"unable to open file '" + get_file().string() +
                                  "'"};
     }
 }
@@ -49,7 +49,7 @@ void Config::initialise_file_derived() const {
     if (ofs.is_open()) {
         ofs << j_file.dump(config::json::INDENT);
     } else {
-        throw std::runtime_error{"Unable to open file '" + get_file().string() +
+        throw std::runtime_error{"unable to open file '" + get_file().string() +
                                  "'"};
     }
 }
