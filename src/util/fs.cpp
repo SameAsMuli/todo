@@ -2,7 +2,7 @@
 #include <cstring>    // std::strlen
 #include <fstream>    // std::ofstream
 #include <pwd.h>      // getpwuid
-#include <string>     // std::string
+#include <string>     // std::getline, std::string
 #include <sys/stat.h> // struct stat
 #include <unistd.h>   // getcwd, getuid, PATH_MAX
 
@@ -11,14 +11,27 @@
 namespace util {
 namespace fs {
 
-std::filesystem::path current_dir() {
-    try {
-        return std::filesystem::current_path();
-    } catch (const std::exception &e) {
-        /* If we got here, getcwd() has failed so let's just return an empty
-         * Path to indicate failure.
-         */
-        return {};
+void get_files_from_dir(const std::filesystem::path &dir,
+                        std::deque<std::filesystem::path> &files) {
+    if (!std::filesystem::exists(dir)) {
+        throw std::runtime_error{std::string{dir} +
+                                 ": no such file or directory"};
+    }
+
+    if (!std::filesystem::is_directory(dir)) {
+        if (!std::filesystem::is_regular_file(dir)) {
+            throw std::runtime_error{std::string{dir} +
+                                     ": not a regular file or directory"};
+        }
+        files.push_back(dir);
+        return;
+    }
+
+    for (const auto &entry :
+         std::filesystem::recursive_directory_iterator{dir}) {
+        if (std::filesystem::is_regular_file(entry)) {
+            files.push_back(entry);
+        }
     }
 }
 

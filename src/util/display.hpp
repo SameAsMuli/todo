@@ -12,7 +12,7 @@ namespace display {
 /**
  * @brief A default line width that can be used for consistency across output.
  */
-static unsigned int WIDTH = 50;
+static unsigned int WIDTH = 70;
 
 /**
  * @brief Indentation string containing 2 whitespace characters.
@@ -36,7 +36,7 @@ std::string footer();
 /**
  * @brief Get the general information about the program.
  *
- * @param actions A list of the available actions and thier descriptions.
+ * @param actions A list of the available actions and their descriptions.
  *
  * @return A string containing the overview information.
  */

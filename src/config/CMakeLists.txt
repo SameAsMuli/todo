@@ -7,15 +7,11 @@ configure_file(version.hpp.in ${CMAKE_BINARY_DIR}/gen/version.hpp)
 
 target_sources(
   config
-  PRIVATE  ${SOURCE_FILES}
-  PUBLIC   ${HEADER_FILES}
-)
+  PRIVATE ${SOURCE_FILES}
+  PUBLIC ${HEADER_FILES})
 
-target_include_directories(
-  config
-  PUBLIC ${CMAKE_BINARY_DIR} ${PROJECT_SOURCE_DIR}/src
-)
+target_include_directories(config PUBLIC ${CMAKE_BINARY_DIR}
+                                         ${PROJECT_SOURCE_DIR}/src)
 
-target_compile_options(config PUBLIC
-    $<$<CONFIG:Debug>: -g3>
-    $<$<CONFIG:Release>: -O3>)
+target_compile_options(config PUBLIC $<$<CONFIG:Debug>: -g3>
+                                     $<$<CONFIG:Release>: -O3>)

@@ -28,7 +28,7 @@ std::filesystem::path get_local_todo_dir_name() {
 
 std::filesystem::path get_todo_dir(bool global) {
     if (!global) {
-        auto dir = util::fs::current_dir();
+        auto dir = std::filesystem::current_path();
         if (dir.empty()) {
             return global_todo_dir();
         }
@@ -52,7 +52,7 @@ std::filesystem::path get_todo_dir(bool global) {
 std::vector<std::filesystem::path> get_local_todo_dir_hierarchy() {
     std::vector<std::filesystem::path> dirs;
 
-    auto dir = util::fs::current_dir();
+    auto dir = std::filesystem::current_path();
     if (!dir.empty()) {
         auto home_dir = util::fs::home_dir();
         do {

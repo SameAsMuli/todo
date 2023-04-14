@@ -26,10 +26,18 @@ $(DEBUG_DIR):
 $(RELEASE_DIR):
 	@mkdir -p $(RELEASE_DIR)
 
+.PHONY: clean
+clean: $(DEBUG_DIR)/Makefile
+	@$(MAKE) -j -C $(DEBUG_DIR) clean
+
 .PHONY: cmakeclean
 cmakeclean:
 	@rm -rf $(RELEASE_DIR)
 	@rm -rf $(DEBUG_DIR)
+
+.PHONY: fresh
+fresh: cmakeclean
+	@$(MAKE)
 
 .PHONY: test
 test: $(DEBUG_DIR)/Makefile

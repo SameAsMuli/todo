@@ -2,16 +2,22 @@
 #define UTIL_FS_H
 
 #include <filesystem> // std::filesystem
+#include <optional>   // std::optional
+#include <string>     // std::string
+#include <thread>     // std::thread
+#include <vector>     // std::vector
 
 namespace util {
 namespace fs {
 
 /**
- * @brief Find the current working directory for the user.
+ * @brief Get a list of files recursively contained by a directory.
  *
- * @return The filesystem path to the current directory, or an empty path.
+ * @param dir The top level directory to search.
+ * @param files A list to populate with found files.
  */
-std::filesystem::path current_dir();
+void get_files_from_dir(const std::filesystem::path &dir,
+                        std::deque<std::filesystem::path> &files);
 
 /**
  * @brief Find the home directory for the system.
