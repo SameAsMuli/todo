@@ -1,6 +1,7 @@
 #ifndef UTIL_FS_H
 #define UTIL_FS_H
 
+#include <deque>      // std::deque
 #include <filesystem> // std::filesystem
 #include <optional>   // std::optional
 #include <string>     // std::string
