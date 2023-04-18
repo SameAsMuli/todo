@@ -44,6 +44,13 @@ class Input {
     unsigned int get_action_arg_count() const;
 
     /**
+     * @brief Get the full list of action arguments.
+     *
+     * @return The action argument list.
+     */
+    std::vector<std::string> get_action_args() const;
+
+    /**
      * @brief Get a specific action argument.
      *
      * @param index The index to check.

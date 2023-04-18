@@ -111,6 +111,10 @@ unsigned int Input::get_action_arg_count() const {
     return this->m_actionArgs.size();
 }
 
+std::vector<std::string> Input::get_action_args() const {
+    return this->m_actionArgs;
+}
+
 std::string Input::get_action_arg(int index) const {
     if (index < 0) {
         throw std::runtime_error{

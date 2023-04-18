@@ -76,7 +76,7 @@ class Key {
     /**
      * @brief An iterable collection of the enum values.
      */
-    static inline const std::vector<Value> ALL_TYPES = {KEYS(F)};
+    static inline const std::vector<Value> ALL_KEYS = {KEYS(F)};
 #undef F
 
     /**

@@ -24,15 +24,16 @@ std::string Config::usage() const {
 }
 
 void Config::run(const input::Input &input) {
-    /* Check we have a valid input */
+    auto global = input.has_option(input::Option::global);
+
     if (input.get_action_arg_count() == 0) {
-        throw error::EmptyArgument{this->get_name() + " action"};
+        for (const config::Key &key : config::Key::ALL_KEYS) {
+            std::cout << key.to_string() << " = "
+                      << config::Config::get_str(key, global) << std::endl;
+        }
     }
 
-    int i = 0;
-    while (input.has_action_arg(i)) {
-        auto global = input.has_option(input::Option::global);
-        auto arg = input.get_action_arg(i++);
+    for (const auto &arg : input.get_action_args()) {
         auto pos = arg.find("=");
 
         if (pos == std::string::npos) {
