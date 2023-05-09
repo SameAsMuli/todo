@@ -43,14 +43,15 @@ program_overview(std::vector<std::pair<std::string, std::string>> actions) {
     ss << program_usage() << std::endl;
 
     ss << std::endl;
-    ss << wrap("By default each action will look in the current directory, and "
-               "each subsequent parent directory, until a directory containing "
-               "TODO information is found.\n\n"
-               "If the home directory is reached and no TODO information is "
-               "found, then the action will use the global todo directory. On "
-               "this system this is configured as:\n\n'" +
-                   std::string(todo::file::get_todo_dir(true)) + "'",
-               WIDTH)
+    ss << wrap(
+              "By default, each action will look in the current directory, and "
+              "each subsequent parent directory, until a directory containing "
+              "TODO information is found.\n\n"
+              "If the home directory is reached and no TODO information is "
+              "found, then the action will use the global todo directory. On "
+              "this system this is configured as:\n\n'" +
+                  std::string(todo::file::get_todo_dir(true)) + "'",
+              WIDTH)
        << std::endl;
 
     ss << std::endl;

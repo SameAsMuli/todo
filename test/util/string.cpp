@@ -115,6 +115,13 @@ TEST(StringUtils, Wrap) {
 
     EXPECT_EQ(util::string::wrap("longest longest", 6), "longest\nlongest");
 
+    EXPECT_EQ(util::string::wrap("longest longest longest", 6),
+              "longest\nlongest\nlongest");
+
+    EXPECT_EQ(util::string::wrap("longest longest", 7), "longest\nlongest");
+
+    EXPECT_EQ(util::string::wrap("longest longest", 8), "longest\nlongest");
+
     EXPECT_EQ(util::string::wrap("now a short string", 6),
               "now a\nshort\nstring");
 
@@ -149,4 +156,36 @@ TEST(StringUtils, Wrap) {
 
     EXPECT_EQ(util::string::wrap("what\nif a newline is\nin the mix", 6, 3),
               "what\n   if\n   a\n   newline\n   is\n   in\n   the\n   mix");
+
+    EXPECT_EQ(util::string::wrap("space on edge", 13), "space on edge");
+
+    EXPECT_EQ(util::string::wrap("space on edge of line", 13),
+              "space on edge\nof line");
+
+    EXPECT_EQ(util::string::wrap("space on edge", 12), "space on\nedge");
+
+    EXPECT_EQ(util::string::wrap("space on edge of line", 12),
+              "space on\nedge of line");
+
+    EXPECT_EQ(util::string::wrap("space on edge", 13, 1), "space on edge");
+
+    EXPECT_EQ(util::string::wrap("space on edge of line test", 13, 1),
+              "space on edge\n of line test");
+
+    EXPECT_EQ(util::string::wrap("space on edge", 12, 1), "space on\n edge");
+
+    EXPECT_EQ(util::string::wrap("space on edge of line", 12, 1),
+              "space on\n edge of\n line");
+
+    EXPECT_EQ(util::string::wrap("space on edge of line test", 13, 2),
+              "space on edge\n  of line\n  test");
+
+    EXPECT_EQ(util::string::wrap("space on edge of line", 12, 2),
+              "space on\n  edge of\n  line");
+
+    EXPECT_EQ(util::string::wrap("space on edge of line", 12, 11),
+              "space on\n           edge\n           of\n           line");
+
+    EXPECT_EQ(util::string::wrap("   what about leading whitespace?", 13, 2),
+              "   what about\n  leading\n  whitespace?");
 }

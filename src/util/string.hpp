@@ -109,8 +109,10 @@ std::string toupper(const std::string &input);
  * @brief Format a string so that when printed it does not exceed a given width.
  *
  * The function will only replace space characters with newlines; meaning no
- * words should be split across multiple lines. The only exception to this is
- * when the string contains a word that is longer than the given width.
+ * words will be split across multiple lines.
+ *
+ * If an indentWidth is given, every line will be indented by that number of
+ * space characters, other than the first line.
  *
  * @param input The string to format.
  * @param maxWidth The maximum width of each line.
