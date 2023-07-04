@@ -50,7 +50,7 @@ void init_file(const std::filesystem::path &file);
  *
  * @return True if the path is executable, false otherwise.
  */
-bool is_executable(const std::string &path);
+bool is_executable(const std::filesystem::path &path);
 
 } // namespace fs
 } // namespace util

@@ -1,5 +1,6 @@
 #include <cstdlib>    // std::getenv
 #include <cstring>    // std::strlen
+#include <filesystem> //std::filesystem
 #include <fstream>    // std::ofstream
 #include <pwd.h>      // getpwuid
 #include <string>     // std::getline, std::string
@@ -72,11 +73,17 @@ void init_file(const std::filesystem::path &file) {
     }
 }
 
-bool is_executable(const std::string &path) {
+bool is_executable(const std::filesystem::path &path) {
     struct stat sb;
-    if ((stat(path.c_str(), &sb) == 0) && (sb.st_mode & S_IXOTH)) {
+    if (stat(path.c_str(), &sb) != 0)
+        return false;
+
+    if (S_ISLNK(sb.st_mode))
+        return is_executable(std::filesystem::read_symlink(path));
+
+    if (sb.st_mode & S_IXOTH)
         return (sb.st_mode & S_IXUSR) != 0;
-    }
+
     return false;
 }
 

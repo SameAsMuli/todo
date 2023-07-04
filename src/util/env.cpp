@@ -15,7 +15,7 @@ bool command_exists(const std::string &command) {
 
     /* If command is a path, check it directly */
     if (command.find('/') != std::string::npos) {
-        return fs::is_executable(command);
+        return fs::is_executable(std::filesystem::path{command});
     }
 
     /* Otherwise, check if the command is in the PATH */
@@ -35,7 +35,7 @@ bool command_exists(const std::string &command) {
         std::string current_path =
             path.substr(start_pos, end_pos - start_pos) + "/" + command;
 
-        if (fs::is_executable(current_path)) {
+        if (fs::is_executable(std::filesystem::path{current_path})) {
             return true;
         }
 
