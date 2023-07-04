@@ -13,11 +13,23 @@ class File {
 
   public:
     /**
+     * @brief File types that will be applied to a file based on its exension.
+     */
+    enum Type { UNKNOWN, C, CPP, JAVA, JAVASCRIPT, LUA, PYTHON, SHELL };
+
+    /**
      * @brief Initialise the file from a given file path.
      *
      * @param file The file path to load.
      */
     File(const std::filesystem::path &file);
+
+    /**
+     * @brief Get the file tpe of the file.
+     *
+     * @return The File::Type of the file, may be UNKNOWN.
+     */
+    Type type() const { return this->m_type; };
 
     /**
      * @brief Count the number of lines in the file.
@@ -37,6 +49,7 @@ class File {
 
   private:
     std::ifstream m_file;
+    Type m_type;
 };
 
 } // namespace util

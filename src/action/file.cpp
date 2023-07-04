@@ -49,17 +49,27 @@ void File::run(const input::Input &input) {
 
     /* Search each file for the default string */
     std::string search_term = Config::get<std::string>(ConfigKey::todo_string);
-    for (const auto &file : files) {
+    for (const auto &path : files) {
         /* Protect against loading massive files into memory */
         /* Can we detect binary files? */
 
-        auto matches = util::File{file}.search(search_term);
+        auto file = util::File{path};
+        auto matches = file.search(search_term);
         if (!matches.empty()) {
-            std::cout << ANSI_BOLD "[" << file.string() << "]\n" ANSI_RESET;
+            std::cout << ANSI_BOLD "["
+                      << std::filesystem::proximate(path).string()
+                      << "]\n" ANSI_RESET;
             for (const auto &line : matches) {
-                /* TODO: Strip comment syntax */
-                std::cout << util::display::INDENT
-                          << util::string::trim_copy(line) << "\n";
+                auto comment =
+                    line.substr(line.find(search_term) + search_term.length());
+
+                /* TODO: Strip comment syntax properly */
+                if (file.type() == util::File::Type::C ||
+                    file.type() == util::File::Type::CPP)
+                    comment = comment.substr(0, comment.find("*/"));
+
+                util::string::trim(comment);
+                std::cout << util::display::INDENT << comment << "\n";
             }
         }
     }
