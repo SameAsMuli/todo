@@ -71,9 +71,8 @@ void Edit::run(const input::Input &input) {
                 "to the name of the editor you want to use."};
         }
     } else if (!util::env::command_exists(editor.substr(0, editor.find(" ")))) {
-        throw std::runtime_error{
-            "The editor specified in the EDITOR environment variable "
-            "does not exist."};
+        throw std::runtime_error{"Unable to run the editor specified in the "
+                                 "EDITOR environment variable."};
     }
 
     /* Backup the tasks file */
