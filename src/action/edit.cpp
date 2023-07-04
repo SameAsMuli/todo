@@ -58,6 +58,7 @@ void Edit::run(const input::Input &input) {
 
     if (editor.empty()) {
         for (const auto &command : EDITOR_COMMANDS) {
+            command.substr(0, command.find(" "));
             if (util::env::command_exists(command)) {
                 editor = command;
                 break;
@@ -69,7 +70,7 @@ void Edit::run(const input::Input &input) {
                 "No editor found. Please set the EDITOR environment variable "
                 "to the name of the editor you want to use."};
         }
-    } else if (!util::env::command_exists(editor)) {
+    } else if (!util::env::command_exists(editor.substr(0, editor.find(" ")))) {
         throw std::runtime_error{
             "The editor specified in the EDITOR environment variable "
             "does not exist."};
