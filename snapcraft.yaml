@@ -1,7 +1,7 @@
 name: sameasmuli-todo
 title: Todo
 epoch: 1
-version: "1.2.0"
+version: "1.2.1"
 summary: A command line task management utility
 description: |
   A command line application to manage tasks and TODOs. Tasks can be given one
