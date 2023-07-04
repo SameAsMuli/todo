@@ -18,7 +18,8 @@ namespace input {
         F(force, "Perform action on all matched TODOs", false),                \
         F(global, "Consider global TODOs only", false),                        \
         F(help, "Display this help text", false),                              \
-        F(local, "Consider local TODOs only", false)
+        F(local, "Consider local TODOs only", false),                          \
+        F(version, "Show current version", false)
 
 /**
  * @brief A class to describe the available command line options.

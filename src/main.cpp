@@ -60,6 +60,9 @@ int main(int argc, char **argv) {
     todo::action::Help help{};
     actions.push_back(&help);
 
+    todo::action::Version version{};
+    actions.push_back(&version);
+
     todo::action::View view{};
     actions.push_back(&view);
 
@@ -79,7 +82,6 @@ int main(int argc, char **argv) {
     actions.push_back(new todo::action::Remove{});
     actions.push_back(new todo::action::Search{});
     actions.push_back(new todo::action::Undo{});
-    actions.push_back(new todo::action::Version{});
 
     /* Pass the list of actions to the help action */
     help.add_actions(actions);
@@ -89,18 +91,11 @@ int main(int argc, char **argv) {
         /* If no action is given, view all tasks - else run the given action */
         if (inputAction.empty()) {
             if (input.has_option(input::Option::help)) {
-                /* Populate list of action names and descriptions */
-                std::vector<std::pair<std::string, std::string>> actionList;
-                std::transform(
-                    actions.begin(), actions.end(),
-                    std::back_inserter(actionList),
-                    [](const auto &action)
-                        -> std::pair<std::string, std::string> {
-                        return {action->get_name(), action->get_help_text()};
-                    });
-
-                std::cout << util::display::program_overview(actionList)
-                          << std::endl;
+                input.remove_option(input::Option::help);
+                help.perform(input);
+            } else if (input.has_option(input::Option::version)) {
+                input.remove_option(input::Option::version);
+                version.perform(input);
             } else {
                 view.perform(input);
             }
@@ -116,7 +111,8 @@ int main(int argc, char **argv) {
                 return 0;
             }
 
-            /* The given action isn't known, display usage and corrections */
+            /* The given action isn't known, display usage and corrections
+             */
             std::vector<std::string> actionNames;
             std::transform(
                 actions.begin(), actions.end(), std::back_inserter(actionNames),

@@ -121,6 +121,16 @@ class Input {
      */
     std::vector<std::string> get_option_args(const Option &option) const;
 
+    /**
+     * @brief Remove an option from the input.
+     *
+     * This is useful to prevent an option being considered after it has already
+     * been processed.
+     *
+     * @param option The option to remove from the input.
+     */
+    void remove_option(const Option &option);
+
   private:
     std::string m_action;
 

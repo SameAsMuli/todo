@@ -189,4 +189,8 @@ std::vector<std::string> Input::get_option_args(const Option &option) const {
     return args->second;
 }
 
+void Input::remove_option(const Option &option) {
+    this->m_options.erase(option);
+}
+
 } // namespace input
