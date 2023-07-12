@@ -46,7 +46,7 @@ class Type {
     /**
      * @brief Enum class for task types.
      */
-    enum Value : uint8_t { TYPES(F), NUM_TYPES, UNKNOWN_TYPE };
+    enum Value : uint8_t { TYPES(F), NUM_TYPES, UNKNOWN };
 
     /**
      * @brief An iterable collection of the enum values.
@@ -67,13 +67,13 @@ class Type {
      * @return True if str is a known type, false otherwise.
      */
     static bool is_valid(std::string str) {
-        return value_from_string(str) != UNKNOWN_TYPE;
+        return value_from_string(str) != UNKNOWN;
     }
 
     /**
      * @brief Default constructor for a Type.
      */
-    Type() : m_value(UNKNOWN_TYPE) {}
+    Type() : m_value(UNKNOWN) {}
 
     /**
      * @brief Initialise a Type directly from the enum.
@@ -213,7 +213,7 @@ class Type {
   private:
 #define F(enum_val, character, char_colour, char_format, desc_colour,          \
           desc_format)                                                         \
-#enum_val
+    #enum_val
     /* String representations of the enum values. */
     static inline const std::vector<std::string> m_typeNames = {TYPES(F)};
 #undef F
@@ -272,14 +272,14 @@ class Type {
      *
      * @param str String to convert.
      *
-     * @return The matching Value, or UNKNOWN_TYPE if string is unknown.
+     * @return The matching Value, or UNKNOWN if string is unknown.
      */
     static Value value_from_string(std::string str) {
         auto i = std::find(m_typeNames.begin(), m_typeNames.end(), str);
         if (i != m_typeNames.end()) {
             return Value(i - m_typeNames.begin());
         }
-        return UNKNOWN_TYPE;
+        return UNKNOWN;
     }
 };
 

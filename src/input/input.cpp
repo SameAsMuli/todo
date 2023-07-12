@@ -45,7 +45,7 @@ Input::Input(int argc, char const *const *argv) {
                 auto option =
                     Option(arg.erase(0, Option::LONG_OPTION_PREFIX.size()));
 
-                if (option == Option::UNKNOWN_OPTION) {
+                if (option == Option::UNKNOWN) {
                     throw std::runtime_error("unknown option '" + arg + "'");
                 }
 
@@ -70,7 +70,7 @@ Input::Input(int argc, char const *const *argv) {
                 /* Handle multiple short options e.g. -al */
                 for (std::string::size_type j = 0; j < arg.size(); ++j) {
                     auto option = Option(arg[j]);
-                    if (option == Option::UNKNOWN_OPTION) {
+                    if (option == Option::UNKNOWN) {
                         throw std::runtime_error("unknown option '" + arg +
                                                  "'");
                     }

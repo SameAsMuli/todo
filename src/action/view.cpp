@@ -126,7 +126,7 @@ void view_tasks(input::Input input,
         } else {
             todo::task::Type taskType{arg};
 
-            if (taskType == todo::task::Type::UNKNOWN_TYPE) {
+            if (taskType == todo::task::Type::UNKNOWN) {
                 throw todo::error::UnknownArgument(arg, ARG_NAME);
             }
 

@@ -53,7 +53,7 @@ void Undo::run(const input::Input &input) {
                         std::string::npos) {
             task.set_type(task.get_previous_type());
             task.set_time_added(task.get_previous_time_added());
-            task.set_previous_type(task::Type::UNKNOWN_TYPE);
+            task.set_previous_type(task::Type::UNKNOWN);
             matches++;
         }
     });

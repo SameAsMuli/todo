@@ -24,11 +24,10 @@ TEST(Type, Construction) {
     EXPECT_EQ(highPure, todo::task::Type::high);
 
     todo::task::Type unknwonName = todo::task::Type("rubbish");
-    todo::task::Type unknownPure =
-        todo::task::Type(todo::task::Type::UNKNOWN_TYPE);
+    todo::task::Type unknownPure = todo::task::Type(todo::task::Type::UNKNOWN);
 
-    EXPECT_EQ(unknwonName, todo::task::Type::UNKNOWN_TYPE);
-    EXPECT_EQ(unknownPure, todo::task::Type::UNKNOWN_TYPE);
+    EXPECT_EQ(unknwonName, todo::task::Type::UNKNOWN);
+    EXPECT_EQ(unknownPure, todo::task::Type::UNKNOWN);
 }
 
 /* Check the logical consistency of the Task Type enum */
@@ -81,7 +80,7 @@ TEST(Type, ToString) {
     todo::task::Type normal = todo::task::Type::normal;
     EXPECT_EQ(normal.to_string(), "normal");
 
-    todo::task::Type unknown = todo::task::Type::UNKNOWN_TYPE;
+    todo::task::Type unknown = todo::task::Type::UNKNOWN;
     EXPECT_EQ(unknown.to_string(), "");
 
     todo::task::Type rubbish = todo::task::Type("rubbish");
@@ -102,6 +101,6 @@ TEST(Type, CharacterRepresentation) {
     todo::task::Type normal = todo::task::Type::normal;
     EXPECT_EQ(normal.get_char_representation(), '-');
 
-    todo::task::Type unknown = todo::task::Type::UNKNOWN_TYPE;
+    todo::task::Type unknown = todo::task::Type::UNKNOWN;
     EXPECT_EQ(unknown.get_char_representation(), todo::task::Type::NULL_CHAR);
 }

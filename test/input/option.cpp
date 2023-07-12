@@ -34,12 +34,12 @@ TEST(Option, Construction) {
     EXPECT_EQ(localShort, input::Option::local);
 
     input::Option unknownLong = input::Option("rubbish");
-    input::Option unknownPure = input::Option(input::Option::UNKNOWN_OPTION);
+    input::Option unknownPure = input::Option(input::Option::UNKNOWN);
     input::Option unknownShort = input::Option("R");
 
-    EXPECT_EQ(unknownLong, input::Option::UNKNOWN_OPTION);
-    EXPECT_EQ(unknownPure, input::Option::UNKNOWN_OPTION);
-    EXPECT_EQ(unknownShort, input::Option::UNKNOWN_OPTION);
+    EXPECT_EQ(unknownLong, input::Option::UNKNOWN);
+    EXPECT_EQ(unknownPure, input::Option::UNKNOWN);
+    EXPECT_EQ(unknownShort, input::Option::UNKNOWN);
 }
 
 /* Check the logical consistency of the Option Type enum */
@@ -108,7 +108,7 @@ TEST(Option, ToString) {
     input::Option localShort = input::Option("l");
     EXPECT_EQ(localShort.to_string(), "-l");
 
-    input::Option unknown = input::Option::UNKNOWN_OPTION;
+    input::Option unknown = input::Option::UNKNOWN;
     EXPECT_EQ(unknown.to_string(), "");
 
     input::Option rubbish = input::Option("rubbish");
@@ -123,7 +123,7 @@ TEST(Option, RequiresArg) {
     input::Option local = input::Option::local;
     EXPECT_EQ(local.requires_arg(), false);
 
-    input::Option unknown = input::Option::UNKNOWN_OPTION;
+    input::Option unknown = input::Option::UNKNOWN;
     EXPECT_EQ(unknown.requires_arg(), false);
 }
 
@@ -141,7 +141,7 @@ TEST(Option, CharacterRepresentation) {
     EXPECT_TRUE(local.has_char_representation());
     EXPECT_EQ(local.get_char_representation(), 'l');
 
-    input::Option unknown = input::Option::UNKNOWN_OPTION;
+    input::Option unknown = input::Option::UNKNOWN;
     EXPECT_FALSE(unknown.has_char_representation());
     EXPECT_EQ(unknown.get_char_representation(), input::Option::NULL_CHAR);
 }

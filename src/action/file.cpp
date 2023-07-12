@@ -76,7 +76,7 @@ void File::run(const input::Input &input) {
                     type_str[type_str.length() - 1] == '}') {
                     task_type =
                         task::Type{type_str.substr(1, type_str.length() - 2)};
-                    if (task_type != task::Type::UNKNOWN_TYPE) {
+                    if (task_type != task::Type::UNKNOWN) {
                         comment = comment.substr(comment.find(" "));
                     } else {
                         task_type = task::Type::normal;

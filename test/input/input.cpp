@@ -252,7 +252,7 @@ TEST_F(InputMethods, GetOptionArgs) {
     EXPECT_EQ(n4.get_option_args(input::Option::global).size(), 0);
     EXPECT_EQ(n7.get_option_args(input::Option::global).size(), 0);
     EXPECT_EQ(n7.get_option_args(input::Option::all).size(), 0);
-    EXPECT_EQ(n7.get_option_args(input::Option::UNKNOWN_OPTION).size(), 0);
+    EXPECT_EQ(n7.get_option_args(input::Option::UNKNOWN).size(), 0);
 }
 
 /* Construction exceptions */

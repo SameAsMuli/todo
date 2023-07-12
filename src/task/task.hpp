@@ -61,7 +61,7 @@ class Task {
      * this case the previous task type's type is returned. If there is no
      * previous task type then ' ' is returned.
      *
-     * @return The previous type or UNKNOWN_TYPE, if none exists.
+     * @return The previous type or UNKNOWN, if none exists.
      */
     Type get_previous_type() const { return m_previousType; }
 

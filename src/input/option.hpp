@@ -51,7 +51,7 @@ class Option {
     /**
      * @brief Enum class for command line options.
      */
-    enum Value : uint8_t { OPTIONS(F), NUM_OPTIONS, UNKNOWN_OPTION };
+    enum Value : uint8_t { OPTIONS(F), NUM_OPTIONS, UNKNOWN };
 
     /**
      * @brief An iterable collection of the enum values.
@@ -82,7 +82,7 @@ class Option {
      * @return True if s is a known option, false otherwise.
      */
     static bool is_valid(std::string s) {
-        return value_from_string(s) != UNKNOWN_OPTION;
+        return value_from_string(s) != UNKNOWN;
     }
 
     /**
@@ -271,7 +271,7 @@ class Option {
      *
      * @param s String to convert.
      *
-     * @return The matching Value, or UNKNOWN_OPTION if string is unknown.
+     * @return The matching Value, or UNKNOWN if string is unknown.
      */
     static Value value_from_string(const std::string &s) {
         if (s.length() == 1) {
@@ -290,7 +290,7 @@ class Option {
             }
         }
 
-        return UNKNOWN_OPTION;
+        return UNKNOWN;
     }
 };
 
