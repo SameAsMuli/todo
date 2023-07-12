@@ -3,6 +3,8 @@
 #include <thread> // std::thread
 
 #include "action/file.hpp"
+#include "task/task.hpp"
+#include "task/type.hpp"
 #include "util/ansi.hpp"
 #include "util/display.hpp"
 #include "util/file.hpp"
@@ -60,16 +62,36 @@ void File::run(const input::Input &input) {
                       << std::filesystem::proximate(path).string()
                       << "]\n" ANSI_RESET;
             for (const auto &line : matches) {
+                task::Type task_type = task::Type::normal;
+
+                /* Remove the search term */
                 auto comment =
                     line.substr(line.find(search_term) + search_term.length());
 
+                util::string::trim(comment);
+
+                /* Look for a task type specification */
+                auto type_str = comment.substr(0, comment.find(" "));
+                if (type_str.length() > 2 && type_str[0] == '{' &&
+                    type_str[type_str.length() - 1] == '}') {
+                    task_type =
+                        task::Type{type_str.substr(1, type_str.length() - 2)};
+                    if (task_type != task::Type::UNKNOWN_TYPE) {
+                        comment = comment.substr(comment.find(" "));
+                    } else {
+                        task_type = task::Type::normal;
+                    }
+                }
+
+                /* Strip any file syntax */
                 /* TODO: Strip comment syntax properly */
                 if (file.type() == util::File::Type::C ||
                     file.type() == util::File::Type::CPP)
                     comment = comment.substr(0, comment.find("*/"));
 
                 util::string::trim(comment);
-                std::cout << util::display::INDENT << comment << "\n";
+
+                std::cout << task::Task{task_type, comment} << "\n";
             }
         }
     }
