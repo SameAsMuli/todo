@@ -84,7 +84,8 @@ program_overview(std::vector<std::pair<std::string, std::string>> actions) {
 
 std::string program_usage() {
     return "usage: todo [<action>] [<options>] [<args>]\n"
-           "            [--help] [<action>]";
+           "            [--help] [<action>]\n"
+           "            [--version]";
 }
 
 std::string program_version() { return "todo version " + todo::version(); }
