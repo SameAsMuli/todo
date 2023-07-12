@@ -50,15 +50,20 @@ void Complete::run(const input::Input &input) {
 
     tasks.for_each(
         [exact, &matches, searchString, type](task::Task &task) mutable {
-            if (exact ? task.get_description() == searchString
-                      : task.get_description().find(searchString) !=
-                            std::string::npos) {
-                task.set_previous_type(task.get_type());
-                task.set_previous_time_added(task.get_time_added());
-                task.set_type(type);
-                task.set_time_added(std::chrono::system_clock::now());
-                matches++;
-            }
+            if (task.is_complete())
+                return;
+
+            if (exact ? task.get_description() != searchString
+                      : task.get_description().find(searchString) ==
+                            std::string::npos)
+                return;
+
+            /* Found a match; mark it as complete */
+            task.set_previous_type(task.get_type());
+            task.set_previous_time_added(task.get_time_added());
+            task.set_type(type);
+            task.set_time_added(std::chrono::system_clock::now());
+            matches++;
         });
 
     /* If we aren't using force, check we affected exactly one task */
