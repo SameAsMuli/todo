@@ -22,13 +22,25 @@ std::string File::description() const {
     ConfigKey todo_string = ConfigKey::todo_string;
     auto default_string = Config::default_value<std::string>(todo_string);
     auto current_string = Config::get_str(todo_string);
-    return "Recursively search for the string '" + current_string +
-           "' in specified files. If no input is given, the current directory "
+    std::stringstream desc;
+    desc
+        << "Recursively search for the string '" << current_string
+        << "' in specified files. If no input is given, the current directory "
            "will be searched. Otherwise, the input will be treated as the list "
            "of directories to search.\n\n"
-           "The default search string is '" +
-           default_string + "'. This can be overridden by configuring '" +
-           todo_string.to_string() + "'.";
+        << "The search string can be appended with an optional priority in "
+           "the file. The syntax for doing so is as follows:\n\n"
+        << util::display::INDENT << current_string << "{priority}\n\n"
+        << "The following are valid values for 'priority':\n\n";
+
+    for (task::Type const type : task::Type::ALL_TYPES) {
+        desc << util::display::INDENT << type.to_string() << "\n";
+    }
+
+    desc << "\nThe default search string is '" << default_string
+         << "'. This can be overridden by configuring '"
+         << todo_string.to_string() << "'.";
+    return desc.str();
 }
 
 std::string File::usage() const {
